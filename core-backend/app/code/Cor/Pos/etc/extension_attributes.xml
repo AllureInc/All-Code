@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- File: app/code/Cor/Pos/etc/extension_attributes.xml -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
+    
+    <extension_attributes for="Magento\Sales\Api\Data\OrderItemInterface">
+        <attribute code="product_thumbnail" type="string" />
+        <attribute code="product_options" type="array" />
+    </extension_attributes>
+
+    <extension_attributes for="Magento\Sales\Api\Data\OrderInterface">
+        <attribute code="cor_one_time_key" type="string" />
+        <attribute code="cor_event_id" type="string" />
+        <attribute code="cor_customer_signature" type="string" />
+    </extension_attributes>
+
+    <extension_attributes for="Magento\Quote\Api\Data\CartItemInterface">
+        <attribute code="product_options" type="array" />
+    </extension_attributes>
+</config>

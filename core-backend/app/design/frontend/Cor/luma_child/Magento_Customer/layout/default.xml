@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="header.links">
+            <block class="Magento\Framework\View\Element\Template" name="shop-menu-item" template="Cor_Customizations::customer/shop-menu-item.phtml" before="-"/>
+            <block class="Magento\Framework\View\Element\Template" name="footer-menu-items" template="Cor_Customizations::customer/footer-menu-items.phtml" after="register-link"/>
+        </referenceBlock>
+        <move element="footer-menu-items" destination="header.links" after="authorization-link"/>
+    </body>
+</page>

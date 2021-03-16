@@ -1,0 +1,47 @@
+<?php
+$postData = $this->getRequest()->getParams();
+$status = 0;
+$collection = $block->getCategoriesData();
+$eventModel = $block->getEventsData();
+if (isset($postData['id'])) {
+    $status = $block->getEventStatus($postData['id']);
+    $eventModel->load($postData['id']);
+    $eventTaxData = $eventModel->getTaxValues();
+    $eventTaxData = json_decode($eventTaxData, true);
+}
+$value = '';
+?>
+<fieldset class="fieldset admin__fieldset ">
+    <legend class="admin__legend legend">
+        <span><?php echo __('Tax')?></span>
+    </legend>
+    <div class="div-tbl-cls">
+        <table name='tax_values' class="data-grid event_tax_tbl">
+            <thead>
+                <tr>
+                    <th class="data-grid-th" ><?php echo __('Tax Category');?></th>
+                    <th class="data-grid-th" ><?php echo __('Tax Percentage');?></th>
+                </tr>
+            </thead>
+            <?php 
+                foreach ($collection->getData() as $item) { ?>
+            <tr>
+                <td><?php echo __($item['category_name'].' Tax');?></td>
+                <td width="50%"><div class="admin__field-control control">                            
+                    <input type="text" name="tax_values[<?php echo __($item['id']);?>]" value="<?php echo isset($eventTaxData[$item['id']]) ? $eventTaxData[$item['id']] : '';?>" class='validate-number' data-max='100' data-min='0'></td>
+                </div>
+            </tr>
+            <?php    }
+            ?>
+        </table>
+    </div>
+</fieldset>
+
+<script type="text/javascript">
+    require(['jquery', 'jquery/ui'], function($){
+        var status_event = "<?php echo $status;?>";        
+        if (status_event == 1) {
+            jQuery('.event_tax_tbl').find('*').attr('disabled', true);
+        }
+    });
+</script> 

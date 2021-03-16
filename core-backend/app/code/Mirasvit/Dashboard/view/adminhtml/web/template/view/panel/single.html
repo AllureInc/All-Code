@@ -1,0 +1,12 @@
+<div class="dashboard__panel-single" data-bind="afterRender: setElement">
+    <div class="value">
+        <span text="getValueText()"></span>
+    </div>
+    <div class="cValue" data-bind="visible: getCValuePercent(), css: { minus: getCValuePercent() < 0 }">
+        <span class="percent" text="getCValuePercent() + '%'"></span>
+        <span class="value" text="getCValueText()"></span>
+    </div>
+
+    <canvas class="spark-lines"></canvas>
+    <canvas class="gauge"></canvas>
+</div>

@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_Twiliosmsnotification
+  * @author      CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!-- <event name="customer_register_success">
+        <observer name="Ced_Twiliosmsnotification_Vendor_Register_Success" instance="Ced\Twiliosmsnotification\Observer\VendorRegisterSuccess" />
+    </event> -->
+
+    <event name="customer_register_success">
+        <observer name="Ced_Twiliosmsnotification_Customer_Register_Success" instance="Ced\Twiliosmsnotification\Observer\CustomerRegisterSuccess" />
+    </event>
+
+    <!--<event name="csmarketplace_vendor_new_product_creation">
+        <observer name="Ced_Twiliosmsnotification_new_vendor_product_creation" instance="Ced\Twiliosmsnotification\Observer\VendorNewProductCreation" />
+    </event>-->
+
+    <!-- <event name="ced_csmarketplace_vendor_delete_before">
+        <observer name="Ced_Twiliosmsnotification_vendor_account_delete" instance="Ced\Twiliosmsnotification\Observer\VendorDelete" />
+    </event> -->
+				
+	<!-- <event name="csmarketplace_vpayments_save_after">
+        <observer name="Ced_Twiliosmsnotification_vendor_payment_save" instance="Ced\Twiliosmsnotification\Observer\NewVendorPaymentSaved" />
+    </event> -->
+
+    <!-- <event name="checkout_onepage_controller_success_action">
+        <observer name="Ced_Twiliosmsnotification_Vendor_Order_Created" instance="Ced\Twiliosmsnotification\Observer\SendSmsOnVendorOrderCreated" />
+    </event> -->
+
+    <event name="checkout_onepage_controller_success_action">
+        <observer name="Ced_Twiliosmsnotification_Order_Created" instance="Ced\Twiliosmsnotification\Observer\SendSmsOnOrderCreated" />
+    </event>
+	
+	<event name="sales_order_save_after">
+        <observer name="Ced_Twiliosmsnotification_Order_Status_Change" instance="Ced\Twiliosmsnotification\Observer\SendSmsOnOrderStatusChange" />
+    </event>
+</config>

@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Cor_Customizations::css/cor.homepage.css"/>
+    </head>
+    <body>
+        <!-- remove search bar from top -->
+        <referenceBlock name="top.search" remove="true"/>
+
+        <!-- remove subsciption email field from footer -->
+        <referenceBlock name="form.subscribe" remove="true"/>
+
+        <!-- remove sort and page view options from category details page -->
+        <referenceBlock name="product_list_toolbar" remove="true"/>
+
+        <!-- remove product comapre from category details page sidebar -->
+        <referenceBlock name="catalog.compare.sidebar" remove="true"/>
+
+        <!-- remove wishlist from category details page sidebar -->
+        <referenceBlock name="wishlist_sidebar" remove="true"/>
+
+        <!-- remove product SKU from product details page -->
+        <referenceBlock name="product.info.sku" remove="true"/>
+
+        <!-- remove product wishlist and compare buttons from product details page -->
+        <referenceBlock name="product.info.addto" remove="true"/>
+
+        <!-- remove product mailto button from product details page -->
+        <referenceBlock name="product.info.mailto" remove="true"/>
+
+        <!-- remove product review tab and reviews from product details page -->
+        <referenceBlock name="product.info.review" remove="true" />
+        <referenceBlock name="reviews.tab" remove="true" />
+
+        <!-- remove cart page discount coupon -->
+        <referenceBlock name="checkout.cart.coupon" remove="true" />
+
+        <!-- remove wishlist button on category view page. -->
+        <referenceBlock name="category.product.addto.wishlist" remove="true" />
+
+        <!-- remove add to compare button on category view page. -->
+        <referenceBlock name="category.product.addto.compare" remove="true" />
+
+        <!-- remove layered navigation -->
+        <referenceBlock name="catalog.leftnav" remove="true" />
+
+        <!-- remove footer links -->
+        <referenceBlock name="catalog-search-advanced-link" remove="true" />
+        <referenceBlock name="search-term-popular-link" remove="true" />
+        <referenceBlock name="sales-guest-form-link" remove="true" />
+
+        <!-- move header links -->
+        <move element="header.panel" destination="header-wrapper" after="-"/>
+
+        <!-- remove top links -->
+        <referenceBlock name="top.links">
+            <referenceBlock name="wish-list-link" remove="true" /> <!--for WishList Link-->
+        </referenceBlock>
+
+        <!-- remove reorder section from customer account area -->
+        <referenceBlock name="sale.reorder.sidebar" remove="true"/>
+
+        <!-- remove navigation from customer account -->
+        <referenceBlock name="customer-account-navigation-product-reviews-link" remove="true"/>
+
+        <!-- remove add to wishlist option from shopping cart page -->
+        <referenceBlock name="checkout.cart.item.renderers.default.actions.move_to_wishlist" remove="true"/>
+        <referenceBlock name="checkout.cart.item.renderers.simple.actions.move_to_wishlist" remove="true"/>
+        <referenceBlock name="checkout.cart.item.renderers.bundle.actions.move_to_wishlist" remove="true"/>
+        <referenceBlock name="checkout.cart.item.renderers.downloadable.actions.move_to_wishlist" remove="true"/>
+        <referenceBlock name="checkout.cart.item.renderers.grouped.actions.move_to_wishlist" remove="true"/>
+        <referenceBlock name="checkout.cart.item.renderers.configurable.actions.move_to_wishlist" remove="true"/>
+        <referenceBlock name="checkout.cart.item.renderers.virtual.actions.move_to_wishlist" remove="true"/>
+    </body>
+</page>

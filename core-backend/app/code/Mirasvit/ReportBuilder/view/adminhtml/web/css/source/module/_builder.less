@@ -1,0 +1,122 @@
+.reportBuilder__container {
+    .lib-clearfix();
+
+    section.left {
+        float: left;
+        width: 30%;
+
+        .admin__field-label {
+            display: block;
+            width: calc(~'100% - 30px');
+            text-align: left;
+        }
+
+        .admin__field-control {
+            width: calc(~'100% - 30px');
+        }
+    }
+
+    section.right {
+        float: right;
+        width: 65%;
+    }
+}
+
+.reportBuilder__schema {
+    .lib-clearfix();
+    padding-top: 0 !important;
+
+    section.tables {
+        float: left;
+        width: 50%;
+        box-sizing: border-box;
+        padding: .5rem;
+    }
+
+    section.columns {
+        float: left;
+        width: 50%;
+        box-sizing: border-box;
+        padding: .5rem;
+    }
+
+    section.relations {
+        width: 100%;
+        box-sizing: border-box;
+        padding: .5rem;
+
+        ul {
+            height: auto !important;
+        }
+    }
+
+    section {
+        .search-input {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        ul {
+            list-style: none;
+            height: 50rem;
+            min-height: 1rem;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            border: 1px solid #adadad;
+
+            li {
+                padding: .8rem 1rem;
+                white-space: nowrap;
+                overflow: hidden;
+                cursor: pointer;
+                position: relative;
+
+                &:nth-child(even) {
+                    background: #f5f5f5;
+                }
+
+                type {
+                    background: #FFFBBB;
+                    font-size: 1.2rem;
+                    padding: .1rem .5rem;
+                }
+
+                aggregator {
+                    background: #FFC7AB;
+                    font-size: 1.2rem;
+                    padding: .1rem .5rem;
+                }
+
+                &:hover {
+                    background: #e5f7fe;
+                }
+            }
+        }
+    }
+
+    //.reportBuilder__tables, .reportBuilder__columns {
+    //    float: left;
+    //    width: 49%;
+    //    margin-left: 1%;
+    //    list-style: none;
+    //    max-height: 50rem;
+    //    overflow-x: hidden;
+    //    overflow-y: scroll;
+    //    border: 1px solid #adadad;
+    //    padding: .5rem;
+    //
+    //    li {
+    //        background-color: #f5f5f5;
+    //        border: 1px solid #a79d95;
+    //        border-radius: 1px;
+    //        padding: 0.3rem 2.4rem 0.4rem 1rem;
+    //        margin-bottom: .3rem;
+    //        white-space: nowrap;
+    //        overflow: hidden;
+    //
+    //        code {
+    //            color: #c6000c;
+    //        }
+    //    }
+    //}
+}

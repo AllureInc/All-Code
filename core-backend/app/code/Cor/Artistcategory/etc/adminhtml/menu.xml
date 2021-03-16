@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Cor. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
+    <menu>        
+        <add id="Cor_Artistcategory::cor_category_index" title="Cor" module="Cor_Artistcategory"  sortOrder="20" dependsOnModule="Cor_Artistcategory" resource="Cor_Artistcategory::cor_category_index"/>
+        <!-- title -->
+        <add id="Cor_Artistcategory::artistcategory_title" title="Artist" translate="title" module="Cor_Artistcategory" sortOrder="10" parent="Cor_Artistcategory::cor_category_index" resource="Cor_Artistcategory::cor_category_index"/>
+        <!-- end title -->
+        <add id="Cor_Artistcategory::artistcategory" title="Artist Category" module="Cor_Artistcategory" sortOrder="20" parent="Cor_Artistcategory::artistcategory_title" action="artistcategory/category/index" resource="Cor_Artistcategory::cor_category_index"/>
+
+        <!-- title -->    
+        <add id="Cor_Artistcategory::event_title" title="Events" translate="title" module="Cor_Artistcategory" sortOrder="10" parent="Cor_Artistcategory::cor_category_index" resource="Cor_Artistcategory::cor_category_index"/>
+        <!-- end title -->
+        <add id="Cor_Eventmanagement::cor_event_index" title="Events" module="Cor_Eventmanagement"  sortOrder="20" dependsOnModule="Cor_Eventmanagement" action="eventmanagement/event/index" resource="Cor_Eventmanagement::cor_event_index" parent="Cor_Artistcategory::event_title"/>
+
+        <add id="Cor_Artist::cor_artist_index" title="Artist" module="Cor_Artist"  sortOrder="10" dependsOnModule="Cor_Artist" action="artist/artist/index" resource="Cor_Artist::cor_artist_index" parent="Cor_Artistcategory::artistcategory_title"/>
+    </menu> 
+</config>

@@ -1,0 +1,118 @@
+<style type="text/css">
+    .col-select
+    {
+        vertical-align: middle;
+    }
+</style>
+<?php
+    $status = 0;
+    $artistids= [];
+    $postData = $this->getRequest()->getParams();    
+    if (isset($postData['id'])) {
+        $id = $postData['id'];
+        if ($id > 0) {
+            $status = $block->getEventStatus($id);
+            $collection = $block->getArtistCutOffData($id);
+            if (!empty($collection)) {
+                if (count($collection->getData()) > 0) {
+                    $savedData = $collection->getData();
+                    $eventArtist = [];
+                    foreach ($collection->getData() as $item) {
+                        $artist_cut = json_decode($item['artist_cut'], true);
+                        $eventArtist[$item['artist_id']]['artist_cut'] = $artist_cut;
+                        $eventArtist[$item['artist_id']]['id'] = $item['id'];
+                    }
+                    foreach ($artist_cut as $key => $value) {
+                        $artistids[] = $key; 
+                    }
+                }
+            }
+        }
+    }
+
+    $categories = [];
+    $artists = [];
+    $categoryCollection = $block->getCategoriesData();
+    $artistCollection = $block->getArtistData();
+    foreach ($categoryCollection->getData() as $item) {
+        $categories[] = ['category_id'=> $item['id'], 'category_name'=> $item['category_name']];
+    }
+
+    foreach ($artistCollection->getData() as $item) {
+        $artists[] = ['artist_id'=> $item['id'], 'artist_name'=> $item['artist_name']];
+    }
+?>
+<fieldset class="fieldset admin__fieldset ">
+    <legend class="admin__legend legend">
+        <span><?php echo __('Artist')?></span>
+    </legend>
+    <div style="width: 100%; overflow: auto;">
+        <table class="data-grid event_artist_assoc" style="width: 50%;">
+            <thead>
+                <tr>
+                    <th class="data-grid-th" ><input type="checkbox" name="allcheck" class="allcheck"></th>
+                    <th class="data-grid-th" ><?php echo __('Artist');?></th>
+                    <?php foreach ($categories as $category) : ?>
+                        <th class="data-grid-th" ><?php echo __(ucfirst($category['category_name']).' Cut(%)');?></th>
+                    <?php endforeach; ?>
+                </tr>
+            </thead>
+            <tbody>
+            <?php $i = 0; foreach ($artists as $artist) : ?>
+                <tr class="data-row">
+                    <td class=" col-select">
+                        <input type="checkbox" name="event_artist[<?php echo $i ?>][artist]" value="<?php echo $artist['artist_id'];?>" class="check" data-check="<?php echo $i;?>" <?php echo (isset($eventArtist[$artist['artist_id']])) ? 'checked' : '' ?>>
+                        <?php $id = isset($eventArtist[$artist['artist_id']]['id']) ? $eventArtist[$artist['artist_id']]['id'] : 0; ?>
+                        <input type="hidden" name="event_artist[<?php echo $i ?>][id]" value="<?php echo $id ?>" disabled="disabled" class="tax-cut<?php echo $i; ?>">
+                    </td>
+                    <td><?php echo __($artist['artist_name'])?></td>
+                    <?php foreach ($categories as $category) : ?>
+                        <td>
+                            <?php $value = isset($eventArtist[$artist['artist_id']]['artist_cut'][$category['category_id']]) ? $eventArtist[$artist['artist_id']]['artist_cut'][$category['category_id']] : ''; ?>
+                            <input type="text" name="event_artist[<?php echo $i ?>][artist_cut][<?php echo $category['category_id'];?>]" disabled="disabled" class="tax-cut<?php echo $i; ?> tax-field validate-number validate-zero-or-greater" value="<?php echo $value ?>" min="0" max="100">
+                        </td>
+                    <?php endforeach; ?>
+                </tr>
+            <?php $i++; endforeach; ?>
+            </tbody>
+        </table>        
+    </div>
+</fieldset>
+<script type="text/javascript">
+    require(['jquery', 'jquery/ui'], function($){
+        var status_event = "<?php echo $status;?>";
+        console.log('status_event '+status_event);
+        jQuery('input:checkbox').each(function(){
+            if (jQuery(this).prop('checked') == true) {
+                var dataval = jQuery(this).data('check');
+                jQuery('.tax-cut'+dataval).removeAttr('disabled');
+            }
+        });
+
+        jQuery(document).on('click', '.check', function(){
+            var dataval = jQuery(this).data('check');
+            if (jQuery(this).prop('checked') == true) {
+                console.log('click');
+                jQuery('.tax-cut'+dataval).removeAttr('disabled');
+            } else {
+                jQuery('.tax-cut'+dataval).attr('disabled', 'disabled');
+            }
+        });
+
+        jQuery(document).on('click','.allcheck', function(){
+            console.log('checkbox');
+            if (jQuery(this).prop('checked') == true) {
+                console.log('click');
+                jQuery('input:checkbox').not(this).prop('checked', this.checked); 
+                jQuery('.tax-field').removeAttr('disabled');
+            } else {
+                jQuery('input:checkbox').not(this).prop('checked', false); 
+                jQuery('.tax-field').attr('disabled', 'disabled');
+            }
+        });
+        
+        if (status_event == 1) {
+            jQuery('.event_artist_assoc').find('*').attr('disabled', true);
+        }
+    });
+</script>

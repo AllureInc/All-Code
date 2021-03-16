@@ -1,0 +1,30 @@
+.dashboard__widget *[tooltip] {
+  position: relative;
+  border-bottom: 1px dashed #afadac;
+  cursor: pointer;
+
+  &:before {
+    content: attr(tooltip);
+    font-size: 1.2rem;
+    line-height: 2rem;
+    min-width: 30rem;
+    max-width: 50rem;
+    font-weight: normal;
+    color: #303030;
+    position: absolute;
+    z-index: 999;
+    bottom: 1.6rem;
+    left: 0;
+    background: #fffbbb;
+    border: 1px solid #afadac;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.3);
+    padding: .5rem 1rem;
+    display: none;
+  }
+
+  &:hover {
+    &:before {
+      display: block;
+    }
+  }
+}

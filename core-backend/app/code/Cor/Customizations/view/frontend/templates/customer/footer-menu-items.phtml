@@ -1,0 +1,13 @@
+<?php
+/** @var  $block \Magento\Framework\View\Element\Template*/
+?>
+<li class="shop-link mobile" data-label="<?= $block->escapeHtmlAttr(__('or')) ?>">
+    <a href="<?php echo $block->getBaseUrl() . 'legal'; ?>" >
+        <?= $block->escapeHtml(__('Legal')) ?>
+    </a>
+</li>
+<li class="shop-link mobile" data-label="<?= $block->escapeHtmlAttr(__('or')) ?>">
+    <a href="<?php echo $block->getBaseUrl() . 'contact'; ?>" >
+        <?= $block->escapeHtml(__('Contact Us')) ?>
+    </a>
+</li>

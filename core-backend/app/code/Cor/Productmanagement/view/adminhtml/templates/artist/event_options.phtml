@@ -1,0 +1,7 @@
+<?php $events = $this->getArtistEvents(); ?>
+<?php if (!empty($events)): ?>
+    <?php foreach ($events as $event): ?>
+        <?php extract($event); ?>
+        <option value="<?php echo $event_id; ?>" <?php echo ($selected ? "selected" : '') ?>><?php echo $event_name; ?></option>
+    <?php endforeach;; ?>
+<?php endif; ?>

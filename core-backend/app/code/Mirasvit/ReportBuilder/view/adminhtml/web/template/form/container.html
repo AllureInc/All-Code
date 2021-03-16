@@ -1,0 +1,36 @@
+<div class="fieldset-wrapper reportBuilder__container"
+     css="$data.additionalClasses"
+     attr="'data-level': $data.level, 'data-index': index"
+     data-bind="visible: $data.visible === undefined ? true: $data.visible">
+    <div class="fieldset-wrapper-title"
+         attr="tabindex: !collapsible ? -1 : 0,
+               'data-state-collapsible': collapsible ? opened() ? 'open' : 'closed' : null"
+         click="toggleOpened"
+         keyboard="13: toggleOpened"
+         if="label">
+
+        <strong css="'admin__collapsible-title': collapsible,
+                      title: !collapsible,
+                      '_changed': changed,
+                      '_loading': loading,
+                      '_error': error">
+            <span translate="label"/>
+        </strong>
+    </div>
+
+    <div class="admin__fieldset-wrapper-content"
+         css="'admin__collapsible-content': collapsible, '_show': opened, '_hide': !opened()">
+
+        <section class="left">
+            <fieldset if="opened() || _wasOpened || initializeFieldsetDataByDefault"
+                      class="admin__fieldset"
+                      each="data: getRegion('left'), as: 'element'" render=""/>
+        </section>
+
+        <section class="right">
+            <div each="data: getRegion('right'), as: 'element'" render=""/>
+        </section>
+    </div>
+
+
+</div>

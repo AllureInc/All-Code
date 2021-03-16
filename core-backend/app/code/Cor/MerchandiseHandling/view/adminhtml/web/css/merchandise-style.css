@@ -1,0 +1,20 @@
+/* merchandise handling */
+.products { float: right; width: 100%; }
+.table-scroll { width: 100%; display: inline-block; overflow: auto; }
+.event-err, .artist-err { color: red; position: absolute; bottom: -20px; width: 100%; left: 0; }
+.events-artists .admin__field { width: 20%; float: none; margin: 0; display: inline-block; vertical-align: bottom;position: relative; }
+.events-artists .admin__field label { width: 100%; display: inline-block; text-align: left; }
+.events-artists .admin__field select { width: 100%; display: inline-block; }
+.events-artists .admin__field .admin__field-control { width: 90%; display: inline-block; }
+.events-artists .admin__field-control { width: auto; display: inline-block; vertical-align: bottom; }
+.page-actions-buttons .action-default { margin-bottom: 15px; margin-left: 15px;}
+
+/* merchandise handling products grid */
+.config-product-div { width: 100%; overflow-y: scroll; height: 0px; } 
+.config-product-tbl { width: 100%; }
+.showhide { float: right; }
+#product-details th { width: 4%; }
+#product-details input { width: 100%; }
+#no-data-td { text-align: center; }
+#product-details th:nth-last-child(1), #product-details th:nth-last-child(2),  #product-details th:nth-last-child(3),  #product-details th:nth-last-child(4),  #product-details th:nth-last-child(5), #product-details th:nth-last-child(6), #product-details th:nth-last-child(7), #product-details th:nth-last-child(8) {
+width: 3%; }

@@ -1,0 +1,285 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_Twiliosmsnotification
+  * @author      CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Config/etc/system_file.xsd">
+    <system>
+        <tab id="cedcommerce" sortOrder="1">
+            <label>CEDCOMMERCE EXTENSIONS</label>
+        </tab>
+        <section id="twilio_notification" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+            <tab>cedcommerce</tab>
+            <label>Twilio SMS Notification</label>
+            <resource>Ced_Twiliosmsnotification::config</resource>
+            
+            <group id="enter" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Enter API Details</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable This Extension</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="account_sid" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Account SID</label>
+                </field> 
+                <field id="auth_token" translate="label" type="password" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Auth Token</label>
+                </field>   
+                <field id="phone_number" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Twilio Phone Number</label>
+                    <comment>ex: +1 201XXXXXXX</comment>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="country_codes" translate="label comment tooltip" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Add Country Codes</label>
+                    <frontend_model>Ced\Twiliosmsnotification\Block\System\Config\Form\Field\Countrycode</frontend_model>
+                    <backend_model>Ced\Twiliosmsnotification\Model\Backend\Countrycode</backend_model>
+                    <comment>
+                        <![CDATA[Add Country Codes of all the countries where you want to send messages]]>
+                    </comment>
+                </field>         
+            </group>
+
+            <!-- <group id="otp_approval" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Otp Verification Setting</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Approve Vendor Via Otp</label>
+                    <comment>Select 'Yes' if you want to enable this.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="otp_checkout" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable OTP During checkout process</label>
+                    <comment>Select 'Yes' if you want to enable this.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group> -->
+
+            <group id="orders" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>When new order is placed</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <comment>This option will send sms when an order is placed</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="message" translate="label" type="textarea" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enter the Message</label>
+                    <comment>Your Message Content, (Max 160 character)</comment>
+                    <tooltip>Enter your default message. You can use {{firstname}} for Firstname, {{middlename}} for Middlename, {{lastname}} for Lastname, {{name}} for Whole name, {{fax}} for Fax, {{postal}} for Post Code, {{city}} for City, {{email}} for EmailAddress and {{order_id}} for Order Number.</tooltip>
+                    <validate>required-entry validate-length minimum-length-1 maximum-length-160</validate>
+                </field>
+                <field id="notify" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Admin Alerts</label>
+                    <comment>This option will send sms to the admin when an order is placed</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="receiver" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Admin Mobile</label>
+                    <comment>ex: +91 90XXXXXXXX(Mobile No Along With Country Code)</comment>
+                    <validate>required-entry</validate>
+                    <depends>
+                      <field id="notify">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <!--<group id="vendor_order" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>When an Order is placed for Vendor</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <comment>It will send sms when an order is placed for the vendor product</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="message" translate="label" type="textarea" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enter the Message</label>
+                    <comment>Your Message Content, (Max 160 character)</comment>
+                    <tooltip>Enter your default message. You can use {{name}} for Name,{{email}} for EmailAddress, {{order_id}} for Order Number, {{productname}} for Product Name and {{sku}} for Product Sku.</tooltip>
+                    <validate>required-entry validate-length minimum-length-1 maximum-length-160</validate>
+                </field>
+            </group>-->
+
+            <group id="order_status" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>When Order Status Changed</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <comment>This option will send sms when order status changed</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="message" translate="label" type="textarea" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enter the Message</label>
+                    <comment>Your Message Content, (Max 160 character)</comment>
+                    <tooltip>Enter your default message. You can use {{firstname}} for Firstname, {{middlename}} for Middlename, {{lastname}} for Lastname, {{name}} for Whole Name, {{fax}} for Fax, {{postal}} for Post Code, {{city}} for City, {{email}} for EmailAddress, {{order_id}} for Order Number and {{status}} for Order Status.</tooltip>
+                    <validate>required-entry validate-length minimum-length-1 maximum-length-160</validate>
+                </field>
+                <field id="notify" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Admin Alerts</label>
+                    <comment>This option will send sms to the admin when order status changed</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="receiver" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Admin Mobile</label>
+                    <comment>ex: +91 90XXXXXXXX(Mobile No Along With Country Code)</comment>
+                    <validate>required-entry</validate>
+                    <depends>
+                      <field id="notify">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <group id="customer_registration" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>When Customer Register Successfully</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <comment>It will send sms when the customer has registered successfully.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="message" translate="label" type="textarea" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enter the Message</label>
+                    <comment>Your Message Content, (Max 160 character)</comment>
+                    <tooltip>Enter your default message. You can use {{firstname}} for Firstname, {{middlename}} for Middlename, {{lastname}} for Lastname, {name}} for Whole Name, {{email}} for EmailAddress and {{password}} for Customer Password.</tooltip>
+                    <validate>required-entry validate-length minimum-length-1 maximum-length-160</validate>
+                </field>
+                <field id="customer_address_field" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable Address Section in Customer Registration Page</label>
+                    <comment>Select 'Yes' if you want to enable.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="notify" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Admin Alerts</label>
+                    <comment>This option will send sms to the admin when customer has registered successfully</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="receiver" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Admin Mobile</label>
+                    <comment>ex: +91 90XXXXXXXX(Mobile No Along With Country Code)</comment>
+                    <validate>required-entry</validate>
+                    <depends>
+                      <field id="notify">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <!--<group id="vendor_registration" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>When Vendor Registered Successfully</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <comment>It will send sms when the vendor has registered successfully.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="message" translate="label" type="textarea" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enter the Message</label>
+                    <comment>Your Message Content, (Max 160 character)</comment>
+                    <tooltip>Enter your default message. You can use {{firstname}} for Firstname, {{lastname}} for Lastname, {name}} for Whole Name, {{email}} for EmailAddress, {{password}} for Vendor's Password, {{publicname}} for Vendor's PublicName, {{shopurl}} for Vendor's ShopUrl.</tooltip>
+                    <validate>required-entry validate-length minimum-length-1 maximum-length-160</validate>
+                </field>
+                <field id="vendor_address_field" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable Address Section in Vendor Registration Page</label>
+                    <comment>Select 'Yes' if you want to enable.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="notify" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Admin Alerts</label>
+                    <comment>This option will send sms to the admin when vendor has registered successfully</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="receiver" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Admin Mobile</label>
+                    <comment>ex: +91 90XXXXXXXX(Mobile No Along With Country Code)</comment>
+                    <validate>required-entry</validate>
+                    <depends>
+                      <field id="notify">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <group id="vendor_status" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>When Vendor's Account Status is Changed</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <comment>It will send sms when vendor's account status is changed</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="message" translate="label" type="textarea" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enter the Message</label>
+                    <comment>Your Message Content, (Max 160 character)</comment>
+                    <tooltip>Enter your default message. You can use {{name}} for Vendor's Name, {{email}} for EmailAddress and {{status}} for Vendor's Account Status.</tooltip>
+                    <validate>required-entry validate-length minimum-length-1 maximum-length-160</validate>
+                </field>
+                <field id="acoount_delete" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Vendor Account Delete Notification</label>
+                    <comment>It will send sms when vendor's account is deleted</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+
+            <group id="vendor_new_product" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>When new product of vendor is added</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <comment>It will send sms when the vendor has registered successfully.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="message" translate="label" type="textarea" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enter the Message</label>
+                    <comment>It will send sms when new product of vendor is added</comment>
+                    <tooltip>Enter your default message. You can use {{name}} for Vendor's Name, {{email}} for EmailAddress, {{productname}} For ProductName and {{sku}} for Product Sku.</tooltip>
+                    <validate>required-entry validate-length minimum-length-1 maximum-length-160</validate>
+                </field>
+                <field id="receiver" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Admin Mobile</label>
+                    <comment>ex: +91 90XXXXXXXX(Mobile No Along With Country Code)</comment>
+                    <validate>required-entry</validate>
+                    <depends>
+                      <field id="enable">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <group id="vendor_product_status" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>When Status of Vendor Product Change</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <comment>It will send sms when the vendor's product status is changed</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="message" translate="label" type="textarea" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enter the Message</label>
+                    <comment>It will send sms when new product of vendor is added</comment>
+                    <tooltip>Enter your default message. You can use {{name}} for Vendor's Name, {{email}} for EmailAddress, {{productname}} For ProductName, {{sku}} for Product Sku and {{status}} For Product Status.</tooltip>
+                    <validate>required-entry validate-length minimum-length-1 maximum-length-160</validate>
+                </field>
+            </group>
+
+            <group id="vendor_payment" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>When a new transaction is created for Vendor</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <comment>It will send sms when a new transaction is created for vendor</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="message" translate="label" type="textarea" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enter the Message</label>
+                    <comment>It will send sms when new product of vendor is added</comment>
+                    <tooltip>Enter your default message. You can use {{name}} for Vendor's Name, {{transactionid}} For TransactionId, {{amount}} For Transaction Amount, {{transactiontype}} For Type of Transaction(Debit Or Credit), {{orderids}} For OrderIds included in Transaction and {{paymentcode}} For Payment Type.</tooltip>
+                    <validate>required-entry validate-length minimum-length-1 maximum-length-160</validate>
+                </field>
+            </group>-->
+
+        </section>
+    </system>
+</config>

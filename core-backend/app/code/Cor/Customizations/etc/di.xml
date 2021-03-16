@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="\Magento\ConfigurableProduct\Pricing\Render\FinalPriceBox">
+        <plugin name="cor_custom_price" type="Cor\Customizations\Plugin\FinalPriceBox" />
+    </type>
+    <type name="\Magento\Theme\Block\Html\Title">
+        <plugin name="cor_custom_arrow_with_title" type="Cor\Customizations\Plugin\Html\Title" />
+    </type>
+    <type name="\Magento\Checkout\Block\Cart\Sidebar">
+        <plugin name="cor_custom_mini_cart" type="Cor\Customizations\Plugin\Cart\Sidebar" />
+    </type>
+    <preference for="Magento\Email\Model\Template" type="Cor\Customizations\Model\Template" />
+</config>

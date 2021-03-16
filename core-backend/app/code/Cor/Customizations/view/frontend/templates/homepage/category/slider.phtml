@@ -1,0 +1,103 @@
+<!-- 
+/*
+ * @Block Cor\Customizations\Block\Category\Slider
+ */
+-->
+<?php $categories = $this->getCategoryCollection(true, false, 'cor_slider_sort_order'); ?>
+<?php $placeholder = $this->getPlaceholderImageUrl(); ?>
+<div id="cor_category_slider">
+    <?php foreach($categories as $category): ?>
+        <?php $categoryId = $category->getEntityId(); ?>
+        <?php $categoryName = $category->getName(); ?>
+        <?php $categoryProductCollection = $this->getCategoryProducts($categoryId); ?>
+        <?php $corUseInSlider = $category->getCorUseInSlider(); ?>
+        <?php $productCount = count($categoryProductCollection); ?>
+        <?php if($corUseInSlider): ?>
+            <?php if($productCount): ?>
+                <div class="cor_category_slider_content">
+                    <!-- slider category details -->
+                    <div class="cs_category_details">
+                        <a class="cs_category_name" href="<?php echo $category->getUrl(); ?>"><span class="cs_category_name_label"><?php echo $categoryName; ?></span><img src='<?php echo $this->getViewFileUrl('Cor_Customizations::images/title-arrow.png'); ?>' alt="title-arrow"></a>
+                    </div>
+
+                    <!-- slider category products grid -->
+                    <div class ="cs_products_grid grid">
+                        <!-- slider products grid previous -->
+                        <div style="display: none;" id="prev_ex_<?php echo $categoryId; ?>" class="pre p-arrow" ></div>
+
+                        <!-- slider products list -->
+                        <ol class='cs_product_items widget-viewed-grid'>
+                            <div class="owl-carousel owl-theme" id="exterior-accessories-<?php echo $categoryId; ?>" >
+                                <?php foreach($categoryProductCollection as $categoryProduct): ?>
+                                    <?php $productUrl = $categoryProduct->getProductUrl(); ?>
+                                    <?php
+                                        if (empty($categoryProduct->getThumbnail()) || $categoryProduct->getThumbnail() == 'no_selection') {
+                                            $productImage = $placeholder;
+                                        } else {
+                                            $productImage = $this->getProdutBaseUrl().$categoryProduct->getThumbnail();
+                                        }
+                                    ?>
+                                    <?php $productName = $categoryProduct->getName(); ?>
+                                    <?php $productType = $categoryProduct->getTypeId(); ?>
+                                    <?php $productPrice = $this->getPriceFormatted($categoryProduct->getPrice()); ?>
+                                    <li class="exterior_cat">
+                                        <div class="cs_product_detail_container">
+                                            <?php
+                                                if ($productType == 'configurable') {
+                                                    $productPrice = $this->getPriceRange($categoryProduct);
+                                                }
+                                            ?>
+                                            <div class="cs_product_image_container">
+                                                <a href="<?php echo $productUrl; ?>">
+                                                    <img class="cs_product_image" src="<?php echo $productImage; ?>">
+                                                </a>
+                                            </div>
+                                            <div class="cs_product_name">
+                                                <a href="<?php echo $productUrl; ?>"><span><?php echo $productName; ?></span></a>
+                                            </div>
+                                            <div class="cs_product_name">
+                                                <span class="cs-product-price"><?php echo $productPrice; ?></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                <?php endforeach; ?>
+                            </div>
+                        </ol>
+
+                        <!-- slider products grid next -->
+                        <div style="display: none;" id="next_ex_<?php echo $categoryId; ?>" class="next n-arrow" ></div>
+                    </div>
+                </div>
+                <!-- slider specific script to initialize owl carousel -->
+                <script type="text/javascript">
+                    require(['jquery','owlcarousel'], function ($) {
+                        $(document).ready(function () {
+                            var owlex = $("#exterior-accessories-<?php echo $categoryId; ?>").owlCarousel({
+                                loop:false,
+                                responsiveClass:true,
+                                nav: false,
+                                responsive:{
+                                    0:{
+                                        items:1,
+                                        stagePadding:60,
+                                        nav:true
+                                    },
+                                    600:{
+                                        items:3,
+                                        nav:false
+                                    },
+                                    1000:{
+                                        items:4,
+                                        nav:true,
+                                        loop:false
+                                    }
+                                },
+                                navText: [$('#prev_ex_<?php echo $categoryId; ?>'),$('#next_ex_<?php echo $categoryId; ?>')]
+                            });
+                        });
+                    });
+                </script>
+            <?php endif; ?>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</div>

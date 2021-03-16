@@ -1,0 +1,46 @@
+<script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+
+<fieldset class="admin__fieldset reportBuilder__schema">
+    <section class="tables">
+        <h3>Tables <i text="findTables().length"/></h3>
+
+        <input type="text" data-bind="value: searchQueryTable, valueUpdate: 'afterkeydown'"
+               class="admin__control-text search-input" placeholder="search by tables"/>
+
+        <ul each="data: findTables(), as: 'table'">
+            <li click="$parent.handleTableSelect" class="clipboard">
+                <code text="table.name"/>
+
+                <input type="hidden" data-bind="value: table.name"/>
+            </li>
+        </ul>
+    </section>
+
+    <section class="columns">
+        <h3>Columns <i text="findColumns().length"/></h3>
+
+        <input type="text" data-bind="value: searchQueryColumn, valueUpdate: 'afterkeydown'"
+               class="admin__control-text search-input" placeholder="search by columns"/>
+
+        <ul each="data: findColumns(), as: 'column'">
+            <li class="clipboard">
+                <code text="column.name"/>
+                <type text="column.type"/>
+                <aggregator text="column.aggregator"/>
+
+                <input type="hidden" data-bind="value: column.identifier"/>
+            </li>
+        </ul>
+    </section>
+
+    <section class="relations">
+        <h3>Relations <i text="findRelations().length"/></h3>
+        <ul each="data: findRelations(), as: 'relation'">
+            <li>
+                <code text="relation.leftTable"/>.<code text="relation.leftField"/>
+                <type text="relation.type"/>
+                <code text="relation.rightTable"/>.<code text="relation.rightField"/>
+            </li>
+        </ul>
+    </section>
+</fieldset>

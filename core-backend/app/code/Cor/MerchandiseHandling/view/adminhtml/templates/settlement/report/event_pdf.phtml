@@ -1,0 +1,600 @@
+<?php
+    $event_id = $this->getEventId();
+    $artist_id = $this->getArtistId();
+
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+    $helper = $objectManager->create('Cor\MerchandiseHandling\Helper\Data');
+    $pdfData = $helper->getEventPdfDetails($event_id, $artist_id);
+?>
+<?php $logoUrl = $this->getViewFileUrl('Cor_MerchandiseHandling::images/COR_LOGO.png'); ?>
+
+<?php $event = $pdfData['event']; ?>
+<?php $artist_settlement = $pdfData['artist_settlement']; ?>
+<?php $venue_settlement = $pdfData['venue_settlement']; ?>
+
+<?php $artist = $pdfData['artist']; ?>
+<?php $totalCashPaymentAmount = $helper->formatPrice($pdfData['total_payment_cash']); ?>
+<?php $totalBraintreePaymentAmount = $helper->formatPrice($pdfData['total_payment_braintree']); ?>
+<?php $braintreeFeeAmount = $helper->formatPrice($pdfData['fee_amount_braintree']); ?>
+<?php $grossTotal = $helper->formatPrice($pdfData['gross_total']); ?>
+<html>
+    <head>
+        <style type="text/css">
+            @page {
+                margin: 0px;
+                padding: 0px;
+                margin-top: 20px;
+                margin-bottom: 40px;
+                font-family: freesans;
+            }
+
+            .headingbox {
+                margin-bottom: 10px;
+            }
+
+            .datesection {
+                margin-bottom: 10px;
+            }
+
+            .artist_mainTable .artist_nameText,
+            .artist_other_section tr td span {
+                color: #c9c9c9
+            }
+
+            .artist_mainTable .artist_name {
+                padding-bottom: 30px;
+            }
+
+            .artist_mainTable td {
+                padding: 2px;
+            }
+
+            .address,
+            .artist_other_section tr td {
+                padding: 3px;
+                font-size: 12px;
+                color: #c9c9c9;
+            }
+
+            .grossLeft {
+                background: #37dc42;
+                width: 48.5%;
+                float: left;
+                border-radius: 4px 0px 0px 4px;
+                padding: 8px 0px;
+                font-size: 18px;
+                color: #fff;
+                padding-left: 10px;
+                box-sizing: border-box;
+            }
+
+            .grossRight {
+                color: #fff;
+                background: #37dc42;
+                width: 48.5%;
+                float: left;
+                text-align: right;
+                border-radius: 0px 4px 4px 0px;
+                padding: 8px 0px;
+                font-size: 18px;
+                padding-right: 10px;
+                box-sizing: border-box;
+                margin-left: -2px;
+            }
+
+            body {
+                color: #8f8f8f;
+                font-family: freesans;
+            }
+
+            .event_details {
+                background: #3bbde1;
+                color: #fff;
+                border-radius: 50px;
+                width: 45px;
+                height: 45px;
+                display: table-cell;
+                vertical-align: middle;
+                text-align: center;
+                padding: 8px;
+                margin-bottom: 15px;
+            }
+
+            .event_details span {
+                display: block;
+            }
+
+            .monthText {
+                font-size: 13px;
+                margin-top: -5px;
+                text-transform: uppercase;
+            }
+
+            .dateText {
+                font-size: 22px;
+                width: 100%;
+            }
+
+            .event_address_details {
+                font-size: 13px;
+                color: #c9c9c9;
+            }
+
+            .artistFont {
+                font-size: 12px;
+                color: #c9c9c9;
+            }
+
+            .gross_sales {
+                border-radius: 3px;
+                margin-top: 20px;
+            }
+
+            .artist_nameText {
+                font-size: 25px;
+            }
+
+            .bold {
+                font-weight: bold;
+            }
+
+            .mainContainer {
+                padding: 0px 30px;
+            }
+
+            .heading {
+                display: inline-block;
+                padding: 8px;
+                background: #67c9e7;
+                font-size: 18px;
+                color: #fff;
+                border-radius: 4px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            table {
+                border-collapse: separate;
+            }
+
+            table th,
+            table td {
+                text-align: left;
+            }
+
+            .payment_detailsSection table th,
+            .payment_detailsSection table td {
+                padding: 5px;
+            }
+
+            .payment_detailsSection tbody tr:nth-child(2n+1) {
+                background: #f7f7f7;
+            }
+
+            .grossBox.heading {
+                background: #37dc42;
+            }
+
+            .grossPrice {
+                text-align: right;
+            }
+
+            .merchandise_music_sales .merchandise_div,
+            .merchandise_music_sales .music_div,
+            .artist_venue_settlement_div .artist_div,
+            .artist_venue_settlement_div .venue_div {
+                width: 48.3%;
+                float: left;
+            }
+
+            .merchandise_music_sales .merchandise_div,
+            .artist_venue_settlement_div .artist_div {
+                padding-right: 10px;
+                box-sizing: border-box;
+            }
+
+            .merchandise_music_sales .music_div,
+            .artist_venue_settlement_div .venue_div {
+                padding-left: 10px;
+                box-sizing: border-box;
+            }
+
+            .rightSide {
+                text-align: right;
+            }
+
+            .merchandiseTotal td {
+                border-top: 1px solid #ddd;
+            }
+
+            .merchandise_div_tbl tr td,
+            .merchandiseSecond tr td,
+            .music_div_tbl tr td,
+            .final_payment_tbl td {
+                padding: 5px 0px;
+            }
+
+            .merchandise_div_tbl .merchandiseTotal td,
+            .merchandiseSecond .merchandiseSecondTotal td,
+            .musicSubTotal td,
+            .musicTotal td,
+            .totalBorder td {
+                border-top: 1px solid #ddd;
+                padding: 15px 0px 20px 0px;
+            }
+
+            .merchandiseSecond .merchandiseSecondTotal td,
+            .musicTotal td {
+                font-weight: bold;
+            }
+
+            .artist_rep_name,
+            .artist_rep_number,
+            .artist_rep_email {
+                font-size: 12px;
+            }
+
+            table tr td,
+            table tr th {
+                font-size: 12px;
+            }
+
+            .clearfix {
+                clear: both;
+            }
+
+            .artist_venue_settlement_div table td {
+                padding: 5px 0px;
+            }
+
+            .dis td {
+                text-align: center;
+            }
+
+            .musicHeight {
+                height: 34px;
+            }
+
+            .grossBox {
+                padding: 5px;
+                color: #fff;
+                border-radius: 3px;
+            }
+
+            body .musicSubTotal td {
+                padding-bottom: 21px;
+                padding-top: 15px;
+            }
+
+            body .musicTotal td {
+                padding: 15px 0px;
+            }
+
+            .grossBox td {
+                font-size: 12px;
+                font-weight: bold;
+            }
+
+            .logo_img img {
+                height: 50px;
+            }
+
+            .payment_detailsSection th {
+                color: #acacac;
+                border-bottom: 2px solid #e5e5e5;
+            }
+
+            .payment_detailsSection td {
+                border-bottom: 1px solid #e5e5e5;
+            }
+
+            .paymentBox {
+                padding: 7px 5px;
+                font-size: 16px;
+            }
+
+            body .payment_detailsSection .paymentfooter {
+                border-bottom: none;
+            }
+
+            .divider {
+                margin: 20px 0px;
+            }
+
+            .report_header_text {
+                font-size: 16px;
+                color: #686767;
+                letter-spacing: 0.5px;
+            }
+
+            .venue_settlement_total td {
+                border-top: 1px solid #ddd;
+                padding: 15px 0px 15px 0px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="mainContainer">
+            <div>
+                <table class="logo_div" width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="logo_img">
+                            <img src="<?php echo $logoUrl; ?>" alt="" style="height: 50px; padding-top: 15px; box-sizing: border-box;">
+                        </td>
+                        <td class="header_text" style="text-align: right;"><div class="report_header_text"><?php echo __('Settlement Sheet'); ?></div></td>
+                    </tr>
+                </table>
+            </div>
+            <hr>
+            <div style="width: 100%">
+                <div style="width: 25%; float: left;">
+                    <div class="event_details">
+                        <div class="dateText"><?php echo $event['event_date'];?></div>
+                        <div class="monthText"><?php echo $event['event_month'];?></div>
+                    </div>
+                    <div class="event_address_details">
+                        <div><span><?php echo __($event['event_name']);?></span></div>
+                        <div><span><?php echo __($event['event_street']); ?></span></div>
+                        <div><span><?php echo __($event['event_city'].' '.$event['event_state']); ?></span></div>
+                        <div><span><?php echo __($event['event_country'].' '.$event['event_zip']); ?></span></div>
+                    </div>
+                </div>
+                <div style="width: 74%; float: left;">
+                    <?php if($artist_id): ?>
+                        <table cellpadding="0" cellspacing="0" width="100%" class="event_details_div">
+                            <tr>
+                                <td colspan="3" style="padding-bottom: 20px;">
+                                    <div class="artist_nameText" style="color: #c9c9c9"><b><?php echo __($artist['artist_name']);?></b></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="40%">
+                                    <table cellpadding="0" cellspacing="0" width="100%" class="artist_other_section">
+                                        <tr><td><span><?php echo __($artist['artist_rep_name']);?></span></td></tr>
+                                        <tr><td><span><?php echo __($artist['artist_rep_number']); ?></span></td></tr>
+                                        <tr><td><span><?php echo __($artist['artist_rep_email']);?></span></td></tr>
+                                    </table>
+                                </td>
+                                <td width="30%" >
+                                    <table cellpadding="0" cellspacing="0" width="100%" class="artist_other_section">
+                                        <tr>
+                                            <td>
+                                                <span class="bold"><?php echo _('W9 Received'); ?></span>
+                                                <span><?php echo __($artist['wnine_received']);?></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="bold"><?php echo _('Tax ID'); ?></span>
+                                                <span><?php echo __($artist['artist_tax_id']);?></span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td width="30%" >
+                                    <table cellpadding="0" cellspacing="0" width="100%" class="artist_other_section">
+                                        <?php if (isset($artist['cut_detail'])) : ?>
+                                            <?php foreach ($artist['cut_detail'] as $cut_detail) : ?>
+                                                <?php if (!empty($cut_detail['percent'])) : ?>
+                                                    <tr>
+                                                        <td>
+                                                            <span class="bold"><?php echo 'Artist '.$cut_detail['label'].' Cut';?>: </span>
+                                                            <span><?php echo $cut_detail['percent'].'%';?></span>
+                                                        </td>
+                                                    </tr>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="payment_details_div">
+                <p class="heading"><?php echo __('Payment Details'); ?></p>
+                <div class="payment_detailsSection">
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th class="paymentBox" width="30%"></th>
+                                <th class="paymentBox" style="text-align: right; font-size: 13px;" width="20%"><?php echo __('Collected by');?></th>
+                                <th class="paymentBox" style="text-align: right; font-size: 13px;" width="20%"><?php echo __('Receipts');?></th>
+                                <th class="paymentBox" style="text-align: right; font-size: 13px;" width="10%"><?php echo __('Fee %');?></th>
+                                <th class="paymentBox" style="text-align: right; font-size: 13px;" width="20%"><?php echo __('Fee $');?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="paymentBox" width="30%" style="font-size: 13px;"><?php echo __('Payment'); ?></td>
+                                <td class="paymentBox" style="text-align: right; font-size: 13px;" width="20%"><?php echo __('Order Ahead By Cor'); ?></td>
+                                <td class="paymentBox" style="text-align: right; font-size: 13px;" width="20%"><?php echo $totalBraintreePaymentAmount; ?></td>
+                                <td class="paymentBox" style="text-align: right; font-size: 13px;" width="20%"><?php echo __('2.750%'); ?></td>
+                                <td class="paymentBox" style="text-align: right; font-size: 13px;" width="20%"><?php echo $braintreeFeeAmount; ?></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="paymentBox paymentfooter" colspan="2" style="font-size: 13px;"><b><?php echo __('Totals'); ?></b></td>
+                                <td class="paymentBox paymentfooter" style="font-size: 13px; text-align: right;"><b><?php echo $totalBraintreePaymentAmount; ?></b></td>
+                                <td class="paymentBox paymentfooter" colspan="2" style="font-size: 13px; text-align: right;"><b><?php echo $braintreeFeeAmount; ?></b></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="gross_sales" style="float: left">
+                <div class="grossLeft"><?php echo __('Gross Sales');?></div>
+                <div class="grossRight"><?php echo $grossTotal; ?></div>
+            </div>
+            <div class="merchandise_music_sales">
+                <div class="merchandise_div">
+                    <p class="heading headingbox"><?php echo _('Merchandise Sales'); ?></p>
+                    <table class="merchandise_div_tbl" width="100%" cellspacing="0" cellpadding="0">
+                        <tbody>
+                            <tr>
+                                <td class="leftSide"><?php echo __("Gross Sales (Apparel)"); ?></td>
+                                <td class="rightSide" style="text-align: right;"><?php echo $helper->formatPrice($pdfData['apparel']['gross_sale']);?></td>
+                            </tr>
+                            <tr>
+                                <td class="leftSide"><?php echo __("Gross Sales (Other)"); ?></td>
+                                <td class="rightSide" style="text-align: right;"><?php echo $helper->formatPrice($pdfData['other']['gross_sale']);?></td>
+                            </tr>
+                            <tr class="merchandiseTotal">
+                                <td class="leftSide"><?php echo __("Total Gross Sales"); ?></td>
+                                <td class="rightSide" style="text-align: right;"><?php echo $helper->formatPrice($pdfData['apparel_other']['total_gross_sale']);?></td>
+                            </tr>       
+                        </tbody>
+                    </table>
+                    <table class="merchandiseSecond" width="100%" cellpadding="0" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td class="leftSide"><?php echo __("Payment Fees"); ?></td>
+                                <td class="rightSide" style="text-align: right;">(<?php echo $helper->formatPrice($pdfData['apparel_other']['total_fee_amount']);?>)</td>
+                            </tr>
+                            <tr>
+                                <td class="leftSide"><?php echo __("Taxes"); ?></td>
+                                <td class="rightSide" style="text-align: right;">(<?php echo $helper->formatPrice($pdfData['apparel_other']['total_tax_amount']);?>)</td>
+                            </tr>
+                            <tr class="merchandiseSecondTotal">
+                                <td class="leftSide"><?php echo __("Adjusted Gross Merch Sales"); ?></td>
+                                <td class="rightSide" style="text-align: right;">(<?php echo $helper->formatPrice($pdfData['apparel_other']['total_gross_adjusted']);?>)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="music_div">
+                    <p class="heading headingbox"><?php echo __("Music Sale"); ?>s</p>
+                    <table class="music_div_tbl" width="100%" cellspacing="0" cellpadding="0">
+                        <tbody>
+                            <tr>
+                                <td style="height: 38px; vertical-align: top;"><?php echo __('Music Gross Sales'); ?></td>
+                                <td style="height: 38px; vertical-align: top;" class="rightSide" style="text-align: right;"><?php echo $helper->formatPrice($pdfData['music']['gross_sale']);?></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="rightSide" style="text-align: right;"></td>
+                            </tr>
+                            <tr class="musicSubTotal">
+                                <td><?php echo __("Total Gross Sales"); ?></td>
+                                <td class="rightSide" style="text-align: right;"><?php echo $helper->formatPrice($pdfData['music']['gross_sale']);?></td>
+                            </tr>
+                            <tr>
+                                <td style="height: 48px; vertical-align: bottom;"><?php echo __("Taxes"); ?></td>
+                                <td class="rightSide" style="text-align: right; height: 48px; vertical-align: bottom;">(<?php echo $helper->formatPrice($pdfData['music']['tax_amount']);?>)</td>
+                            </tr>
+                            <tr class="musicTotal">
+                                <td><?php echo __("Adjusted Gross Music Sales"); ?></td>
+                                <td class="rightSide" style="text-align: right;">(<?php echo $helper->formatPrice($pdfData['music']['total_gross_adjusted']);?>)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="artist_venue_settlement_div">
+                <div class="artist_div">
+                    <p class="heading headingbox"><?php echo __("Artist Settlement"); ?>t</p>
+                    <table class="artist_div_tbl" width="100%" cellspacing="0" cellpadding="0">
+                        <tbody>
+                            <tr>
+                                <td><?php echo __("Merch Cut"); ?></td>
+                                <td class="rightSide" style="text-align: right;"><?php echo $helper->formatPrice($artist_settlement['merch_cut']);?></td>
+                            </tr>
+                            <tr>
+                                <td><?php echo __("Music Cut"); ?></td>
+                                <td class="rightSide" style="text-align: right;"><?php echo $helper->formatPrice($artist_settlement['music_cut']);?></td>
+                            </tr>
+                            <tr>
+                                <td style="height: 171px;"></td>
+                            </tr>
+                            <tr class="totalBorder">
+                                <td class="bold"><?php echo __("Total Due Artist"); ?></td>
+                                <td class="rightSide bold" style="text-align: right;"><?php echo $helper->formatPrice($artist_settlement['total_due']);?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="venue_div">
+                    <p class="heading headingbox"><?php echo __("Venue Settlement"); ?></p>
+                    <table class="venue_div_tbl" width="100%" cellspacing="0" cellpadding="0">
+                        <tbody>
+                            <tr>
+                                <td><?php echo __("Cash Collected"); ?></td>
+                                <td class="rightSide" style="text-align: right;"><?php echo $totalCashPaymentAmount;?></td>
+                            </tr>
+                            <tr>
+                                <td><?php echo __("Payment Collected"); ?></td>
+                                <td class="rightSide" style="text-align: right;"><?php echo $totalBraintreePaymentAmount;?></td>
+                            </tr>
+                            <tr class="venue_settlement_total">
+                                <td><?php echo __("Total Collected by Venue"); ?></td>
+                                <td class="rightSide" style="text-align: right;"><?php echo $grossTotal;?></td>
+                            </tr>
+                            <tr>
+                                <td><?php echo __("Merch Cut"); ?></td>
+                                <td class="rightSide" style="text-align: right;"><?php echo $helper->formatPrice($venue_settlement['merch_cut']);?></td>
+                            </tr>
+                            <tr>
+                                <td><?php echo __("Music Cut"); ?></td>
+                                <td class="rightSide" style="text-align: right;"><?php echo $helper->formatPrice($venue_settlement['music_cut']);?></td>
+                            </tr>
+                            <tr>
+                                <td><?php echo __("Tax Retained"); ?></td>
+                                <td class="rightSide" style="text-align: right;"><?php echo $helper->formatPrice($pdfData['music']['tax_amount']);?></td>
+                            </tr>
+                            <tr>
+                                <td><?php echo __("Payment Fees Retained"); ?></td>
+                                <td class="rightSide" style="text-align: right;"><?php echo $braintreeFeeAmount;?></td>
+                            </tr>
+                            <tr>
+                                <td style="padding-bottom: 9px;"><?php echo __("Shipping"); ?></td>
+                                <td class="rightSide" style="text-align: right; padding-bottom: 9px;"><?php echo $helper->formatPrice($venue_settlement['total_shipping_amount']);?></td>
+                            </tr>
+                            <tr class="totalBorder">
+                                <td class="bold"><?php echo __("Total Due Order Ahead by Cor"); ?></td>
+                                <td class="rightSide bold" style="text-align: right;">(<?php echo $helper->formatPrice($venue_settlement['total_due']);?>)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- <div class="final_payment_div" style="margin-top: 100px; "> -->
+                <p class="heading" style="margin: 5px 0px; "><?php echo __("Final Payment"); ?></p>
+                <table class="final_payment_tbl" width="100%" cellspacing="0" cellpadding="0">
+                    <tbody>
+                        <tr>
+                            <td colspan="3" style="font-size: 13px;"><?php echo __("Balance paid to artist"); ?></td>
+                            <td style="text-align: right; font-size: 13px;"><?php echo $helper->formatPrice($artist_settlement['total_due']);?></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr class="divider">
+                <table width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="25%;" style="font-size: 13px;"><?php echo __("Payment Method"); ?></td>
+                        <td width="25%;" style="font-size: 13px;"><?php echo __("Check"); ?></td>
+                        <td style="font-size: 13px;"><?php echo $helper->formatPrice($artist_settlement['total_due']);?></td>
+                    </tr>
+                </table>
+            <!-- </div> -->
+            <div class="notes_div" >
+                <p class="heading"><?php echo __("Notes"); ?></p>
+                <table class="notes_tbl" width="100%" cellspacing="0" cellpadding="0"></table>
+            </div>
+            <div class="artist_signature_div">
+                <p class="heading"><?php echo __("Artist Signature"); ?></p>
+                <table class="artist_signature_tbl" width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td style="height: 150px;"></td>
+                    </tr>
+                </table>
+            </div>
+            <div style="line-height: 20px; font-size: 13px; text-align: center;">
+                <?php echo __("In the absence of a formal invoice, this settlement sheet shall serve as Summertime in the LBC's invoice to the Artist. By signing below, you hereby certify on behalf of the Artist that you have reviewed the above-stated figures and, to the best of your knowledge, they are correct. The Artist shall remit to Summertime in the LBC the unpaid balance (if any) of the monies due Summertime in the LBC in connection with the gross sales of merchandise at the Venue. Such monies shall be payable to Summertime in the LBC via check or wire transfer no later than seven (7) days from the date first written above."); ?>
+            </div>
+        </div>
+    </body>
+</html>

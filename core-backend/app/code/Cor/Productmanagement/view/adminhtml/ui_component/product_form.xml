@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <fieldset name="cor-options">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string" translate="true">COR Options</item>
+            <item name="collapsible" xsi:type="boolean">true</item>
+            <item name="sortOrder" xsi:type="number">4</item>
+            </item>
+        </argument>
+        <container name="stock_on_hand_container" >
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                   <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+            <htmlContent name="html_content">
+               <argument name="block" xsi:type="object">Cor\Productmanagement\Block\Adminhtml\Artist\Events</argument>
+            </htmlContent>     
+        </container>
+    </fieldset>
+</form>
+

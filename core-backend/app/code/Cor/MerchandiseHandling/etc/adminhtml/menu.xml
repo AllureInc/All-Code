@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Cor_MerchandiseHandling::merchandise"
+             title="Merchandise"
+             module="Cor_MerchandiseHandling"
+             parent="Cor_Artistcategory::cor_category_index"
+             sortOrder="10"
+             dependsOnModule="Cor_MerchandiseHandling"
+             resource="Cor_MerchandiseHandling::merchandise"
+        />
+ 
+        <add id="Cor_MerchandiseHandling::merchandise_handling"
+             title="Merchandise Handling"
+             module="Cor_MerchandiseHandling"
+             sortOrder="20"
+             parent="Cor_MerchandiseHandling::merchandise"
+             dependsOnModule="Cor_MerchandiseHandling"
+             action="merchandise/merchandise/index"
+             resource="Cor_MerchandiseHandling::merchandise_handling" 
+        />
+    </menu>
+</config>

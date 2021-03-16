@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Cor\Rest\Api\BraintreeConfigProviderInterface" type="Cor\Rest\Model\Braintree\Ui\ConfigProvider"></preference>
+    <preference for="\Cor\Rest\Api\PaymentTokenManagementInterface" type="Cor\Rest\Model\PaymentTokenManagement"></preference>
+    <type name="Magento\Quote\Model\Quote\Item\Repository">
+        <plugin sortOrder="1" name="corRestRepository" type="Cor\Rest\Plugin\Model\Quote\Item\RepositoryPlugin"/>
+    </type>
+</config>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="componentType" xsi:type="string">form</item>
+        </item>
+    </argument>
+
+    <container name="report">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="componentType" xsi:type="string">fieldset</item>
+            </item>
+        </argument>
+
+        <field name="metric.data">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Mirasvit\Dashboard\DataSource\Report\Source\MetricsColumn</item>
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Data</item>
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="elementTmpl" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                    <item name="component" xsi:type="string">Mirasvit_Dashboard/js/ui/block/source-data-select</item>
+                    <item name="filterOptions" xsi:type="boolean">true</item>
+                    <item name="showCheckbox" xsi:type="boolean">false</item>
+                    <item name="labelsDecoration" xsi:type="boolean">true</item>
+                    <item name="disableLabel" xsi:type="boolean">true</item>
+                    <item name="multiple" xsi:type="boolean">false</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+    </container>
+</form>

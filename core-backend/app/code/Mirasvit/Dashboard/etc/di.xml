@@ -1,0 +1,95 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!--<type name="Mirasvit\Dashboard\Api\Repository\WidgetTypeRepositoryInterface">-->
+        <!--<arguments>-->
+            <!--<argument name="widgets" xsi:type="array">-->
+                <!--<item name="text" xsi:type="string">Mirasvit\Dashboard\Widget\TextWidget</item>-->
+            <!--</argument>-->
+        <!--</arguments>-->
+    <!--</type>-->
+
+    <preference for="Mirasvit\Dashboard\Api\Data\BoardInterface" type="Mirasvit\Dashboard\Model\Board"/>
+    <preference for="Mirasvit\Dashboard\Api\Data\BlockInterface" type="Mirasvit\Dashboard\Model\Block"/>
+
+    <preference for="Mirasvit\Dashboard\Api\Repository\BoardRepositoryInterface" type="Mirasvit\Dashboard\Repository\BoardRepository"/>
+    <preference for="Mirasvit\Dashboard\Api\Repository\BlockRepositoryInterface" type="Mirasvit\Dashboard\Repository\BlockRepository"/>
+    <!--<preference for="Mirasvit\Dashboard\Api\Repository\WidgetTypeRepositoryInterface" type="Mirasvit\Dashboard\Repository\WidgetTypeRepository"/>-->
+    <preference for="Mirasvit\Dashboard\Api\Repository\DataSourceRepositoryInterface" type="Mirasvit\Dashboard\Repository\DataSourceRepository"/>
+    <preference for="Mirasvit\Dashboard\Api\Repository\RendererRepositoryInterface" type="Mirasvit\Dashboard\Repository\RendererRepository"/>
+
+    <preference for="Mirasvit\Dashboard\Api\Service\BoardServiceInterface" type="Mirasvit\Dashboard\Service\BoardService"/>
+    <preference for="Mirasvit\Dashboard\Api\Service\BlockServiceInterface" type="Mirasvit\Dashboard\Service\BlockService"/>
+
+    <!--UI-->
+    <type name="Mirasvit\Dashboard\Ui\Dashboard\DataProvider">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="board" xsi:type="object">Mirasvit\Dashboard\Ui\Dashboard\Modifier\BoardModalModifier</item>
+                <item name="block" xsi:type="object">Mirasvit\Dashboard\Ui\Dashboard\Modifier\BlockModalModifier</item>
+                <item name="blockTime" xsi:type="object">Mirasvit\Dashboard\Ui\Dashboard\Modifier\BlockTimeModifier</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Mirasvit\Dashboard\Ui\Block\Form\DataProvider">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="dataSource" xsi:type="object">Mirasvit\Dashboard\Ui\Block\Form\Modifier\DataSourceModifier</item>
+                <item name="renderer" xsi:type="object">Mirasvit\Dashboard\Ui\Block\Form\Modifier\RendererModifier</item>
+                <item name="reportRenderer" xsi:type="object">Mirasvit\Dashboard\Ui\Block\Form\Modifier\ReportRendererModifier</item>
+                <item name="filter" xsi:type="object">Mirasvit\Dashboard\Ui\Block\Form\Modifier\FilterModifier</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!--Data Sources-->
+    <type name="Mirasvit\Dashboard\Api\Repository\DataSourceRepositoryInterface">
+        <arguments>
+            <argument name="pool" xsi:type="array">
+                <!--<item name="mySql" xsi:type="object">Mirasvit\Dashboard\DataSource\MysqlDataSource</item>-->
+                <!--<item name="webApi" xsi:type="object">Mirasvit\Dashboard\DataSource\WebApiDataSource</item>-->
+                <item name="report" xsi:type="object">Mirasvit\Dashboard\DataSource\ReportDataSource</item>
+                <!--<item name="api" xsi:type="object">Mirasvit\Dashboard\DataSource\ApiDataSource</item>-->
+            </argument>
+        </arguments>
+    </type>
+
+    <!--Renderer-->
+    <type name="Mirasvit\Dashboard\Api\Repository\RendererRepositoryInterface">
+        <arguments>
+            <argument name="pool" xsi:type="array">
+                <item name="single" xsi:type="object">Mirasvit\Dashboard\Renderer\SingleRenderer</item>
+                <item name="table" xsi:type="object">Mirasvit\Dashboard\Renderer\TableRenderer</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!--Entity Manager-->
+    <type name="Magento\Framework\EntityManager\MetadataPool">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="Mirasvit\Dashboard\Api\Data\BoardInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="const">Mirasvit\Dashboard\Api\Data\BoardInterface::TABLE_NAME</item>
+                    <item name="identifierField" xsi:type="const">Mirasvit\Dashboard\Api\Data\BoardInterface::ID</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\EntityManager\HydratorPool">
+        <arguments>
+            <argument name="hydrators" xsi:type="array">
+                <item name="Mirasvit\Dashboard\Api\Data\BoardInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Mirasvit\Report\Api\Repository\EmailRepositoryInterface">
+        <arguments>
+            <argument name="repositoryPool" xsi:type="array">
+                <item name="widgets" xsi:type="string">Mirasvit\Dashboard\Repository\Email\BlockRepository</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

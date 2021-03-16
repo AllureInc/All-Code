@@ -1,0 +1,71 @@
+<?php
+/**
+ * Module: Cor_Productmanagement
+ * Backend template file.
+ * Sets options and values for events in 'cor_events' field.
+ */
+?>
+<?php $eventsOptionsAction = $this->getUrl('productmanagement/product/eventoptions'); ?>
+<?php $product_id = ($this->getRequest()->getParam('id')) ? $this->getRequest()->getParam('id') : 0; ?>
+<script type="text/javascript">
+    require(['jquery', 'jquery/ui'], function($){
+        var status = true;
+        var product_id = "<?php echo $product_id;?>";
+        $(document).ready(function(){
+            selector = "select[name='product[cor_artist]']" ;
+            time = 100 ;
+            waitForElementToDisplay(selector,time);
+        });
+
+        /*
+        * function for getting grid of selected artist
+        */
+        $(document).on('change',"select[name='product[cor_artist]']",function(){
+            var artist_id = $(this).val();
+            loadEventsOptions(artist_id, product_id);
+        });
+
+        /*
+        * function for load events for artist selected 
+        */
+        function loadEventsOptions(artist_id, product_id)
+        {
+            var eventSelector = "select[name='product[cor_events]";
+            $(eventSelector).html('');
+            if (artist_id) {
+                var request = $.ajax({
+                    url: "<?php echo $eventsOptionsAction; ?>",
+                    showLoader : true,
+                    data: {artist_id:artist_id, product_id:product_id},
+                    dataType:"json",
+                    type: "post"
+                });
+
+                request.done(function(res) {
+                    $(eventSelector).html(res.data);
+                });
+            }
+        }
+
+        /*
+        * function for getting grid of saved and selected artist
+        */
+        function waitForElementToDisplay(selector, time) {
+            if(document.querySelector(selector)!=null) {
+                if (status) {
+                    var artist_id = $("select[name='product[cor_artist]']").val();
+                    if (artist_id) {
+                        $("select[name='product[cor_artist]']").attr('disabled', 'disabled');
+                    }
+                    loadEventsOptions(artist_id, product_id);
+                    status = false;
+                }
+                return;
+            } else {
+                setTimeout(function() {
+                    waitForElementToDisplay(selector, time);
+                }, time);
+            }
+        }
+    });
+</script>

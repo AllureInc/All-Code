@@ -1,0 +1,20 @@
+<div class="dashboard__panel-table" data-bind="{afterRender: setElement}">
+    <table class="data-grid">
+        <thead>
+        <tr>
+            <!-- ko foreach: headers -->
+            <th class="data-grid-th">
+                <span text="$data"></span>
+            </th>
+            <!-- /ko -->
+        </tr>
+        </thead>
+        <tbody data-bind="foreach: {data: values, as: '_data'}">
+            <tr data-bind="foreach: {data: Object.keys($data), as: '_key'}">
+                <td class="data-grid-td">
+                    <span text="_data[_key]"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

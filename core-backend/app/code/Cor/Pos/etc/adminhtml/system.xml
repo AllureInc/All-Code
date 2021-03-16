@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+    <system>
+        <tab id="cor" translate="label" sortOrder="10">
+             <label>COR</label>
+        </tab>
+        <section id="cor_events" translate="label" type="text" sortOrder="321" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Cor Events</label>
+            <tab>cor</tab>
+            <resource>Cor_Pos::configuration</resource>
+            <group id="default_event" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Default Event</label>
+                <field id="default_event_id" translate="label comment" sortOrder="7" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Event Id</label>
+                    <comment>Please enter the appropriate event id that need to set as default with order.</comment>
+                    <validate>validate-number</validate>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

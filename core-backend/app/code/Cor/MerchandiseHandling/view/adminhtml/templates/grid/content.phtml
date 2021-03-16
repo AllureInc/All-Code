@@ -1,0 +1,74 @@
+<?php $_currencySymbol = $block->getCurrencySymbol(); ?>
+
+<?php $_product = $this->getProduct(); ?>
+<?php $_merchandises = $this->getMerchandise(); ?>
+<?php $_configurableOptions = $this->getConfigurableOptions(); ?>
+<?php $_parentProductId = $this->getParentProductId(); ?>
+<?php $_rowClass = $this->getRowClass(); ?>
+
+<?php $_productId = $_product->getEntityId(); ?>
+<?php $_productType = $_product->getTypeId(); ?>
+<?php $_productName = $_product->getName(); ?>
+<?php $_productSku = $_product->getSku(); ?>
+<?php $_productPriceAmount = number_format($_product->getPrice(), 2); ?>
+<?php $_productPrice = $_currencySymbol.$_productPriceAmount; ?>
+
+<?php $_eventId = $this->getEventId(); ?>
+<?php $_artistId = $this->getArtistId(); ?>
+
+<?php $_inputName = "product[".$_productType."][".$_parentProductId.$_productId."]"; ?>
+<?php $_merchandiseKey = $_eventId.'_'.$_artistId.'_'.$_productId.'_'.$_parentProductId; ?>
+<?php $_merchandise = (!empty($_merchandises)) ? (isset($_merchandises[$_merchandiseKey]) ? $_merchandises[$_merchandiseKey] : array()) : array(); ?>
+
+<?php
+// echo "<pre>";
+// print_r($_product->debug());
+// echo "<pre>";
+?>
+<tr class="<?php echo $_rowClass; ?>">
+    <td>
+        <div class="product-title"><?php echo $_productName; ?></div>
+        <div class="product-sku-block"><?php echo "SKU: ".$_productSku; ?></div>
+        <div>
+            <input type="hidden" name="<?php echo $_inputName; ?>[product_id]" value="<?php echo $_productId; ?>">
+            <input type="hidden" name="<?php echo $_inputName; ?>[product_sku]" value="<?php echo $_productSku; ?>">
+            <input type="hidden" name="<?php echo $_inputName; ?>[parent_id]" value="<?php echo $_parentProductId; ?>">
+            <input type="hidden" name="<?php echo $_inputName; ?>[product_price]" value="<?php echo $_productPriceAmount; ?>" class="product_price-<?php echo $_productId.$_parentProductId; ?>" data-attr="<?php echo $_currencySymbol; ?>">
+            <input type="hidden" name="<?php echo $_inputName; ?>[artist_id]" value="<?php echo $_artistId; ?>">
+            <input type="hidden" name="<?php echo $_inputName; ?>[event_id]" value="<?php echo $_eventId; ?>">
+        </div>
+    </td>
+    <?php if(!empty($_configurableOptions)): ?>
+        <?php foreach($_configurableOptions as $_configurableOption): ?>
+            <td><?php echo $_configurableOption; ?></td>
+        <?php endforeach; ?>
+    <?php endif; ?>
+    <td><?php echo $_productPrice; ?></td>
+    <td>
+        <input type='text' name="<?php echo $_inputName; ?>[purchase_order]" min="0" class="input-text validate-number" data-validate="{'validate-number':true}" value="<?php echo (isset($_merchandise['purchase_order']) ? $_merchandise['purchase_order'] : '') ?>" data-attr="<?php echo (isset($_merchandise['purchase_order']) ? $_merchandise['purchase_order'] : 0) ?>" onchange="setMaxCount(this, 'count_in-'+<?php echo $_productId.$_parentProductId; ?>, this.value)" />
+    </td>
+    <td>
+        <input type='text' name="<?php echo $_inputName; ?>[count_in]" min="0" max="<?php echo (isset($_merchandise['purchase_order']) ? $_merchandise['purchase_order'] : 0) ?>" onchange="updateTotal(<?php echo $_productId.$_parentProductId; ?>)" class="input-text validate-number count_in_cls count_in-<?php echo $_productId.$_parentProductId; ?>" data-attr="<?php echo $_productId.$_parentProductId; ?>" data-validate="{'validate-number':true}" value="<?php echo (isset($_merchandise['count_in']) ? $_merchandise['count_in'] : '') ?>" />
+    </td>
+    <td>
+        <input type='text' name="<?php echo $_inputName; ?>[add_on]" min="0" onchange="updateTotal(<?php echo $_productId.$_parentProductId; ?>)" class="input-text validate-number add_on-<?php echo $_productId.$_parentProductId; ?>" data-attr="<?php echo $_productId.$_parentProductId; ?>" data-validate="{'validate-number':true}" value="<?php echo (isset($_merchandise['add_on']) ? $_merchandise['add_on'] : '') ?>" />
+    </td>
+    <td>
+        <input type='hidden' name="<?php echo $_inputName; ?>[total]" min="0" class="input-text validate-number total-<?php echo $_productId.$_parentProductId; ?>" data-validate="{'validate-number':true}" value="<?php echo (isset($_merchandise['total']) ? $_merchandise['total'] : '') ?>" />
+        <span class="total-span-<?php echo $_productId.$_parentProductId; ?>"><?php echo (isset($_merchandise['total']) ? $_merchandise['total'] : '') ?></span>
+    </td>
+    <td>
+        <input type='text' name="<?php echo $_inputName; ?>[comp]" class="comp-<?php echo $_productId.$_parentProductId; ?> validate-number input-text"  min="0" data-validate="{'validate-number':true}" data-attr="<?php echo $_productId.$_parentProductId; ?>" onchange="checkCompInputValue(<?php echo $_productId.$_parentProductId; ?>)" data-attr-price="<?php echo $_productPrice;?>" data-old-value="<?php echo (isset($_merchandise['comp']) ? $_merchandise['comp'] : 0) ?>" value="<?php echo (isset($_merchandise['comp']) ? $_merchandise['comp'] : '') ?>" />
+    </td>
+    <td>
+        <input type='text' name="<?php echo $_inputName; ?>[count_out]" min="0" class="input-text validate-number count_out-<?php echo $_productId.$_parentProductId; ?>" data-attr="<?php echo $_productId.$_parentProductId; ?>" onchange="checkCountOutInputValue(<?php echo $_productId.$_parentProductId; ?>)" data-attr-price="<?php echo $_productPrice;?>" data-validate="{'validate-number':true}" value="<?php echo (isset($_merchandise['count_out']) ? $_merchandise['count_out'] : '') ?>" />
+    </td>
+    <td>
+        <input type='hidden' name="<?php echo $_inputName; ?>[total_sold]" class="input-text validate-number total_sold-<?php echo $_productId.$_parentProductId; ?>" min="0" value="<?php echo (isset($_merchandise['total_sold']) ? $_merchandise['total_sold'] : '') ?>" />
+        <span class="total_sold_span-<?php echo $_productId.$_parentProductId; ?>"><?php echo (isset($_merchandise['total_sold']) ? $_merchandise['total_sold'] : '') ?></span>
+    </td>
+    <td>
+        <input type='hidden' name="<?php echo $_inputName; ?>[gross_sale]" class="gross_sale-<?php echo $_productId.$_parentProductId; ?>" min="0" value="<?php echo (isset($_merchandise['gross_sale']) ? $_merchandise['gross_sale'] : '') ?>" />
+        <span class="gross_sale_span-<?php echo $_productId.$_parentProductId; ?>"><?php echo ((isset($_merchandise['gross_sale']) && !empty($_merchandise['gross_sale'])) ? $_currencySymbol.$_merchandise['gross_sale'] : '') ?></span>
+    </td>
+</tr>

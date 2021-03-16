@@ -1,0 +1,85 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Checkout\Block\Cart\Sidebar */
+?>
+
+<div data-block="minicart" class="minicart-wrapper mis_minicart">
+    <a class="action showcart" href="<?= /* @escapeNotVerified */ $block->getShoppingCartUrl() ?>"
+       data-bind="scope: 'minicart_content'">
+        <span class="text"><?= /* @escapeNotVerified */ __('My Cart') ?></span>
+        <span class="counter qty empty"
+              data-bind="css: { empty: !!getCartParam('summary_count') == false }, blockLoader: isLoading">
+            <span class="counter-number"><!-- ko text: getCartParam('summary_count') --><!-- /ko --></span>
+            <span class="counter-label">
+            <!-- ko if: getCartParam('summary_count') -->
+                <!-- ko text: getCartParam('summary_count') --><!-- /ko -->
+                <!-- ko i18n: 'items' --><!-- /ko -->
+            <!-- /ko -->
+            </span>
+        </span>
+    </a>
+    <?php if ($block->getIsNeedToDisplaySideBar()): ?>
+        <div class="block block-minicart empty"
+             data-role="dropdownDialog"
+             data-mage-init='{"dropdownDialog":{
+                "appendTo":"[data-block=minicart]",
+                "triggerTarget":".showcart",
+                "timeout": "2000",
+                "closeOnMouseLeave": false,
+                "closeOnEscape": true,
+                "triggerClass":"active",
+                "parentClass":"active",
+                "buttons":[]}}'>
+            <div id="minicart-content-wrapper" data-bind="scope: 'minicart_content'">
+                <!-- ko template: getTemplate() --><!-- /ko -->
+                <div class="keep_shopping">
+                    <a href="<?php echo $this->getBaseUrl();?>" ><?php echo __('Keep Shopping');?></a>                    
+                </div>
+            </div>
+            <?= $block->getChildHtml('minicart.addons') ?>
+        </div>
+    <?php endif ?>
+    <script>
+        window.checkout = <?= /* @escapeNotVerified */ $block->getSerializedConfig() ?>;
+    </script>
+    <script type="text/x-magento-init">
+    {
+        "[data-block='minicart']": {
+            "Magento_Ui/js/core/app": <?= /* @escapeNotVerified */ $block->getJsLayout() ?>
+        },
+        "*": {
+            "Magento_Ui/js/block-loader": "<?= /* @escapeNotVerified */ $block->getViewFileUrl('images/loader-1.gif') ?>"
+        }
+    }
+    </script>
+    <script type="text/javascript">
+        require(['jquery', 'jquery/ui'], function($){
+            $('body').append('<div class="mis_minicart_div"></div>');
+            if ($('.mis_minicart').hasClass('active') == false) {
+                $('.keep_shopping').css('display', 'none');
+            } else {
+                $('.keep_shopping').css('display', 'block');
+            }
+            $('.showcart').click(function(){
+                $('.mis_minicart_div').addClass('mis_minicart_boxable');
+                $('.keep_shopping').css('display', 'block');
+                $('#btn-minicart-close').addClass('close_btn_cart');
+                $('#btn-minicart-close').click(function(){
+                    $('.mis_minicart_div').removeClass('mis_minicart_boxable');
+                });
+            });
+
+            $('.mis_minicart_div').click(function(){
+                $(this).removeClass('mis_minicart_boxable');
+            });
+        });
+    </script>
+</div>
+
+

@@ -1,0 +1,27 @@
+<div class="page-main-actions dashboard__toolbar" data-bind="css: { loading: isLoading}">
+    <!-- ko foreach: elems -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <!-- /ko -->
+
+    <i class="fa fa-spinner fa-spin" visible="isLoading"></i>
+    <i class="fa fa-refresh" click="refresh" visible="!isLoading && !isEditable"></i>
+
+    <div class="actions">
+        <div class="unlock" visible="!isEditable" click="toggleMode">
+            <i class="fa fa-fw fa-unlock" title="View mode"></i>
+        </div>
+        <button class="action default" visible="isEditable && isChanged" click="save">
+            <i class="fa fa-fw fa-floppy-o"></i> Save Changes
+        </button>
+        <button class="action default" visible="isEditable && isChanged " click="reset">
+            <i class="fa fa-fw fa-undo"></i> Reset Changes
+        </button>
+        <button class="action default" visible="isEditable && !isChanged" click="toggleMode">
+            <i class="fa fa-fw fa-lock"></i> Release Lock
+        </button>
+
+        <button class="action primary" click="addBlock" visible="isEditable">
+            <i class="fa fa-fw fa-plus"></i> Add block
+        </button>
+    </div>
+</div>

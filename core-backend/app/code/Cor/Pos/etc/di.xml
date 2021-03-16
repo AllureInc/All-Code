@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!-- artist api -->
+    <preference for="Cor\Pos\Api\Artist\ArtistInterface" type="Cor\Pos\Model\Artist\Artist" />
+    <!-- artist api -->
+
+    <!-- event api -->
+    <preference for="Cor\Pos\Api\Event\EventInterface" type="Cor\Pos\Model\Event\Event" />
+    <!-- event api -->
+
+    <!-- order-pickup api -->
+    <preference for="Cor\Pos\Api\Sales\Order\OrderInterface" type="Cor\Pos\Model\Sales\Order\OrderManagement" />
+    <!-- order-pickup api -->
+
+    <!-- plugin to update the order api to include custom data to make it accessible in API data -->
+    <type name="Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin name="cor_pos_add_order_item_extension_attribute"
+                type="Cor\Pos\Plugin\OrderItemRepositoryPlugin" />
+    </type>
+    <!-- plugin to update the order api to include custom data to make it accessible in API data -->
+</config>

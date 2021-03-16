@@ -1,0 +1,57 @@
+<style>
+    .page-title-wrapper .page-title {
+        display: none;
+    }
+</style>
+
+<div class="admin__action-dropdown-wrap mst-core-menu dashboard__menu"
+     data-bind="css: {active: opened, _disabled: !collapsible}, outerClick: close.bind($data)">
+    <button
+            type="button"
+            class="admin__action-dropdown"
+            data-bind="click: toggleOpened"
+            data-toggle="dropdown"
+            aria-haspopup="true">
+        <span class="admin__action-dropdown-text" data-bind="text: board.get('title') "></span>
+    </button>
+
+    <ul class="admin__action-dropdown-menu">
+        <!-- ko foreach: boards -->
+        <li>
+            <a href="#" click="$parent.selectBoard">
+                <i class="fa fa-fw" data-bind="css: get('type') == 'shared' ? 'fa-users' : 'fa-user'"></i>&nbsp;
+                <span data-bind="text: get('title')"></span>
+            </a>
+        </li>
+        <!-- /ko -->
+
+        <!-- ko if: board.get('board_id') -->
+        <li class="separator"></li>
+        <li>
+            <a href="#" click="editBoard">
+                <i class="fa fa-fw fa-pencil"></i>&nbsp;Edit board
+            </a>
+        </li>
+        <li>
+            <a href="#" click="deleteBoard">
+                <i class="fa fa-fw fa-trash-o"></i>&nbsp;Delete board
+            </a>
+        </li>
+        <!-- /ko -->
+
+        <li class="separator"></li>
+        <li>
+            <a href="#" click="addBoard">
+                <i class="fa fa-fw fa-plus"></i>&nbsp;Add new board
+            </a>
+        </li>
+
+        <!--<li class="separator"></li>-->
+        <!--<li>-->
+        <!--<a href="#" click="emailNotifications">-->
+        <!--<i class="fa fa-bell-o" aria-hidden="true"></i> Email Notifications-->
+        <!--</a>-->
+        <!--</li>-->
+
+    </ul>
+</div>

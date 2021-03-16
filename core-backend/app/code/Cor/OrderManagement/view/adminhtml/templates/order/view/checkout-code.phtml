@@ -1,0 +1,21 @@
+<?php
+/**
+ * Copyright © 2018 Cor. All rights reserved.
+ */
+
+?>
+<?php /** @var \Cor\OrderManagement\Block\Adminhtml\Order\View\CheckoutCode $block */ ?>
+<?php $order = $block->getOrder(); ?>
+
+<tr id="cor_checkout_code">
+    <th><?php echo __("Checkout Code") ?></th>
+    <td>
+        <div id="cor_checkout_code_info">
+            <?php if ($order->getData('cor_one_time_key')): ?>
+                <?php echo $block->hyphenate($order->getData('cor_one_time_key')); ?>
+            <?php else: ?>
+                <?php echo __('N/A'); ?>
+            <?php endif; ?>
+        </div>
+    </td>
+</tr>

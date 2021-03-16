@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
+    <menu>
+        <!-- <add id="Cor_Eventmanagement::cor_event_index" title="Event" module="Cor_Eventmanagement"  sortOrder="20" dependsOnModule="Cor_Eventmanagement" action="eventmanagement/event/index" resource="Cor_Eventmanagement::cor_event_index"/> -->
+<!--AddMenu-->
+    </menu>
+</config>

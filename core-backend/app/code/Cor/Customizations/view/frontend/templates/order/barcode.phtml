@@ -1,0 +1,17 @@
+<?php
+    /** @var  $block \Magento\Sales\Block\Order\View*/
+?>
+
+<?php
+    $order = $block->getOrder();
+    $order_id = $order->getEntityId();
+    $cor_one_time_key = $order->getCorOneTimeKey();
+
+    $barcodeText = $order_id.':'.$cor_one_time_key;
+    $baseUrl = $block->getBaseUrl();
+
+    $url = $baseUrl . "barcode/barcode.php?size=50&text=".$barcodeText;
+    $barcode = "<img style='padding-bottom: 15px; height: 90px !important; width: 300px !important' alt='".$barcodeText."' src='".$url."' />";
+
+    echo $barcode;
+?>

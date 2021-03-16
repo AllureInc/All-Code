@@ -1,0 +1,8 @@
+<div class="admin__field" data-bind="visible: visible() && data.mobileUrl">
+    <label class="admin__field-label"><span>Access Url</span></label>
+    <div class="admin__field-control">
+        <a data-bind="attr: {href: data.mobileUrl}, text: data.mobileUrl"></a>
+        <img data-bind="attr: {src: 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=0&data=' + data.mobileUrl}"
+             width="130px" height="130px" style="border: 1px solid #e3e3e3;padding: 1rem;margin-top: 1rem;">
+    </div>
+</div>

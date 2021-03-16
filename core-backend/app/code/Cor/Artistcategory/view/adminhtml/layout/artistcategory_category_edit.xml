@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+     <update handle="editor"/>
+    <head>
+        <script src="Cor_Artistcategory::js/general.js"/>
+        <css src="Cor_Artistcategory::css/general.css"/>
+    </head>
+    <body>
+       <referenceContainer name="content">
+            <block class="Cor\Artistcategory\Block\Adminhtml\Artistcategory\Edit" name="artistcategory_artistcategory_edit"/>
+        </referenceContainer>
+         <referenceContainer name="left">
+            <block class="Cor\Artistcategory\Block\Adminhtml\Artistcategory\Edit\Tabs" name="artistcategory_artistcategory_edit_tabs">
+                <block class="Cor\Artistcategory\Block\Adminhtml\Artistcategory\Edit\Tab\General" name="artistcategory_artistcategory_edit_tab_general"/>
+                 <action method="addTab">
+                    <argument name="name" xsi:type="string">general_section</argument>
+                    <argument name="block" xsi:type="string">artistcategory_artistcategory_edit_tab_general</argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

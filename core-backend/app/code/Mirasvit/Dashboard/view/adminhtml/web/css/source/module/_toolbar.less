@@ -1,0 +1,75 @@
+.dashboard__toolbar {
+     position: relative;
+
+     .actions {
+          float: right;
+
+          button {
+               font-size: 1.3rem;
+
+               .fa {
+                    font-size: 1.5rem;
+                    margin-left: -.5rem;
+                    margin-right: .5rem;
+               }
+
+               &.primary {
+                    float: left;
+                    margin-right: 1rem;
+               }
+          }
+
+          .unlock {
+               cursor: pointer;
+               background: #fff;
+               border-radius: 10rem;
+               padding: .7rem;
+
+               &:hover {
+                    background: #eb5202;
+                    color: #fff;
+               }
+          }
+     }
+
+     //.mode-switcher {
+     //     float: right;
+     //     position: relative;
+     //     box-sizing: border-box;
+     //     display: inline-block;
+     //     overflow: hidden;
+     //     margin-left: 2rem;
+     //
+     //     > div {
+     //          padding: 1.25rem 1rem;
+     //          line-height: 2rem;
+     //          font-size: 1.8rem;
+     //          cursor: pointer;
+     //          display: inline-block;
+     //          border-bottom: 3px solid transparent;
+     //          box-sizing: border-box;
+     //
+     //          &:hover {
+     //               background: #fff;
+     //               border-color: #eb5202;
+     //          }
+     //     }
+     //
+     //     &.enabled {
+     //          //color: #f00;
+     //     }
+     //}
+
+     .fa-refresh {
+          cursor: pointer;
+     }
+
+     .fa-refresh, .fa-spinner {
+          margin-left: 1rem;
+          line-height: 3.3rem;
+     }
+
+     .report__toolbar-filter-date {
+          float: left;
+     }
+}

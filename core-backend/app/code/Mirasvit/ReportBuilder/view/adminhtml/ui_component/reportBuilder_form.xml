@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">reportBuilder_form.reportBuilder_form_data_source</item>
+            <item name="deps" xsi:type="string">reportBuilder_form.reportBuilder_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">General Information</item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">reportBuilder</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">Mirasvit\ReportBuilder\Ui\Form\Control\BackButton</item>
+            <item name="delete" xsi:type="string">Mirasvit\ReportBuilder\Ui\Form\Control\DeleteButton</item>
+            <item name="save" xsi:type="string">Mirasvit\ReportBuilder\Ui\Form\Control\SaveButton</item>
+        </item>
+    </argument>
+    <dataSource name="reportBuilder_form_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Mirasvit\ReportBuilder\Ui\Form\DataProvider</argument>
+            <argument name="name" xsi:type="string">reportBuilder_form_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">report_id</argument>
+            <argument name="requestFieldName" xsi:type="string">report_id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="render_url" xsi:type="url" path="*/*/render"/>
+                    <item name="submit_url" xsi:type="url" path="*/*/save"/>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Mirasvit_ReportBuilder/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+
+    <fieldset name="database">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">General</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">true</item>
+                <item name="componentType" xsi:type="string">fieldset</item>
+            </item>
+        </argument>
+
+        <field name="report_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="dataScope" xsi:type="string">report_id</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="title">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="label" xsi:type="string" translate="true">Title</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+
+    <container name="builder">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Configuration</item>
+                <item name="component" xsi:type="string" translate="true">Mirasvit_ReportBuilder/js/form/container</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">true</item>
+            </item>
+        </argument>
+
+        <field name="config.table">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="label" xsi:type="string" translate="true">Table</item>
+                    <item name="displayArea" xsi:type="string">left</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                    <item name="tooltip" xsi:type="array">
+                        <item name="description" xsi:type="string">Table name: sales_order</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="config.chart_type">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="array">
+                    <item name="column" xsi:type="array">
+                        <item name="value" xsi:type="string">column</item>
+                        <item name="label" xsi:type="string" translate="true">Column</item>
+                    </item>
+                    <item name="line" xsi:type="array">
+                        <item name="value" xsi:type="string">line</item>
+                        <item name="label" xsi:type="string" translate="true">Line</item>
+                    </item>
+                    <item name="pie" xsi:type="array">
+                        <item name="value" xsi:type="string">pie</item>
+                        <item name="label" xsi:type="string" translate="true">Pie</item>
+                    </item>
+                </item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="label" xsi:type="string" translate="true">Chart Type</item>
+                    <item name="displayArea" xsi:type="string">left</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="config.default_dimension">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="label" xsi:type="string" translate="true">Default Dimension</item>
+                    <item name="displayArea" xsi:type="string">left</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                    <item name="tooltip" xsi:type="array">
+                        <item name="description" xsi:type="string">Column name used to group records by default: sales_order|created_at__day</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="config.default_columns">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="label" xsi:type="string" translate="true">Default Columns</item>
+                    <item name="displayArea" xsi:type="string">left</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                    <item name="tooltip" xsi:type="array">
+                        <item name="description" xsi:type="string">
+                            <![CDATA[
+                            List column names displayed in a report by default, separated by new lines:
+                            sales_order|entity_id__cnt
+                            sales_order|total_qty_ordered__sum
+                            ]]>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="config.fast_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="label" xsi:type="string" translate="true">Fast Filters</item>
+                    <item name="displayArea" xsi:type="string">left</item>
+                    <item name="tooltip" xsi:type="array">
+                        <item name="description" xsi:type="string">
+                            <![CDATA[
+                            List column names available as the filters in toolbar, separated by new lines:
+                            sales_order|created_at
+                            sales_order|store_id
+                            ]]>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="config.available_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="label" xsi:type="string" translate="true">Available Filters</item>
+                    <item name="displayArea" xsi:type="string">left</item>
+                    <item name="tooltip" xsi:type="array">
+                        <item name="description" xsi:type="string">
+                            <![CDATA[
+                            List column names available as the standard filters, separated by new lines:
+                            sales_order|created_at
+                            sales_order|status
+                            ]]>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="config.dimensions">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="label" xsi:type="string" translate="true">Available Dimensions</item>
+                    <item name="displayArea" xsi:type="string">left</item>
+                    <item name="tooltip" xsi:type="array">
+                        <item name="description" xsi:type="string">
+                            <![CDATA[
+                            List column names available for grouping, separated by new lines:
+                            sales_order|created_at__day
+                            sales_order|created_at__week
+                            ]]>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="config.chart_columns">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="label" xsi:type="string" translate="true">Visible Chart Columns</item>
+                    <item name="displayArea" xsi:type="string">left</item>
+                    <item name="tooltip" xsi:type="array">
+                        <item name="description" xsi:type="string" translate="true">Columns visible in the chart by default</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="run">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">button</item>
+                    <item name="title" xsi:type="string" translate="true"><![CDATA[Save & Build Report]]></item>
+                    <item name="displayArea" xsi:type="string">left</item>
+                    <item name="actions" xsi:type="array">
+                        <item name="0" xsi:type="array">
+                            <item name="targetName" xsi:type="string">reportBuilder_form.reportBuilder_form_data_source</item>
+                            <item name="actionName" xsi:type="string">run</item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <container name="schema" class="Mirasvit\ReportBuilder\Ui\Form\Schema">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="displayArea" xsi:type="string">right</item>
+                    <item name="component" xsi:type="string" translate="true">Mirasvit_ReportBuilder/js/form/schema</item>
+                </item>
+            </argument>
+        </container>
+    </container>
+</form>

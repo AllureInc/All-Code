@@ -1,0 +1,37 @@
+<?php
+/** @var \Mirasvit\Reports\Block\Adminhtml\Debug $block */
+if (!$block->isAllowed()) {
+    return;
+}
+$report = $block->getReport();
+?>
+<h3>Columns <?=count($report->getColumns()) ?></h3>
+<div class="admin__data-grid-wrap">
+    <table class="data-grid">
+        <?php foreach ($report->getColumns() as $columnName): ?>
+            <?php $column = $block->provider->getColumn($columnName); ?>
+            <tr>
+                <td><?= $column->getName() ?></td>
+                <td><?= $column->getTable()->getLabel() ?></td>
+                <td><?= $column->getLabel() ?></td>
+                <td><?= $column->getType()->getType() ?></td>
+            </tr>
+
+        <?php endforeach ?>
+    </table>
+</div>
+
+<h3>Available Filters <?=count($report->getAvailableFilters()) ?></h3>
+<div class="admin__data-grid-wrap">
+    <table class="data-grid">
+        <?php foreach ($report->getAvailableFilters() as $columnName): ?>
+            <?php $column = $block->provider->getColumn($columnName); ?>
+            <tr>
+                <td><?= $column->getName() ?></td>
+                <td><?= $column->getTable()->getLabel() ?></td>
+                <td><?= $column->getLabel() ?></td>
+            </tr>
+
+        <?php endforeach ?>
+    </table>
+</div>

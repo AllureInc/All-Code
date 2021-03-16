@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">dashboard_block_form.dashboard_block_form_data_source</item>
+            <item name="deps" xsi:type="string">dashboard_block_form.dashboard_block_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">General Information</item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">dashboard_block_form</item>
+            <item name="insertForm" xsi:type="string">dashboard.dashboard.block_form_modal.form</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+        <item name="buttons" xsi:type="array">
+            <item name="save" xsi:type="string">Mirasvit\Dashboard\Ui\Block\Form\Control\SaveButton</item>
+        </item>
+    </argument>
+
+    <dataSource name="dashboard_block_form_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Mirasvit\Dashboard\Ui\Block\Form\DataProvider</argument>
+            <argument name="name" xsi:type="string">dashboard_block_form_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">block_id</argument>
+            <argument name="requestFieldName" xsi:type="string">block_id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" xsi:type="url" path="dashboard/block/save"/>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+
+    <fieldset name="general">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">General</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">true</item>
+            </item>
+        </argument>
+
+        <field name="block_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="dataScope" xsi:type="string">block_id</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="board_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="dataScope" xsi:type="string">board_id</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="title">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Title</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="description">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Description</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+
+    <fieldset name="visualization">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">Visualization</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">true</item>
+            </item>
+        </argument>
+
+        <field name="renderer">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Mirasvit\Dashboard\Ui\Block\Source\Renderer</item>
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Renderer</item>
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="elementTmpl" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                    <item name="component" xsi:type="string">Mirasvit_Dashboard/js/ui/select</item>
+                    <item name="filterOptions" xsi:type="boolean">false</item>
+                    <item name="showCheckbox" xsi:type="boolean">false</item>
+                    <item name="disableLabel" xsi:type="boolean">true</item>
+                    <item name="multiple" xsi:type="boolean">false</item>
+                    <item name="switchFieldsets" xsi:type="array">
+                        <item name="single" xsi:type="array">
+                            <item name="reports_fieldset" xsi:type="string">${ $.ns }.${ $.ns }.metrics</item>
+                        </item>
+                        <item name="table" xsi:type="array">
+                            <item name="reports_fieldset" xsi:type="string">${ $.ns }.${ $.ns }.reports</item>
+                            <item name="filter_order" xsi:type="string">${ $.ns }.${ $.ns }.filter.filter.order</item>
+                            <item name="filter_dir" xsi:type="string">${ $.ns }.${ $.ns }.filter.filter.dir</item>
+                            <item name="filter_limit" xsi:type="string">${ $.ns }.${ $.ns }.filter.filter.limit</item>
+                        </item>
+                    </item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <container name="container"/>
+    </fieldset>
+
+    <fieldset name="metrics">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">Metrics</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">true</item>
+                <item name="componentType" xsi:type="string">fieldset</item>
+            </item>
+        </argument>
+
+        <field name="dataSource">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Mirasvit\Dashboard\Ui\Block\Source\DataSource</item>
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Data Source</item>
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="elementTmpl" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                    <!--<item name="component" xsi:type="string">Mirasvit_Dashboard/js/ui/select</item>-->
+                    <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
+                    <item name="filterOptions" xsi:type="boolean">false</item>
+                    <item name="showCheckbox" xsi:type="boolean">false</item>
+                    <item name="disableLabel" xsi:type="boolean">true</item>
+                    <item name="multiple" xsi:type="boolean">false</item>
+                    <!--for now allow only a single datasource - report -->
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="forceVisibility" xsi:type="boolean">true</item>
+                    <item name="value" xsi:type="string">report</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <container name="container"/>
+    </fieldset>
+
+    <fieldset name="reports">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">Reports</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">true</item>
+                <item name="componentType" xsi:type="string">fieldset</item>
+            </item>
+        </argument>
+
+        <field name="dataSource">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Mirasvit\Dashboard\Ui\Block\Source\DataSource</item>
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Data Source</item>
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="elementTmpl" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                    <!--<item name="component" xsi:type="string">Mirasvit_Dashboard/js/ui/select</item>-->
+                    <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
+                    <item name="filterOptions" xsi:type="boolean">false</item>
+                    <item name="showCheckbox" xsi:type="boolean">false</item>
+                    <item name="disableLabel" xsi:type="boolean">true</item>
+                    <item name="multiple" xsi:type="boolean">false</item>
+                    <!--for now allow only a single datasource - report -->
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="forceVisibility" xsi:type="boolean">true</item>
+                    <item name="value" xsi:type="string">report</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <container name="container"/>
+    </fieldset>
+
+    <fieldset name="time">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">Time Range</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">true</item>
+            </item>
+        </argument>
+
+        <field name="time.override">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">boolean</item>
+                    <item name="formElement" xsi:type="string">checkbox</item>
+                    <item name="prefer" xsi:type="string">toggle</item>
+                    <item name="label" xsi:type="string" translate="true">Override dashboard time</item>
+                    <item name="valueMap" xsi:type="array">
+                        <item name="true" xsi:type="string">1</item>
+                        <item name="false" xsi:type="string">0</item>
+                    </item>
+                    <item name="default" xsi:type="string">0</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="time.range">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Mirasvit\Dashboard\Ui\Board\Source\TimeRange</item>
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Range</item>
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="elementTmpl" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
+                    <item name="filterOptions" xsi:type="boolean">true</item>
+                    <item name="showCheckbox" xsi:type="boolean">false</item>
+                    <item name="disableLabel" xsi:type="boolean">true</item>
+                    <item name="multiple" xsi:type="boolean">false</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                    <item name="imports" xsi:type="array">
+                        <item name="visible" xsi:type="string">${ $.parentName}.override:checked</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="time.compare">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Compare to</item>
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="elementTmpl" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
+                    <item name="filterOptions" xsi:type="boolean">true</item>
+                    <item name="showCheckbox" xsi:type="boolean">false</item>
+                    <item name="disableLabel" xsi:type="boolean">true</item>
+                    <item name="multiple" xsi:type="boolean">false</item>
+                    <item name="imports" xsi:type="array">
+                        <item name="visible" xsi:type="string">${ $.parentName}.override:checked</item>
+                    </item>
+                    <item name="options" xsi:type="array">
+                        <item name="0" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">Do not compare</item>
+                            <item name="value" xsi:type="string">off</item>
+                        </item>
+                        <item name="1" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">Previous period</item>
+                            <item name="value" xsi:type="number">0</item>
+                        </item>
+                        <item name="2" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">Same period last week</item>
+                            <item name="value" xsi:type="number">7</item>
+                        </item>
+                        <item name="3" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">Same period last month</item>
+                            <item name="value" xsi:type="number">30</item>
+                        </item>
+                        <item name="4" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">Same period last year</item>
+                            <item name="value" xsi:type="number">365</item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+
+    <fieldset name="filter">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">Filter</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">true</item>
+            </item>
+        </argument>
+
+        <container name="filter.data">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/dynamic-rows/dynamic-rows</item>
+                    <item name="template" xsi:type="string">Mirasvit_Dashboard/ui/block/dynamic-rows/grid</item>
+                    <item name="fallbackResetTpl" xsi:type="string">Magento_Backend/form/element/helper/fallback-reset-link</item>
+                    <item name="componentType" xsi:type="string">dynamicRows</item>
+                    <item name="recordTemplate" xsi:type="string">record</item>
+                    <item name="deleteButtonLabel" xsi:type="string">Remove</item>
+                    <item name="addButtonLabel" xsi:type="string">Add New Condition</item>
+                    <item name="deleteProperty" xsi:type="boolean">false</item>
+                    <item name="dndConfig" xsi:type="array">
+                        <item name="enabled" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+
+            <container name="record">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Filter conditions</item>
+                        <item name="component" xsi:type="string" translate="true">Magento_Ui/js/dynamic-rows/record</item>
+                        <item name="isTemplate" xsi:type="boolean">true</item>
+                        <item name="is_collection" xsi:type="boolean">true</item>
+                        <item name="showFallbackReset" xsi:type="boolean">false</item>
+                    </item>
+                </argument>
+
+                <field name="column">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="component" xsi:type="string">Mirasvit_Dashboard/js/ui/block/dynamic-rows/columns-select</item>
+                            <item name="formElement" xsi:type="string">select</item>
+                            <item name="dataType" xsi:type="string">text</item>
+                            <item name="fit" xsi:type="boolean">false</item>
+                            <item name="label" xsi:type="string">Column</item>
+                            <item name="showFallbackReset" xsi:type="boolean">false</item>
+                            <item name="imports" xsi:type="array">
+                                <item name="report" xsi:type="string">${ $.ns}.${ $.ns}.reports.container.report.report.data.report:value</item>
+                                <item name="metric" xsi:type="string">${ $.ns}.${ $.ns}.metrics.container.report.metric.data:value</item>
+                            </item>
+                            <item name="listens" xsi:type="array">
+                                <item name="report" xsi:type="string">changeOptions</item>
+                                <item name="metric" xsi:type="string">changeOptions</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+
+                <field name="operator">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="formElement" xsi:type="string">select</item>
+                            <item name="dataType" xsi:type="string">text</item>
+                            <item name="fit" xsi:type="boolean">false</item>
+                            <item name="label" xsi:type="string">Operator</item>
+                            <item name="showFallbackReset" xsi:type="boolean">false</item>
+                            <item name="options" xsi:type="array">
+                                <item name="0" xsi:type="array">
+                                    <item name="label" xsi:type="string" translate="true">Equal to</item>
+                                    <item name="value" xsi:type="string">eq</item>
+                                </item>
+                                <item name="1" xsi:type="array">
+                                    <item name="label" xsi:type="string" translate="true">Not equal to</item>
+                                    <item name="value" xsi:type="string">neq</item>
+                                </item>
+                                <item name="2" xsi:type="array">
+                                    <item name="label" xsi:type="string" translate="true">Greater than</item>
+                                    <item name="value" xsi:type="string">gt</item>
+                                </item>
+                                <item name="3" xsi:type="array">
+                                    <item name="label" xsi:type="string" translate="true">Less than</item>
+                                    <item name="value" xsi:type="string">lt</item>
+                                </item>
+                                <item name="4" xsi:type="array">
+                                    <item name="label" xsi:type="string" translate="true">Equals or greater than</item>
+                                    <item name="value" xsi:type="string">gteq</item>
+                                </item>
+                                <item name="5" xsi:type="array">
+                                    <item name="label" xsi:type="string" translate="true">Equals or less than</item>
+                                    <item name="value" xsi:type="string">lteq</item>
+                                </item>
+                                <item name="6" xsi:type="array">
+                                    <item name="label" xsi:type="string" translate="true">Is one of</item>
+                                    <item name="value" xsi:type="string">in</item>
+                                </item>
+                                <item name="7" xsi:type="array">
+                                    <item name="label" xsi:type="string" translate="true">Is not one of</item>
+                                    <item name="value" xsi:type="string">nin</item>
+                                </item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+
+                <field name="value">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="dataType" xsi:type="string">text</item>
+                            <item name="fit" xsi:type="boolean">false</item>
+                            <item name="label" xsi:type="string">Value</item>
+                            <item name="showFallbackReset" xsi:type="boolean">false</item>
+                        </item>
+                    </argument>
+                </field>
+
+                <actionDelete>
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="componentType" xsi:type="string">actionDelete</item>
+                            <item name="dataType" xsi:type="string">text</item>
+                            <item name="fit" xsi:type="boolean">false</item>
+                            <item name="label" xsi:type="string">Actions</item>
+                            <item name="sortOrder" xsi:type="string">50</item>
+                            <item name="additionalClasses" xsi:type="string">data-grid-actions-cell</item>
+                            <item name="template" xsi:type="string">Mirasvit_Dashboard/ui/block/dynamic-rows/action-delete</item>
+                        </item>
+                    </argument>
+                </actionDelete>
+            </container>
+        </container>
+
+        <field name="filter.order">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Sort By</item>
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
+                    <item name="elementTmpl" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                    <item name="filterOptions" xsi:type="boolean">true</item>
+                    <item name="showCheckbox" xsi:type="boolean">false</item>
+                    <item name="disableLabel" xsi:type="boolean">true</item>
+                    <item name="multiple" xsi:type="boolean">false</item>
+                    <item name="showPath" xsi:type="boolean">false</item>
+                    <item name="imports" xsi:type="array">
+                        <item name="visible" xsi:type="string">${ $.ns}.${ $.ns}.visualization.renderer == 'table'</item>
+                        <item name="options" xsi:type="string">${ $.ns}.${ $.ns}.reports.container.report.report.data.columns:options</item>
+                        <item name="cacheOptions.plain" xsi:type="string">${ $.ns}.${ $.ns}.reports.container.report.report.data.columns:options</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="filter.dir">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Sort Direction</item>
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="elementTmpl" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
+                    <item name="filterOptions" xsi:type="boolean">false</item>
+                    <item name="showCheckbox" xsi:type="boolean">false</item>
+                    <item name="disableLabel" xsi:type="boolean">true</item>
+                    <item name="multiple" xsi:type="boolean">false</item>
+                    <item name="imports" xsi:type="array">
+                        <item name="visible" xsi:type="string">${ $.ns}.${ $.ns}.visualization.renderer == 'table'</item>
+                    </item>
+                    <item name="options" xsi:type="array">
+                        <item name="0" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">ASC</item>
+                            <item name="value" xsi:type="string">asc</item>
+                        </item>
+                        <item name="1" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">DESC</item>
+                            <item name="value" xsi:type="string">desc</item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="filter.limit">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Limit</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="comment" xsi:type="string">Max number of rows in a table</item>
+                    <item name="imports" xsi:type="array">
+                        <item name="visible" xsi:type="string">${ $.ns}.${ $.ns}.visualization.renderer == 'table'</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+</form>

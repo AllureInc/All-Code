@@ -1,0 +1,296 @@
+<!-- 
+ * Module: Cor_MerchandiseHandling
+ * Backend Template File
+ * Displays Products associated with the artists.
+-->
+<div class="page-actions-inner" data-title="Configuration" id="button-div">
+    <div class="page-actions-buttons">
+        <button class="action-default scalable save primary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button" onclick="saveMerchandiseDetails(true)"><span><?php echo 'Save';?></span></button>
+    </div>
+    <div class="page-actions-buttons">
+        <button class="action-default scalable save primary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only settlement_report" type="button" data-event="<?php echo $this->getRequest()->getParam('event_id'); ?>" data-artist="<?php echo $this->getRequest()->getParam('artist_id'); ?>"><span><?php echo 'Settle';?></span></button>
+    </div>
+</div>
+<input type="hidden" name="form_key" value="<?php echo $this->getFormKey(); ?>"/>
+<div class="table-scroll">
+    <table name="product-details" class="data-grid event_tax_tbl edit-order-table" id="product-details">
+        <thead>
+            <?php echo $this->getLayout()->createBlock('Cor\MerchandiseHandling\Block\Adminhtml\ArtistProducts')->setTemplate('Cor_MerchandiseHandling::grid/header.phtml')->toHtml(); ?>
+        </thead>
+        <tbody>
+            <?php $products = $block->getProductsCollection(); ?>
+            <?php $merchandise = $block->getMerchandise(); ?>
+            <?php if (!empty($products->getData())): ?>
+                <?php $i = 0; ?>
+                <?php foreach ($products as $_product): ?>
+                    <?php $rowClass = ($i % 2 == 0) ? '' : '_odd-row'; ?>
+                    <?php $_productId = $_product['entity_id']; ?>
+                    <?php $product = $block->getProducts($_productId); ?>
+                    <?php $_productType = $_product->getTypeId(); ?>
+                    <?php if($_productType == 'simple'): ?>
+                        <?php echo $this->getLayout()->createBlock('Cor\MerchandiseHandling\Block\Adminhtml\ArtistProducts')
+                            ->setTemplate('Cor_MerchandiseHandling::grid/content.phtml')
+                            ->setEventId($this->getRequest()->getParam('event_id'))
+                            ->setArtistId($this->getRequest()->getParam('artist_id'))
+                            ->setProduct($product)
+                            ->setParentProductId(0)
+                            ->setRowClass($rowClass)
+                            ->setMerchandise($merchandise)
+                            ->toHtml();
+                        ?>
+                        <?php $i++; ?>
+                    <?php elseif($_productType == 'configurable' || $_productType == 'bundle' || $_productType == 'grouped'): ?>
+                        <?php $i++; ?>
+                        <?php $_productName = $product->getName(); ?>
+                        <?php $_productSku = $product->getSku(); ?>
+                        <tr class="<?php echo $rowClass; ?>">
+                            <td>
+                                <div class="product-title"><?php echo $_productName; ?></div>
+                                <div class="product-sku-block"><?php echo "SKU: ".$_productSku; ?></div>
+                                <a class="showhide" onclick="hideTbl(this)" id="hide-<?php echo $_productId; ?>" data-attr="<?php echo $_productId; ?>" style="display: none;" >Show Less &uarr;</a>
+                                <a class="showhide" onclick="showTbl(this)" id="show-<?php echo $_productId; ?>" data-attr="<?php echo $_productId; ?>" >Show More &darr;</a>
+                            </td>
+                            <td colspan="9">
+                                <div class="tbl-message-div-<?php echo $_productId; ?>"><i><?php echo __('Click on show more link will expand the grid for child products.'); ?></i></div>
+                                <div class="config-product-div tbl-div-<?php echo $_productId; ?>">
+                                    <i><?php echo __('Click on show less link will collapse the grid for child products.'); ?></i>
+
+                                    <table name='product-details' class="data-grid config-tbl-<?php echo $_productId; ?>config-product-tbl" id="configurable-product-details">
+                                        <?php if($_productType == 'configurable'): ?>
+                                            <?php $childProductsData = $block->getConfigurableChildProducts($product); ?>
+                                            <?php $header_options = $childProductsData['header_options']; ?>
+                                            <?php $child_products = $childProductsData['child_products']; ?>
+                                                <thead>
+                                                    <?php echo $this->getLayout()->createBlock('Cor\MerchandiseHandling\Block\Adminhtml\ArtistProducts')->setTemplate('Cor_MerchandiseHandling::grid/configurable/header.phtml')->setHeaderOptions($header_options)->toHtml(); ?>
+                                                </thead>
+                                                <tbody>
+                                                    <?php $j = (empty($rowClass)) ? 1 : 0 ; ?>
+                                                    <?php foreach ($child_products as $_child_product): ?>
+                                                        <?php $rowClassInner = ($j % 2 == 0) ? '' : '_odd-row'; ?>
+                                                        <?php echo $this->getLayout()->createBlock('Cor\MerchandiseHandling\Block\Adminhtml\ArtistProducts')
+                                                            ->setTemplate('Cor_MerchandiseHandling::grid/content.phtml')
+                                                            ->setEventId($this->getRequest()->getParam('event_id'))
+                                                            ->setArtistId($this->getRequest()->getParam('artist_id'))
+                                                            ->setProduct($_child_product['product'])
+                                                            ->setParentProductId($_productId)
+                                                            ->setRowClass($rowClassInner)
+                                                            ->setConfigurableOptions($_child_product['options'])
+                                                            ->setMerchandise($merchandise)
+                                                            ->toHtml();
+                                                        ?>
+                                                        <?php $j++; ?>
+                                                    <?php endforeach; ?>
+                                                </tbody>
+                                        <?php else: ?>
+                                            <?php if($_productType == 'bundle'): ?>
+                                                <?php $child_products = $block->getBundleProducts($product); ?>
+                                            <?php elseif($_productType == 'grouped'): ?>
+                                                <?php $child_products = $block->getGroupProducts($product); ?>
+                                            <?php endif; ?>
+
+                                            <?php if(!empty($child_products)): ?>
+                                                <thead>
+                                                    <?php echo $this->getLayout()->createBlock('Cor\MerchandiseHandling\Block\Adminhtml\ArtistProducts')->setTemplate('Cor_MerchandiseHandling::grid/header.phtml')->toHtml(); ?>
+                                                </thead>
+                                                <tbody>
+                                                    <?php $j = (empty($rowClass)) ? 1 : 0 ; ?>
+                                                    <?php foreach ($child_products as $_child_product): ?>
+                                                        <?php $rowClassInner = ($j % 2 == 0) ? '' : '_odd-row'; ?>
+                                                        <?php echo $this->getLayout()->createBlock('Cor\MerchandiseHandling\Block\Adminhtml\ArtistProducts')
+                                                            ->setTemplate('Cor_MerchandiseHandling::grid/content.phtml')
+                                                            ->setEventId($this->getRequest()->getParam('event_id'))
+                                                            ->setArtistId($this->getRequest()->getParam('artist_id'))
+                                                            ->setProduct($_child_product)
+                                                            ->setParentProductId($_productId)
+                                                            ->setRowClass($rowClassInner)
+                                                            ->setMerchandise($merchandise)
+                                                            ->toHtml();
+                                                        ?>
+                                                        <?php $j++; ?>
+                                                    <?php endforeach; ?>
+                                                </tbody>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr class='data-row'>
+                    <td colspan="11" id="no-data-td"><?php echo __('No products found.');?></td>
+                    <script type="text/javascript">
+                        jQuery('.save').attr('disabled', 'disabled');
+                    </script>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    /* 
+    * Function for update total on change of text fields
+    */
+    function setMaxCount(element, identifier, max){
+        var eleValue = jQuery(element).attr('data');
+        if (!jQuery.isNumeric(max)) {
+            max = eleValue;
+        }
+        max = parseInt(max);
+        jQuery('.'+identifier).attr('max', max);
+        jQuery(element).attr('data', max);
+        jQuery(element).val(max);
+    }
+
+    /* 
+    * Function for update total on change of text fields
+    */
+    function updateTotal(identifier){
+        var countInIdentifier = jQuery('.count_in-'+identifier);
+        var addOnIdentifier = jQuery('.add_on-'+identifier);
+        var totalSoldIdentifier = jQuery('.total_sold-'+identifier);
+        var compProIdentifier = jQuery('.comp-'+identifier);
+        var countOutIdentifier = jQuery('.count_out-'+identifier);
+        var totalInIdentifier = jQuery('.total-'+identifier);
+
+        var count_in = countInIdentifier.val();
+        count_in = (!jQuery.isNumeric(count_in)) ? 0 : count_in;
+        count_in = parseInt(count_in);
+
+        var count_in_max = countInIdentifier.attr('max');
+        count_in = (count_in > count_in_max) ? count_in_max : count_in;
+
+        var add_on = addOnIdentifier.val();
+        add_on = (!jQuery.isNumeric(add_on)) ? 0 : add_on;
+        add_on = parseInt(add_on);
+
+        countInIdentifier.val(count_in);
+        addOnIdentifier.val(add_on);
+
+        var total_in = eval(count_in) + eval(add_on);
+
+        var total_sold = totalSoldIdentifier.val();
+        total_sold = (!jQuery.isNumeric(total_sold)) ? 0 : total_sold;
+        total_sold = parseInt(total_sold);
+
+        var comp_pro = compProIdentifier.val();
+        comp_pro = (!jQuery.isNumeric(comp_pro)) ? 0 : comp_pro;
+        comp_pro = parseInt(comp_pro);
+
+        var count_out_new = eval(total_in) - eval(comp_pro) - eval(total_sold);
+        countOutIdentifier.val(count_out_new);
+
+        jQuery('.total-span-'+identifier).text(total_in);
+        totalInIdentifier.val(total_in);
+        calculateTotalSale(identifier);
+    }
+
+    /* 
+    * Function for checking comp input value
+    */
+    function checkCompInputValue(identifier)
+    {
+        var compProIdentifier = jQuery('.comp-'+identifier);
+        var countOutIdentifier = jQuery('.count_out-'+identifier);
+        var totalInIdentifier = jQuery('.total-'+identifier);
+        var totalSoldIdentifier = jQuery('.total_sold-'+identifier);
+
+        var comp_pro = compProIdentifier.val();
+        comp_pro = (!jQuery.isNumeric(comp_pro)) ? 0 : comp_pro;
+        comp_pro = parseInt(comp_pro);
+
+        var count_out = countOutIdentifier.val();
+        count_out = (!jQuery.isNumeric(count_out)) ? 0 : count_out;
+        count_out = parseInt(count_out);
+
+        if (comp_pro <= count_out) {
+
+            var total_in = totalInIdentifier.val();
+            total_in = (!jQuery.isNumeric(total_in)) ? 0 : total_in;
+            total_in = parseInt(total_in);
+
+            var total_sold = totalSoldIdentifier.val();
+            total_sold = (!jQuery.isNumeric(total_sold)) ? 0 : total_sold;
+            total_sold = parseInt(total_sold);
+
+            var count_out_new = eval(total_in) - eval(comp_pro) - eval(total_sold);
+            countOutIdentifier.val(count_out_new);
+
+            compProIdentifier.val(comp_pro);
+            compProIdentifier.attr('data-old-value', comp_pro);
+            calculateTotalSale(identifier);
+        } else {
+            var comp_old = compProIdentifier.attr('data-old-value');
+            compProIdentifier.val(comp_old);
+        }
+    }
+
+    /* 
+    * Function for checking count out input value
+    */
+    function checkCountOutInputValue(identifier)
+    {
+        var compProIdentifier = jQuery('.comp-'+identifier);
+        var countOutIdentifier = jQuery('.count_out-'+identifier);
+        var totalInIdentifier = jQuery('.total-'+identifier);
+
+        var comp_pro = compProIdentifier.val();
+        comp_pro = (!jQuery.isNumeric(comp_pro)) ? 0 : comp_pro;
+        comp_pro = parseInt(comp_pro);
+
+        var count_out = countOutIdentifier.val();
+        count_out = (!jQuery.isNumeric(count_out)) ? 0 : count_out;
+        count_out = parseInt(count_out);
+
+        var total_in = totalInIdentifier.val();
+        total_in = (!jQuery.isNumeric(total_in)) ? 0 : total_in;
+        total_in = parseInt(total_in);
+
+        var max = eval(total_in) - eval(comp_pro);
+        if (count_out > max) {
+            count_out = max;
+        }
+
+        countOutIdentifier.val(count_out);
+        calculateTotalSale(identifier);
+    }
+
+    /* 
+    * Function for calculate total sale
+    */
+    function calculateTotalSale(identifier)
+    {
+        var compProIdentifier = jQuery('.comp-'+identifier);
+        var countOutIdentifier = jQuery('.count_out-'+identifier);
+        var totalInIdentifier = jQuery('.total-'+identifier);
+        var priceIdentifier = jQuery('.product_price-'+identifier);
+
+        var comp_pro = compProIdentifier.val();
+        comp_pro = (!jQuery.isNumeric(comp_pro)) ? 0 : comp_pro;
+        comp_pro = parseInt(comp_pro);
+
+        var count_out = countOutIdentifier.val();
+        count_out = (!jQuery.isNumeric(count_out)) ? 0 : count_out;
+        count_out = parseInt(count_out);
+
+        var total_in = totalInIdentifier.val();
+        total_in = (!jQuery.isNumeric(total_in)) ? 0 : total_in;
+        total_in = parseInt(total_in);
+
+        var total_sold = eval(total_in) - eval(comp_pro) - eval(count_out);
+
+        jQuery('.total_sold_span-'+identifier).text(total_sold);
+        jQuery('.total_sold-'+identifier).val(total_sold);
+
+        var productPrice = priceIdentifier.val();
+        var currencySymbol = priceIdentifier.attr('data-attr');
+        
+        var temp_gross_total = total_sold * productPrice;
+
+        var gross_total = currencySymbol+temp_gross_total;
+
+        jQuery('.gross_sale_span-'+identifier).text(gross_total);
+        jQuery('.gross_sale-'+identifier).val(temp_gross_total);
+    }
+</script>

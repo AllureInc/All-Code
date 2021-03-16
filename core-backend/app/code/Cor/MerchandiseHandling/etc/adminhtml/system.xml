@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+    <system>
+        <tab id="cor" translate="label" sortOrder="10">
+             <label>COR</label>
+        </tab>
+        <section id="artist_category" translate="label" type="text" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Artist Categories</label>
+            <tab>cor</tab>
+            <resource>Cor_MerchandiseHandling::configuration</resource>
+            <group id="category_id" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Artist Categories</label>
+                <field id="apparel_tax" translate="label comment" sortOrder="7" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Apparel</label>
+                    <comment>Please enter the appropriate artist category id.</comment>
+                    <validate>validate-number</validate>
+                </field>
+                <field id="music_tax" translate="label comment" sortOrder="7" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Music</label>
+                    <comment>Please enter the appropriate artist category id.</comment>
+                    <validate>validate-number</validate>
+                </field>
+                <field id="other_tax" translate="label comment" sortOrder="7" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Other</label>
+                    <comment>Please enter the appropriate artist category id.</comment>
+                    <validate>validate-number</validate>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

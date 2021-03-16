@@ -1,0 +1,327 @@
+<!-- 
+ * Module: Cor_MerchandiseHandling
+ * Backend Template File
+ * Displays Events, Artists associated with the events and associated products.
+-->
+<?php $artist_url = $this->getUrl('merchandise/merchandise/eventartist'); ?>
+<?php $product_url = $this->getUrl('merchandise/merchandise/artistproducts'); ?>
+<?php $event_report_url = $this->getUrl('merchandise/settlement/eventreport'); ?>
+
+<?php $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); ?>
+<?php $storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface'); ?>
+<?php $currentStore = $storeManager->getStore(); ?>
+<?php $mediaUrl = $currentStore->getBaseUrl().'pub/media/'; ?>
+
+<div class="loading-mask" data-role="loader" style="display: none;"><div class="popup popup-loading"></div></div>
+
+<div class="events-artists">
+    <!-- Events -->
+    <div class="admin__field _required">
+        <label class="admin__field-label">
+            <span><?php echo __('Events'); ?></span>
+        </label>
+        <div class="admin__field-control">
+            <?php $events = $block->getEventsList(); ?>
+            <select id="merchandise_events" class="admin__control-select" name="merchandise_events">
+                <option value="0"><?php echo __('Select Event'); ?></option>
+                <?php foreach ($events as $event): ?>
+                    <?php if(isset($event['event_status']) && $event['event_status'] == 0): ?>
+                        <option value="<?php echo $event['id']; ?>"><?php echo $event['event_name']; ?></option>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </select>
+            <span class="event-err"></span>
+        </div>
+    </div>
+    <!-- End -->
+
+    <!-- Artists -->
+    <div class="admin__field _required">
+        <label class="admin__field-label">
+            <span><?php echo __('Artists'); ?></span>
+        </label>
+        <div class="admin__field-control">
+            <select id="merchandise_artists" class="admin__control-select" name="merchandise_artists">
+                <option value="0"><?php echo __('Select Artist'); ?></option>
+                <!-- Dynamically generated values through ajax -->
+            </select>
+            <span class="artist-err"></span>
+        </div>
+    </div>
+    <!-- End -->
+
+    <!-- Button -->
+    <div class="admin__field-control">
+        <button type="button" class="action-basic" id="go-btn">
+            <span><?php echo __('Go'); ?></span>
+        </button>
+    </div>
+    <div class="page-actions-buttons settle_event_button_div" style="display: none;">
+        <button class="action-default scalable save primary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only settle_event_button" type="button"><span><?php echo __('Settle Event'); ?></span></button>
+    </div>
+
+    <p id="auto-save-timer" style="display: none;"></p>
+    <div id="report-container" style="display:none;"></div>
+    <!-- End -->
+</div>
+
+<div class="products" id="event_artist_products_grid_container">
+    <?php $baseUrl = $this->getUrl('merchandise/merchandise/save'); ?>
+    <form class="form products" id="event_artist_products_grid" method="post" autocomplete="off" action="<?php echo $baseUrl ?>">        
+    </form>
+</div>
+<script type="text/javascript">    
+    /* 
+    *JS for validation 
+    */
+    require([
+        'jquery',
+        'mage/mage'
+    ], function($){
+       var dataForm = $('#event_artist_products_grid');
+       dataForm.mage('validation', {});
+    });
+</script>
+<script type="text/javascript">
+    var autoSave = '';
+    require(['jquery', 'jquery/ui'], function($){
+        /* 
+         * Ajax for getting artist for selected event
+         * @return html options
+        */
+        $(document).on('change','#merchandise_events',function(){
+            var event_id = $("#merchandise_events").val();
+            $('.loading-mask').show();
+            $('#event_artist_products_grid').html('');
+            $('#merchandise_artists').html('');
+            $('#merchandise_artists').append("<option value='0'>Select Artist</option>");
+            $('.settle_event_button_div').hide();
+            if (event_id != 0) {
+                $.ajax({
+                    url: "<?php echo $artist_url; ?>",
+                    data: {event_id:event_id},
+                    dataType:"json",
+                    type: "post"
+                }).done(function(data) {
+                    $('.loading-mask').hide();
+                    $('.settle_event_button_div').show();
+                    $('#merchandise_artists').html('');
+                    $('#merchandise_artists').append("<option value='0'>Select Artist</option>");
+                    $.each(data, function(i, val){
+                        var option = "<option value='"+val.value+"'>"+val.label+"</option>";
+                        $('#merchandise_artists').append(option);
+                    });
+                    initAutoSaveStop();
+                });
+            }
+        });
+
+        /* 
+         * Function for change grids if artist not seected
+         * @return html
+        */
+        $(document).on('change','#merchandise_artists',function(){
+            $('#event_artist_products_grid').html('');
+            initAutoSaveStop();
+        });
+
+        /* 
+         * Function for geting product into grids 
+         * @return html table
+        */
+        $(document).on('click','#go-btn',function(){
+            $('.loading-mask').show();
+            $('#event_artist_products_grid').html('');
+            var artist_id = $("#merchandise_artists").val();
+            var event_id = $("#merchandise_events").val();
+            if ((artist_id == 0) && (event_id == 0))
+            {
+                $('.event-err').text("<?php echo __('Please select event.');?>");
+                $('.artist-err').text("<?php echo __('Please select artist.');?>");
+            } else if ((artist_id != 0) && (event_id == 0)) {
+                $('.artist-err').text("");
+                $('.event-err').text("<?php echo __('Please select event.');?>");
+            } else if ((artist_id == 0) && (event_id != 0)) {
+                $('.event-err').text("");
+                $('.artist-err').text("<?php echo __('Please select artist.');?>");
+            } else {
+                $('.event-err').text("");
+                $('.artist-err').text("");
+                var request = $.ajax({
+                    url: "<?php echo $product_url; ?>",
+                    data: {artist_id:artist_id,event_id:event_id},
+                    dataType:"json",
+                    type: "post"
+                });
+
+                request.done(function(res) {
+                    $('.loading-mask').hide();
+                    $('#event_artist_products_grid').html('');
+                    $('#event_artist_products_grid').html(res.data);
+                    initAutoSaveStop();
+                    autoSave = setInterval(initAutoSaveStart, 30000);
+                });
+            }
+        });
+
+        /* 
+         * Function for generating settlement pdf reprot
+         * @return download report file
+        */
+        $(document).on('click','.settle_event_button',function(){
+            $('.loading-mask').show();
+            var event_id = $('#merchandise_events').val();
+            $.ajax({
+                url: "<?php echo $event_report_url; ?>",
+                data: {event_id: event_id},
+                dataType:"json",
+                type: "post"
+            }).done(function(data) {
+                $('.loading-mask').hide();
+                if (data.response == true) {
+                    var req = new XMLHttpRequest();
+                    req.open("GET", "<?php echo $mediaUrl.'settlement/report/' ?>"+data.file, true);
+                    req.responseType = "blob";
+
+                    req.onload = function (event) {
+                        var blob = req.response;
+                        var link = document.createElement('a');
+                        var downloadUrl = window.URL.createObjectURL(blob);
+                        link.href = downloadUrl;
+                        link.download = data.file;
+                        document.getElementById('report-container').appendChild(link);
+                        link.click();
+                        document.getElementById('report-container').removeChild(link);
+                    };
+                    req.send();
+                }
+            });
+        });
+
+        /* 
+         * Function for generating settlement pdf reprot
+         * @return download report file
+        */
+        $(document).on('click','.settlement_report',function(){
+            $('.loading-mask').show();
+            var event_id = $(this).attr('data-event');
+            var artist_id = $(this).attr('data-artist');
+            $.ajax({
+                url: "<?php echo $event_report_url; ?>",
+                data: {event_id: event_id, artist_id: artist_id},
+                dataType:"json",
+                type: "post"
+            }).done(function(data) {
+                $('.loading-mask').hide();
+                if (data.response == true) {
+                    var req = new XMLHttpRequest();
+                    req.open("GET", "<?php echo $mediaUrl.'settlement/report/' ?>"+data.file, true);
+                    req.responseType = "blob";
+
+                    req.onload = function (event) {
+                        var blob = req.response;
+                        var link = document.createElement('a');
+                        var downloadUrl = window.URL.createObjectURL(blob);
+                        link.href = downloadUrl;
+                        link.download = data.file;
+                        document.getElementById('report-container').appendChild(link);
+                        link.click();
+                        document.getElementById('report-container').removeChild(link);
+                    };
+                    req.send();
+
+                    var req_master = new XMLHttpRequest();
+                    req_master.open("GET", "<?php echo $mediaUrl.'settlement/report/excelreport/' ?>"+data.mastersheet, true);
+                    req_master.responseType = "blob";
+
+                    req_master.onload = function (event) {
+                        var blob_master = req_master.response;
+                        var link_master = document.createElement('a');
+                        var downloadUrl_master = window.URL.createObjectURL(blob_master);
+                        link_master.href = downloadUrl_master;
+                        link_master.download = data.mastersheet;
+                        document.getElementById('report-container').appendChild(link_master);
+                        link_master.click();
+                        document.getElementById('report-container').removeChild(link_master);
+                    };
+                    req_master.send();
+
+                    var req_tax = new XMLHttpRequest();
+                    req_tax.open("GET", "<?php echo $mediaUrl.'settlement/report/excelreport/' ?>"+data.taxsheet, true);
+                    req_tax.responseType = "blob";
+
+                    req_tax.onload = function (event) {
+                        var blob_tax = req_tax.response;
+                        var link_tax = document.createElement('a');
+                        var downloadUrl_tax = window.URL.createObjectURL(blob_tax);
+                        link_tax.href = downloadUrl_tax;
+                        link_tax.download = data.taxsheet;
+                        document.getElementById('report-container').appendChild(link_tax);
+                        link_tax.click();
+                        document.getElementById('report-container').removeChild(link_tax);
+                    };
+                    req_tax.send();
+                }
+            });
+        });
+
+        function initAutoSaveStart() {
+            var d = new Date();
+            var t = d.toLocaleTimeString();
+            document.getElementById("auto-save-timer").innerHTML = t;
+            saveMerchandiseDetails(false);
+        }
+
+        function initAutoSaveStop() {
+            if (typeof(autoSave) != 'undefined') {
+                clearInterval(autoSave);
+            }
+        }
+    });
+
+    function saveMerchandiseDetails(showLoaderStatus){
+        if (showLoaderStatus) {
+            jQuery('.loading-mask').show();
+        }
+        var form = jQuery("#event_artist_products_grid");
+        var ajaxurl = "<?php echo $this->getUrl('merchandise/merchandise/save'); ?>";
+        jQuery.ajax({
+            type: "POST",
+            data : form.serialize(),
+            async : true,
+            url: ajaxurl,
+            success: function (response) {
+                jQuery('.loading-mask').hide();
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+
+    /* 
+     * Function for hide table
+    */
+    function hideTbl(ele)
+    {
+        var product_id = jQuery(ele).attr('data-attr');
+        jQuery('.tbl-div-'+product_id).addClass('config-product-div');
+        jQuery('.config-tbl-'+product_id).addClass('config-product-tbl');
+        jQuery('.tbl-message-div-'+product_id).css('display', 'block');
+        jQuery('#hide-'+product_id).css('display', 'none');
+        jQuery('#show-'+product_id).css('display', 'block');
+    }
+
+    /* 
+     * Function for show table
+    */
+    function showTbl(ele)
+    {
+        var product_id = jQuery(ele).attr('data-attr');
+        jQuery('.tbl-div-'+product_id).removeClass('config-product-div');
+        jQuery('.config-tbl-'+product_id).removeClass('config-product-tbl');
+        jQuery('.tbl-message-div-'+product_id).css('display', 'none');
+        jQuery('#hide-'+product_id).css('display', 'block');
+        jQuery('#show-'+product_id).css('display', 'none');
+    }
+</script>

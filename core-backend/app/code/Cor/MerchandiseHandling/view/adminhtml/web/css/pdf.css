@@ -1,0 +1,81 @@
+<style type="text/css">
+body {
+    color: #bbbbbb;font-family: arial;}
+ .logo_div {
+    width: 100%;}
+.header_text {
+    float: right;
+    font-size: 18px;padding-top: 25px;
+box-sizing: border-box;}
+.event_date {
+    width: 40px;
+    height:40px;
+    background: #3bbde1;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 18px;
+    vertical-align: middle;
+    display: inline-block;
+    word-break: break-all;
+    text-transform: uppercase;
+    text-align: center;padding-top:4px;
+    box-sizing: border-box;}
+.gross_sales{border-radius: 3px;}
+.artist_name .artist_nameText {
+    font-size:20px;}
+.bold{font-weight: bold;}
+.mainContainer{padding: 0px 30px;}
+.heading{display: inline-block;
+    padding: 5px ;
+    background: #67c9e7;
+    font-size: 12px;
+    color: #fff;
+    font-weight: bold;
+    font-weight: bold;
+    border-radius: 3px;
+    width: 100%;box-sizing: border-box;}
+table th, table td{text-align: left}
+.payment_detailsSection table th, .payment_detailsSection table td {
+    padding:5px;}
+.payment_detailsSection tbody tr:nth-child(2n+1) {
+    background: #f7f7f7;}
+.grossBox.heading{background: #37dc42;}
+.grossPrice {
+    text-align: right;}
+.merchandise_music_sales .merchandise_div, .merchandise_music_sales .music_div, .artist_venue_settlement_div .artist_div, .artist_venue_settlement_div .venue_div {
+    width: 48.3%;
+    float: left;}
+.merchandise_music_sales .merchandise_div, .artist_venue_settlement_div .artist_div{padding-right: 10px;box-sizing: border-box;}
+.merchandise_music_sales .music_div, .artist_venue_settlement_div .venue_div{padding-left: 10px; box-sizing: border-box;}
+.rightSide {
+    text-align: right;}
+.merchandiseTotal td{border-top: 1px solid #ddd;}
+.merchandise_div_tbl tr td , .merchandiseSecond tr td, .music_div_tbl tr td, .final_payment_tbl td{
+    padding: 5px 0px;}
+.merchandise_div_tbl .merchandiseTotal td, .merchandiseSecond .merchandiseSecondTotal td, .musicSubTotal td,  .musicTotal td, .totalBorder td{
+    border-top: 1px solid #ddd;
+    padding: 15px 0px 20px 0px;}
+.merchandiseSecond .merchandiseSecondTotal td, .musicTotal td {
+    font-weight: bold;}
+.artist_rep_name p, .artist_rep_number p, .artist_rep_email p{font-size: 12px;}
+table tr td, table tr th{font-size: 10px;}
+.clearfix{clear: both;}
+.artist_venue_settlement_div table td {
+    padding: 5px 0px;}
+.dis td{text-align: center;}
+.musicHeight{height: 34px;}
+.grossBox {
+    padding: 5px;
+    color: #fff;
+    border-radius: 3px;
+}
+body .musicSubTotal td {
+    padding-bottom: 30px;}
+.event_date span {
+    display: block;}
+.grossBox td {
+    font-size: 12px;font-weight: bold;}
+.logo_img img {
+    height: 50px;}
+.header_text.rightSide{text-align: right; font-size: 28px;}
+</style>

@@ -1,0 +1,47 @@
+<li class="dashboard__block"
+    data-bind="attr: {'data-id': block.get('block_id')}, afterRender: afterRender, css: {editable: isEditable}">
+
+    <div class="dashboard__block-header" click="refresh">
+        <span text="block.get('title')"></span>
+    </div>
+    <!--<div>Pos: <span text="block.get('pos')"></span></div>-->
+    <!--<div>Size: <span text="block.get('size')"></span></div>-->
+
+
+    <div class="dashboard__block-actions">
+        <i class="fa fa-fw fa-arrows gs-drag-handle"></i>
+        <i class="fa fa-fw fa-cog" data-bind="click: edit"></i>
+        <i class="fa fa-fw fa-refresh" data-bind="click: refresh"></i>
+        &nbsp;
+        <i class="fa fa-fw fa-trash" data-bind="click: remove"></i>
+    </div>
+
+    <i class="fa fa-spinner fa-spin" data-bind="visible: isLoading"></i>
+
+    <div class="dashboard__block-content">
+        <!-- ko foreach: elems() -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!-- /ko -->
+    </div>
+
+    <!-- ko if: block.get('description') -->
+    <div class="dashboard__block-info dashboard__block-description">
+        <div class="corner"></div>
+        <span class="fa fa-info"></span>
+        <span class="text" text="block.get('description')"></span>
+    </div>
+    <!-- /ko -->
+
+    <!-- ko if: block.get('time') && block.get('time').override == 1 -->
+    <div class="dashboard__block-info dashboard__block-time">
+        <div class="corner"></div>
+        <span class="fa fa-clock-o"></span>
+        <span class="text" text="block.get('time').range_label"></span>
+    </div>
+    <!-- /ko -->
+
+    <!-- ko if: block.get('error') -->
+    <div class="dashboard__block-error" text="block.get('error')"></div>
+    <!-- /ko -->
+
+</li>

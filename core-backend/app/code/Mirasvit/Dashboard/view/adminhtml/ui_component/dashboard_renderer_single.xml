@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="componentType" xsi:type="string">form</item>
+        </item>
+    </argument>
+
+    <container name="single">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="componentType" xsi:type="string">fieldset</item>
+            </item>
+        </argument>
+
+        <fieldset name="gauge">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Gauge</item>
+                    <item name="collapsible" xsi:type="boolean">true</item>
+                    <item name="dataScope" xsi:type="string"/>
+                </item>
+            </argument>
+
+            <field name="single.gauge.isActive">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="dataType" xsi:type="string">boolean</item>
+                        <item name="formElement" xsi:type="string">checkbox</item>
+                        <item name="prefer" xsi:type="string">toggle</item>
+                        <item name="label" xsi:type="string" translate="true">Is Active</item>
+                        <item name="valueMap" xsi:type="array">
+                            <item name="true" xsi:type="string">1</item>
+                            <item name="false" xsi:type="string">0</item>
+                        </item>
+                        <item name="default" xsi:type="string">0</item>
+                    </item>
+                </argument>
+            </field>
+
+            <container name="range">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="template" xsi:type="string">Mirasvit_Dashboard/ui/row</item>
+                        <item name="dataScope" xsi:type="string"/>
+                    </item>
+                </argument>
+                <field name="single.gauge.minValue" class="Magento\Ui\Component\Form\Element\Input">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                            <item name="template" xsi:type="string">ui/form/field</item>
+                            <item name="label" xsi:type="string" translate="true">Min</item>
+                        </item>
+                    </argument>
+                </field>
+                <field name="single.gauge.maxValue" class="Magento\Ui\Component\Form\Element\Input">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                            <item name="template" xsi:type="string">ui/form/field</item>
+                            <item name="label" xsi:type="string" translate="true">Max</item>
+                        </item>
+                    </argument>
+                </field>
+            </container>
+        </fieldset>
+
+        <fieldset name="sparkline">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Spark Line</item>
+                    <item name="collapsible" xsi:type="boolean">true</item>
+                    <item name="dataScope" xsi:type="string"/>
+                </item>
+            </argument>
+
+            <field name="single.sparkline.isActive">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="dataType" xsi:type="string">boolean</item>
+                        <item name="formElement" xsi:type="string">checkbox</item>
+                        <item name="prefer" xsi:type="string">toggle</item>
+                        <item name="label" xsi:type="string" translate="true">Is Active</item>
+                        <item name="valueMap" xsi:type="array">
+                            <item name="true" xsi:type="string">1</item>
+                            <item name="false" xsi:type="string">0</item>
+                        </item>
+                        <item name="default" xsi:type="string">0</item>
+                    </item>
+                </argument>
+            </field>
+        </fieldset>
+    </container>
+</form>

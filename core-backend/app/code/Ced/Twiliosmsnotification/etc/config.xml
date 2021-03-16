@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_Twiliosmsnotification
+  * @author   CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Store/etc/config.xsd">
+    <default>
+		<twilio_notification>
+			<enter>
+				<enable>1</enable>
+				<country_codes>a:1:{s:18:"_1456218240545_545";a:2:{s:7:"country";s:2:"IN";s:4:"code";s:3:"+91";}}</country_codes>
+			</enter>
+			<orders>
+				<enabled>0</enabled>
+				<message>Hello {{name}}. We have received your order. Thanks alot</message>
+				<notify>0</notify>
+			</orders>
+			<order_status>
+				<enabled>0</enabled>
+				<message>Hello {{name}}. Now your order status is : {{status}}. Thank you for buying from us.</message>
+			</order_status>
+			<customer_registration>
+				<enabled>0</enabled>
+				<message>Hi {{name}}! You have successfully register.</message>
+				<customer_address_field>1</customer_address_field>
+			</customer_registration>
+			<!--<vendor_registration>
+				<enabled>0</enabled>
+				<message>Hi {{name}}! You have successfully register as a seller. Thank you for joining.</message>
+				<vendor_address_field>1</vendor_address_field>
+			</vendor_registration>
+			<vendor_status>
+				<enabled>0</enabled>
+				<message>Hi {{name}}! Your seller account has been {{status}}.</message>
+			</vendor_status>
+			<vendor_order>
+				<enabled>0</enabled>
+				<message>Hi {{name}}! There is a new order placed for your products. You can check it from your sellers account.</message>
+			</vendor_order>
+			<vendor_payment>
+				<enabled>0</enabled>
+				<message>Hi {{name}}! New Transaction has been initaited by admin. You can check it from your sellers account.</message>
+			</vendor_payment>
+			<ready_to_dispatch>
+				<enabled>0</enabled>
+				<message>Hi {{name}}! Order #{{order_id}} is ready to be dispatched.</message>
+			</ready_to_dispatch>
+			<vendor_new_product>
+				<enabled>0</enabled>
+				<message>Hi {{name}}! A new product has been created from your account.</message>
+			</vendor_new_product>
+			<vendor_product_status>
+				<enabled>0</enabled>
+				<message>Hi {{name}}! Status of your product named {{productname}} is changed to : {{status}}.</message>
+			</vendor_product_status>-->
+		</twilio_notification>
+    </default>
+</config>

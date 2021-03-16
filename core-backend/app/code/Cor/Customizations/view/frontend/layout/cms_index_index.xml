@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Cor_Customizations::css/owl.carousel.min.css"/>
+        <css src="Cor_Customizations::css/cor.category.slider.css"/>
+
+        <link src="Cor_Customizations::js/owl.carousel.min.js"/>
+    </head>
+    <referenceContainer name="content">
+        <block class="Cor\Customizations\Block\Slider" name="cor.category.slider" template="Cor_Customizations::homepage/category/slider.phtml" after="-" />
+    </referenceContainer>
+</page>

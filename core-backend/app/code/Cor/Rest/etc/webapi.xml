@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/core/braintree/token" method="GET">
+        <service class="Cor\Rest\Api\BraintreeConfigProviderInterface" method="getClientToken" />
+        <resources>
+            <resource ref="Magento_Backend::admin" />
+        </resources>
+    </route>
+
+    <route url="/core/me/vault/items" method="GET">
+        <service class="Cor\Rest\Model\PaymentTokenManagement" method="getListByCustomerId"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/core/me/vault/nonce" method="GET">
+        <service class="Cor\Rest\Api\PaymentTokenManagementInterface" method="getPaymentNonce"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+</routes>

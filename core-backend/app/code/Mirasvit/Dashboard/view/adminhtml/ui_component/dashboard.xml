@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd"
+           class="Mirasvit\Dashboard\Ui\Dashboard">
+    <dataSource name="dashboard_data_source" class="Mirasvit\Dashboard\Ui\Dashboard\DataSource">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Mirasvit\Dashboard\Ui\Dashboard\DataProvider</argument>
+            <argument name="name" xsi:type="string">dashboard_data_source</argument>
+        </argument>
+    </dataSource>
+
+    <container name="menu" class="Mirasvit\Dashboard\Ui\Menu"/>
+
+    <container name="toolbar" class="Mirasvit\Dashboard\Ui\Toolbar">
+        <container name="date" class="Mirasvit\Dashboard\Ui\Toolbar\Date">
+            <argument name="column" xsi:type="string">date_range</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Mirasvit_Report/js/toolbar/filter/date</item>
+                </item>
+            </argument>
+        </container>
+    </container>
+</container>

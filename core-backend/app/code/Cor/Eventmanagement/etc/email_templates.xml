@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="cor_eventmanagement_admin" label="Event Notification Admin Template" file="admin_emailtemplate.html" type="html" module="Cor_Eventmanagement" area="frontend"/>
+
+    <template id="cor_eventmanagement_artist" label="Event Notification Artist Template" file="artist_emailtemplate.html" type="html" module="Cor_Eventmanagement" area="frontend"/>
+</config>

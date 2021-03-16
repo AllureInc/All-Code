@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+     <update handle="editor"/>
+     <head>
+         <link src="Cor_Eventmanagement::js/generalform.js"/>
+     </head>
+    <body>
+       <referenceContainer name="content">
+            <block class="Cor\Eventmanagement\Block\Adminhtml\Event\Edit" name="eventmanagement_event_edit"/>
+        </referenceContainer>
+         <referenceContainer name="left">
+            <block class="Cor\Eventmanagement\Block\Adminhtml\Event\Edit\Tabs" name="eventmanagement_event_edit_tabs">
+                <block class="Cor\Eventmanagement\Block\Adminhtml\Event\Edit\Tab\General" name="eventmanagement_event_edit_tab_general"/>
+                 <action method="addTab">
+                    <argument name="name" xsi:type="string">general_section</argument>
+                    <argument name="block" xsi:type="string">eventmanagement_event_edit_tab_general</argument>
+                </action>
+                <block class="Cor\Eventmanagement\Block\Adminhtml\Event\Edit\Tab\Tax" name="eventmanagement_event_edit_tab_tax" template="Cor_Eventmanagement::taxgrid.phtml"/>
+                 <action method="addTab">
+                    <argument name="name" xsi:type="string">tax_section</argument>
+                    <argument name="block" xsi:type="string">eventmanagement_event_edit_tab_tax</argument>
+                </action>
+                <block class="Cor\Eventmanagement\Block\Adminhtml\Event\Edit\Tab\Artist" name="eventmanagement_event_edit_tab_artist" template="Cor_Eventmanagement::events_artist.phtml"/>
+                 <action method="addTab">
+                    <argument name="name" xsi:type="string">artist_section</argument>
+                    <argument name="block" xsi:type="string">eventmanagement_event_edit_tab_artist</argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
