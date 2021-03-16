@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_WhatsappApi
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_WhatsappApi config.xml
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+<default>
+	<cnnb-whatsappapi>
+		<general>
+			<enable>1</enable>
+		</general>
+		<smsgatways>
+			<username>aio-admin@cnnbsolutions.com</username>
+			<password>BuDEV92wG5</password>
+			<api-url>https://api.connexease.com</api-url>
+		</smsgatways>
+		<orderplace>
+			<no-of-message>10</no-of-message>
+		</orderplace>
+	</cnnb-whatsappapi>
+</default>
+</config>

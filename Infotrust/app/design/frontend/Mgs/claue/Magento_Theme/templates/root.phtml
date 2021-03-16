@@ -1,0 +1,151 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+$storeManager  = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+
+$getLocale = $objectManager->get('Magento\Framework\Locale\Resolver');
+$haystack  = $getLocale->getLocale(); 
+$lang = strstr($haystack, '_', true); 
+
+$request = $objectManager->get('Magento\Framework\App\Action\Context')->getRequest();
+$pageAction = $request->getFullActionName();
+
+$page = "Static Page";
+switch ($pageAction) {
+    case "cms_index_index":
+        $page = "homepage";
+        break;
+    case "catalog_category_view":
+        $page = 'product selector page';
+        break;
+    case "catalog_product_view":
+        $page = 'product detail';
+        break;
+    case "checkout_cart_index":
+        $page = 'cart page';
+        break;
+    case "checkout_index_index":
+        $page = 'checkout page';
+        break;
+    case "cms_page_view":
+        $page = "static page";
+        break;
+    case "instantsearch_result_index":
+        $page = "product results page";
+        break;
+    case "customer_account_login":
+        $page = "login page";
+        break;
+    case "customer_account_create":
+        $page = "register page";
+        break;
+    case "customer_account_index":
+        $page = "my account";
+        break;
+}
+
+$website = $storeManager->getStore()->getWebsite()->getName();
+
+$uiLoggedStatus ="not logged";
+$uiUser = 0;
+
+$customerSession = $objectManager->get('Magento\Customer\Model\Session');
+
+if( $customerSession->isLoggedIn() ) {
+    $uiLoggedStatus = "regular logged";
+    $uiUser = $customerSession->getCustomerId();
+}
+
+?>
+<!doctype html>
+<?php 
+	$helper =  $this->getBuilderHelper();
+	$canUsePanel = $helper->acceptToUsePanel();
+?>
+<html class="use-<?php echo $helper->getHeaderClass() ?>" <?php /* @escapeNotVerified */ echo $htmlAttributes ?>>
+    <head <?php /* @escapeNotVerified */ echo $headAttributes ?>>
+
+
+<script>
+    var dataLayer = dataLayer || [];
+
+    dataLayer.push ({	
+        'brand': 'KER',//eg: KER
+        'language': '<?= $lang ?>',//eg:EN
+        'country': '<?= strtolower($website)?>',//eg:AE
+        'siteTypeLevel': 'main',//eg:main
+        'pageCategory': '<?= $page ?>',//eg: checkout page, product detail page, home page, store locator page, content page, product landing page
+        'uiLoggedStatus': '<?= $uiLoggedStatus ?>'
+        <?php if( $uiUser != 0 ): ?> ,'uiUser': '<?= $uiUser ?>' <?php endif; ?>
+    });
+
+</script>
+
+        <?php /* @escapeNotVerified */ echo $requireJs ?>
+        <?php /* @escapeNotVerified */ echo $headContent ?>
+        <?php /* @escapeNotVerified */ echo $headAdditional ?>
+		<?php //echo $helper->getLinksFont() ?>
+		<link  rel="stylesheet" type="text/css"  media="all" href="<?php echo $helper->getMediaUrl() ?>mgs/css/<?php echo $helper->getStore()->getId() ?>/custom_config.css" /> 
+		<?php if($helper->showButton()): ?>
+		<link  rel="stylesheet" type="text/css"  media="all" href="<?php echo $helper->getPanelCssUrl() ?>" /> 
+		<?php endif ?>
+		
+    </head>
+    <body data-container="body" data-mage-init='{"loaderAjax": {}, "loader": { "icon": "<?php /* @escapeNotVerified */ echo $loaderIcon; ?>"}}' <?php /* @escapeNotVerified */ echo $bodyAttributes ?>>
+	
+		<?php if($helper->showButton() && !$helper->isPopup()): ?>
+			<?php echo $this->getLayout()->createBlock('MGS\Mpanel\Block\Panel\Toppanel')->setTemplate('panel/toppanel.phtml')->setCacheable(false)->toHtml() ?>
+		<?php endif ?>
+    
+        <?php if($helper->acceptToUsePanel() && ($helper->isHomepage() || $helper->isCmsPage())): ?>
+            <div class="page messages container" style="display: none;">
+                <?php echo $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("Magento_Theme::html/messages.phtml")->toHtml(); ?>
+                <?php echo $this->getLayout()->createBlock("Magento\Framework\View\Element\Messages")->setTemplate("Magento_Theme::messages.phtml")->toHtml(); ?>
+            </div>
+			<?php echo $helper->convertContent($layoutContent, $this->getLayout()->createBlock('MGS\Mpanel\Block\Panel\HomeContent')->setTemplate('panel/homecontent.phtml')->toHtml()) ?>
+		<?php else: ?>
+			<?php echo $helper->convertContent($layoutContent) ?>
+		<?php endif ?>
+		
+		<?php if($canUsePanel): ?>
+			<script  type="text/javascript" src="<?php echo $this->getViewFileUrl('MGS_Mpanel::js/panel.js') ?>"></script>
+		<?php endif ?>
+        
+        <?php if($helper->isHomepage()): ?>
+            <script  type="text/javascript">
+                require([
+                    'jquery'
+                ], function(jQuery){
+                    (function($) {
+                        jQuery(window).load(function(){
+                            <?php if($helper->getStoreConfig('mgstheme/general/header') == 'header_5'): ?>
+                                jQuery(".page.messages").prependTo("page-wrapper");
+                            <?php else: ?>
+                                jQuery(".page.messages").appendTo("header.header");
+                            <?php endif ?>
+                            jQuery(".page.messages").delay(8000).show().fadeOut('slow');
+                        });
+                    })(jQuery);
+                });
+            </script>
+        <?php endif ?>
+        <script  type="text/javascript">
+            require([
+                'jquery'
+            ], function(jQuery){
+                (function($) {
+                    jQuery(window).load(function(){
+                        jQuery(".page.messages").delay(8000).fadeOut('slow');
+                    });
+                })(jQuery);
+            });
+        </script>
+    </body>
+</html>

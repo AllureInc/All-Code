@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_Gtm
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * For adding datalayer
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <script src="Cnnb_Gtm::js/gtm.js"></script>
+    </head>
+    <body>
+        <referenceContainer name="after.body.start">
+          <block class="Cnnb\Gtm\Block\GtmCode" name="cnnb_gtm_iframe" as="cnnb_gtm_iframe" before="-" template="Cnnb_Gtm::iframe.phtml" />
+        </referenceContainer>
+        <referenceBlock name="head.additional">
+            <block class="Cnnb\Gtm\Block\DataLayer" name="cnnb_gtm_datalayer" as="cnnb_gtm_datalayer" before="-" template="Cnnb_Gtm::gtm-js.phtml" />
+        </referenceBlock>
+    </body>
+</page>

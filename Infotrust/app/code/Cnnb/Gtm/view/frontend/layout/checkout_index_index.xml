@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_Gtm
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * For overriding the category page product list.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="cnnb_gtm_datalayer">
+            <action method="addVariable">
+                <argument name="name" xsi:type="string">list</argument>
+                <argument name="value" xsi:type="string">checkout</argument>
+            </action>
+            <block class="Cnnb\Gtm\Block\Data\Customer" name="cnnb_gtm_customer"/>
+            <block class="Cnnb\Gtm\Block\Data\Checkout" name="cnnb_gtm_cart"/>
+        </referenceBlock>
+    </body>
+</page>

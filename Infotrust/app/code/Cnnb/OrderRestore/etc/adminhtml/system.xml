@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_OrderRestore
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="cnnb_order" translate="label" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <resource>Cnnb_OrderRestore::orderrestore_config</resource>
+            <group id="order_restore" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Order Restore Configuration</label>
+                <field id="enable" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="order_comment" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order Restore Comment</label>
+                </field>
+                <field id="order_status" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                   <label>Order Status After Restore</label>
+                   <source_model>Magento\Sales\Model\Config\Source\Order\Status</source_model>
+                </field>
+                <field id="order_restore_btn" translate="label comment" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order Restore Button Title</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

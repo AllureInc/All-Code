@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_Gtm
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_Gtm Module System Cnfiguration
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="google_review_snippet" translate="label" sortOrder="100">
+            <label>Google Review Snippet</label>
+        </tab>
+        <section id="google_review" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>General Settings</label>
+            <tab>google_review_snippet</tab>
+            <resource>Cnnb_Gtm::google_review</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="info" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Business information</label>
+                <field id="enable" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Business information</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment></comment>
+                </field>
+                <field id="business_name" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Business Name</label>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="business_type" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Business Type</label>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <!--  -->
+                <field id="country_id" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Country</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    <frontend_class>countries</frontend_class>
+                    <can_be_empty>1</can_be_empty>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="region_id" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Region/State</label>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="postcode" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>ZIP/Postal Code</label>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="city" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>City</label>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="street_line" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Street</label>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="telephone" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Telephone</label>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="enable_aggregate_for_business" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Aggregate Rating (For Business)</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment></comment>
+                </field>
+                <field id="business_review_value" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Rating Value</label>
+                    <depends>
+                        <field id="enable_aggregate_for_business">1</field>
+                    </depends>
+                    <comment>To avoid warning message, you can set default value in case of no Aggregate Rating/Review.</comment>
+                </field>
+                <field id="business_review_best" translate="label" type="text" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Best Rating Value</label>
+                    <depends>
+                        <field id="enable_aggregate_for_business">1</field>
+                    </depends>
+                    <comment>To avoid warning message, you can set default value in case of no Aggregate Rating/Review.</comment>
+                </field>
+                <field id="business_review_count" translate="label" type="text" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Review Count</label>
+                    <depends>
+                        <field id="enable_aggregate_for_business">1</field>
+                    </depends>
+                    <comment>To avoid warning message, you can set default value in case of no Aggregate Rating/Review.</comment>
+                </field>
+                <field id="business_review_author" translate="label" type="text" sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Review Author</label>
+                    <depends>
+                        <field id="enable_aggregate_for_business">1</field>
+                    </depends>
+                    <comment>To avoid warning message, you can set default value in case of no Aggregate Rating/Review.</comment>
+                </field>
+                <field id="image_upload" translate="label" type="image" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Business Image</label>
+                    <!-- Backend model which saves uploaded files on a defined directory path -->
+                    <backend_model>Cnnb\GoogleReviewSnippet\Model\Config\Backend\Image</backend_model>
+                    <base_url type="media" scope_info="1">GoogleReviewSnippet</base_url>
+                    <!-- Comment about allowed extensions of uploaded files which are defined in the backend model -->
+                    <comment><![CDATA[Allowed file types: jpg, jpeg, gif, png, svg]]></comment>
+                </field>
+                 <field id="enable_site_link_search" translate="label comment" type="select" sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Site Link Search</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment></comment>
+                </field>
+            </group>
+            <group id="product" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Product Data Settings</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="product_types" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Types</label>                        
+                    <source_model>Magento\Catalog\Model\Product\Type</source_model>
+                </field>
+                <field id="product_default_best_rating" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Best Rating</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <comment>To avoid warning message, you can set default value in case of no Aggregate Rating/Review.</comment>
+                </field>
+                <field id="product_default_rating_value" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Rating Value</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <comment>To avoid warning message, you can set default value in case of no Aggregate Rating/Review.</comment>
+                </field>
+                <field id="product_default_rating_count" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Rating Count</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <comment>To avoid warning message, you can set default value in case of no Aggregate Rating/Review.</comment>
+                </field>
+                <field id="product_default_rating_author" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Rating Author</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <comment>To avoid warning message, you can set default value in case of no Aggregate Rating/Review.</comment>
+                </field>
+                <field id="product_brand" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Brand Attribute</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <source_model>Cnnb\GoogleReviewSnippet\Block\Adminhtml\Form\Field\AttributeColumn</source_model>
+                </field>
+                <field id="default_product_brand" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Brand Attribute</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <comment>To avoid warning message, Please add default brand attribute value.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

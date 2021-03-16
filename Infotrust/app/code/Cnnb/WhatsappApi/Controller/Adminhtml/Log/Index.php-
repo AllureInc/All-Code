@@ -1,0 +1,33 @@
+<?php
+/**
+ * @category  Cnnb
+ * @package   Cnnb_WhatsappApi
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Controller For Mass action
+ * For sending whatsapp notification
+ */
+
+namespace Cnnb\WhatsappApi\Controller\Adminhtml\Log;
+
+use Magento\Backend\App\Action;
+
+abstract class Index extends Action
+{
+	protected $_pageFactory;
+
+	public function __construct(
+		\Magento\Framework\App\Action\Context $context,
+		\Magento\Framework\View\Result\PageFactory $pageFactory)
+	{
+		$this->_pageFactory = $pageFactory;
+		return parent::__construct($context);
+	}
+
+	public function execute()
+	{
+		echo "okm";
+		// return $this->_pageFactory->create();
+	}
+}

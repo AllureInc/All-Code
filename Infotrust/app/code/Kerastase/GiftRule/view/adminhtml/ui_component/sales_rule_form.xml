@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <fieldset name="actions">
+        <field name="gift_sku">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Free Gift (SKU)</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">sales_rule</item>
+                    <item name="dataScope" xsi:type="string">gift_sku</item>
+                    <!--<item name="sortOrder" xsi:type="number">99999</item>-->
+                </item>
+            </argument>
+            <settings>
+                <notice translate="true">
+                    Please use "|" for adding child product of any bundle product for adding as a gift and sku only for simple product, like 
+                    "simple_product1,simple_product2,bundle_product1|simple_product3|simple_product4"
+                </notice>
+            </settings>
+        </field>
+    </fieldset>
+</form>

@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_GoogleLocalizedSite
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_GoogleLocalizedSite Module System Cnfiguration
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="google_localize_site" translate="label" sortOrder="120">
+            <label>Google Localized Site</label>
+        </tab>
+        <section id="google_localize" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>General Settings</label>
+            <tab>google_localize_site</tab>
+            <resource>Cnnb_GoogleLocalizedSite::google_localize</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Configurations</label>
+                <field id="enabled_hreflang" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Hreflang Url</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="enabled_product" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable For Product</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled_hreflang">1</field>
+                    </depends>
+                </field>
+                <field id="enabled_category" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable For Category</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled_hreflang">1</field>
+                    </depends>
+                </field>
+                <field id="enabled_cms_page" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable For CMS Page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled_hreflang">1</field>
+                    </depends>
+                </field>
+                <field id="enabled_x_default" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>X-Default</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled_hreflang">1</field>
+                    </depends>
+                </field>
+                <field id="country_lang_mapping" translate="label" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Country and Language Mapping</label>
+                    <frontend_model>Cnnb\GoogleLocalizedSite\Block\Adminhtml\Form\Field\Mapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <depends>
+                        <field id="enabled_hreflang">1</field>
+                    </depends>
+                </field>
+            </group>            
+        </section>
+    </system>
+</config>

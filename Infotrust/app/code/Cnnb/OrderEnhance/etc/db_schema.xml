@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_OrderEnhance
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_OrderEnhance db_schema.xml
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="sales_order" resource="sales" engine="innodb">
+        <column xsi:type="int" name="created_by" nullable="true" default="0" comment="created by (user id)"/>
+    </table>
+    <table name="sales_order_status_history" resource="sales" engine="innodb">
+        <column xsi:type="int" name="created_by" nullable="true" default="0" comment="created by (user id)"/>
+    </table>
+</schema>

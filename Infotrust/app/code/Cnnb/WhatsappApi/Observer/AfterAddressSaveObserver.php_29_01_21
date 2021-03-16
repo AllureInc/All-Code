@@ -1,0 +1,225 @@
+<?php
+/**
+ * @category  Cnnb
+ * @package   Cnnb_WhatsappApi
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Observer for saving customer attribute
+ */
+
+namespace Cnnb\WhatsappApi\Observer;
+
+use Magento\Framework\Event\ObserverInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\App\RequestInterface;
+use Magento\Store\Model\ScopeInterface;
+
+class AfterAddressSaveObserver implements ObserverInterface
+{
+    /**
+     * @var customerRepository
+     */
+    protected $_customerRepository;
+
+    /**
+     * @var customer
+     */
+    protected $_customer;
+
+    /**
+     * @var customerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var Magento\Store\Model\ScopeInterface
+     */
+    protected $_scopeConfig;
+
+    /**
+     * @var Cnnb\WhatsappApi\Block\PhoneNumber
+     */
+    protected $_phoneNumberBlock;
+
+    /**
+     * @var \Magento\Customer\Api\AddressRepositoryInterface
+     */
+    protected $_addressRepository;
+
+    /**
+     * @var $messageManager
+     */
+    protected $_messageManager;
+
+    /**
+     * @var $_logger
+     */
+    protected $_logger;
+
+    /**
+     * @param CustomerRepositoryInterface $customerRepository
+     * @param Magento\Customer\Model\Address $addressRepository
+     * @param Cnnb\WhatsappApi\Block\PhoneNumber $phoneNumberBlock,
+     * @param Magento\Customer\Model\ResourceModel\CustomerFactory $customerFactory
+     * @param Magento\Framework\Message\ManagerInterface $messageManager
+     */
+    public function __construct(
+        CustomerRepositoryInterface $customerRepository,
+        \Magento\Customer\Model\Customer $customer,
+        \Magento\Customer\Model\ResourceModel\CustomerFactory $customerFactory,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Cnnb\WhatsappApi\Block\PhoneNumber $phoneNumberBlock,
+        \Magento\Customer\Model\Address $addressRepository,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Psr\Log\LoggerInterface $logger
+    ) {
+        $this->_customerRepository = $customerRepository;
+        $this->_customer = $customer;
+        $this->_customerFactory = $customerFactory;
+        $this->_scopeConfig = $scopeConfig;
+        $this->_phoneNumberBlock = $phoneNumberBlock;
+        $this->_addressRepository = $addressRepository;
+        $this->_messageManager = $messageManager;
+        $this->_logger = $logger;
+    }
+    
+    /**
+     * Customer address save after handler
+     *
+     * @param \Magento\Framework\Event\Observer $observer
+     *
+     * @return $this
+     */
+    public function execute(\Magento\Framework\Event\Observer $observer)
+    {
+        $this->_logger->info('');
+        $this->_logger->info("Class: " . __CLASS__. ", Function: ". __FUNCTION__);
+        $this->_logger->info('-------- #WhatsappAPI | Observer starts ----------');
+        $flag = false;
+        try {
+            $customerAddress = $observer->getCustomerAddress();
+            $customerId = $customerAddress->getData('customer_id');
+            $customer = $this->_customer->load($customerId);
+            $customerData = $customer->getDataModel();
+            $attributeArray = ['phone_number_verified','is_allowed_digit_update'];
+            foreach($attributeArray as $attributeName){
+                $attributeDataValue = $customerData->getCustomAttribute($attributeName);
+                $flag = $this->checkAttributeStatus($attributeDataValue);
+                /* Checking the flag value and the processing attribute */
+                if ($attributeName == 'phone_number_verified' && $flag == 1) {
+                // $this->_logger->info('#WhatsappAPI | Flag is true | start setting value of attribute');
+                    /* ---- attribute saving (only 'phone_number_verified') ---- */
+                    try {
+                        /*$saveCustomerAttribute = $this->saveCustomerAttribute($customer, $customerData, $attributeName, true);*/
+                        $customerData->setCustomAttribute($attributeName, true);
+                        $customer->updateData($customerData);
+                        $customer->save();
+                        $applyFinalAction = $this->applyFinalAction($attributeName, $customerId);
+                    } catch (Exception $e) {
+                        $this->_logger->info('#WhatsappAPI | Exception[119] | '.$e->getMessage());
+                    }
+                    /* ---- attribute saving ends ---- */
+                } 
+                else if($attributeName == 'is_allowed_digit_update'){
+                    /* ---- attribute saving (other Like  'is_allowed_digit_update') ---- */
+                    try {
+                        /*$saveCustomerAttribute = $this->saveCustomerAttribute($customer, $customerData, $attributeName, false);*/
+                        $customerData->setCustomAttribute($attributeName, false);
+                        $customer->updateData($customerData);
+                        $customer->save();
+                        $applyFinalAction = $this->applyFinalAction($attributeName, $customerId);
+                    } catch (Exception $e) {
+                        $this->_logger->info('#WhatsappAPI | Exception[129] | '.$e->getMessage());
+                    }
+                }
+                /* --- Checking the flag value and the processing attribute ends --- */
+            }
+            $this->_logger->info('=============================================');
+        } catch (Exception $e) {
+            $this->_logger->info(' #WhatsappAPI | something went wrong | '.$e->getMessage());
+            $this->_messageManager->addErrorMessage(__('something went wrong while saving the data.'));
+        }
+
+        return $this;
+    }
+
+    /**
+     * Update phone number to all address
+     * @return boolean
+     */
+    public function updateAddresses($addressIdToUpdate, $updatedTelephone)
+    {
+        try {
+            $addressToUpdate = $this->_addressRepository->load($addressIdToUpdate);
+            $addressToUpdate->setTelephone($updatedTelephone); 
+            $this->_addressRepository->save($addressToUpdate);            
+        } catch (Exception $e) {
+            $this->_logger->info('#WhatsappAPI | Exception[169] | '.$e->getMessage());
+        }
+
+        return true;
+    }
+
+    public function checkAttributeStatus($attributeDataValue, $flag=false)
+    {
+        if(!$attributeDataValue){
+                $flag = true;
+            } else if($attributeDataValue){
+                $isNumberVerified = $attributeDataValue->getValue();
+
+                if(!$isNumberVerified) {
+                    $flag = true;   
+                } else {
+                    $flag = false;  
+                }
+            }
+        return $flag;
+    }
+
+    public function saveCustomerAttribute($customer, $customerData, $attribute_name, $attribute_value)
+    {
+        try {
+            $customerData->setCustomAttribute($attribute_name, $attribute_value);
+            $customer->updateData($customerData);
+            $customerResource = $this->_customerFactory->create();
+            $customerResource->saveAttribute($customer, $attribute_name);
+            $customerResource->save($customer);
+            
+        } catch (Exception $e) {
+            $this->_logger->info(' ##WhatsappAPI | Exception[192] | '.$e->getMessage());
+        }
+    }
+
+    public function applyFinalAction($attributeName, $customerId)
+    {
+        try {
+            $this->_logger->info(' ##WhatsappAPI | applyFinalAction() | For '.$attributeName);
+            $getWarningData = $this->_phoneNumberBlock->getWarning();
+            $replaceEnable = $this->_phoneNumberBlock->getReplaceEnable();
+            $replaceMessage = $this->_phoneNumberBlock->getReplaceMessage();
+            $getAddressIds = $this->_phoneNumberBlock->getCustomerAddressIdForMultiple($customerId);
+            $getWarningData = $this->_phoneNumberBlock->getWarning();
+            $updatedPhoneAddressId = $getWarningData['address_id'];
+            $getAddress = $this->_addressRepository->load($updatedPhoneAddressId);
+            $updatedTelephone = $getAddress->getTelephone();
+            $this->_logger->info('#WhatsappAPI | check if multiple address and replace enable');
+                if($getWarningData['no_of_address'] > 1 && $replaceEnable == true) {
+                    foreach ($getAddressIds as $key => $value) { 
+                    $addressToUpdate = $this->_addressRepository->load($value);
+                    $addressToUpdate->setTelephone($updatedTelephone); 
+                    $this->_addressRepository->save($addressToUpdate);          
+                        // $isUpdated = $this->updateAddresses($value, $updatedTelephone);
+                    }
+                    $message = __($updatedTelephone .' '.$replaceMessage);
+                    $this->_logger->info($message);
+                    $this->_messageManager->addSuccessMessage($message);
+                } 
+                    //else {
+                //     $this->_logger->info('#WhatsappAPI | No multiple addresses and "Replace" is not enabled.');
+                // }           
+        } catch (Exception $e) {
+            $this->_logger->info('#WhatsappAPI | Exception | applyFinalAction() | '.$e->getMessage());
+        }
+    }
+}

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_WhatsappApi
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_WhatsappApi di.xml
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
+        <plugin disabled="false" name="Cnnb_WhatappApi_Plugin_Block_Checkout_LayoutProcessor"
+                type="Cnnb\WhatsappApi\Plugin\Block\Checkout\LayoutProcessor"/>
+    </type>
+    <preference for="Magento\CustomerCustomAttributes\Block\Checkout\LayoutProcessor" type="Cnnb\WhatsappApi\Block\Checkout\LayoutProcessor" />
+    <!-- UiComponent WhatsApp Grid -->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="cnnb_whatsappapi_log_listing_data_source" xsi:type="string">Cnnb\WhatsappApi\Model\ResourceModel\Notification\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Cnnb\WhatsappApi\Model\ResourceModel\Notification\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">whatsapp_notification</argument>
+            <argument name="resourceModel" xsi:type="string">Cnnb\WhatsappApi\Model\ResourceModel\Notification</argument>
+        </arguments>
+    </virtualType>
+    <!-- UiComponent WhatsApp Grid Ends -->    
+    <type name="Cnnb\WhatsappApi\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Cnnb\WhatsappApi\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">cnnb_whatsappapi_logger</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Cnnb\WhatsappApi\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

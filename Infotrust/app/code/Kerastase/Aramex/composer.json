@@ -1,0 +1,28 @@
+{
+  "name": "kerastase/aramex",
+  "description": "Aramex Integration",
+  "type": "magento2-module",
+  "version": "1.0.2",
+  "authors": [
+    {
+      "name": "Nouma Faten"
+    }
+  ],
+  "license": [
+    "OSL-3.0"
+  ],
+  "require": {
+    "php": "~7.2.0",
+    "magento/framework": "~100.0.4",
+    "akeneo-labs/spreadsheet-parser": "^1.3"
+  },
+
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Kerastase\\Aramex": ""
+    }
+  }
+}

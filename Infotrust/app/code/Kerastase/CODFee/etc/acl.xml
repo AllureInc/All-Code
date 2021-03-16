@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <!-- Menu -->
+                <resource id="Kerastase_Core::core" title="COD Fee" sortOrder="55">
+                    <resource id="Kerastase_CODFee::menu_section" title="Cod Section" sortOrder="20">
+                        <resource id="Kerastase_CODFee::menu_config" title="Manage Settings" sortOrder="20"/>
+                    </resource>
+                </resource>
+
+                <!-- Settings -->
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Kerastase_CODFee::config" title="Cash on Delivery Fee Section" sortOrder="50"/>
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

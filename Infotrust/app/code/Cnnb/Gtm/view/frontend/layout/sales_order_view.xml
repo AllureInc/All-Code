@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_Gtm
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * For adding the refund button.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="cnnb_gtm_datalayer">
+            <block class="Cnnb\Gtm\Block\Data\Refund" name="cnnb_gtm_refund"/>
+        </referenceBlock>
+        <referenceContainer name="sales.order.info.buttons">
+            <block class="Cnnb\Gtm\Block\Data\RefundButton" name="cnnb.sales.order.info.buttons" cacheable="false" before="sales.order.info.buttons" template="Cnnb_Gtm::refund_button.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

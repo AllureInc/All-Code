@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_Gtm
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_Gtm Module System Cnfiguration
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="cnnb" translate="label" sortOrder="100">
+            <label>CNNB</label>
+        </tab>
+        <section id="googletagmanager" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Google Tag Manager (360&#xb0;)</label>
+            <tab>cnnb</tab>
+            <resource>Cnnb_Gtm::googletagmanager</resource>
+            <group id="attribute_mapping" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Attribute Maping</label>
+                <field id="attributes" translate="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Dimension</label>
+                    <frontend_model>Cnnb\Gtm\Block\Adminhtml\Form\Field\Attributes</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
+            <group id="banner_mapping" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Banner Maping</label>
+                <field id="banners" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Banners</label>
+                    <frontend_model>Cnnb\Gtm\Block\Adminhtml\Form\Field\Banner</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
+            <group id="banner_promotion_mapping" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Banner Promotion Click</label>
+                <field id="banners" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Promotion Click</label>
+                    <frontend_model>Cnnb\Gtm\Block\Adminhtml\Form\Field\BannerClick</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+                <comment><![CDATA[<style>
+                        #googletagmanager_banner_mapping_banners{ width: 725px !important;}
+                        #googletagmanager_attribute_mapping_attributes{ width: 725px !important;}
+                        #googletagmanager_banner_promotion_mapping_banners{ width: 725px !important;}
+                    </style>]]>
+                </comment>
+            </group>
+            <group id="partial_refund" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Partial Refund</label>
+                <field id="is_enabled" translate="label" type="select" showInDefault="1" canRestore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="refund_button" translate="label" type="text" showInDefault="1" canRestore="1">
+                    <label>Refund Button Class/Id</label>
+                    <depends><field id="is_enabled">1</field></depends>
+                </field>
+            </group>
+            <group id="product_cart" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Cart Actions</label>
+                <field id="add" translate="label" type="text" showInDefault="1" canRestore="1">
+                    <label>Add To Cart Event Name</label>
+                </field>
+                <field id="remove" translate="label" type="text" showInDefault="1" canRestore="1">
+                    <label>Remove From Cart Event Name</label>
+                </field>
+                <field id="update" translate="label" type="text" showInDefault="1" canRestore="1">
+                    <label>Cart Update Event Name</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

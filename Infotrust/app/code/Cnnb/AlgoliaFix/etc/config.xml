@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_AlgoliaFix
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_AlgoliaFix config.xml
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <cnnb_algoliafix_settings>
+        	<new_product_attribute_mapping>
+        		<mapping_from>news_from_date</mapping_from>
+                <mapping_to>news_to_date</mapping_to>
+        	</new_product_attribute_mapping>
+        </cnnb_algoliafix_settings>
+    </default>
+</config>

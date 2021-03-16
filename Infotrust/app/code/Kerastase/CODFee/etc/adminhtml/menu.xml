@@ -1,0 +1,8 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Kerastase_CODFee::menu_section" title="Cash on Delivery Fee" module="Kerastase_CODFee" sortOrder="20" resource="Kerastase_CODFee::menu_section"/>
+        <add id="Kerastase_CODFee::manageorders" title="Manage Settings" module="Kerastase_CODFee" sortOrder="20" parent="Kerastase_CODFee::menu_section"
+             action="adminhtml/system_config/edit/section/payment" resource="Kerastase_CODFee::menu_config"/>
+    </menu>
+</config>

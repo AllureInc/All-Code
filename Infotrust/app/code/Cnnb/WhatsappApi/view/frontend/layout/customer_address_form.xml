@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+ * @category  Cnnb
+ * @package   Cnnb_WhatsappApi
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * XML file 
+ * For phone number coutry code
+ -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Cnnb_WhatsappApi::css/intlTelInput.css"/>
+    </head>
+    <body>
+        <referenceContainer name="main">
+            <block class="Cnnb\WhatsappApi\Block\PhoneNumber"
+                   ifconfig="internationaltelephoneinput/general/enabled"
+                   template="Cnnb_WhatsappApi::js-address.phtml"
+                   name="international.telephone.input"/>
+        </referenceContainer>
+    </body>
+</page>

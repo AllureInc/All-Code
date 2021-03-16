@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_Gtm
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_Gtm config.xml
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <googletagmanager>
+        	<attribute_mapping>
+        		<attributes><![CDATA[{"_1606809989845_845":{"gtm_attribute":"dimension35","magento_attribute":"size"},"_1606809990714_714":{"gtm_attribute":"dimension36","magento_attribute":"shade"},"_1606809991501_501":{"gtm_attribute":"dimension37","magento_attribute":"fragrance"},"_1606809992140_140":{"gtm_attribute":"dimension39","magento_attribute":"quantity_and_stock_status"},"_1606809993221_221":{"gtm_attribute":"dimension40","magento_attribute":"replenishment_possibility"},"_1606815055559_559":{"gtm_attribute":"dimension176","magento_attribute":"cnnb_product_type"},"_1606815061907_907":{"gtm_attribute":"dimension177","magento_attribute":"product_range"}}]]></attributes>
+        	</attribute_mapping>
+        	<banner_mapping>
+        		<banners><![CDATA[{"_1606828759460_460":{"gtm_event_label":"homepage","gtm_id":"#banner1","gtm_name":"Banner 1","gtm_creative":"Creative","gtm_posotion":"1","gtm_product_associated":"Compact :: 12"}}]]></banners>
+        	</banner_mapping>
+        	<banner_promotion_mapping>
+        		<banners><![CDATA[{"_1606826937327_327":{"gtm_event_label":"Compact :: 12","gtm_id":"#banner1","gtm_name":"name-test","gtm_creative":"Creative-test","gtm_posotion":"1"}}]]></banners>
+        	</banner_promotion_mapping>
+            <partial_refund>
+                <is_enabled>0</is_enabled>
+                <refund_button>#refund-button</refund_button>           
+            </partial_refund>
+            <product_cart>
+                <add>addToCart-CNNB</add>
+                <remove>removeFromCart-CNNB</remove>
+                <update>updateCart-CNNB</update>
+            </product_cart>
+        </googletagmanager>
+    </default>
+</config>

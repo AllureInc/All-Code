@@ -1,0 +1,341 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_GtmWeb
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_Gtm Module System Configuration
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="googletagmanager_web" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Google Tag Manager (Web)</label>
+            <tab>cnnb</tab>
+            <resource>Cnnb_GtmWeb::googletagmanager</resource>
+            <group id="module_status" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Google Tag Manager (Web)</label>
+                <field id="is_enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <comment><![CDATA[<style>
+                        #googletagmanager_web_mega_menu_mapping_mapping{ width: 725px !important;}
+                        #googletagmanager_web_rating_mapping_mapping{ width: 725px !important;}
+                        #googletagmanager_web_pdp_mapping_pdp{ width: 725px !important;}
+                        #googletagmanager_web_footer_mapping_mapping{ width: 725px !important;}
+                        #googletagmanager_web_related_artical_mapping_mapping{ width: 725px !important;}
+                        #googletagmanager_web_psp_configuration_other_services_mapping{ width: 725px !important;}
+                        #googletagmanager_web_psp_configuration_cta_mapping{ width: 725px !important;}
+                        #googletagmanager_web_diagnose_hair_configuration_diagnosis_attribute_mapping{ width: 725px !important;}
+                        #googletagmanager_web_pdp_mapping_pdp{ width: 725px !important;}
+                        #googletagmanager_web_pdp_arrow_mapping_pdp_arrow{ width: 725px !important;}
+                        #googletagmanager_web_find_saloon_mapping_saloon{ width: 725px !important;}
+                        #googletagmanager_web_newsletter_mapping_newsletter{ width: 725px !important;}
+                        #googletagmanager_web_chatwithus_mapping_chatwithus{ width: 725px !important;}
+                        #googletagmanager_web_pdp_tab_mapping_pdp{ width: 725px !important;}
+                        #googletagmanager_web_step_option_configuration_step_options{ width: 725px !important;}
+                        #googletagmanager_web_diagnose_email_element{ width: 725px !important;}
+                        #googletagmanager_web_diagnose_email_submit_element{ width: 725px !important;}
+                        #googletagmanager_web_diagnose_shop_now_cta_element{ width: 725px !important;}
+                    </style>]]>
+                </comment>
+            </group>
+            <group id="mega_menu_mapping" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Mega Menu Maping</label>
+                <field id="mapping" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Menu</label>
+                    <frontend_model>Cnnb\GtmWeb\Block\Adminhtml\Form\Field\MenuMapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+                <field id="ecommerce" translate="label" sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ecommerce (for DataLayer)</label>
+                </field>
+            </group>
+            <group id="pdp_mapping" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>PDP Attribute and Event Maping</label>
+                <field id="pdp" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Attribute</label>
+                    <frontend_model>Cnnb\GtmWeb\Block\Adminhtml\Form\Field\PdpMapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+                <comment>
+                <![CDATA[
+                    <script type="text/javascript">
+                    require(['jquery'],
+                        function($){
+                            var content = "<p>Class/Id Name: For class add text with the '.' like '.element' and for id please use '#' like '#element'.</p><p>Using For: This field will show here for which field or element we are using this configuration. Like: 'Auto Replenishment'.</p><p>Event Action Name: Enter the event action name. This will be push in the Google dataLayer.</p>";
+                            var content2 = "<p>Class/Id Name: For class add text with the '.' like '.element' and for id please use '#' like '#element'.</p>";
+                            var content3 = "<p>Class/Id Name: For class add text with the '.' like '.element', for id please use '#' like '#element' and for name only use element like 'element'.</p>";
+                            $(window).load(function() {
+                                $("[name='groups[pdp_mapping][fields][pdp][value][__empty]']").after(content);
+                                $("[name='groups[psp_configuration][fields][other_services_mapping][value][__empty]']").after(content2);
+                                $("[name='groups[psp_configuration][fields][cta_mapping][value][__empty]']").after(content2);
+                                $("[name='groups[related_artical_mapping][fields][mapping][value][__empty]']").after(content2);
+                                $("[name='groups[footer_mapping][fields][mapping][value][__empty]']").after(content2);
+                                $("[name='groups[rating_mapping][fields][mapping][value][__empty]']").after(content2);
+                                $("[name='groups[chatwithus_mapping][fields][chatwithus][value][__empty]']").after(content2);
+                                $("[name='groups[newsletter_mapping][fields][newsletter][value][__empty]']").after(content2);
+                                $("[name='groups[pdp_tab_mapping][fields][pdp][value][__empty]']").after(content2);
+                                $("[name='groups[wishlist_mapping][fields][wishlist][value][__empty]']").after(content2);
+                                $("[name='groups[pdp_arrow_mapping][fields][pdp_arrow][value][__empty]']").after(content2);
+                                $("[name='groups[find_saloon_mapping][fields][saloon][value][__empty]']").after(content2);
+                                $("[name='groups[kprofile_email][fields][element][value][__empty]']").after(content2);
+                                $("[name='groups[diagnose_hair_configuration][fields][start_button][value][__empty]']").after(content2);
+                                $("[name='groups[diagnose_hair_configuration][fields][next_button][value][__empty]']").after(content2);
+                                $("[name='groups[step_option_configuration][fields][step_options][value][__empty]']").after(content3);
+                            });
+                        }
+                    );
+                </script>
+                ]]>
+                </comment>
+            </group>
+            <group id="login_registration_mapping" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Account Registration/Login (Ecommerce)</label>
+                <field id="registration_ecomm" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Registration (Ecommerce)</label>
+                </field>
+                <field id="login_ecomm" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Login (Ecommerce)</label>
+                </field>
+            </group>
+            <group id="pdp_tab_mapping" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>PDP Tab Event Maping</label>
+                <field id="pdp" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Attribute</label>
+                    <frontend_model>Cnnb\GtmWeb\Block\Adminhtml\Form\Field\PdpTabMapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
+            <group id="pdp_arrow_mapping" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>PDP Image Arrow Maping</label>
+                <field id="pdp_arrow" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Attribute</label>
+                    <frontend_model>Cnnb\GtmWeb\Block\Adminhtml\Form\Field\PdpArrowMapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
+            <group id="find_saloon_mapping" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                 <label>Find Saloon Maping</label>
+                <field id="saloon" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Attribute</label>
+                    <frontend_model>Cnnb\GtmWeb\Block\Adminhtml\Form\Field\FindSaloonMapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
+            <group id="footer_mapping" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Footer Link Mapping</label>
+                <field id="mapping" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Links</label>
+                    <frontend_model>Cnnb\GtmWeb\Block\Adminhtml\Form\Field\FooterMapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+                <field id="ecommerce" translate="label" sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ecommerce (for DataLayer)</label>
+                </field>
+            </group>
+            <group id="related_artical_mapping" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Related Articles Mapping</label>
+                <field id="mapping" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Articles</label>
+                    <frontend_model>Cnnb\GtmWeb\Block\Adminhtml\Form\Field\RelatedArticalMapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+                <field id="ecommerce" translate="label" sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ecommerce (for DataLayer)</label>
+                </field>
+            </group>
+            <group id="wishlist_mapping" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+            	<label>Wish List Mapping</label>
+            	<field id="wishlist" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Class/IS Name</label>
+                </field>
+            </group>
+            <group id="newsletter_mapping" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Newsletter Mapping</label>
+                <field id="newsletter" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Class/IDs</label>
+                    <frontend_model>Cnnb\GtmWeb\Block\Adminhtml\Form\Field\NewsletterMapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+                <field id="ecommerce" translate="label" sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ecommerce (For DataLayer)</label>
+                </field>
+            </group>
+            <group id="chatwithus_mapping" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Chat With Us Mapping</label>
+                <field id="chatwithus" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Class/IDs</label>
+                    <frontend_model>Cnnb\GtmWeb\Block\Adminhtml\Form\Field\ChatWithUsMapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+                <field id="ecommerce" translate="label" sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ecommerce (For DataLayer)</label>
+                </field>
+            </group>
+            <group id="country_selector_mapping" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Country Selector Mapping</label>
+                <field id="element_name" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Class/ID of the Selector</label>
+                </field>
+                <field id="ecommerce" translate="label" sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ecommerce (for DataLayer)</label>
+                </field>
+            </group>
+            <group id="language_selector_mapping" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Language Selector Mapping</label>
+                <field id="element_name" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Class/ID of the Selector</label>
+                </field>
+                <field id="ecommerce" translate="label" sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ecommerce (for DataLayer)</label>
+                </field>
+            </group>
+            <group id="psp_configuration" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>PSP Configurations</label>
+                <field id="filter_ecommerce" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ecommerce (For Filters)</label>
+                </field>
+                <field id="cta_mapping" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Select CTA</label>
+                    <frontend_model>Cnnb\GtmWeb\Block\Adminhtml\Form\Field\PspCtaMapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+                <field id="cta_ecommerce" translate="label" sortOrder="3" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ecommerce (For CTA)</label>
+                </field>
+                <field id="other_services_mapping" translate="label" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Other Services</label>
+                    <frontend_model>Cnnb\GtmWeb\Block\Adminhtml\Form\Field\PspOtherServicesMapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+                <field id="other_services_ecommerce" translate="label" sortOrder="5" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ecommerce (For Other Services)</label>
+                </field>
+            </group>
+            <group id="diagnose_hair_configuration" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Diagnosis Configurations</label>
+                <field id="brand" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Brand Name</label>
+                </field>
+                <field id="start_button" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Start The Diagnosis Button Class/IDs</label>
+                </field>
+                <field id="next_button" translate="label" sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Next Button Class/IDs</label>
+                </field>
+                <field id="previous_button" translate="label" sortOrder="3" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Previous Button Class/IDs</label>
+                </field>
+                <field id="reset_button" translate="label" sortOrder="4" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Reset Button Class/IDs</label>
+                </field>
+                <field id="see_the_result_button" translate="label" sortOrder="4" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>See Result Button Class/IDs</label>
+                </field>
+                <field id="step_counter" translate="label" sortOrder="4" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Step Counter Class/ID</label>
+                </field>
+                <field id="diagnosis_attribute_mapping" translate="label" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Attributes</label>
+                    <frontend_model>Cnnb\GtmWeb\Block\Adminhtml\Form\Field\DiagnosisMapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
+            <group id="step_option_configuration" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Step options Mapping</label>
+                <field id="step_options" translate="label" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Options</label>
+                    <frontend_model>Cnnb\GtmWeb\Block\Adminhtml\Form\Field\StepOptionsMapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
+            <group id="rating_mapping" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Rating Mapping</label>
+                <field id="mapping" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Mapping</label>
+                    <frontend_model>Cnnb\GtmWeb\Block\Adminhtml\Form\Field\RatingMapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+                <field id="ecommerce" translate="label" sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ecommerce (for DataLayer)</label>
+                </field>
+            </group>
+            <group id="back_to_top_mapping" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Back To Top</label>
+                <field id="element" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Class/ID Name</label>
+                </field>
+                <field id="eventLabel" translate="label" sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Event Label (for DataLayer)</label>
+                </field>
+                <field id="ecommerce" translate="label" sortOrder="3" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ecommerce (for DataLayer)</label>
+                </field>
+            </group>
+            <group id="kprofile_email" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>K-Profile Send By Email Page</label>
+                <field id="element" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Class/ID Name</label>
+                </field>
+            </group>
+            <group id="diagnose_email" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Diagnostic Result Page - Send By Email</label>
+                <field id="element" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Mapping</label>
+                    <frontend_model>Cnnb\GtmWeb\Block\Adminhtml\Form\Field\DiagnosticSendByEmailMapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
+            <group id="diagnose_email_submit" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Diagnostic Result Page - Submit Event</label>
+                <field id="element" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Mapping</label>
+                    <frontend_model>Cnnb\GtmWeb\Block\Adminhtml\Form\Field\DiagnosticSendByEmailMapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
+            <group id="diagnose_shop_now_cta" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Diagnostic Page - Shop Now CTA</label>
+                <field id="element" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Mapping</label>
+                    <frontend_model>Cnnb\GtmWeb\Block\Adminhtml\Form\Field\DiagnosticShopNowCta</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
+            <group id="diagnose_newsletter" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Diagnostic Form Page - Newsletter</label>
+                <field id="element" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Class/ID Name</label>
+                </field>
+                <field id="eventCategory" translate="label" sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Event Category</label>
+                </field>
+                <field id="eventAction" translate="label" sortOrder="3" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Event Action</label>
+                </field>
+                <field id="eventLabel" translate="label" sortOrder="4" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Event Label</label>
+                </field>
+            </group>
+            <group id="diagnose_cgu" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Diagnostic Form Page - CGU</label>
+                <field id="element" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Class/ID Name</label>
+                </field>
+                <field id="eventCategory" translate="label" sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Event Category</label>
+                </field>
+                <field id="eventAction" translate="label" sortOrder="3" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Event Action</label>
+                </field>
+                <field id="eventLabel" translate="label" sortOrder="4" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Event Label</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

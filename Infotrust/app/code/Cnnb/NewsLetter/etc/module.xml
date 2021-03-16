@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_NewsLetter
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_NewsLetter Module Declaration and Dependancies 
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Cnnb_NewsLetter" setup_version="1.0.0"></module>
+    <sequence>
+        <module name="Cnnb_NewsLetter"/>
+    </sequence>
+</config>

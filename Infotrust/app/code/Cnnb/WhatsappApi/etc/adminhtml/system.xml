@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_WhatsappApi
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_WhatsappApi Module System Configuration
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="whatsapp_api" translate="label" sortOrder="10">
+            <label>CNNB Whatsapp API</label>
+        </tab>
+        <section id="cnnb_whatsappapi" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>WhatsApp Integration</label>
+            <tab>whatsapp_api</tab>
+            <resource>Cnnb_WhatsappApi::Whatsappapi_config</resource>
+            <group id="general" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>WhatsApp API</label>
+                <field id="enable" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="smsgatways" showInDefault="1" sortOrder="20" translate="label comment" showInWebsite="1" showInStore="1">
+                <label>Connexease Login Details</label>
+                <field id="username" translate="label comment" sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Username</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="password" translate="label comment" sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Password</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="api_url" translate="label comment" sortOrder="3" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>API URL</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="api_test_btn" translate="label" type="button" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label></label>
+                        <frontend_model>Cnnb\WhatsappApi\Block\Adminhtml\System\Config\TestCredentialsButton</frontend_model>
+                </field>
+                <depends><field id="cnnb_whatsappapi/general/enable">1</field></depends>
+            </group>
+            <group id="orderplace" showInDefault="1" sortOrder="30" translate="label comment" showInWebsite="1" showInStore="1">
+                <label>Order Notification Settings</label>
+                <field id="notification_enable" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="no_of_message" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment">
+                    <label>Number of Messages Per Day</label>
+                    <depends><field id="notification_enable">1</field></depends>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="message_template_list" type="select" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment">
+                    <label>Message Template</label>
+                    <depends><field id="notification_enable">1</field></depends>
+                    <source_model>Cnnb\WhatsappApi\Model\Config\Source\TemplateList</source_model>
+                </field>
+                <field id="template" type="textarea" sortOrder="10" showInDefault="1" showInStore="1" showInWebsite="1">
+                    <label>Order Notification Text</label>
+                    <depends><field id="notification_enable">1</field></depends>
+                </field>
+                <field id="show_content" translate="label" type="hidden" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label></label>
+                        <frontend_model>Cnnb\WhatsappApi\Block\Adminhtml\System\Config\ShowContent</frontend_model>
+                        <comment><![CDATA[<p>The content of the selected message template will be appear here. Here are meaning of all the variable which will be use.
+                            $1 = Customer Name,
+                            $2 = Order Id,
+                            $3 = Order Amount,
+                            $4 = Region,
+                            $5 = City,
+                            $6 = Address Details,
+                            $7 = Mobile Number,
+                            $8 = Alternative Mobile Number
+                        </p>]]></comment>
+                </field>
+                <depends><field id="cnnb_whatsappapi/general/enable">1</field></depends>
+            </group>
+            <group id="warning_message" showInDefault="1" sortOrder="40" translate="label" showInWebsite="1" showInStore="1">
+                <label>Warning message configurations</label>
+                <field id="warning_message_enable" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="warning_message_text" sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment">
+                    <label>Warning message to show the customer</label>
+                    <comment><![CDATA[<p>This message will appear on all pages till the customer not verified phone number.</p>]]></comment>
+                    <depends><field id="cnnb_whatsappapi/warning_message/warning_message_enable">1</field></depends>
+                </field>
+                <field id="enable_replace_mobile" sortOrder="3" type="select" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment">
+                    <label>Enable mobile number replacement for multiple addresses</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[<p>Set this filed to "Yes" for replacing all the mobile numbers to verified mobile number.</p>]]></comment>
+                    <depends><field id="cnnb_whatsappapi/warning_message/warning_message_enable">1</field></depends>
+                </field>
+                <field id="mobile_replacement_message" sortOrder="4" type="text" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment">
+                    <label>Message to show customers</label>
+                    <comment><![CDATA[<p>This message will show to the customer after replacing mobile number.</p>]]></comment>
+                    <depends><field id="cnnb_whatsappapi/warning_message/warning_message_enable">1</field></depends>
+                </field>
+                <field id="click_here_message" sortOrder="5" type="text" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment">
+                    <label>Click here message to show customers</label>
+                    <comment><![CDATA[<p>This message will show to the customer for click here to update phone number.</p>]]></comment>
+                    <depends><field id="cnnb_whatsappapi/warning_message/warning_message_enable">1</field></depends>
+                </field>
+                <field id="message_for_update_address_page" sortOrder="6" type="text" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment">
+                    <label>Message for update address page</label>
+                    <comment><![CDATA[<p>This message will show to the customer when user clicks to verify phone number and redirect to update address page.</p>]]></comment>
+                    <depends><field id="cnnb_whatsappapi/warning_message/warning_message_enable">1</field></depends>
+                </field>
+                <field id="message_for_add_address_page" sortOrder="7" type="text" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment">
+                    <label>Message for new address page</label>
+                    <comment><![CDATA[<p>This message will show to the customer when user clicks to verify phone number and redirect to add address page.</p>]]></comment>
+                    <depends><field id="cnnb_whatsappapi/warning_message/warning_message_enable">1</field></depends>
+                </field>
+            </group>
+            <group id="phone_number" showInDefault="1" sortOrder="50" translate="label comment" showInWebsite="1" showInStore="1">
+                <label>Number of digits allowed for phone number</label>
+                <field id="digit_change_enable" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[<p>Set this field to "Yes" for changing allowed digit for phone number. This will show warning message to all customer if allowed digits changed.</p>]]></comment>
+                </field>
+                <field id="digits" translate="label comment" sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Number of digits</label>
+                    <!-- <backend_model>Cnnb\WhatsappApi\Model\Config\Backend\AllowedDigits</backend_model> -->
+                    <depends><field id="cnnb_whatsappapi/phone_number/digit_change_enable">1</field></depends>
+                </field>
+                <field id="message_for_number_of_digits_change" sortOrder="8" type="text" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment">
+                    <label>Message for number of digits change</label>
+                    <comment><![CDATA[<p>This message will show to the customer when the admin changes the number of allowed digits and the user has already verified the number.</p>]]></comment>
+                    <depends><field id="cnnb_whatsappapi/phone_number/digit_change_enable">1</field></depends>
+                </field>
+                <field id="all_country_codes" sortOrder="9" type="text" showInDefault="0" showInWebsite="0" showInStore="0" translate="label comment">
+                    <label>All country codes</label>
+                </field>
+            </group>
+            <group id="cronjob" showInDefault="1" sortOrder="60" translate="label" showInWebsite="1" showInStore="1">
+                <label>Cron Job</label>
+                <field id="enable_cron" sortOrder="1" type="select" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[<p>Enable cron job and system will send WhatsApp notification to customers having pending order after every 12 hours.</p>]]></comment>
+                </field>
+                <depends><field id="cnnb_whatsappapi/general/enable">1</field></depends>
+            </group>
+        </section>
+        <section id="internationaltelephoneinput" translate="label" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Country Code Input</label>
+            <tab>customer</tab>
+            <resource>Cnnb_WhatsappApi::internationaltelephoneinput_config</resource>
+            <group id="general" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Configuration</label>
+                <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Module Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="allow" translate="label" type="multiselect" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Allow Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Kerastase
+ * @category   Kerastase
+ * @package    Kerastase_AdminActivity
+  */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="admin">
+        <route id="adminactivity" frontName="adminactivity">
+            <module name="Kerastase_AdminActivity" before="Magento_Backend" />
+        </route>
+    </router>
+</config>

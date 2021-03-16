@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<csp_whitelist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp:etc/csp_whitelist.xsd">
+    <policies>
+        <policy id="default-src">
+            <values>
+                <value id="youtube" type="host">https://www.youtube.com</value>
+                <value id="googleads" type="host">https://googleads.g.doubleclick.net</value>
+                <value id="googletn" type="host">https://www.google.tn</value>
+                <value id="googlecom" type="host">https://www.google.com</value>
+                <value id="googlesa" type="host">https://www.google.sa</value>
+                <value id="googleae" type="host">https://www.google.ae</value>
+                <value id="googletagmanager" type="host">https://www.googletagmanager.com</value>
+                <value id="googleapis" type="host">https://fonts.googleapis.com</value>
+                <value id="googleadservices" type="host">http://www.googleadservices.com</value>
+                <value id="analytics" type="host">http://www.google-analytics.com</value>
+                <value id="paypalobjects" type="host">http://www.paypalobjects.com</value>
+                <value id="mouseflow" type="host">https://cdn.mouseflow.com</value>
+                <value id="paypal" type="host">http://www.paypal.com</value>
+                <value id="sandbox" type="host">http://www.sandbox.paypal.com</value>
+                <value id="vimeo" type="host">http://www.vimeo.com</value>
+                <value id="yotpo" type="host">http://www.yotpo.com</value>
+            </values>
+        </policy>
+        <policy id="script-src">
+            <values>
+                <value id="youtube" type="host">https://www.youtube.com</value>
+                <value id="googleads" type="host">https://googleads.g.doubleclick.net</value>
+                <value id="googletn" type="host">https://www.google.tn</value>
+                <value id="googlecom" type="host">https://www.google.com</value>
+                <value id="googlesa" type="host">https://www.google.sa</value>
+                <value id="googleae" type="host">https://www.google.ae</value>
+                <value id="googletagmanager" type="host">https://www.googletagmanager.com</value>
+                <value id="googleapis" type="host">https://fonts.googleapis.com</value>
+                <value id="googleadservices" type="host">http://www.googleadservices.com</value>
+                <value id="analytics" type="host">http://www.google-analytics.com</value>
+                <value id="paypalobjects" type="host">http://www.paypalobjects.com</value>
+                <value id="mouseflow" type="host">https://cdn.mouseflow.com</value>
+                <value id="paypal" type="host">http://www.paypal.com</value>
+                <value id="sandbox" type="host">http://www.sandbox.paypal.com</value>
+                <value id="vimeo" type="host">http://www.vimeo.com</value>
+                <value id="yotpo" type="host">http://www.yotpo.com</value>
+            </values>
+        </policy>
+        <policy id="font-src">
+            <values>
+                <value id="youtube" type="host">https://www.youtube.com</value>
+                <value id="googleads" type="host">https://googleads.g.doubleclick.net</value>
+                <value id="googletn" type="host">https://www.google.tn</value>
+                <value id="googlecom" type="host">https://www.google.com</value>
+                <value id="googlesa" type="host">https://www.google.sa</value>
+                <value id="googleae" type="host">https://www.google.ae</value>
+                <value id="googletagmanager" type="host">https://www.googletagmanager.com</value>
+                <value id="googleapis" type="host">https://fonts.googleapis.com</value>
+                <value id="googleadservices" type="host">http://www.googleadservices.com</value>
+                <value id="analytics" type="host">http://www.google-analytics.com</value>
+                <value id="paypalobjects" type="host">http://www.paypalobjects.com</value>
+                <value id="mouseflow" type="host">https://cdn.mouseflow.com</value>
+                <value id="paypal" type="host">http://www.paypal.com</value>
+                <value id="sandbox" type="host">http://www.sandbox.paypal.com</value>
+                <value id="vimeo" type="host">http://www.vimeo.com</value>
+                <value id="yotpo" type="host">http://www.yotpo.com</value>
+            </values>
+        </policy>
+    </policies>
+</csp_whitelist>

@@ -1,0 +1,116 @@
+<?php
+/**
+ * Product view template
+ * Overridden File for Product Click Event
+ * @var $block \Magento\Catalog\Block\Product\View
+ */
+?>
+<?php $_helper = $this->helper(Magento\Catalog\Helper\Output::class); ?>
+<?php $_product = $block->getProduct(); ?>
+
+<?php
+/*
+ * Helper function for getting product attributes
+ */
+$_gtmhelper = $this->helper('Cnnb\Gtm\Helper\Data');
+$attributeData = $_gtmhelper->getAttributeMappingData();
+$is_child_product_exist = 0;
+$optionsData = '';
+if ($_product->getTypeId() == 'configurable') {
+    $blockObj = $block->getLayout()->createBlock('\Magento\Swatches\Block\Product\Renderer\Configurable');
+    $is_child_product_exist = 1;
+    $optionsData = $blockObj->getJsonConfig();
+}
+?>
+<!--Code for adding child product data-->
+<?php
+$productData = [];
+if ($_product->getTypeId() == 'configurable') {
+    $child_product = $_product->getTypeInstance()->getUsedProducts($_product);
+    foreach ($child_product as $child) {
+
+        $childData = [
+                'id' => $child->getEntityId(),
+                'sku' => $child->getSku(),
+                'parent_sku' => $child->getData('sku'),
+                'product_type' => $child->getTypeId(),
+                'name' => $child->getName(),
+                'price' => $child->getPrice(),
+                'attribute_set_id' => $child->getAttributeSetId(),
+                'category' => $_product
+                ->getCategoryCollection()
+                ->addAttributeToSelect('name')
+                ->getFirstItem()
+                ->getName(),
+                'brand' => $child->getData('brand'),
+            ];
+
+        if (!empty($attributeData)) {
+            foreach ($attributeData as $attr_key => $attr_value) {
+                if ($child->getData($attr_value)) {
+                    if ($attr_value == "quantity_and_stock_status") {
+                        $attr_value = ($child->getData($attr_value) == 1) ? 'in stock' : 'out of stock';
+                        $childData[$attr_key] = $attr_value;
+                    } else {
+                        $childData[$attr_key] = $child->getData($attr_value);
+                    }
+                }
+            }
+        }
+        $productData[$child->getEntityId()] =  $childData;
+    }
+}
+?>
+<!--Code for adding child product data-->
+<div class="product-add-form">
+    <form data-product-sku="<?= $block->escapeHtml($_product->getSku()) ?>"
+          action="<?= $block->escapeUrl($block->getSubmitUrl($_product)) ?>" method="post"
+          id="product_addtocart_form"<?php if ($_product->getOptions()):?> enctype="multipart/form-data"<?php endif; ?>>
+        <input type="hidden" name="product" value="<?= (int)$_product->getId() ?>" />
+        <input type="hidden" name="selected_configurable_option" value="" />
+        <input type="hidden" name="related_product" id="related-products-field" value="" />
+        <input type="hidden" name="item"  value="<?= (int)$block->getRequest()->getParam('id') ?>" />
+        <?= $block->getBlockHtml('formkey') ?>
+        <?= $block->getChildHtml('form_top') ?>
+        <?php if (!$block->hasOptions()):?>
+            <?= $block->getChildHtml('product_info_form_content') ?>
+        <?php else:?>
+            <?php if ($_product->isSaleable() && $block->getOptionsContainer() == 'container1'):?>
+                <?= $block->getChildChildHtml('options_container') ?>
+            <?php endif;?>
+        <?php endif; ?>
+
+        <?php if ($_product->isSaleable() && $block->hasOptions() && $block->getOptionsContainer() == 'container2'):?>
+            <?= $block->getChildChildHtml('options_container') ?>
+        <?php endif;?>
+        <?= $block->getChildHtml('form_bottom') ?>
+    </form>
+</div>
+
+
+<script type="text/x-magento-init">
+    {
+        "[data-role=priceBox][data-price-box=product-id-<?= $block->escapeHtml($_product->getId()) ?>]": {
+            "priceBox": {
+                "priceConfig":  <?= /* @noEscape */ $block->getJsonConfig() ?>
+            }
+        }
+    }
+</script>
+<!--JS code for pushing child data into child_product_data array-->
+<script type="text/javascript">
+    require(['jquery'], function($) {
+        window.child_product_data = [];
+        window.jsonConfigArray = [];
+        window.product_type = 'simple';
+        var is_child_product_exist = <?= /* @noEscape */ $is_child_product_exist ?>;
+        if(is_child_product_exist == 1) {
+            var childProductData = <?= /* @noEscape */ json_encode($productData); ?>;
+            child_product_data.push(childProductData);
+            var jsonConfig = <?= /* @noEscape */ json_encode($optionsData); ?>;
+            jsonConfigArray.push(jsonConfig);
+            product_type = 'configurable';
+        } 
+    });
+</script>
+<!--JS code for pushing child data into child_product_data array-->

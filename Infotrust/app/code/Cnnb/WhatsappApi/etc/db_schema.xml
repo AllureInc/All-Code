@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_WhatsappApi
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_WhatsappApi db_schema.xml
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+   <table name="whatsapp_notification" resource="default" comment="Log of the WhatsApp Notifications">
+        <column xsi:type="int" name="id" padding="10" identity="true" unsigned="true" nullable="false" comment="Entity Id"/>
+        <column xsi:type="varchar" name="order_id" nullable="true" comment="Order ID"/>
+        <column xsi:type="varchar" name="customer_name" nullable="true" comment="Title"/>
+        <column xsi:type="varchar" name="phone_number" nullable="true" comment="Phone Number"/>
+        <column xsi:type="boolean" name="notification_status" nullable="true" comment="Notification Status"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+           <column name="id"/>
+        </constraint>
+        <index referenceId="INDEX_REFERENCE" indexType="btree">
+           <column name="id"/>
+        </index>
+   </table>
+   <table name="config_changed_tbl" resource="default" comment="">
+        <column xsi:type="int" name="id" padding="10" identity="true" unsigned="true" nullable="false" comment="ID"/>
+        <column xsi:type="int" name="store_id" padding="10" nullable="false" comment="Entity Id"/>
+        <column xsi:type="varchar" name="config_path" nullable="false" length="255" comment="Config Path"/>
+        <column xsi:type="int" name="current_allowed_digit" padding="10" nullable="false" comment="Current Allowed Digits"/>
+        <column xsi:type="timestamp" name="time" comment="Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+</schema>

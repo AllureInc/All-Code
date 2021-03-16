@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_AlgoliaFix
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_AlgoliaFix Module System Configuration
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="cnnb_algoliafix" translate="label" sortOrder="10">
+            <label>CNNB Algolia</label>
+        </tab>
+        <section id="cnnb_algoliafix_settings" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Cnnb Algolia Settings</label>
+            <tab>cnnb_algoliafix</tab>
+            <resource>Cnnb_AlgoliaFix::googletagmanager</resource>
+            <group id="new_product_attribute_mapping" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>New product attribute mapping</label>
+                <field id="mapping_from" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Attribute for new product (From)</label>
+                    <source_model>Cnnb\AlgoliaFix\Block\Adminhtml\Form\Field\AttributesData</source_model>
+                </field>
+                <field id="mapping_to" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Attribute for new product (To)</label>
+                    <source_model>Cnnb\AlgoliaFix\Block\Adminhtml\Form\Field\AttributesData</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

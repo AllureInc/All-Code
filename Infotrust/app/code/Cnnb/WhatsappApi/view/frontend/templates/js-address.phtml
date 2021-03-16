@@ -1,0 +1,15 @@
+<?php
+/**
+ * @var $block  Cnnb\WhatsappApi\Block\PhoneNumber
+ */
+?>
+<script type="text/x-magento-init">
+    {
+        "input[name='telephone']": {
+            "Cnnb_WhatsappApi/js/internationalTelephoneInput": <?= /* @noEscape */ $block->phoneConfig(); ?>
+        }
+    }
+</script>
+<script type="text/javascript">
+    window.phone_no_digits = <?= /* @noEscape */ $block->getDefaultDigit();?>;
+</script>

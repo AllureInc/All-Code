@@ -1,0 +1,238 @@
+<?php
+$dataLayerName = $block->getDataLayerName();
+$accountId = $block->getAccountId();
+$jsonData = $block->getDataLayerJson();
+$bannerData = json_encode($block->getBannnerTagData());
+$promotionClickData = $block->getPromotionClickData();
+$promotionIds = $block->getPromotionIds();
+$bannerIds = $block->getBannerIds();
+$promotionLabels = $block->getPromotionClickLabels();
+$pagetype = $block->getPageType();
+$refundBtnClassId = '';
+if ($pagetype == 'sales_order_view') {
+    $refundData = $block->getRefundOrderData();
+    $refundBtnClassId = $block->getRefundBtnClassId();
+}
+$helper = $block->getHelper();
+$shipping_methods = json_encode($helper->getActiveShippingMethod());
+$payment_methods = json_encode($helper->getActivePaymentMethod());
+$payemntData = $block->getPaymentTagData();
+?>
+<!-- Google Tag Manager by Cnnb -->
+<script type="text/javascript">
+    window.<?= /* @noEscape */ $dataLayerName ?> = window.<?= /* @noEscape */ $dataLayerName ?> || [];
+
+    /* -- getDataLayerJs line will be here --*/
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='<?= /* @noEscape */ $dataLayerName ?>'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','<?= /* @noEscape */ $dataLayerName ?>','<?= /* @noEscape */ $accountId ?>');
+
+    /* --- For pushing the data in the DataLayer --- */
+    require(['jquery','mage/url'], function($, url) {
+        var refunded = false;
+        var pagetype = "<?= /* @noEscape */ $pagetype; ?>";
+        var promotionaldata = [];
+        window.data = <?= /* @noEscape */ $jsonData; ?>;
+        var bannerData = <?= /* @noEscape */ $bannerData; ?>;
+        window.refundData = {};
+        window.promotionIds = <?= /* @noEscape */ json_encode($promotionIds); ?>;
+        window.promotionClickData = <?= /* @noEscape */ json_encode($promotionClickData); ?>;
+        window.bannerIds = <?= /* @noEscape */ json_encode($bannerIds); ?>;
+        window.promotionLabels = <?= /* @noEscape */ json_encode($promotionLabels); ?>;
+        window.category_data = <?= /* @noEscape */ $jsonData; ?>;
+        window.refundButtonClassId = '';
+        window.update_cart = true;
+
+        switch(pagetype) {
+
+            case 'checkout_index_index':
+                window.shipping_methods = <?= /* @noEscape */ $shipping_methods; ?>;
+                window.payemntData = <?= /* @noEscape */ json_encode($payemntData); ?>;
+                window.payment_methods = <?= /* @noEscape */ $payment_methods; ?>;
+                dataLayer.push(window.data);
+                break;
+
+            case 'sales_order_view':
+                window.refundData = <?= /* @noEscape */ json_encode($block->getRefundOrderData())?>;
+                window.refundButtonClassId = "<?= /* @noEscape */ $refundBtnClassId; ?>";
+                dataLayer.push({'event': "orderPage"});
+                break;
+
+            default:
+                dataLayer.push(data);
+        }
+
+        dataLayer.push(bannerData);
+       
+        /* Function for current cart */
+        
+        window.getCartProductsData = function(post_data){
+            console.log(post_data);
+            var arrayToLoop = window.dataLayer;
+            var AjaxUrl = url.build('cnnb/index/index');
+            $.ajax({
+                url: AjaxUrl,
+                async: false,
+                data: post_data,
+                dataType: "json",
+                method: "POST"
+            }).done(function (data) {
+                console.log(' Ajax Response: ');
+                console.log(data);
+                dataLayer.push(data);
+            });
+        }
+        /* Function for current cart ends */
+
+        /* Function for adding click event from category page */
+        window.addDataInDataLayer = function(product) {
+            var newdata = {
+                'event': 'productClick',
+                'eventCategory': 'Ecommerce',
+                'eventAction': 'Product Click',
+                'eventLabel': product.name+'::'+product.id,
+                ecommerce: {
+                    'currencyCode': ''+category_data.ecommerce.currencyCode,
+                    click: {
+                        actionField: {
+                            action: 'click',
+                            list: 'category page'
+                        },
+                        products: [product]
+                    }
+                }
+            };
+
+        dataLayer.push(newdata);
+        return true;
+    }
+     /* -- ends -- */
+
+     /* Function for pushing the promotion click data to dataLayer */
+        window.pushPromotionClickFunction = function(newpush)
+        {
+            promotionaldata = {
+                'event': 'promotionClick',
+                'eventCategory': 'Ecommerce',
+                'eventAction': 'Promotion Click',
+                'eventLabel': window.promotionLabels[newpush],
+                ecommerce: {
+                    promoClick: {
+                        promotions: window.promotionClickData[newpush]
+                    },
+                }
+            };
+
+            dataLayer.push(promotionaldata);
+
+        }
+        /* -- ends -- */
+
+        /* Function for adding click event from detail page on click of configurations */
+        window.addVariantInDataLayer = function(variant, eventlabel, product) {
+            var productDetailData = {
+                'event': 'uaevent',
+                'eventCategory': 'Ecommerce',
+                'eventAction': 'Product Detail | Variant Selection',
+                'eventLabel': eventlabel+'::'+variant,
+                ecommerce: {
+                    detail: {
+                        actionField: {
+                            action: 'detail',
+                            list: 'product page'
+                        },
+                        products: product
+                    },
+                }
+            };
+            dataLayer.push(productDetailData);
+            return true;
+        }
+        /* -- ends -- */
+
+        /*  Function for adding refund data */
+        window.generateRefund = function(){
+            if (refunded != true) {
+                dataLayer.push(refundData);
+                refunded = true;
+            }
+        }
+        /* -- ends -- */
+        if(pagetype == 'sales_order_view')
+        {
+            var refund_id_name = window.refundButtonClassId;
+            $(''+refund_id_name).attr('onClick', 'generateRefund()');
+        }
+         
+        /* For Promotion Clicks */
+        for(i=0; i < window.bannerIds.length; i++)
+        {        
+            var banner_id_name = window.bannerIds[i];
+            $(banner_id_name).attr('onClick', 'pushPromotionClickFunction("'+banner_id_name+'")');
+        }
+        /* For Promotion Click ends */
+
+        /* ---- Shiping Layer ---- */            
+            var checkout_data_flag = true;
+            var shipping_code = '';
+            var checkoutFieldData = {'ecommerce': {'checkout': {'actionField': {} } } };
+            $("body").on('change', ".table-checkout-shipping-method .radio", function(){
+                if($(this).attr('checked') == 'checked'){
+                    shipping_code = $(this).val();
+                    checkoutFieldData.ecommerce.checkout.actionField.option = window.shipping_methods[shipping_code];
+                    checkout_data_flag = false;
+                    dataLayer.push(checkoutFieldData);
+                }
+            });            
+        /* ---- Shiping Layer Ends ---- */ 
+
+        /* Add to Cart for category and other pages */
+        $(window).on('load', function(){
+            console.log('----- window load ------');
+            $('button.action.tocart.primary').on('click', function(){
+                console.log('--- button clicked ---');
+                /*var cat_product_id = $(this).data('objectid');
+                var cat_product_type = 'simple';
+                var cat_event_call = 0;
+                setTimeout(
+                    getCartProductsData(
+                        {
+                            'event_call': cat_event_call, 
+                            'product_type': cat_product_type, 
+                            'product_id': cat_product_id
+                        }
+                    ), 
+                800);*/
+            });
+
+            window.updateCartData = function(post_data){
+                console.log(post_data);
+                var AjaxUrl = url.build('cnnb/index/index');
+                if (update_cart == true) {
+                    $.ajax({
+                        url: AjaxUrl,
+                        async: false,
+                        data: post_data,
+                        dataType: "json",
+                        method: "POST"
+                    }).done(function (data) {
+                        console.log(' Update Cart Ajax Response: ');
+                        console.log(data);
+                        dataLayer.push(data);
+                    });                    
+                }
+            }
+
+        });
+        /* Add to Cart for category and other pages ends */
+
+      }); 
+  /* --- ENDS --- */
+</script>
+<!-- End Google Tag Manager by Cnnb -->
+<?php $block->setCartActionData(); ?>
+<?php $block->setRemoveCartDataLayer(); ?>
+<?php $block->setUpdateCartActionData(); ?>
+<?php $block->setDeleteCartDataLayer(); ?>

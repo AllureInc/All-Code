@@ -1,0 +1,121 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_WhatsappApi
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_WhatsappApi config.xml
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+<default>
+	<googletagmanager_web>
+		<module_status>
+			<is_enabled>1</is_enabled>
+		</module_status>
+		<mega_menu_mapping>
+			<mapping><![CDATA[{"_1607419436354_354":{"gtm_class_name":".level1.category-menu","mega_menu_level":"level_1"},"_1607419438500_500":{"gtm_class_name":".level1.dropdown-submenu","mega_menu_level":"level_1"}}]]></mapping>
+			<ecommerce>Custom Ecommerce Value From Admin</ecommerce>
+		</mega_menu_mapping>
+		<pdp_mapping>
+			<pdp><![CDATA[{"_1606989149563_563":{"gtm_element_name":"#options_3_2","gtm_element_for":"Auto Replenishment","gtm_event_action":"Delivery Uber Rush | Auto Replenishment"}}]]></pdp>
+		</pdp_mapping>
+		<login_registration_mapping>
+			<registration_ecomm>New Registration</registration_ecomm>
+			<login_ecomm>New Login</login_ecomm>
+		</login_registration_mapping>
+		<pdp_tab_mapping>
+			<pdp><![CDATA[{"_1606990238789_789":{"gtm_element_name":"#benefits","gtm_ecommerce":"Benefits"},"_1606990241695_695":{"gtm_element_name":"#ingredients","gtm_ecommerce":"Ingredients"},"_1606990242717_717":{"gtm_element_name":"#application","gtm_ecommerce":"Application"}}]]></pdp>
+		</pdp_tab_mapping>
+		<pdp_arrow_mapping>
+			<pdp_arrow><![CDATA[{"_1607424983048_48":{"gtm_element_name":".fotorama__arr--next","gtm_ecommerce":"Next image"},"_1607424984069_69":{"gtm_element_name":".fotorama__arr--prev","gtm_ecommerce":"Previous image"}}]]></pdp_arrow>
+		</pdp_arrow_mapping>
+		<find_saloon_mapping>
+			<saloon><![CDATA[{"_1606992680064_64":{"gtm_element_name":"#find-saloon","gtm_element_is_diagnose_page":"0","gtm_ecommerce":"Find Saloon"},"_1606992681430_430":{"gtm_element_name":".ker-ediag-picto-location","gtm_element_is_diagnose_page":"1","gtm_ecommerce":"Find Saloon"},"_1606992682216_216":{"gtm_element_name":".ker-ediag-in-salon-time","gtm_element_is_diagnose_page":"1","gtm_ecommerce":"Find Saloon"},"_1606992682806_806":{"gtm_element_name":".ker-ediag-btn-border-black","gtm_element_is_diagnose_page":"1","gtm_ecommerce":"Find Saloon"}}]]></saloon>
+		</find_saloon_mapping>
+		<footer_mapping>
+			<mapping><![CDATA[{"_1606992729318_318":{"gtm_element_name":"#resistance","gtm_element_for":"At Home Programmes","gtm_element_lebel":"Resistance"},"_1606992730015_15":{"gtm_element_name":"#customer_service","gtm_element_for":"Your concern","gtm_element_lebel":"Customer services"},"_1606992730565_565":{"gtm_element_name":"#contact_us","gtm_element_for":"Contact","gtm_element_lebel":"Contact Us"},"_1606992732992_992":{"gtm_element_name":"#about_kerastase","gtm_element_for":"About K\u00e9rastase","gtm_element_lebel":"Privacy and Cookie Policy"}}]]></mapping>
+			<ecommerce>Custom Ecommerce Value From Admin</ecommerce>
+		</footer_mapping>
+		<related_artical_mapping>
+			<mapping><![CDATA[{"_1606993625835_835":{"gtm_element_name":"#article_one","gtm_element_event_category":"Home Page","gtm_element_event_action":"Related Articles Name One","gtm_element_event_label":"1"},"_1606993626612_612":{"gtm_element_name":"#article_two","gtm_element_event_category":"Home Page","gtm_element_event_action":"Related Articles Name Two","gtm_element_event_label":"2"},"_1606993627319_319":{"gtm_element_name":"#article_three","gtm_element_event_category":"Home Page","gtm_element_event_action":"Related Articles Name Three","gtm_element_event_label":"3"}}]]></mapping>
+			<ecommerce>Custom Ecommerce Value From Admin</ecommerce>
+		</related_artical_mapping>
+		<wishlist_mapping>
+			<wishlist>.towishlist</wishlist>
+		</wishlist_mapping>
+		<newsletter_mapping>
+			<newsletter><![CDATA[{"_1606993285981_981":{"gtm_element_name":"#newsletter-header","gtm_label":"Header"},"_1606993286707_707":{"gtm_element_name":"#newsletter-footer","gtm_label":"Footer"},"_1606993287306_306":{"gtm_element_name":"#newsletter-popin","gtm_label":"Popin"},"_1606993287974_974":{"gtm_element_name":"#newsletter-body","gtm_label":"Body"}}]]></newsletter>
+			<ecommerce>Newsletter Ecommerce value</ecommerce>
+		</newsletter_mapping>
+		<chatwithus_mapping>
+			<chatwithus><![CDATA[{"_1606993373227_227":{"gtm_element_name":"#chat-with-us-whatsapp","gtm_label":"Whatsapp"},"_1606993374455_455":{"gtm_element_name":"#chat-with-us-facebook","gtm_label":"Facebook"},"_1606993375034_34":{"gtm_element_name":"#chat-with-us-telegram","gtm_label":"Telegram"}}]]></chatwithus>
+			<ecommerce>Chat with us ecommerce value</ecommerce>
+		</chatwithus_mapping>
+		<country_selector_mapping>
+			<element_name>#country</element_name>
+			<ecommerce>Country ecommerce value</ecommerce>
+		</country_selector_mapping>
+		<language_selector_mapping>
+			<element_name>#language</element_name>
+			<ecommerce>Language ecommerce value</ecommerce>
+		</language_selector_mapping>
+		<psp_configuration>
+			<cta_mapping><![CDATA[{"_1607426389437_437":{"gtm_element_name":"#id","gtm_element_event_category":"test","gtm_element_event_action":"test","gtm_element_event_label":"test"}}]]></cta_mapping>
+			<filter_ecommerce>Filter ecommerce value</filter_ecommerce>
+			<other_services_mapping><![CDATA[{"_1606993925024_24":{"gtm_element_name":"#read-more","gtm_element_event_category":"Services","gtm_element_event_action":"Home Page Category","gtm_element_event_label":"Read More"},"_1606993925682_682":{"gtm_element_name":"#start-more","gtm_element_event_category":"Services","gtm_element_event_action":"Home Page Category","gtm_element_event_label":"Start More"},"_1606993926330_330":{"gtm_element_name":"#shop-more","gtm_element_event_category":"Services","gtm_element_event_action":"Home Page Category","gtm_element_event_label":"Shop More"}}]]></other_services_mapping>
+			<cta_ecommerce>CTA ecmmerce value</cta_ecommerce>
+			<other_services_ecommerce>Other services ecommerce value</other_services_ecommerce>
+		</psp_configuration>
+		<diagnose_hair_configuration>
+			<brand>KER</brand>
+			<start_button>.ker_ediag-btn.ker-ediag-btn-full</start_button>
+			<next_button>.ker-ediag-btn.ker-ediag-actions-next.ker-ediag-full-small</next_button>
+			<previous_button>.ker_ediag-fleft</previous_button>
+			<reset_button>.ker-ediag-fright</reset_button>
+			<see_the_result_button>.ker-ediag-actions-submit</see_the_result_button>
+			<step_counter>.ker-ediag-btn-full</step_counter>
+			<diagnosis_attribute_mapping><![CDATA[{"_1606996684594_594":{"gtm_step":"Diagnostic Step 1","gtm_element_name":"updatevirtualpath","gtm_page_virtual":"yes","gtm_virtual_url":"\/KER\/ediagnostic\/step1\/","gtm_virtual_title":"tell us about yourself - step 1","gtm_step_class_id":".ker-ediag-step-1"},"_1606996719495_495":{"gtm_step":"Diagnostic Step 2.1","gtm_element_name":"updatevirtualpath","gtm_page_virtual":"yes","gtm_virtual_url":"\/KER\/ediagnostic\/step2.1\/","gtm_virtual_title":"tell us about your hair - step 2","gtm_step_class_id":".ker-ediag-step-2"},"_1606996762826_826":{"gtm_step":"Diagnostic Step 2.2","gtm_element_name":"updatevirtualpath","gtm_page_virtual":"yes","gtm_virtual_url":"\/KER\/ediagnostic\/step2.2\/","gtm_virtual_title":"select your hair type - step 2.2","gtm_step_class_id":".ker-ediag-step-2"},"_1606996792722_722":{"gtm_step":"Diagnostic Step 3","gtm_element_name":"updatevirtualpath","gtm_page_virtual":"yes","gtm_virtual_url":"\/KER\/ediagnostic\/step3","gtm_virtual_title":"how often do you- step 3","gtm_step_class_id":".ker-ediag-step-3"},"_1606996821782_782":{"gtm_step":"Diagnostic Step 4","gtm_element_name":"updatevirtualpath","gtm_page_virtual":"yes","gtm_virtual_url":"\/KER\/ediagnostic\/step4\/","gtm_virtual_title":"select all you scalp problems - step 4","gtm_step_class_id":".ker-ediag-step-4"},"_1606996854400_400":{"gtm_step":"Diagnostic Step 5.1","gtm_element_name":"updatevirtualpath","gtm_page_virtual":"yes","gtm_virtual_url":"\/KER\/ediagnostic\/step5\/","gtm_virtual_title":"finishing touch - step 5.1","gtm_step_class_id":".ker-ediag-step-5"},"_1606996887948_948":{"gtm_step":"Diagnostic Step 5.2","gtm_element_name":"updatevirtualpath","gtm_page_virtual":"yes","gtm_virtual_url":"\/KER\/ediagnostic\/step5-2\/","gtm_virtual_title":"finishing touch - step 5.2","gtm_step_class_id":".ker-ediag-step-5"},"_1606996896191_191":{"gtm_step":"Diagnostic Test Result","gtm_element_name":"updatevirtualpath","gtm_page_virtual":"yes","gtm_virtual_url":"\/KER\/ediagnostic\/Kprofile","gtm_virtual_title":"Kprofile - test results","gtm_step_class_id":".ker-ediag-result-profiles-wrapper"}}]]></diagnosis_attribute_mapping>
+		</diagnose_hair_configuration>
+		<step_option_configuration>
+			<step_options><![CDATA[{"_1606996992155_155":{"step_name":"Diagnostic Step 1","step_array_text":"gender","step_option_class_id":"#kedform28gender","step_option_value":"7:f|8:m"},"_1606996992823_823":{"step_name":"Diagnostic Step 1","step_array_text":"ageRange","step_option_class_id":"#kedform28age","step_option_value":"9:16|10:16-24|11:16-35|12:35-39|13:50-59|14:50-59|15:\u00d8"},"_1606996993550_550":{"step_name":"Diagnostic Step 1","step_array_text":"living","step_option_class_id":"#kedform28living","step_option_value":"16:city|17:suburbs|18:countryside"},"_1606996994425_425":{"step_name":"Diagnostic Step 1","step_array_text":"visiting","step_option_class_id":"#kedform28visiting","step_option_value":"19:once per month or more|20:every 2 or 3 months|21:twice a year|22:once a year or less"},"_1606997071098_98":{"step_name":"Diagnostic Step 2.1","step_array_text":"hairLength","step_option_class_id":"kedform22","step_option_value":"29:short|30:mid-long|31:long"},"_1606997071914_914":{"step_name":"Diagnostic Step 2.1","step_array_text":"hairType","step_option_class_id":"kedform23","step_option_value":"37:fine|38:normal|39:thick"},"_1606997131830_830":{"step_name":"Diagnostic Step 2.2","step_array_text":"hairStyle","step_option_class_id":"kedform24","step_option_value":"32:natural|33:colored|34:highlighted\/bleached|35:permed|36:straighthened|37:blond with yellow\/brassy tones"},"_1606997158560_560":{"step_name":"Diagnostic Step 3","step_array_text":"useCareProduct","step_option_class_id":"#kedform25","step_option_value":"48:always|49:often|50:sometimes|51:never"},"_1606997159296_296":{"step_name":"Diagnostic Step 3","step_array_text":"useHeatTool","step_option_class_id":"#kedform26","step_option_value":"52:everyday|53:sometimes|54:never"},"_1606997159925_925":{"step_name":"Diagnostic Step 3","step_array_text":"hairWash","step_option_class_id":"#kedform27","step_option_value":"44:everyday|45:every two days|46:twice a week|47:once a week"},"_1606997224114_114":{"step_name":"Diagnostic Step 4","step_array_text":"scalpProblem","step_option_class_id":"kedform5","step_option_value":"55:Oily scalp|56:Dandruff|57:Itchy or sensitive scalp|58:Hair loss|59:I don't have any scalp concern"},"_1606997261950_950":{"step_name":"Diagnostic Step 5.1","step_array_text":"wish1","step_option_class_id":"#kedform7wish","step_option_value":"64:a soft touch|65:more shine|66:more resistance to breakage|103:a natural touch & glow|67:more volume|68:more density|69:a vibrant color for longer|70:discipline, frizz-free|71:disciplined curls|72:revitalization|105:comprimentos longos e fortes|111:Less yellow\/brassy tones"},"_1606997262655_655":{"step_name":"Diagnostic Step 5.1","step_array_text":"wish2","step_option_class_id":"#kedform7wish2","step_option_value":"94:a soft touch|95:more shine|96:more resistance to breakage|104:a natural touch & glow|97:more volume|98:more density|99:a vibrant color for longer|100:discipline, frizz-free|101:disciplined curls|102:revitalization|106:Cabelo longo e forte|110:Less yellow\/brassy tones"},"_1606997263786_786":{"step_name":"Diagnostic Step 5.2","step_array_text":"atHomeProgram","step_option_class_id":"kedform6","step_option_value":"60:Extra volume|61:Smooth blow dry|62:Better defined curls|63:No specific preference"}}]]></step_options>
+		</step_option_configuration>
+		
+		<rating_mapping>
+			<mapping><![CDATA[{"_1606994879761_761":{"gtm_element_name":"#product_page-first-review","gtm_element_event_category":"Product Details Page","gtm_element_event_action":"Submit Review"},"_1606994896279_279":{"gtm_element_name":"#product-page-review","gtm_element_event_category":"Product Details Page","gtm_element_event_action":"Write Review"},"_1606994915338_338":{"gtm_element_name":"#category-page-first-review","gtm_element_event_category":"Category Page","gtm_element_event_action":"Add Rating"},"_1606994916064_64":{"gtm_element_name":"#category-page-review","gtm_element_event_category":"Category Page","gtm_element_event_action":"Add Rating"}}]]></mapping>
+			<ecommerce>Rating value</ecommerce>
+		</rating_mapping>
+		<back_to_top_mapping>
+			<element>#scroll-to-top</element>
+			<eventLabel>Custom EventLabel Value From Admin</eventLabel>
+			<ecommerce>Custom EventLabel Value From Admin</ecommerce>
+		</back_to_top_mapping>
+		<kprofile_email>
+			<element>#email</element>
+		</kprofile_email>
+		<diagnose_email>
+			<element><![CDATA[{"_1607428056066_66":{"gtm_element_name":".ker-ediag-btn-receive-email","gtm_element_event_category":"e-diagnostic","gtm_element_event_action":"send by email","gtm_element_event_label":"modal"},"_1607428057076_76":{"gtm_element_name":"div.ker-ediag-outer-wrapper > button.ker-ediag-btn","gtm_element_event_category":"e-diagnostic","gtm_element_event_action":"send by email","gtm_element_event_label":"footer"}}]]></element>
+		</diagnose_email>
+		<diagnose_email_submit>
+			<element><![CDATA[{"_1607428137824_824":{"gtm_element_name":".ker-ediag-btn-main","gtm_element_event_category":"e-diagnostic","gtm_element_event_action":"K-Profile send by mail","gtm_element_event_label":"submit"},"_1607428138742_742":{"gtm_element_name":".ker-ediag-btn-clear","gtm_element_event_category":"e-diagnostic","gtm_element_event_action":"K-Profile send by mail","gtm_element_event_label":"cancel"}}]]></element>
+		</diagnose_email_submit>
+		<diagnose_shop_now_cta>
+			<element><![CDATA[{"_1607428199003_3":{"gtm_element_name":"a.ker-ediag-btn.ker-ediag-btn-link.ker-ediag-carrousel-product-link","gtm_element_store":"redirection::kerastase UAE","gtm_element_product":"Black T-Shirt :: 2"}}]]></element>
+		</diagnose_shop_now_cta>
+		<diagnose_newsletter>
+			<element>input#kedformlabelkerediag_form_newsletter</element>
+			<eventCategory>Custom Event Category Value</eventCategory>
+			<eventAction>Custom Event Action Value</eventAction>
+			<eventLabel>Custom Event Label Value</eventLabel>
+		</diagnose_newsletter>
+		<diagnose_cgu>
+			<element>input#kedformlabelkerediag_form_cgu</element>
+			<eventCategory>Custom Event Category Value</eventCategory>
+			<eventAction>Custom Event Action Value</eventAction>
+			<eventLabel>Custom Event Label Value</eventLabel>
+		</diagnose_cgu>
+	</googletagmanager_web>
+</default>
+</config>

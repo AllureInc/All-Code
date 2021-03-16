@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+ * @category  Cnnb
+ * @package   Cnnb_WhatsappApi
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * XML file 
+ * for showing warning message if customer has non verify mobile number
+ -->
+ <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="page.messages">
+            <block class="Cnnb\WhatsappApi\Block\PhoneNumber" name="afterbody"  template="Cnnb_WhatsappApi::warning.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

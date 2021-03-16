@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_OrderEnhance
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_OrderEnhance Module System Configuration
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <cnnb_order>
+            <order_comment>
+                <enable>0</enable>
+                <order_history>Update By %s</order_history>
+                <order_invoice>The invoice has been created.</order_invoice>
+                <order_invoice_shipment>The invoice &amp; shipment has been created.</order_invoice_shipment>
+                <order_shipment>The shipment has been created.</order_shipment>
+                <order_credit_memo>The credit memo has been created.</order_credit_memo>
+                <order_return>The return for this order has been created.</order_return>
+                <order_rma>The RMA for this order has been created.</order_rma>
+                <order_cancel>The order has been canceled.</order_cancel>
+                <order_send_email>The email has been sent to customer.</order_send_email>
+                <order_reorder>The order has been created.</order_reorder>
+            </order_comment>
+        </cnnb_order>
+    </default>
+</config>

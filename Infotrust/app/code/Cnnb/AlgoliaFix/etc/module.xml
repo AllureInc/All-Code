@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_AlgoliaFix
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_AlgoliaFix Module Declaration and Dependancies 
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Cnnb_AlgoliaFix" setup_version="1.0.0">
+        <sequence>
+            <module name="Magento_Theme"/>
+            <module name="Magento_Search"/>
+            <module name="MGS_AjaxCart"/>
+            <module name="MGS_Ajaxlayernavigation"/>
+            <module name="MGS_Blog"/>
+            <module name="MGS_Brand"/>
+            <module name="MGS_GDPR"/>
+            <module name="MGS_Guestwishlist"/>
+            <module name="MGS_InstantSearch"/>
+            <module name="MGS_Lookbook"/>
+            <module name="MGS_Mmegamenu"/>
+            <module name="MGS_Mpanel"/>
+            <module name="MGS_Portfolio"/>
+            <module name="MGS_Promobanners"/>
+            <module name="MGS_Protabs"/>
+            <module name="MGS_QuickView"/>
+            <module name="MGS_Social"/>
+            <module name="MGS_StoreLocator"/>
+            <module name="MGS_Testimonial"/>
+        </sequence>
+    </module>
+</config>

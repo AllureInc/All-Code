@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   kerastase
+ * @package    kerastase_GiftRule
+ *
+ *
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Kerastase\GiftRule\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Kerastase\GiftRule\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">kerastase_giftrule_logger</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Kerastase\GiftRule\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\SalesRule\Model\Rule\Action\Discount\CalculatorFactory">
+        <arguments>
+            <argument name="discountRules" xsi:type="array">
+                <item name="buy_x_get_n" xsi:type="string">Kerastase\GiftRule\Model\Salesrule\Action\BuyXGetN</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\SalesRule\Model\Rule\Metadata\ValueProvider">
+        <plugin name="kerastase_giftrule_metadata_valueprovider" type="Kerastase\GiftRule\Plugin\Model\Salesrule\Rule\Metadata\ValueProvider" sortOrder="20" />
+    </type>
+    <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
+        <plugin name="kerastase_giftrule_metadata_valueprovider" type="Kerastase\GiftRule\Plugin\Model\Quote\Item\ToOrderItem"/>
+    </type>
+    <preference for="Magento\Bundle\Model\Product\Price" type="Kerastase\GiftRule\Plugin\Bundle\Product\BundlePrice" />
+    <preference for="Magento\Quote\Model\Quote" type="Kerastase\GiftRule\Model\Magento\Quote" />
+    <preference for="Magento\Checkout\Controller\Cart\Index" type="Kerastase\GiftRule\Controller\Cart\Index" />
+</config>

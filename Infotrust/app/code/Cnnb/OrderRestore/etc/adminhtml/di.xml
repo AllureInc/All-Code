@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Restore Order
+ * @category  Cnnb
+ * @package   Cnnb_OrderRestore
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="\Magento\Backend\Block\Widget\Context">
+        <plugin name="restore_button_sales_view" type="Cnnb\OrderRestore\Plugin\Block\Widget\RestoreButton"  sortOrder="1" />
+    </type>
+</config>

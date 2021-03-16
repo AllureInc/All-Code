@@ -1,0 +1,10 @@
+{
+    "salesrule": {
+        "column": {
+            "gift_sku": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

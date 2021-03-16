@@ -1,0 +1,7 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Kerastase_Aramex::manager" title="Aramex- check Orders" module="Kerastase_Aramex" sortOrder="10" resource="Kerastase_Aramex::manager"/>
+        <add id="Kerastase_Aramex::manageorders" title="Manage Orders" module="Kerastase_Aramex" sortOrder="0" parent="Kerastase_Aramex::manager"
+             action="manageorders/OrdersManagement" resource="Kerastase_Aramex::manageorders"/>
+    </menu>
+</config>

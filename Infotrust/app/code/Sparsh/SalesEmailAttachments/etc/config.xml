@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <sparsh_sales_email_attachments>
+            <general>
+                <attach_pdf_enabled>0</attach_pdf_enabled>
+                <attach_pdf_for>invoice,shipment,creditmemo</attach_pdf_for>
+                <attach_terms_and_conditions_enabled>0</attach_terms_and_conditions_enabled>
+                <attach_terms_and_conditions_for>invoice</attach_terms_and_conditions_for>
+            </general>
+        </sparsh_sales_email_attachments>
+    </default>
+</config>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category    Cnnb
+ * @package     Cnnb_WhatsappApi
+ * Events.xml file
+ *
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="customer_address_save_after">
+        <observer name="cnnb_customer_address_after_save_observer" instance="Cnnb\WhatsappApi\Observer\AfterAddressSaveObserver" />
+    </event>
+</config>

@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_GoogleLocalizedSite
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_Gtm config.xml
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <google_localize>
+        	<general>
+                <enabled_hreflang>1</enabled_hreflang>
+                <enabled_product>1</enabled_product>
+                <enabled_category>1</enabled_category>
+                <enabled_cms_page>1</enabled_cms_page>
+                <enabled_x_default>0</enabled_x_default>
+                <country_lang_mapping><![CDATA[{"_1613118292796_796":{"cnnb_country":"AE","cnnb_language":"ar_KW"}}]]></country_lang_mapping>
+        	</general>
+        </google_localize>
+    </default>
+</config>

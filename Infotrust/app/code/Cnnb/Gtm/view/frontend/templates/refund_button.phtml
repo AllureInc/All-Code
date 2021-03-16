@@ -1,0 +1,20 @@
+<?php
+/**
+ * @category  Cnnb
+ * @package   Cnnb_Gtm
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Refund button on order details page.
+ * Only visible when order is paid (total due is 0).
+ */
+?> 
+<?php /*if($block->getCurrentOrderData()->getBaseTotalDue() == 0):*/ ?>
+<a href="javascript:void(0)" 
+onclick="generateRefund();" 
+class="refund" 
+style="float: right; margin-right: 10px;" 
+id="refund-btn">
+    <span><?= /* @noEscape */ __('Refund'); ?></span>
+</a>
+<?php /*endif;*/ ?>

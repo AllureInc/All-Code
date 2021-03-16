@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category    Kerastase
+ * @package     Kerastase_GiftRule
+ *
+ *
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <!-- Menu Group -->
+        <add id="Kerastase_GiftRule::menu_section" title="Gift Rules" module="Kerastase_GiftRule" sortOrder="20"  resource="Kerastase_GiftRule::menu_section"/>
+
+        <!-- Child Menus -->
+        <add id="Kerastase_GiftRule::menu_config" title="Manage Settings" module="Kerastase_GiftRule" sortOrder="20" parent="Kerastase_GiftRule::menu_section" action="adminhtml/system_config/edit/section/kerastase_giftrule" resource="Kerastase_GiftRule::menu_config" />
+
+    </menu>
+</config>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_Gtm
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="cnnb_gtm_datalayer">
+            <block class="Cnnb\Gtm\Block\Data\Product" name="cnnb_gtm_block_product" cacheable="false"/>
+        </referenceBlock>
+        <referenceBlock name="product.info" template="Cnnb_Gtm::product/view/form.phtml"/>
+    </body>
+</page>

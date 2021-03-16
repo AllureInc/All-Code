@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Kerastase Package
+ * User: wbraham
+ * Date: 7/8/19
+ * Time: 12:02 PM
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Magento\Framework\Locale\Format" type="Kerastase\Aramex\Model\Format"/>
+
+    <type name="Kerastase\Aramex\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Kerastase\Aramex\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">kerastase_aramex_logger</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Kerastase\Aramex\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

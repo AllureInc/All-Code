@@ -1,0 +1,310 @@
+<?php
+/**
+ * @var $block  Cnnb\WhatsappApi\Block\PhoneNumber
+ */
+$isWarningMessageEnable = $block->warningMessageStatus();
+$isAllowedDigitChangeEnable = $block->allowedDigitChangeStatus();
+$warningData = $block->getWarning();
+$noOfAddress = $warningData['no_of_address'];
+$addressId = $warningData['address_id'];
+$custId = (int)$warningData['cust_id'];
+$isPhoneVerify = (int)$warningData['is_phone_verify'];
+if ($isWarningMessageEnable == 1) {
+    if (($custId != 0 && $isPhoneVerify != 1) || $warningData['is_allowed_digit_update'] == 1) {
+        $redirectToAccount = $block->getRedirectPath($noOfAddress, $addressId);
+    }
+}
+?>
+<script type="application/javascript">
+    require([
+        'jquery',
+        'intlTelInput'
+    ], function ($) {        
+        cnnbTelephoneRenderComplete = function() {
+            $("input[name='telephone']").intlTelInput(<?= /* @noEscape */ $block->phoneConfig(); ?>);
+            $("input[name='fax']").intlTelInput(<?= /* @noEscape */ $block->phoneConfig(); ?>);
+        }
+    });
+</script>
+<script type="text/javascript">
+    window.phone_no_digits_for_checkout = <?= /* @noEscape */ $block->getDefaultDigit();?>;
+</script>
+<script type="text/javascript">
+    require([
+        'jquery'
+    ], function ($) {
+
+        /* -- browser check script */
+        // Opera 8.0+
+        var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+        // Firefox 1.0+
+        var isFirefox = typeof InstallTrigger !== 'undefined';
+        // Safari 3.0+ "[object HTMLElementConstructor]" 
+        var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
+        // Internet Explorer 6-11
+        var isIE = /*@cc_on!@*/false || !!document.documentMode;
+        // Edge 20+
+        var isEdge = !isIE && !!window.StyleMedia;
+        // Chrome 1 - 79
+        var isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+        // Edge (based on chromium) detection
+        var isEdgeChromium = isChrome && (navigator.userAgent.indexOf("Edg") != -1);
+        // Blink engine detection
+        var isBlink = (isChrome || isOpera) && !!window.CSS;
+
+        /* -- browser check script ends */
+
+        if (isSafari) {
+            $(document).ready(function() {
+                var checkMethodDivExist = setInterval(function() {
+                    if($(".table-checkout-shipping-method input:radio:first").length) {
+                        $(".table-checkout-shipping-method input:radio:first").prop("checked", true).trigger("click");
+                        clearInterval(checkMethodDivExist);
+                    }
+                }, 70);
+                var checkShippingExist = setInterval(function() {
+                if($("#shipping-new-address-form input[name=telephone]").length) {
+                    $("#shipping-new-address-form input[name=telephone]").keydown(function(event){
+                    var codenum = $(".country.active").attr('data-dial-code') === undefined ?  $(".selected-flag").attr('title').split(": ")[1] : '+'+$(".country.active").attr('data-dial-code');
+                    var numLength = codenum.length;
+                        if(event.keyCode == 8){
+                            this.selectionStart--;
+                        }
+                        if(this.selectionStart < numLength){
+                            this.selectionStart = numLength;
+                            event.preventDefault();
+                        }
+                    });
+
+                    $("#shipping-new-address-form input[name=telephone]").keyup(function(event){
+                        var codenum = $(".country.active").attr('data-dial-code') === undefined ?  $(".selected-flag").attr('title').split(": ")[1] : '+'+$(".country.active").attr('data-dial-code');
+                        var numLength = codenum.length;
+                        if(this.selectionStart < numLength){
+                            this.selectionStart = numLength; 
+                            event.preventDefault();
+                        }
+                    });
+
+                    $("#shipping-new-address-form input[name=telephone]").change(function(event){
+                        if($("#telephone-error-shipping").length) {
+                            $("#telephone-error-shipping").remove();
+                        }
+                        var num = $("#shipping-new-address-form input[name=telephone]").val();
+                        var codenum = $(".country.active").attr('data-dial-code') === undefined ?  $(".selected-flag").attr('title').split(": ")[1] : '+'+$(".country.active").attr('data-dial-code');
+                        var numLength = codenum.length;
+                        var num_after_replace = num; 
+                        if(num.indexOf(' ') >= 0)
+                        {
+                            num = num.substr(num.indexOf(' ')+1);
+                            num_after_replace = num;
+                        } else {
+                            num = num.substr(num.indexOf(' ')+1);
+                            num_after_replace = num.slice(numLength); 
+                        }
+                        num_after_replace = num_after_replace.replace(/\s/g, '');
+
+                        if((num_after_replace.length != window.phone_no_digits_for_checkout) || (num_after_replace.charAt(0) == 0)) {
+                            var htmlText = '<div for="telephone" generated="true" class="mage-error" id="telephone-error-shipping">'+$.mage.__('Please enter valid mobile number for the selected country.')+'</div>';
+                            if($('#telephone-error-shipping').length)
+                            {
+                                $('#telephone-error-shipping').remove();
+                                $('#shipping-new-address-form div.intl-tel-input').after(htmlText);
+                            } else {
+                                $('#shipping-new-address-form div.intl-tel-input').after(htmlText);
+                            }
+                        } else {
+                            $("#telephone-error-shipping").remove();
+                        }
+                    });
+                    clearInterval(checkShippingExist);
+                   }
+                }, 70);
+
+                var checkBillingExist = setInterval(function() {
+                if($(".billing-address-form input[name=telephone]").length) {
+                    $(".billing-address-form input[name=telephone]").keydown(function(event){
+                    var codenum = $(".country.active").attr('data-dial-code') === undefined ?  $(".selected-flag").attr('title').split(": ")[1] : '+'+$(".country.active").attr('data-dial-code');
+                    var numLength = codenum.length;
+                        if(event.keyCode == 8){
+                            this.selectionStart--;
+                        }
+                        if(this.selectionStart < numLength){
+                            this.selectionStart = numLength;
+                            event.preventDefault();
+                        }
+                    });
+
+                    $(".billing-address-form input[name=telephone]").keyup(function(event){
+                        var codenum = $(".country.active").attr('data-dial-code') === undefined ?  $(".selected-flag").attr('title').split(": ")[1] : '+'+$(".country.active").attr('data-dial-code');
+                        var numLength = codenum.length;
+                        if(this.selectionStart < numLength){
+                            this.selectionStart = numLength; 
+                            event.preventDefault();
+                        }
+                    });
+
+                    $(".billing-address-form input[name=telephone]").change(function(event){
+                        if($("#telephone-error-billing").length) {
+                            $("#telephone-error-billing").remove();
+                        }
+                        var num = $(".billing-address-form input[name=telephone]").val();
+                        var codenum = $(".country.active").attr('data-dial-code') === undefined ?  $(".selected-flag").attr('title').split(": ")[1] : '+'+$(".country.active").attr('data-dial-code');
+                        var numLength = codenum.length;
+                        var num_after_replace = num; 
+
+                        if(num.indexOf(' ') >= 0)
+                        {
+                            num = num.substr(num.indexOf(' ')+1);
+                            num_after_replace = num;
+                        } else {
+                            num = num.substr(num.indexOf(' ')+1);
+                            num_after_replace = num.slice(numLength); 
+                        }
+                        num_after_replace = num_after_replace.replace(/\s/g, '');
+                        if((num_after_replace.length != window.phone_no_digits_for_checkout) || (num_after_replace.charAt(0) == 0)) {
+                            var htmlText = '<div for="telephone" generated="true" class="mage-error" id="telephone-error-billing">'+$.mage.__('Please enter valid mobile number for the selected country.')+'</div>';
+                            if($('#telephone-error-billing').length)
+                            {
+                                $('#telephone-error-billing').remove();
+                                $('.billing-address-form div.intl-tel-input').after(htmlText);
+                            } 
+                            else
+                            {
+                                $('.billing-address-form div.intl-tel-input').after(htmlText);
+                            }
+                        } else {
+                            $("#telephone-error-billing").remove();
+                        }
+                    });
+                    clearInterval(checkBillingExist);
+                   }
+                }, 70);
+            });    
+        } else {
+            $(window).load(function() {
+                var checkMethodDivExist = setInterval(function() {
+                    if($(".table-checkout-shipping-method input:radio:first").length) {
+                        $(".table-checkout-shipping-method input:radio:first").prop("checked", true).trigger("click");
+                        clearInterval(checkMethodDivExist);
+                    }
+                }, 70);
+                var checkShippingExist = setInterval(function() {
+                if($("#shipping-new-address-form input[name=telephone]").length) {
+                    $("#shipping-new-address-form input[name=telephone]").keydown(function(event){
+                    var codenum = $(".country.active").attr('data-dial-code') === undefined ?  $(".selected-flag").attr('title').split(": ")[1] : '+'+$(".country.active").attr('data-dial-code');
+                    var numLength = codenum.length;
+                        if(event.keyCode == 8){
+                            this.selectionStart--;
+                        }
+                        if(this.selectionStart < numLength){
+                            this.selectionStart = numLength;
+                            event.preventDefault();
+                        }
+                    });
+
+                    $("#shipping-new-address-form input[name=telephone]").keyup(function(event){
+                        var codenum = $(".country.active").attr('data-dial-code') === undefined ?  $(".selected-flag").attr('title').split(": ")[1] : '+'+$(".country.active").attr('data-dial-code');
+                        var numLength = codenum.length;
+                        if(this.selectionStart < numLength){
+                            this.selectionStart = numLength; 
+                            event.preventDefault();
+                        }
+                    });
+
+                    $("#shipping-new-address-form input[name=telephone]").change(function(event){
+                        if($("#telephone-error-shipping").length) {
+                            $("#telephone-error-shipping").remove();
+                        }
+                        var num = $("#shipping-new-address-form input[name=telephone]").val();
+                        var codenum = $(".country.active").attr('data-dial-code') === undefined ?  $(".selected-flag").attr('title').split(": ")[1] : '+'+$(".country.active").attr('data-dial-code');
+                        var numLength = codenum.length;
+                        var num_after_replace = num; 
+                        if(num.indexOf(' ') >= 0)
+                        {
+                            num = num.substr(num.indexOf(' ')+1);
+                            num_after_replace = num;
+                        } else {
+                            num = num.substr(num.indexOf(' ')+1);
+                            num_after_replace = num.slice(numLength); 
+                        }
+                        num_after_replace = num_after_replace.replace(/\s/g, '');
+                        if((num_after_replace.length != window.phone_no_digits_for_checkout) || (num_after_replace.charAt(0) == 0)) {
+                            var htmlText = '<div for="telephone" generated="true" class="mage-error" id="telephone-error-shipping">'+$.mage.__('Please enter valid mobile number for the selected country.')+'</div>';
+                            if($('#telephone-error-shipping').length)
+                            {
+                                $('#telephone-error-shipping').remove();
+                                $('#shipping-new-address-form div.intl-tel-input').after(htmlText);
+                            } else {
+                                $('#shipping-new-address-form div.intl-tel-input').after(htmlText);
+                            }
+                        } else {
+                            $("#telephone-error-shipping").remove();
+                        }
+                    });
+                    clearInterval(checkShippingExist);
+                   }
+                }, 70);
+
+                var checkBillingExist = setInterval(function() {
+                if($(".billing-address-form input[name=telephone]").length) {
+                    $(".billing-address-form input[name=telephone]").keydown(function(event){
+                    var codenum = $(".country.active").attr('data-dial-code') === undefined ?  $(".selected-flag").attr('title').split(": ")[1] : '+'+$(".country.active").attr('data-dial-code');
+                    var numLength = codenum.length;
+                        if(event.keyCode == 8){
+                            this.selectionStart--;
+                        }
+                        if(this.selectionStart < numLength){
+                            this.selectionStart = numLength;
+                            event.preventDefault();
+                        }
+                    });
+
+                    $(".billing-address-form input[name=telephone]").keyup(function(event){
+                        var codenum = $(".country.active").attr('data-dial-code') === undefined ?  $(".selected-flag").attr('title').split(": ")[1] : '+'+$(".country.active").attr('data-dial-code');
+                        var numLength = codenum.length;
+                        if(this.selectionStart < numLength){
+                            this.selectionStart = numLength; 
+                            event.preventDefault();
+                        }
+                    });
+
+                    $(".billing-address-form input[name=telephone]").change(function(event){
+                        if($("#telephone-error-billing").length) {
+                            $("#telephone-error-billing").remove();
+                        }
+                        var num = $(".billing-address-form input[name=telephone]").val();
+                        var codenum = $(".country.active").attr('data-dial-code') === undefined ?  $(".selected-flag").attr('title').split(": ")[1] : '+'+$(".country.active").attr('data-dial-code');
+                        var numLength = codenum.length;
+                        var num_after_replace = num; 
+
+                        if(num.indexOf(' ') >= 0)
+                        {
+                            num = num.substr(num.indexOf(' ')+1);
+                            num_after_replace = num;
+                        } else {
+                            num = num.substr(num.indexOf(' ')+1);
+                            num_after_replace = num.slice(numLength); 
+                        }
+                        num_after_replace = num_after_replace.replace(/\s/g, '');
+                        if((num_after_replace.length != window.phone_no_digits_for_checkout) || (num_after_replace.charAt(0) == 0)) {
+                            var htmlText = '<div for="telephone" generated="true" class="mage-error" id="telephone-error-billing">'+$.mage.__('Please enter valid mobile number for the selected country.')+'</div>';
+                            if($('#telephone-error-billing').length)
+                            {
+                                $('#telephone-error-billing').remove();
+                                $('.billing-address-form div.intl-tel-input').after(htmlText);
+                            } 
+                            else
+                            {
+                                $('.billing-address-form div.intl-tel-input').after(htmlText);
+                            }
+                        } else {
+                            $("#telephone-error-billing").remove();
+                        }
+                    });
+                    clearInterval(checkBillingExist);
+                   }
+                }, 70);
+            });
+        }
+    });
+</script>

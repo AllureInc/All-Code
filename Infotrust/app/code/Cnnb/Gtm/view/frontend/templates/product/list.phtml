@@ -1,0 +1,206 @@
+<?php
+/**
+ * Product list template
+ * Overridden File for Product Click Event
+ *
+ * @var $block \Magento\Catalog\Block\Product\ListProduct
+ */
+use Magento\Framework\App\Action\Action;
+
+$_productCollection = $block->getLoadedProductCollection();
+$_helper = $this->helper(Magento\Catalog\Helper\Output::class);
+?>
+<?php if (!$_productCollection->count()):?>
+    <div class="message info empty">
+        <div>
+            <?= $block->escapeHtml(__('We can\'t find products matching the selection.')) ?>
+        </div>
+    </div>
+<?php else:?>
+    <?= $block->getToolbarHtml() ?>
+    <?= $block->getAdditionalHtml() ?>
+    <?php
+    if ($block->getMode() == 'grid') {
+        $viewMode = 'grid';
+        $imageDisplayArea = 'category_page_grid';
+        $showDescription = false;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    } else {
+        $viewMode = 'list';
+        $imageDisplayArea = 'category_page_list';
+        $showDescription = true;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::FULL_VIEW;
+    }
+
+    /**
+     * Position for actions regarding image size changing in vde if needed
+     */
+    $pos = $block->getPositioned();
+    ?>
+    <div class="products wrapper <?= /* @noEscape */ $viewMode ?> products-<?= /* @noEscape */ $viewMode ?>">
+        <ol class="products list items product-items cnnb-cls">
+            <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+            <?php foreach ($_productCollection as $_product):?>
+            <li class="item product product-item cnnb-product-item">
+                <div 
+                class="product-item-info cnnb-product-item-info" 
+                data-container="product-<?= /* @noEscape */ $viewMode ?>">
+                    <?php
+                    $productImage = $block->getImage($_product, $imageDisplayArea);
+                    if ($pos != null) {
+                        $position = ' style="left:' . $productImage->getWidth() . 'px;'
+                            . 'top:' . $productImage->getHeight() . 'px;"';
+                    }
+                    ?>
+                    <?php // Product Image ?>
+                    <a href="<?= $block->escapeUrl($_product->getProductUrl()) ?>"
+                       class="product photo product-item-photo cnnb-click-event cnnb-product-item-photo"
+                       tabindex="-1" data-productId = "<?= /* @noEscape */ $_product->getEntityId();?>">
+                        <?= $productImage->toHtml() ?>
+                    </a>
+                    <div class="product details product-item-details cnnb-product-item-details">
+                        <?php
+                            $_productNameStripped = $block->stripTags($_product->getName(), null, true);
+                        ?>
+                        <strong class="product name product-item-name cnnb-click-event cnnb-product-item-name">
+                            <a class="product-item-link"
+                               data-productId = "<?= /* @noEscape */ $_product->getEntityId();?>"
+                               href="<?= $block->escapeUrl($_product->getProductUrl()) ?>">
+                                <?= /* @noEscape */
+                                $_helper->productAttribute($_product, $_product->getName(), 'name');
+                                ?>
+                            </a>
+                        </strong>
+                        <?= $block->getReviewsSummaryHtml($_product, $templateType) ?>
+                        <?= /* @noEscape */ $block->getProductPrice($_product) ?>
+                        <?php if ($_product->isAvailable()):?>
+                            <?= $block->getProductDetailsHtml($_product) ?>
+                        <?php endif; ?>
+
+                        <div class="product-item-inner">
+                            <div 
+                            class="product actions product-item-actions"
+                            <?= strpos($pos, $viewMode . '-actions') ? $block->escapeHtmlAttr($position) : ''
+                            ?>
+                            >
+                            <div 
+                                class="actions-primary" 
+                                <?= strpos($pos, $viewMode . '-primary') ? $block->escapeHtmlAttr($position) : '' ?>
+                                >
+                                    <?php if ($_product->isSaleable()):?>
+                                        <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                                        <form data-role="tocart-form"
+                                              data-product-sku="<?= $block->escapeHtmlAttr($_product->getSku()) ?>"
+                                              action="<?= $block->escapeUrl($postParams['action']) ?>"
+                                              method="post">
+                                            <input type="hidden"
+                                                   name="product"
+                                                   value="<?= /* @noEscape */ $postParams['data']['product'] ?>">
+                                            <?php
+                                            $paramName = Action::PARAM_NAME_URL_ENCODED;
+                                            $paramNameUrlEncoded = $postParams['data'][Action::PARAM_NAME_URL_ENCODED];
+                                            ?>
+                                            <input type="hidden" name="<?= /* @noEscape */ $paramName ?>"
+                                                   value="<?= /* @noEscape */ $paramNameUrlEncoded ?>">
+                                            <?= $block->getBlockHtml('formkey') ?>
+                                            <button type="submit"
+                                                    title="<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>"
+                                                    class="action tocart primary"
+                                                    data-value="<?= /* @noEscape */ $postParams['data']['product'] ?>">
+                                                <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
+                                            </button>
+                                        </form>
+                                    <?php else:?>
+                                        <?php if ($_product->isAvailable()):?>
+                                            <div class="stock available">
+                                                <span>
+                                                    <?= $block->escapeHtml(__('In stock')) ?>
+                                                </span>
+                                            </div>
+                                        <?php else:?>
+                                            <div class="stock unavailable">
+                                                <span>
+                                                    <?= $block->escapeHtml(__('Out of stock')) ?>
+                                                </span>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
+                                <div data-role="add-to-links" class="actions-secondary"<?=
+                                strpos($pos, $viewMode . '-secondary') ? $block->escapeHtmlAttr($position) : '';
+                                ?>>
+                                    <?php if ($addToBlock = $block->getChildBlock('addto')):?>
+                                        <?= $addToBlock->setProduct($_product)->getChildHtml() ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <?php if ($showDescription):?>
+                                <div class="product description product-item-description">
+                                    <?= /* @noEscape */
+                                    $_helper->productAttribute(
+                                        $_product,
+                                        $_product->getShortDescription(),
+                                        'short_description'
+                                    ); ?>
+                                    <a href="<?= $block->escapeUrl($_product->getProductUrl()) ?>"
+                                       title="<?= /* @noEscape */ $_productNameStripped ?>"
+                                       class="action more"><?= $block->escapeHtml(__('Learn More')) ?></a>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+    <?= $block->getToolbarHtml() ?>
+    <?php if (!$block->isRedirectToCartEnabled()):?>
+        <script type="text/x-magento-init">
+        {
+            "[data-role=tocart-form], .form.map.checkout": {
+                "catalogAddToCart": {
+                    "product_sku": "<?= $block->escapeJs($_product->getSku()) ?>"
+                }
+            }
+        }
+        </script>
+    <?php endif; ?>
+<?php endif; ?>
+<!-- DataLayer Script Start -->
+<script type="text/javascript">
+require(['jquery', 'Magento_Customer/js/customer-data'], function($, customerData) { 
+    var category_products = window.category_data.ecommerce.impressions;
+
+    /* Function for check clicked product id with existing product layer */
+    function checkProductId(item, index) {
+        if (clicked_product_id == item.id) {
+            clicked_product_data = item;
+        }
+    }
+    /* Function for check clicked product id with existing product layer ends */
+
+    /* Function for add clicked product data in layer */
+    $(document).ready(function() {
+        /* Function for add clicked product data in layer */
+        $('.cnnb-click-event').on('click', function(){
+            clicked_product_id = $(this).data("productid");
+            window.category_data.ecommerce.impressions.forEach(checkProductId);
+            if (clicked_product_data != 'undefined') { 
+                result = addDataInDataLayer(clicked_product_data);
+                if (result == true) {
+                    console.log('added dataLayer');
+                }
+            }                
+        });
+        /* Function for add clicked product data in layer ends */
+
+        /* Function for add to cart data from category page */
+        $('.action.tocart.primary').click(function() {
+            setTimeout(getCartProductsData, 3000);
+        });
+        /* Function for add to cart data from category page end*/
+    });
+});
+</script>
+<!-- DataLayer Script End -->

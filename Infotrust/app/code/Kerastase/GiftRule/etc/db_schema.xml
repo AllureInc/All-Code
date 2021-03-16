@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * For adding gift_sku field into data base
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="salesrule" resource="default" engine="innodb">
+        <column xsi:type="text" name="gift_sku" nullable="false" comment="Gift product SKUs" />
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="rule_id" />
+        </constraint>
+    </table>
+</schema>

@@ -1,0 +1,64 @@
+<?php
+/** @var \Algolia\AlgoliaSearch\Block\Algolia $block */
+$config = $block->getConfigHelper(); 
+
+$catalogSearchHelper = $block->getCatalogSearchHelper();
+
+$placeholder = __('Search for products, categories, ...');
+/** Render form with autocomplete input **/
+if ($config->isDefaultSelector() && $config->isEnabledFrontEnd()) { ?>
+	<div class="block block-search algolia-search-block">
+	    <div class="block block-content">
+	        <form id="search_mini_form" action="<?php echo $block->escapeHtml($catalogSearchHelper->getResultUrl());?>" method="get">
+	            <div id="algolia-searchbox">
+	              <span class="algolia-autocomplete">
+	                <input id="search"
+	                       type="text"
+	                       name="<?php echo $block->escapeHtml($catalogSearchHelper->getQueryParamName()); ?>"
+	                       class="input-text algolia-search-input"
+	                       autocomplete="off"
+	                       spellcheck="false"
+	                       autocorrect="off"
+	                       autocapitalize="off"
+	                       placeholder="<?php echo $block->escapeHtml($placeholder); ?>" />
+	                </span>
+	                <span class="clear-cross clear-query-autocomplete"></span>
+	                <span id="algolia-glass" class="magnifying-glass" width="24" height="24"></span>
+	            </div>
+	        </form>
+	    </div>
+	</div>
+<?php } else { 
+    echo $this->getLayout()->createBlock('Magento\Framework\View\Element\Template')->setTemplate('Magento_Search::form.mini.phtml')->toHtml();
+} ?>
+
+<!-- Js for adding class on search box span-->
+<script>
+requirejs(['jquery'], function ($) {
+    // Click function for search bar 
+    $("#algolia-glass").click(function(){
+        if($("span").hasClass("show-hide-search")) {
+            $('.algolia-autocomplete').removeClass('show-hide-search');
+        } else {
+            $('.algolia-autocomplete').addClass('show-hide-search');
+        }
+    });
+
+    $(document).mouseup(function(e)
+    {
+        var container = $(".algolia-search-block");
+        if (!container.is(e.target) && container.has(e.target).length === 0)
+        {
+            $('.algolia-autocomplete').removeClass('show-hide-search');
+        }
+    });
+
+    // Click function for sidebar toggle
+    window.addEventListener('click', function(e){   
+        if (document.getElementById('instant-search-facets-container').contains(e.target) || document.getElementById('algolia-left-container').contains(e.target)){
+        } else{
+            jQuery('#instant-search-facets-container').addClass('hidden-xs hidden-sm');
+        }
+    });
+});
+</script>

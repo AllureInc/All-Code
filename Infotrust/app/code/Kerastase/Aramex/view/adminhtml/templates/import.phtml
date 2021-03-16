@@ -1,0 +1,262 @@
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: center;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    .input-container {
+        margin: 3em auto;
+        max-width: 300px;
+        background-color: #EDEDED;
+        border: 1px solid #DFDFDF;
+
+        height: 37px;
+        padding: 0.5rem 0;
+    }
+
+    .btn-container {
+        margin: 3em auto;
+        max-width: 300px;
+        text-align: center;
+    }
+    .file-info {
+        font-size: 0.9em;
+        margin-left: 130px;
+    }
+    /*#attachment{display: none;}*/
+
+    .browse-btn {
+        background: #03A595;
+        color: #fff;
+        min-height: 35px;
+        padding: 10px;
+        border: none;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+    #uploadAttachment{
+        position: absolute;
+        margin-top: -6px;
+        height: 36px;
+        width: 120px;
+    }
+    .export-btn {
+        background: #03A595;
+        color: #fff;
+        min-height: 35px;
+        padding: 10px;
+        border: none;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+
+    .browse-btn:hover, export-btn:hover {
+        background: #4ec0b4;
+    }
+
+    @media (max-width: 300px) {
+        button {
+            width: 100%;
+            border-top-right-radius: 5px;
+            border-bottom-left-radius: 0;
+        }
+
+        .file-info {
+            display: block;
+            margin: 10px 5px;
+        }
+    }
+</style>
+
+<h2>Upload your Excel file</h2>
+<form class="form" method="post" id="myform" enctype="multipart/form-data" autocomplete="off">
+    <div class="input-container">
+        <input type="file" id="attachment" name="attachment" />
+        <!--        <input type="file" id="real-input" name="file"-->
+        <!--               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">-->
+        <!--        <button  type="submit">-->
+        <!--            Browse Files-->
+        <!--        </button>-->
+        <!-- <button id="uploadAttachment"   class="action-primary action-accept"><?php /* @escapeNotVerified */ echo __('Start import')?></button>-->
+
+        <input type="hidden" name="form_key" value="<?php echo $block->getFormKey() ?>" />
+        <!-- <span class="file-info">Upload your Excel file</span>-->
+    </div>
+</form>
+
+<br/>
+<h2>Manage My Orders</h2>
+<table id="myTable">
+    <thead>
+    <tr>
+        <th></th>
+        <th>#Order_id</th>
+        <th>AWB</th>
+        <th>Aramex Amount</th>
+        <th>Order Amount</th>
+        <th>Order Status</th>
+        <th>Check result</th>
+
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<form class="form" method="post" id="btnform" enctype="multipart/form-data" autocomplete="off">
+    <div class="btn-container">
+        <input
+                class="validate-btn export-btn"
+                type="button"
+                value="Validate selected orders"
+                name="validatebtn"
+        />
+        <input
+                class="export-btn"
+                type="button"
+                onclick="tableToExcel('myTable', 'name', 'export_orders.xls')"
+                value="Export to Excel"
+        />
+        <input type="hidden" name="form_key" value="<?php echo $block->getFormKey() ?>" />
+    </div>
+</form>
+<script>
+    require(['jquery','mage/translate'], function ($) {
+        $(document).ready(function ($) {
+            var url = '<?php echo $this->getUrl('manageorders/import/index') ?>';
+            $('#uploadAttachment').click(function() {
+                $('#attachment').trigger('click');
+
+            });
+
+            var myData = [];
+            var errorMessage  = $.mage.__('An error occurred while importing Orders!');
+            $("#attachment").change(function(){
+                var data = $("#myform").get(0);
+
+                jQuery.ajax({
+                    url: url,
+                    type: "POST",
+                    data: new FormData(data),
+                    processData: false,
+                    contentType: false,
+                    showLoader: true,
+                    success: function (data) {
+                        console.log(data.result);
+                        myData = data.result;
+                        const result = data.result;
+                        const dataTbody = document.querySelector("#myTable tbody");
+                        addDataToTbody(dataTbody, result);
+                    },
+                    error: function (data) {
+                        alert(errorMessage);
+
+
+                    }
+                });
+            });
+
+            $(".validate-btn").click(function () {
+                var changeStatusToDelivered = [];
+                var changeStatusToCompleted = [];
+                var lien = '<?php echo $this->getUrl('manageorders/import/validateorders') ?>';
+                var errorMessage = $.mage.__('An error occurred while Validating Orders!');
+
+                jQuery('.validate').each(function () {
+                    var sThisVal = (this.checked ? jQuery(this).val() : "");
+                    for(let i = 0; i < myData.length; i++){
+                        let amountAramex = myData[i].amount_aramex;
+                        let amountToPay = myData[i].amount_to_pay;
+                        if ((amountAramex == amountToPay) && (sThisVal === myData[i].id)){
+                            changeStatusToCompleted.push(sThisVal);
+                        }
+                        if ((amountAramex != amountToPay) && (sThisVal === myData[i].id)) {
+                            changeStatusToDelivered.push(sThisVal);
+                        }
+                    }
+                });
+                var dataa = $("#btnform").get(0);
+                var formData = new FormData(dataa);
+                formData.set("completed", changeStatusToCompleted);
+                formData.set("delivered", changeStatusToDelivered);
+                jQuery.ajax({
+                    url: lien,
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    showLoader: true,
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (data) {
+                        alert(errorMessage);
+                    }
+                });
+            });
+
+            function addDataToTbody(nl, data) {
+                jQuery.each( data, function( i, d ) {
+                    if(d.amount_aramex !== d.amount_to_pay){
+                        d.status = 'Error';
+                    }else{
+                        d.status='Success';
+                    }
+                    var tr = nl.insertRow(i);
+                    Object.keys(d).forEach((k, j) => {
+                        console.log(' Object.keys(d).',k,j);
+                        var cell = tr.insertCell(j);
+                        if(j===0){
+                            cell.innerHTML = '<input type="checkbox" name="order_id" class="validate" value="'+d[k]+'" />';
+                        }else{
+                            cell.innerHTML = d[k];
+                        }
+                    });
+                    nl.appendChild(tr);
+
+                })
+            };
+
+            function tableToExcel(table, name, filename) {
+                let uri = 'data:application/vnd.ms-excel;base64,',
+                    template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><title></title><head>' +
+                        '<meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>',
+                    base64 = function (s) {
+                        return window.btoa(decodeURIComponent(encodeURIComponent(s)))
+                    }, format = function (s, c) {
+                        return s.replace(/{(\w+)}/g, function (m, p) {
+                            return c[p];
+                        })
+                    }
+
+                if (!table.nodeType) table = document.getElementById(table)
+                var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+
+                var link = document.createElement('a');
+                link.download = filename;
+                link.href = uri + base64(format(template, ctx));
+                link.click();
+            };
+
+        });
+    });
+</script>
+

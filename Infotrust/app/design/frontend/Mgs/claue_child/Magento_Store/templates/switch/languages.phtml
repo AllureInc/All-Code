@@ -1,0 +1,45 @@
+<!-- Website switcher -->
+<?php
+$storeManager = \Magento\Framework\App\ObjectManager::getInstance()->get('\Magento\Store\Model\StoreManagerInterface');
+$scopeConfig = \Magento\Framework\App\ObjectManager::getInstance()->get('\Magento\Framework\App\Config\ScopeConfigInterface');
+$websites = $storeManager->getWebsites();
+$websiteid = $storeManager->getWebsite()->getWebsiteId();
+$switcher = \Magento\Framework\App\ObjectManager::getInstance()->get('\Kerastase\Core\Block\Switcher');
+?>
+<div class="switcher store switcher-store" id="switcher-store">
+    <?php $id = $block->getIdModifier() ? '-' . $block->getIdModifier() : ''?>
+    <div class="dropdown dropdown-switcher language switcher-language" id="switcher-language<?php /* @escapeNotVerified */ echo $id?>">
+        <?php foreach ($websites as $website): ?>
+            <?php if ($websiteid == $website->getId()): ?>
+           <button class="switcher-toggle dropdown-toggle" type="button" data-toggle="dropdown"> <span><?php echo $block->escapeHtml($switcher->getWebsiteCountry($website->getId())) ?></span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+            <?php endif; ?>
+        <?php endforeach; ?>
+
+        <?php foreach ($block->getStores() as $_lang): ?>
+            <?php if ($_lang->getId() != $block->getCurrentStoreId()): ?>
+                   &nbsp;|&nbsp; <a href="<?php echo $_lang->getBaseUrl() ?>" data-post='<?php /* @escapeNotVerified */ echo $block->getTargetStorePostData($_lang); ?>'>
+                        <?php echo $block->escapeHtml($_lang->getName()) ?></a>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        <ul class="dropdown-menu">
+	    <?php $currentLocale = $scopeConfig->getValue('general/locale/code', \Magento\Store\Model\ScopeInterface::SCOPE_STORE , $block->getCurrentStoreId()); ?>
+            <?php foreach ($websites as $website): ?>
+                <?php if (!($websiteid == $website->getId()) && $website->getDefaultStore() && $website->getDefaultStore()->isActive()): ?>
+		<?php $stores = $website->getStores(); ?>
+		<?php foreach($stores as $store): ?>
+ 		  <?php $locale = $scopeConfig->getValue('general/locale/code', \Magento\Store\Model\ScopeInterface::SCOPE_STORE , $store->getStoreId()); ?>
+		  <?php if($locale == $currentLocale): ?>
+                    <li class="switcher-option">
+                        <a href='<?php echo $store->getBaseUrl() ?>'>
+                            <?php echo $switcher->getWebsiteCountry($website->getId()) ?>
+                        </a>
+                    </li>
+		  <?php endif; ?>
+                  <?php endforeach; ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>
+
+<!-- Eof website switcher -->

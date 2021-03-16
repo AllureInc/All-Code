@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_CheckoutTranslation
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="content">
+            <block class="Magento\Framework\View\Element\Template" name="cnnb_checkout_translation" as="cnnb_checkout_translation"  template="Cnnb_CheckoutTranslation::translation.phtml" />
+        </referenceBlock>
+    </body>
+</page>

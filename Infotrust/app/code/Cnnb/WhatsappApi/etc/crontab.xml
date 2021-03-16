@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_WhatsappApi
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_WhatsappApi crontab.xml
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+	<group id="default">
+		<job instance="Cnnb\WhatsappApi\Cron\SendNotification" method="execute" name="cnnb_whatsapp_notification">
+			<schedule>*/3 * * * *</schedule>
+		</job>
+	</group>
+	<group id="default">
+		<job instance="Cnnb\WhatsappApi\Cron\CheckAllowedDigits" method="execute" name="cnnb_whatsapp_allowed_digits">
+			<schedule>*/20 * * * *</schedule>
+		</job>
+	</group>
+</config>

@@ -1,0 +1,64 @@
+.ais-Panel-header {
+    background-color: #efefef;
+    padding: 7px;
+}
+
+.ais-Panel {
+    border: solid 0px #efefef;
+    margin-bottom: 15px;
+}
+
+.name.filter-options-title {
+    font-size: 18px;
+    font-weight: 600px;
+    color: #222;
+    position: relative;
+    display: block;
+    padding: 0 0 2px;
+    margin-bottom: 15px;
+}
+
+#instant-search-facets-container > div.is-widget-container-color > div > div.ais-Panel-body > div > div > ul > li:nth-child(1) > div > label > input {
+    margin-top: 3px;
+    vertical-align: top;
+}
+
+#instant-search-facets-container > div.is-widget-container-color > div > div.ais-Panel-body > div > div > ul > li:nth-child(1) > div > label {
+    display: inline-block;
+}
+
+span.ais-RefinementList-count {
+    position: absolute;
+    right: 0;
+    color: #b1b1b1;
+}
+
+span.ais-HierarchicalMenu-count {
+    position: absolute;
+    right: 0;
+    color: #b1b1b1;
+}
+
+#algolia-stats {
+    display: none;
+}
+
+.name.filter-options-title:after {
+    content: "\f107";
+    position: absolute;
+    font-size: 12px;
+    font-family: "FontAwesome";
+    color: #7f7f7f;
+    right: 0;
+    bottom: 3px;  
+}
+
+.name.filter-options-title:before {
+    height: 2px;
+    width: 60px;
+    content: "";
+    position: absolute;
+    bottom: 0;
+    background-color: #222;
+    left: 0;
+}

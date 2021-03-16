@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_GtmWeb
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * For adding datalayer
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="head.additional">
+            <block class="Cnnb\GtmWeb\Block\DataLayer" name="cnnb_gtmweb_datalayer" as="cnnb_gtmweb_datalayer" after="cnnb_gtm_datalayer" template="Cnnb_GtmWeb::gtm-web-js.phtml" />
+        </referenceBlock>
+    </body>
+</page>

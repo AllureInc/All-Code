@@ -1,0 +1,143 @@
+<?php
+/**
+ * Kerastase Package
+ * User: wbraham
+ * Date: 7/16/19
+ * Time: 2:17 PM
+ */
+
+namespace Kerastase\Aramex\Cron;
+
+use Exception;
+use Magento\Framework\Exception\FileSystemException;
+
+class UploadFilesToServer
+{
+    const SO_FOLDER = 'so';
+    const ASN_FOLDER = 'asn';
+    const PENDING_TO_SEND_FOLDER ='pool';
+
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    protected $logger;
+
+    protected $sftp;
+
+    protected $helper;
+    /**
+     * @var \Magento\Framework\Filesystem\DirectoryList
+     */
+    private $directory;
+
+    /**
+     * FileUploader constructor
+     *
+     * @param \Psr\Log\LoggerInterface $logger
+     */
+    public function __construct(
+        \Kerastase\Aramex\Logger\Logger $logger,
+        \Kerastase\Aramex\Helper\Data $helper,
+        \Magento\Framework\Filesystem\Io\Sftp $sftp
+    )
+    {
+        $this->logger = $logger;
+        $this->helper = $helper;
+        $this->sftp = $sftp;
+    }
+
+    public function execute()
+    {
+
+        $this->logger->info('############################## START UPLOAD FILES TO SERVER CRON ####################################');
+        $soFolder = $this->helper->getToBeSentFolderPath(self::SO_FOLDER).'/'.self::PENDING_TO_SEND_FOLDER;
+        $arraySO = $this->helper->getAllFiles($soFolder);
+        $destinationFolderSO = $this->helper->getDestinationFolderSO();
+
+        $asnFolder = $this->helper->getToBeSentFolderPath(self::ASN_FOLDER).'/'.self::PENDING_TO_SEND_FOLDER;
+        $arrayASN = $this->helper->getAllFiles($asnFolder);
+        $destinationFolderASN = $this->helper->getDestinationFolderASN();
+
+        $host = $this->helper->getPath("aramex/general/host");
+        $user = $this->helper->getPath("aramex/general/username");
+        $password = $this->helper->getPath("aramex/general/password");
+        $port = $this->helper->getPath("aramex/general/port");
+
+        $config['hostname'] = $host;
+        $config['username'] = $user;
+        $config['password'] = $password;
+
+        $this->logger->info('##SFTP HOST##  '.$host.' ###SFTP USERNAME###  '.$user.'## SFTP PASSWORD## '.$password.'##SFTP PORT##'.$port);
+
+        try {
+            $connexion = $this->createConnection($config);
+            $this->logger->info('## list of SO files to be sent ',$arraySO);
+            foreach ($arraySO as $item) {
+                $this->sendFileToAramex($connexion,$item, $destinationFolderSO, $soFolder);
+            }
+            $connexion->close();
+        } catch (\Magento\Framework\Exception\LocalizedException $exception) {
+              throw new  $exception(
+                __('We cannot send files to Aramex folder SO.')
+            );
+        }
+
+        try {
+            $connexion = $this->createConnection($config);
+            $this->logger->info('## list of ASN files to be sent ',$arrayASN);
+            foreach ($arrayASN as $item) {
+                $this->sendFileToAramex($connexion,$item, $destinationFolderASN, $asnFolder);
+            }
+            $connexion->close();
+        } catch (\Magento\Framework\Exception\LocalizedException $exception) {
+              throw new  $exception(
+                __('We cannot send files to Aramex folder SO.')
+            );
+        }
+
+        $this->logger->info('############################## END UPLOAD FILES TO SERVER CRON ####################################');
+    }
+    /**
+     * Connect to an SFTP server using specified configuration
+     *
+     * @param array $config
+     * @return \Magento\Framework\Filesystem\Io\Sftp
+     * @throws \InvalidArgumentException
+     */
+    public function createConnection(array $config)
+    {
+        if (!isset($config['hostname'])
+            || !isset($config['username'])
+            || !isset($config['password'])
+        ) {
+            throw new \InvalidArgumentException('Required config elements: hostname, username, password');
+        }
+        $connection = $this->sftp;
+        $connection->open(
+            ['host' => $config['hostname'], 'username' => $config['username'], 'password' => $config['password'],'timeout'=>86000]
+        );
+          return $connection;
+    }
+
+    /**
+     * @param $file
+     */
+    public function sendFileToAramex($connexion,$file,$destinationFolder, $localFolder)
+    {
+        try {
+            $connexion->cd($destinationFolder);
+            if(is_writable($destinationFolder)) {
+                throw new \Magento\Framework\Exception\LocalizedException(
+                    __('We cannot send the file target is not writable ')
+                );
+            }
+            $this->logger->info('##sendFileToAramex ##### FULL FILE NAME ###  '.$localFolder.'/'.$file);
+
+            $content = file_get_contents($localFolder.'/'.$file);
+            $connexion->write($file, $content);
+
+        } catch (Exception $e) {
+            $this->logger->info($e);
+        }
+    }
+}

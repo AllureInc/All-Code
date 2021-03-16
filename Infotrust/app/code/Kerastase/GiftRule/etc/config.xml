@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category    Kerastase
+ * @package     Kerastase_GiftRule
+ *
+ *
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <kerastase_giftrule>
+            <general>
+                <enabled>1</enabled>
+                <debug>1</debug>
+            </general>
+            <sales>
+                <valid_order_statuses>waiting_for_delivery,complete,holded,new,new_pending_for_approval,payment_review,pending,pending_payfortcw,pending_payment,pending_paypal,pending_installment,review_installment,,processing,processing_backordered,processing_delivered,processing_shipped,processing_submited_to_warehouse</valid_order_statuses>
+            </sales>
+            <restric_add_to_cart>
+                <restrict>1</restrict>
+                <restrict_message>Product cannot add to cart because you have a gift item in your cart.</restrict_message>
+            </restric_add_to_cart>
+        </kerastase_giftrule>
+    </default>
+</config>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Kerastase
+ * @category   Kerastase
+ * @package    Kerastase_AdminActivity
+  */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Kerastase_AdminActivity::activity_head" title="Admin Activity log" module="Kerastase_AdminActivity" sortOrder="100" parent="Magento_Backend::system" resource="Kerastase_AdminActivity::activity_head" />
+        <add id="Kerastase_AdminActivity::activity" title="Admin Activity" module="Kerastase_AdminActivity" sortOrder="10" parent="Kerastase_AdminActivity::activity_head" action="adminactivity/activity" resource="Kerastase_AdminActivity::activity" />
+        <add id="Kerastase_AdminActivity::login_activity" title="Login Activity" module="Kerastase_AdminActivity" sortOrder="20" parent="Kerastase_AdminActivity::activity_head" action="adminactivity/login" resource="Kerastase_AdminActivity::login_activity" />
+        <add id="Kerastase_AdminActivity::configuration" title="Configuration" module="Kerastase_AdminActivity" sortOrder="40" parent="Kerastase_AdminActivity::activity_head" action="adminhtml/system_config/edit/section/admin_activity" resource="Kerastase_AdminActivity::configuration"/>
+    </menu>
+</config>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_WhatsappApi
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_WhatsappApi menu.xml
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Cnnb_WhatsappApi::whatsapp_notification_log" title="Whatsapp Notification Log" translate="title" module="Cnnb_WhatsappApi" sortOrder="40" parent="Magento_Backend::system_other_settings" action="whatsappapi/log/index" resource="Cnnb_WhatsappApi::notification"/>
+    </menu>
+</config>

@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category    Kerastase
+ * @package     Kerastase_GiftRule
+ *
+ *
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="kerastase" translate="label" sortOrder="200">
+            <label>Gift Rules</label>
+        </tab>
+        <section id="kerastase_giftrule" showInDefault="1" showInWebsite="1" showInStore="1">
+            <tab>kerastase</tab>
+            <label>Seetings</label>
+            <resource>Kerastase_GiftRule::config</resource>
+            <group id="general" showInDefault="1">
+                <label>General Settings</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="debug" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Debug Mode</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+            </group>
+
+            <group id="sales" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                <label>Sales Settings</label>
+                <field id="valid_order_statuses" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Valid Order Status</label>
+                    <source_model>Magento\Sales\Model\Config\Source\Order\Status</source_model>
+                    <comment>The selected order status(es) will taken into account for order count.</comment>
+                </field>
+            </group>
+
+            <group id="mapp_codes" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                <label>Map Magento store code with MSI source code</label>
+                <field id="code_map_field" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Kerastase\GiftRule\Block\Adminhtml\Form\Field\StoreCode</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <comment>
+                        Map the store code to MSI source code for fetching inventory of gift products.
+                    </comment>
+                </field>
+            </group>
+
+            <group id="restric_add_to_cart" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                <label>Add to cart setting</label>
+                <field id="restrict" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Restrict add to cart when gift product is in cart</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If the selected value is 'Yes' then no product will add to the cart if there already gift product exists.</comment>
+                </field>
+                <field id="restrict_message" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Message to show the user</label>
+                    <comment>This message will show to the user why the product is no being added.</comment>
+                </field>
+            </group>
+
+            <group id="cart" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                <label>Cart Settings</label>
+                <field id="gift_items" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Add all gift items in cart</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If the selected value is 'No' then the first gift product which is in the stock will be added in the cart and if the selected value is 'Yes' then all the in stock products will be added in the cart.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_OrderEnhance
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_OrderEnhance Module System Configuration
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="order_enhance" translate="label" sortOrder="10">
+            <label>CNNB Order</label>
+        </tab>
+        <section id="cnnb_order" translate="label" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Settings</label>
+            <tab>order_enhance</tab>
+            <resource>Cnnb_OrderEnhance::orderenhance_config</resource>
+            <group id="order_comment" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Order Comment Configuration</label>
+                <field id="enable" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="order_history" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Update By Text</label>
+                    <comment>Please use "%s" for showing the admin name.</comment>
+                </field>
+                <field id="order_invoice" translate="label comment" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Invoice Update Comment</label>
+                </field>
+                <field id="order_invoice_shipment" translate="label comment" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Invoice &amp; shipment Update Comment</label>
+                </field>
+                <field id="order_shipment" translate="label comment" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Shipment Update Comment</label>
+                </field>
+                <field id="order_credit_memo" translate="label comment" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Credit Memo Update Comment</label>
+                </field>
+                <field id="order_return" translate="label comment" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order Return Update Comment</label>
+                </field>
+                <field id="order_rma" translate="label comment" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order RMA Update Comment</label>
+                </field>
+                <field id="order_cancel" translate="label comment" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order Cancel Update Comment</label>
+                </field>
+                <field id="order_send_email" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order Send Email Update Comment</label>
+                </field>
+                <field id="order_reorder" translate="label comment" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order Reorder Update Comment</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

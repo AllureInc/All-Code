@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="aramex">
+
+        <job name="cnnb_aramex_update_stock_before_orders" instance="Kerastase\Aramex\Cron\UpdateOrder" method="updateStockBeforeSendingOrders">
+            <schedule>* 8 * * *</schedule>
+        </job>
+
+        <job name="cnnb_aramex_update_stock" instance="Kerastase\Aramex\Cron\UpdateOrder" method="UpdateStock">
+            <schedule>45 * * * *</schedule>
+        </job>
+
+
+        <job name="cnnb_aramex_auto_approve_orders" instance="Kerastase\Aramex\Cron\UpdateOrder" method="ApproveOrders">
+            <schedule>0 * * * *</schedule>
+        </job>
+
+        <job name="cnnb_aramex_invoicing_shipments_requests" instance="Kerastase\Aramex\Cron\UpdateOrder" method="InvoiceOrders">
+            <schedule>15 8 * * *</schedule>
+        </job>
+
+        <job name="cnnb_aramex_read_responses" instance="Kerastase\Aramex\Cron\UpdateOrder" method="ProceedOrder">
+            <schedule>* * * * *</schedule>
+        </job>
+
+        <job name="cnnb_aramex_track_delivery" instance="Kerastase\Aramex\Cron\UpdateOrder" method="DeliveryOrders">
+            <schedule>30 * * * *</schedule>
+        </job>
+
+        <job name="cnnb_aramex_push_files" instance="Kerastase\Aramex\Cron\UploadFilesToServer" method="execute">
+            <schedule>5 * * * *</schedule>
+        </job>
+
+
+    </group>
+</config>

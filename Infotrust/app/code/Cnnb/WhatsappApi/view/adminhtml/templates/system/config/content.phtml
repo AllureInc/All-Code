@@ -1,0 +1,16 @@
+<?php $contentArray =  $block->getSessionContentArray(); ?>
+<script>
+    require([
+        'jquery'
+    ], function($){
+        window.contentArray = <?= /* @noEscape */ json_encode($contentArray)?>;
+        $('#cnnb_whatsappapi_orderplace_message_template_list').on('change', function(){
+            if($(this).val() != '')
+            {
+                $('#cnnb_whatsappapi_orderplace_template').text(contentArray[$(this).val()].content);
+            } else {
+                $('#cnnb_whatsappapi_orderplace_template').text('');
+            }
+        });
+    });
+</script>

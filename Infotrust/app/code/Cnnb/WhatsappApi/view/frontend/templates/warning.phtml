@@ -1,0 +1,19 @@
+<?php
+/**
+ * @var $block  Cnnb\WhatsappApi\Block\PhoneNumber
+ */
+$isWarningMessageEnable = $block->warningMessageStatus();
+$isAllowedDigitChangeEnable = $block->allowedDigitChangeStatus();
+$warningData = $block->getWarning();
+$noOfAddress = $warningData['no_of_address'];
+$addressId = $warningData['address_id'];
+$showDigitChangeMsg = $block->getDigitChangeData(); 
+
+if($isWarningMessageEnable == 1 && $warningData['cust_id'] != 0 && $warningData['is_phone_verify'] != 1) {
+    $warningMessage = $block->getWarningMessage($noOfAddress, $addressId);
+} else if($isWarningMessageEnable == 1 && $isAllowedDigitChangeEnable == 1) {
+	if($warningData['is_phone_verify'] == 1 && $warningData['is_allowed_digit_update'] == 1) {
+	    $allowedDigitUpdateMessage = $block->getAllowedDigitUpdateMsg($noOfAddress, $addressId);
+    }
+}
+

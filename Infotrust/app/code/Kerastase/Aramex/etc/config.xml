@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+            <shipment_tracking>
+                <general>
+                    <api_url>http://ws.aramex.net/ShippingAPI.V2/Tracking/Service_1_0.svc</api_url>
+                    <api_username>ops@cnnbsolutions.com</api_username>
+                    <api_password>@Cnnb2019</api_password>
+                    <api_account_number>152260</api_account_number>
+                    <api_account_pin>321321</api_account_pin>
+                    <api_account_entity>DXB</api_account_entity>
+                </general>
+            </shipment_tracking>
+            <aramex_general>
+                <general>
+                    <enable>0</enable>
+                    <received_files>pub/received_files</received_files>
+                    <to_be_sent_path_files>pub/xmlfiles/tosend</to_be_sent_path_files>
+                    <pdf_path_config>pub/pdffiles</pdf_path_config>
+                </general>
+            </aramex_general>
+        <aramex>
+            <general>
+                <host>localhost</host>
+                <username>username</username>
+                <password>password</password>
+            </general>
+        </aramex>
+    </default>
+</config>

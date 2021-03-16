@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Kerastase
+ * @category   Kerastase
+ * @package    Kerastase_AdminActivity
+  */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <job name="Kerastase_admin_activity_clearlog" instance="Kerastase\AdminActivity\Cron\ClearLog" method="execute">
+            <schedule>0 3 * * *</schedule>
+        </job>
+    </group>
+</config>

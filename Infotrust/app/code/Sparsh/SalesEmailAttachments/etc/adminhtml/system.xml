@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="sparsh" translate="label" sortOrder="500">
+            <label>Sparsh Extensions</label>
+        </tab>
+        <section id="sparsh_sales_email_attachments" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Sales Email Attachments</label>
+            <tab>sparsh</tab>
+            <resource>Sparsh_SalesEmailAttachments::sparsh_sales_email_attachments</resource>
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="attach_pdf_enabled" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Attach Sales Email PDF</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="attach_pdf_for" translate="label" type="multiselect" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Attach PDF For</label>
+                    <source_model>Sparsh\SalesEmailAttachments\Model\Config\Source\AttachPdfIn</source_model>
+                    <depends>
+                        <field id="attach_pdf_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="attach_terms_and_conditions_enabled" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Attach Terms And Conditions</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="attach_terms_and_conditions_for" translate="label" type="multiselect" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Attach Terms And Conditions For</label>
+                    <source_model>Sparsh\SalesEmailAttachments\Model\Config\Source\AttachTermsConditons</source_model>
+                    <depends>
+                        <field id="attach_terms_and_conditions_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="terms_conditions" translate="label" type="Magento\Config\Block\System\Config\Form\Field\File" sortOrder="5" showInDefault="1" showInWebsite="1">
+                    <label>Terms And Conditions File</label>
+                    <backend_model>Sparsh\SalesEmailAttachments\Model\Config\Backend\TacFile</backend_model>
+                    <upload_dir config="system" scope_info="1">sparsh/sales_email_attachments</upload_dir>
+                    <base_url type="media" scope_info="1">sparsh/sales_email_attachments</base_url>
+                    <comment>Allowed upload file types: .pdf, .doc, .docx, .txt</comment>
+                    <depends>
+                        <field id="attach_terms_and_conditions_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="cc" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>CC To Email</label>
+                    <comment>Comma Separated</comment>
+                </field>
+                <field id="bcc" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>BCC To Email</label>
+                    <comment>Comma Separated</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

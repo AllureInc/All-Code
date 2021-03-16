@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Kerastase_Aramex::sftpsetup" title="SFTP Setup" sortOrder="51">
+                    <resource id="Kerastase_Aramex::post" title="Posts" sortOrder="10"/>
+                    <resource id="Kerastase_Aramex::sftpsetup_configuration" title="Configuration" sortOrder="99" />
+                    <resource id="Kerastase_Aramex::shipment_tracking_configuration" title="Shipment tracking" sortOrder="10" />
+                </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Kerastase_Aramex::sftpsetup_config" title="SFTP Setup"/>
+                            <resource id="Kerastase_Aramex::OrdersManagement" title="Orders Menu" sortOrder="10" />
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

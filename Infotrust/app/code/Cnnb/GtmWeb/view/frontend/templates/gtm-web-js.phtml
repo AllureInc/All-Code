@@ -1,0 +1,1413 @@
+<?php
+/** @var $block Cnnb\GtmWeb\Block\DataLayer **/
+$moduleStatus = $block->getCurrentModuleStatus();
+if ($moduleStatus == 1) {
+    $dataLayerName = $block->getDataLayerName();
+    $menuMapData = $block->getMegaMenuMappingData();
+    $megaMenuClasses = $block->getMegaMenuClasses();
+    $pagetype = $block->getPageType();
+
+    /* Session and store config data for login and registration */
+    $sessionData = $block->getSavedSessionData();
+    $cnnbCustId = $sessionData['cnnb_cust_id'];
+    $isLogin = $sessionData['is_login'];
+    $isLoginAfterRegiter = $sessionData['is_login_after_register'];
+    $regiterConfigValue = $sessionData['register_config_value'];
+    $loginConfigValue = $sessionData['login_config_value'];
+    /* Session and store config data for login and registration ends*/
+    ?>
+<!-- Google Tag Manager by Cnnb (Web) -->
+<script type="text/javascript">
+    window.<?= /* @noEscape */ $dataLayerName ?> = window.<?= /* @noEscape */ $dataLayerName ?> || []; 
+    
+    /* -- Current page url Data -- */
+    window.current_cms_uri = "<?= /* @noEscape */ $block->getCmsPageUri();?>";
+    
+
+    window.page_object = {
+        "cms_index_index" : "Home Page",
+        "catalog_category_view" : "Category Page",
+        "ustomer_account_login" : "Login Page",
+        "customer_account_create" : "Account Create Page",
+        "checkout_cart_index" : "Shopping Cart Page",
+        "checkout_index_index" : "Checkout Page"
+    };
+    /* -- Current page url Data ends -- */
+
+    /* -- Mega Menu Initial Data -- */
+    window.megaMenuClasses = <?= /* @noEscape */ $megaMenuClasses;?>;
+    window.megaMenuCollection = <?= /* @noEscape */ $block->getCategoryCollectionData();?>;
+    window.menuMapData = <?= /* @noEscape */ json_encode($menuMapData); ?>;
+    /* -- Mega Menu Initial Data Ends -- */
+
+    /* -- Footer Links Initial Data -- */
+    window.footerLinkMapData = <?= /* @noEscape */ json_encode($block->getFooterLinkMapping());?>;
+    window.footerLinkElements = <?= /* @noEscape */ json_encode($block->getFooterClasesAndIds());?>;
+
+    /* -- Footer Links Initial Data Ends -- */
+
+    /* -- Related Articals Initial Data -- */
+    window.relatedArticleMapData = <?= /* @noEscape */ json_encode($block->getRelatedArticlesMapping());?>;
+    window.relatedArticleElements = <?= /* @noEscape */ json_encode($block->getRelatedArticleClasesAndIds());?>;
+    /* -- Related Articals Initial Data Ends -- */
+
+    /* -- Wish list data -- */
+    window.wishListClassIdsAndProduct = <?= /* @noEscape */ json_encode($block->getWishListClassIdsAndProduct());?>;
+    /* -- Wish list data ends-- */
+
+    /* -- News letter data -- */
+    window.newsletterConfig = <?= /* @noEscape */ json_encode($block->getNewsletterConfig());?>;
+    window.newsletterClassAndId = <?= /* @noEscape */ json_encode($block->getNewsletterClassId());?>;
+    /* -- News letter data ends -- */
+
+    /* -- Chat with us data -- */
+    window.chatWithusConfig = <?= /* @noEscape */ json_encode($block->getChatwithusConfig());?>;
+    window.chatWithusClassId = <?= /* @noEscape */ json_encode($block->getChatwithusClassId());?>;
+    /* -- Chat with us data ends -- */
+
+    /* Country and Language Selectors Initial Data */
+    window.countrySelectorData = <?= /* @noEscape */ json_encode($block->getCountrySelectorsConfig());?>;
+    window.languageSelectorData = <?= /* @noEscape */ json_encode($block->getLanguageSelectorsConfig());?>;
+    /* Country and Language Selectors Initial Data Ends */
+
+    /* Pushing page load data into data layer */
+    window.pageLoadData = <?= /* @noEscape */ json_encode($block->getPageLoadData());?>;
+    window.dataLayer.push(pageLoadData);
+    
+    /* Pushing page load data into data layer ends */
+
+    /* -- Diagnosis Data -- */
+    window.diagnosisData = <?= /* @noEscape */ json_encode($block->getDiagnosisData());?>;
+    window.nextKey = 0;
+    window.stepsDataForLayer = <?= /* @noEscape */ json_encode($block->getPageLoadData());?>; 
+    window.updateVirtualPathData = {};
+    window.seeTheResult = false;
+    /* -- Diagnosis Data ends -- */
+
+    /* -- Back to Top Initial Data -- */
+    window.backToTopData = <?= /* @noEscape */ json_encode($block->getBackToTopConfiguration());?>;
+    /* -- Back to Top Initial Data Ends -- */
+
+    /* -- Diagnostic Send By Email Initial Data -- */
+    window.send_by_email_mapping = <?= /* @noEscape */ json_encode($block->getDiagnosticSendByEmailMapping());?>;
+    window.send_by_email_elements = <?= /* @noEscape */ json_encode($block->getDiagnosticSendByEmailElements());?>;
+
+    window.email_submit_mapping = <?= /* @noEscape */ json_encode($block->getDiagnosticSendByEmailSubmitMapping());?>;
+    window.email_submit_elements = <?= /* @noEscape */ json_encode($block->getDiagnosticSendByEmailSubmitElements());?>;
+
+    window.diagnose_shop_now_cta_data = <?= /* @noEscape */ json_encode($block->getDiagnoseShopNowCta());?>;
+    window.diagnose_shop_now_cta_elements = <?= /* @noEscape */ json_encode($block->getDiagnoseShopNowCtaElements());?>;
+    window.diagnose_newsletter = <?= /* @noEscape */ json_encode($block->getDaignoseNewsletterData());?>;
+    window.diagnose_cgu = <?= /* @noEscape */ json_encode($block->getDaignoseCguData());?>;
+    window.pspOtherServicesMapping = <?= /* @noEscape */ json_encode($block->getPspOtherServicesMapping());?>;
+    window.pspServiceClassesIds = <?= /* @noEscape */ json_encode($block->getOtherServiceClassesAndIds());?>;
+    window.updateVirtualPathByFunction = 1;
+    /* -- Diagnostic Send By Email Initial Data Ends -- */
+
+    /* --- For pushing the data in the DataLayer --- */
+    require(['jquery','mage/url'], function($, url) {
+        window.page_type = "<?= /* @noEscape */ $pagetype;?>";
+        /* --- Case for adding tab data on product detail page --- */
+        switch(window.page_type) {
+        case 'catalog_product_view':
+            window.pdpConfiguration = <?= /* @noEscape */ json_encode($block->getPdpConfiguration());?>;
+            window.pdpClassesAndIds = <?= /* @noEscape */ $block->getpdpClassesAndIds();?>;
+            window.pdpTabConfiguration = <?= /* @noEscape */ json_encode($block->getPdpTabConfiguration());?>;
+            window.pdpTabClassesAndIds = <?= /* @noEscape */ $block->getPdpTabClassesAndIds();?>;
+            window.pdpArrowConfiguration = <?= /* @noEscape */ json_encode($block->getPdpArrowConfiguration());?>;
+            window.pdpArrowClassesAndIds = <?= /* @noEscape */ $block->getPdpArrowClassesAndIds();?>;
+            window.productsNameAndIdData = <?= /* @noEscape */ json_encode($block->getNameFromDetailPage());?>;
+            window.pspCtaMapping = <?= /* @noEscape */ json_encode($block->getPspCtaMapping());?>;
+            window.pspCtaClasesAndIds = <?= /* @noEscape */ json_encode($block->getPspCtaClasesAndIds());?>;
+            window.currentCatProduct = <?= /* @noEscape */ json_encode($block->getCurrentCategoryProducts());?>;
+            window.ratingConfigMapping = <?= /* @noEscape */ json_encode($block->getRatingMappingConfiguration());?>;
+            window.ratingClassesAndIds = <?= /* @noEscape */ json_encode($block->getRatingClassesAndIds());?>;
+            break;
+
+        case 'catalog_category_view':
+            window.ratingConfigMapping = <?= /* @noEscape */ json_encode($block->getRatingMappingConfiguration());?>;
+            window.ratingClassesAndIds = <?= /* @noEscape */ json_encode($block->getRatingClassesAndIds());?>;
+            window.productsNameAndIdData = <?= /* @noEscape */ json_encode($block->getProductNameAndId());?>;
+            window.pspCtaClasesAndIds = <?= /* @noEscape */ json_encode($block->getPspCtaClasesAndIds());?>;
+            window.currentCatProduct = <?= /* @noEscape */ json_encode($block->getCurrentCategoryProducts());?>; 
+            break;
+        }
+
+        window.findSaloonMapping = <?= /* @noEscape */ json_encode($block->getSaloonConfiguration());?>;
+        window.saloonClassesAndIds = <?= /* @noEscape */ $block->getSaloonClassesAndIds();?>;
+        /* --- Case for adding tab data on product detail page end --- */
+
+        /*  Function for adding successful register or login data */
+        var cnnbCustId = '<?= /* @noEscape */ $cnnbCustId;?>';
+        var isLogin = '<?= /* @noEscape */ $isLogin;?>';
+        var isLoginAfterRegiter = '<?= /* @noEscape */ $isLoginAfterRegiter;?>';
+        var regiterConfigValue = '<?= /* @noEscape */ $regiterConfigValue;?>';
+        var loginConfigValue = '<?= /* @noEscape */ $loginConfigValue;?>';
+        if(cnnbCustId != ""){
+            if(isLoginAfterRegiter == 1) {
+                var registerdData = {
+                     'event': 'uaevent',
+                     'ecommerce': regiterConfigValue,
+                     'eventCategory': 'registration',
+                     'eventAction': 'account signup::(regular|social)',
+                     'eventLabel': 'modal'
+                }
+                dataLayer.push(registerdData);
+            } 
+            else if(isLogin == 1) 
+            {
+                var loginData = {
+                'event': 'uaevent',
+                'ecommerce': loginConfigValue,
+                'eventCategory': 'Log in',
+                'eventAction': '(regular|social::facebook)',
+                'eventLabel': 'successful'
+                }
+                dataLayer.push(loginData);
+            }   
+        } else {
+               var pageType = window.page_type;
+               var page = '';
+               var status = '';
+               var ecommerce = '';
+               var checkErrorClass = setInterval(function() {
+                    if($('.message-error.error.message').length) {
+                        if(pageType == 'customer_account_login') {
+                        page = 'Log in';
+                        status = 'Error';
+                        ecommerce = loginConfigValue;
+                        var failData = {
+                            'event': 'uaevent',
+                            'ecommerce': ecommerce,
+                            'eventCategory': page,
+                            'eventAction': '(regular|social::facebook)',
+                            'eventLabel': status
+                            }
+                        dataLayer.push(failData);
+                    } else if(pageType == 'customer_account_create') {
+                        page = 'Registration';
+                        status = 'Registration Failed';
+                        ecommerce = regiterConfigValue;
+                        var failData = {
+                            'event': 'uaevent',
+                            'ecommerce': ecommerce,
+                            'eventCategory': page,
+                            'eventAction': '(regular|social::facebook)',
+                            'eventLabel': status
+                            }
+                        dataLayer.push(failData);
+                        }
+                        clearInterval(checkErrorClass);
+                    }
+
+               }, 1000);
+               setTimeout(function(){ clearInterval(checkErrorClass); }, 8000);
+        }
+        /* -- ends -- */
+
+        /* -- Bind Click Event for all events -- */
+        $(window).load(function() {
+            /*
+             * Logging Custom Events | Logo Selection DataLayer
+             * Bind Click Event on Logo Class and IDs
+             * Bind Function: prepareDataLayer
+             */
+
+            $('.logo').click(function() { 
+                data = prepareDataLayer('main menu navigation', 'select', 'logo', false);
+                window.dataLayer.push(data);
+            });
+
+            /*
+             * Logging Custom Events | PSP - Back to top button on Desktop or Mobile DataLayer
+             * Bind Click Event on Back To Top Button Class and IDs
+             * Bind Function: prepareDataLayer
+             */
+            if(Object.keys(backToTopData).length > 0) 
+            {
+                $(''+backToTopData.element).on('click', function(){
+                    var pageType = window.page_type;
+                    var pageObj = page_object[pageType];
+                    var textToPass = "<?= /* @noEscape */ __('navigation::back to top')?>";
+                    data = prepareDataLayer(pageObj, textToPass, backToTopData.eventLabel, backToTopData.ecommerce);
+                    window.dataLayer.push(data);
+                });
+            }
+
+            /*
+             * Logging Custom Events | MEGA Menu - L1, L2 & L3
+             * Bind Click Event on MEGA Menu Classes and IDs
+             * Bind Function: applyClickEvent
+             */
+            window.megaMenuClasses.forEach(applyClickEvent);
+
+            if(Object.keys(saloonClassesAndIds).length > 0) {
+                bindClickEventForSalon();
+            }
+
+            /*
+             * Logging Custom Events | Footer Links DataLayer
+             * Bind Click Event on Footer Classes and IDs
+             * Bind Function: applyClickEventForFooter
+             */
+            if(Object.keys(footerLinkElements).length > 0)
+            {
+                footerLinkElements.forEach(applyClickEventForFooter);
+            }
+
+            /*
+             * Logging Custom Events | Content Page - Select Article DataLayer
+             * Bind Click Event on Related Article Classes and IDs
+             * Bind Function: applyClickEventForRelatedArticle
+             */
+            if(Object.keys(relatedArticleElements).length > 0) 
+            {
+                relatedArticleElements.forEach(applyClickEventForRelatedArticle);
+            }
+
+            /*
+             * Logging Custom Events | Content Page - Select Article DataLayer
+             * Bind Click Event on wish list Classes and IDs
+             * Bind Function: applyClickEventForWishlist
+             */
+            if(Object.keys(wishListClassIdsAndProduct).length > 0)
+            {
+                wishListClassIdsAndProduct.forEach(applyClickEventForWishlist);
+            }
+
+            /*
+             * Logging Custom Events | Content Page - Select Article DataLayer
+             * Bind Click Event on newsletter subscribe Classes and IDs
+             * Bind Function: applyClickEventForNewsletter
+             */
+            if(Object.keys(newsletterClassAndId).length > 0)
+            {
+                newsletterClassAndId.forEach(applyClickEventForNewsletter);
+            }
+
+            /*
+             * Logging Custom Events | Content Page - Select Article DataLayer
+             * Bind Click Event on chat with us Classes and IDs
+             * Bind Function: applyClickEventForChatWithUs
+             */
+            if(Object.keys(chatWithusClassId).length > 0)
+            {
+                chatWithusClassId.forEach(applyClickEventForChatWithUs);
+            }
+
+            /*
+             * Logging Custom Events | Country Selector DataLayer
+             * Bind Click Event on Country Selector Classes and IDs
+             * Bind Function: prepareDataLayer
+             */
+            if(Object.keys(countrySelectorData).length > 0)
+            {
+                $(''+countrySelectorData['element']).on('click', function(){
+                    if (typeof($(this).children('a').text().trim()) != 'undefined' ) {
+                        var country_name = $(this).children('a').text().trim();
+                        var ecommerce = countrySelectorData['ecommerce'];
+                        var country_selector = '<?= /* @noEscape */ __('country selector') ?>';
+                        data = prepareDataLayer(country_selector, 'select', country_name, ecommerce);
+                        window.dataLayer.push(data);
+
+                    }
+                });
+            }
+
+            /*
+             * Logging Custom Events | Header - Language Selector DataLayer
+             * Bind Click Event on Language Selector Classes and IDs
+             * Bind Function: prepareDataLayer
+             */
+            if (Object.keys(languageSelectorData).length > 0)
+            {
+                $(''+languageSelectorData['element']).on('click', function(){
+                    if (typeof($(this).children('a').text().trim()) != 'undefined' ) {
+                        var country_name = $(this).children('a').text().trim();
+                        var ecommerce = languageSelectorData['ecommerce'];
+                        data = prepareDataLayer('header', 'select', 'switch language', ecommerce);
+                        window.dataLayer.push(data);
+
+                    }
+                });
+            }
+
+            /*
+             * Logging Custom Events | PDP Or Other Page services
+             * Bind Click Event on PDP Or Other Page services Classes and IDs
+             * Bind Function: applyClickEventForPspOtherService
+             */
+            if(Object.keys(pspServiceClassesIds).length > 0)
+            {
+                pspServiceClassesIds.forEach(applyClickEventForPspOtherService);
+            }
+
+            /*
+             * DataLayers For
+             * PSP Filter on Desktop or Mobile
+             * PDP option
+             * PDP Or Other Page services
+             */
+            if (window.page_type == 'catalog_category_view') 
+            {
+                window.pspFilterData = <?= /* @noEscape */ json_encode($block->getPspFilterData());?>;
+                /*
+                 * Logging Custom Events | PSP Filter on Desktop or Mobile
+                 * Bind Click Event on PSP Filter Classes and IDs
+                 * Bind Function: prepareDataLayer
+                 */
+                if (Object.keys(pspFilterData).length > 0) 
+                {
+                    var event_category = pspFilterData['eventCategory'];
+                    var event_action = pspFilterData['eventAction'];
+                    var event_label = pspFilterData['eventLabel'];
+                    var ecommerce = pspFilterData['ecommerce'];
+                    data = prepareDataLayer(event_category, event_action, event_label, ecommerce);
+                    window.dataLayer.push(data);
+                }
+
+                /*
+                 * Logging Custom Events | Select reviews - rating star
+                 * Bind Click Event on Reviews and Rating Classes and IDs
+                 * Bind Function: applyClickEventForRating
+                 */
+                if(ratingClassesAndIds != null)
+                {
+                    if(Object.keys(ratingClassesAndIds).length > 0) {
+                        setTimeout(
+                            function(){
+                                ratingClassesAndIds.forEach(applyClickEventForRating);
+                        } , 3000);
+                    }
+                }
+            }
+
+            if (window.page_type == 'catalog_product_view') {
+
+                /*
+                 * Logging Custom Events | PDP Option
+                 * Bind Click Event on PDP option Classes and IDs
+                 * Bind Function: applyClickEventForPspCta
+                 */
+                if(pspCtaClasesAndIds != null) {
+                    if (Object.keys(pspCtaClasesAndIds).length > 0) 
+                    {
+                        pspCtaClasesAndIds.forEach(applyClickEventForPspCta);
+                    }
+                }
+                /*
+                 * Logging Custom Events | PDP Options Like:Auto Replenishment
+                 * Bind Click Event on PDP Option Class and IDs
+                 * Bind Function: applyClickEventForPdp
+                 */
+                if(Object.keys(pdpClassesAndIds).length > 0)
+                {
+                    pdpClassesAndIds.forEach(applyClickEventForPdp);
+                }
+                /*
+                 * Logging Custom Events | PDP tab Options
+                 * Bind Click Event on PDP tab Option Class and IDs
+                 * Bind Function: applyClickEventForPdpTab
+                 */
+                if(Object.keys(pdpTabClassesAndIds).length > 0) 
+                {
+                    pdpTabClassesAndIds.forEach(applyClickEventForPdpTab);
+                }
+                /*
+                 * Logging Custom Events | PDP Options image arrow click
+                 * Bind Click Event on PDP tab Option Class and IDs
+                 * Bind Function: applyClickEventForArrows
+                 */
+                if(Object.keys(pdpArrowClassesAndIds).length > 0)
+                {
+                    pdpArrowClassesAndIds.forEach(applyClickEventForArrows);
+                }
+            }
+            /*
+             * Logging Custom Events | PDP Or Other Page services
+             * Bind Click Event on start diagnosis button
+             * Bind Function: applyClickStartDiagnosis
+             */
+            if(Object.keys(diagnosisData).length > 0)
+            {
+                applyClickStartDiagnosis(window.diagnosisData.start_button_config);
+            }
+
+            if (current_cms_uri == "diagnose-your-hair") {
+                if(Object.keys(diagnosisData).length > 0){
+
+                    /*
+                     * Diagnostic Home - Start diagnostic | DataLayer
+                     * Function Bind: startDiagnosisDataPush
+                     */
+                    $(''+diagnosisData['start_button_config']).on('click', function(){
+                        startDiagnosisDataPush('e-diagnostic', 'start diagnostic', 'start diagnostic');
+                        var diagnosPageNumber = window.nextKey; /* Step Counter*/
+                        setTimeout(function(){
+
+                            /* ------- Next -- Previous ----- */
+                            /*
+                             * Diagnostic Home - Next | DataPush Layer
+                             * Diagnostic - Submit CTA _ See the result | DataPush Layer
+                             * Diagnostics result page-Store Locator | DataPush Layer
+                             * Diagnostic result page - send by email (Step 1 & 2) | DataPush Layer
+                             * Function Bind: startDiagnosisDataPush
+                             *
+                             */
+                            $(''+diagnosisData['next_button_config']).on('click', function(){
+                                if ($(this).text() != 'See the result') {
+                                    eventLabelArray = [];
+                                    eventLabel = '';
+                                    var diagnostic = "<?= /* @noEscape */ __('e-diagnostic') ?>";
+                                    if (diagnosPageNumber > 0) {
+                                        for (i = 1; i <= diagnosPageNumber; i++) {
+                                            eventLabelArray.push(i);
+                                        }
+                                        eventLabel = eventLabelArray.join(' :: ');
+                                    }
+
+                                    startDiagnosisDataPush(diagnostic, 'next', ''+eventLabel);                  
+                                    if (diagnosPageNumber < 6) {
+                                        diagnosPageNumber++;
+                                    }
+                                } else {
+                                    if($(this).text() == 'See the result'){
+                                        /* --- Send by email, Shop Now CTA & Find my Salon --- */
+                                        setTimeout(
+                                            function(){
+                                                
+                                                /*
+                                                * Send By Email | Step 1 & 2 |Function Bind: applyClickEventSendByEmail
+                                                */
+                                                var element_length = Object.keys(send_by_email_elements).length;
+                                                var mapping_length = Object.keys(send_by_email_mapping).length;
+                                                if (element_length != 0 && mapping_length != 0) {
+                                                        send_by_email_elements.forEach(applyClickEventSendByEmail);
+                                                }
+
+                                                /*
+                                                * Diagnostic Page - Shop Now CTA
+                                                * Bind: applyClickEventSendByEmail 
+                                                */
+                                                var cta_data  = Object.keys(diagnose_shop_now_cta_data).length;
+
+                                                var cta_element = Object.keys(diagnose_shop_now_cta_elements).length;
+
+                                                if (cta_data != 0 && cta_element != 0) {
+                                                    diagnose_shop_now_cta_elements.forEach(applyClickEventShopNowCta);
+                                                }
+                                                
+                                                /*
+                                                * Diagnostics result page-Store Locator
+                                                * Bind: applyClickEventSendByEmail 
+                                                */
+                                                var saloon_class_length = Object.keys(saloonClassesAndIds).length;
+                                                var find_saloon_mapping = Object.keys(findSaloonMapping).length;
+                                                if(saloon_class_length != 0 && find_saloon_mapping != 0) {
+                                                    bindClickEventForSalon();
+                                                }
+                                            },
+                                        5000);
+                                        /* --- Send by email, Shop Now CTA & Find my Salon Ends --- */
+
+                                        /*
+                                        * Diagnostic - Submit/See Result CTA _ See the result | DataLayer
+                                        * On Click of submit
+                                        * Function Bind: startDiagnosisDataPush
+                                        */
+                                        $(''+diagnosisData['result_btn_config']).on('click', function(){
+                                            var diagnosis = "<?= /* @noEscape */ __('e-diagnostic') ?>";
+                                            var see_result = "<?= /* @noEscape */ __('see the result') ?>";
+                                            var result = "<?= /* @noEscape */ __('result of diagnosis') ?>";
+                                            startDiagnosisDataPush(diagnosis, see_result, result);
+                                        });                                
+                                    }
+                                }
+                            });
+
+                            /*
+                             * Diagnostic Home - Previous | DataPush Layer
+                             * Function Bind: startDiagnosisDataPush
+                             */
+                            $(''+diagnosisData['previous_btn_config']).on('click', function(){
+                                eventLabelArray = [];
+                                eventLabel = '';
+                                if (diagnosPageNumber > 0) {
+                                    for (i = diagnosPageNumber; i > 0; i--) {
+                                        eventLabelArray.push(i);
+                                    }
+                                    eventLabel = eventLabelArray.join(' :: ');
+                                }
+
+                                startDiagnosisDataPush('e-diagnostic', 'previous', ''+eventLabel);
+                                if (diagnosPageNumber >1) {
+                                    diagnosPageNumber--;
+                                }
+                                window.nextKey = window.nextKey - 1;
+                            });
+                            /* ------- Next -- Previous -- Reset -------- ENDS */
+                        }, 2000);
+                    });
+                }
+            }
+        });
+        /* -- Bind Click Event for all events Ends -- */
+
+        /* 
+         * Diagnostics result page-Store Locator
+         * Function Bind: applyClickEventForSaloon
+         * Bind click function for Find Salon
+         */
+        function bindClickEventForSalon()
+        {
+            saloonClassesAndIds.forEach(applyClickEventForSaloon);
+        }
+
+
+        /* 
+         * Push Data For These Events
+         * Diagnostic Home - Start diagnostic | DataLayer
+         * Diagnostic Home - Previous | DataPush Layer
+         * Diagnostic Home - Restart/Reset | DataPush Layer
+         * Diagnostic Home - Next | DataPush Layer
+         * Diagnostic - Submit/See Result CTA _ See the result | DataLayer
+         *
+         */
+        function startDiagnosisDataPush(eventCategory, eventAction, eventLabel){
+            var dataLayerForStartDiagnosis = {
+                'event': 'uaevent',
+                'eventCategory': ''+eventCategory,
+                'eventAction': ''+eventAction,
+                'eventLabel': ''+eventLabel
+            };
+            window.dataLayer.push(dataLayerForStartDiagnosis);
+        }
+
+        /* 
+         * Apply Function For start diagnosis button click
+         *
+         */
+        function applyClickStartDiagnosis(item){
+            if (item != 'undefined') {
+                var checkClass = setInterval(function(){
+                if($(''+item).length){ 
+                    $(''+item).on('click', function(){
+                    if($('#ker-ediag-form-clientname').val() != ''){
+                        $.each(diagnosisData['steps_data'], function( key, value) {
+                            if(key == 0)
+                            {
+                            var dataLayerForFirstStep = <?= /* @noEscape */ json_encode($block->getPageLoadData());?>;
+                                if(value['gtm_page_virtual'] == 'yes') 
+                                {
+                                    dataLayerForFirstStep['event'] = value['gtm_element_name'];
+                                    dataLayerForFirstStep['virtualPageURL'] = value['gtm_virtual_url'];
+                                    dataLayerForFirstStep['virtualPageTitle'] = value['gtm_virtual_title'];
+                                }
+                                window.dataLayer.push(dataLayerForFirstStep);
+                            }
+                        });
+                        applyClickNextDiagnosis(window.diagnosisData.next_button_config);
+                        applyClickResetDiagnosis();
+                       }
+                    });
+                    clearInterval(checkClass);
+                   }
+                },80);
+            }
+        }
+
+        /*
+         * Diagnostic Home - Restart/Reset | DataPush Layer
+         * Function Bind: startDiagnosisDataPush and applyClickStartDiagnosis
+         *
+         */                    
+        function applyClickResetDiagnosis(){
+            var checkClass = setInterval(function(){
+                if($(''+diagnosisData['reset_btn_config']).length){ 
+                    $(''+diagnosisData['reset_btn_config']).on('click', function(){
+                        window.nextKey = 0;
+                        window.stepsDataForLayer = <?= /* @noEscape */ json_encode($block->getPageLoadData())?>;
+                        applyClickStartDiagnosis(window.diagnosisData.start_button_config);
+                        startDiagnosisDataPush('e-diagnostic', 'restart', 'restart diagnostic');
+                    });
+                    clearInterval(checkClass);
+                }
+            }, 80);
+        }            
+
+        /* 
+         * apply click on next button and push data into data layer
+         *
+         */ 
+        function applyClickNextDiagnosis(item){
+            if (item != 'undefined') {
+            var checkClass = setInterval(function(){
+                if($(''+item).length){ 
+                    $(''+item).on('click', function(){
+                    var checkError = 0;
+                    var currentData = window.diagnosisData['steps_data'][nextKey+1];
+                    var previousStepData = window.diagnosisData['steps_data'][nextKey];
+                    var dataLayerSteps = window.stepsDataForLayer;
+                        dataLayerSteps['event'] = currentData['gtm_element_name'];
+                        dataLayerSteps['virtualPageURL'] = currentData['gtm_virtual_url'];
+                        dataLayerSteps['virtualPageTitle'] = currentData['gtm_virtual_title'];
+                    var isVirtual = previousStepData['gtm_page_virtual'];
+                    if(isVirtual == 'yes'){
+                       if(previousStepData['options']){
+                           $.each(previousStepData['options'], function( optionkey, optionvalue ){
+                            if(nextKey == 0 ){
+                                var adminValue = '';
+                                var selectedValue = $(''+optionvalue['id']).val();
+                                if(selectedValue != ""){
+                                    for($i=0 ; $i< optionvalue['value_array'].length; $i++)
+                                    {                               
+                                        if(optionvalue['value_array'][$i].split(':')[0] == selectedValue){
+                                        adminValue = optionvalue['value_array'][$i].split(':')[1];
+                                        dataLayerSteps[optionvalue['array_text']]= adminValue;
+                                        }   
+                                    }     
+                                    stepsDataForLayer = dataLayerSteps;
+                                } else {
+                                    checkError++;
+                                }
+                            } else if(nextKey == 1){
+                               var adminValue = '';
+                               var id_name = optionvalue['id'];
+                               for($i=0 ; $i< optionvalue['value_array'].length; $i++)
+                                {       
+                                    var selectedValue = $("input[name="+id_name+"]:checked").val();
+                                    if(selectedValue != undefined){
+                                        if(optionvalue['value_array'][$i].split(':')[0] == selectedValue){
+                                        adminValue = optionvalue['value_array'][$i].split(':')[1];
+                                            dataLayerSteps[optionvalue['array_text']] = adminValue;
+                                        } 
+                                    } else {
+                                        checkError++;
+                                    }
+                                }
+                                if(checkError == 0 ){
+                                    stepsDataForLayer = dataLayerSteps;
+                                }
+                            } else if(nextKey == 2){
+                                var adminValue = '';
+                                var id_name = optionvalue['id'];
+                                for($i=0 ; $i< optionvalue['value_array'].length; $i++)
+                                {       
+                                    var selectedValue = $("input[name="+id_name+"]:checked").val();
+                                    if(selectedValue != undefined){
+                                        if(optionvalue['value_array'][$i].split(':')[0] == selectedValue){
+                                            adminValue = optionvalue['value_array'][$i].split(':')[1];
+                                            dataLayerSteps[optionvalue['array_text']] = adminValue;
+                                        }   
+                                    } else {
+                                        checkError++;
+                                    }
+                                }
+                                if(checkError == 0 ){
+                                    stepsDataForLayer = dataLayerSteps;
+                                }
+                            } else if(nextKey == 3){
+                                var adminValue = '';
+                                var id_name = optionvalue['id'];
+                                for($i=0 ; $i< optionvalue['value_array'].length; $i++)
+                                {       
+                                    var selectedValue = $(''+id_name).attr('data-id');
+                                    if(optionvalue['value_array'][$i].split(':')[0] == selectedValue){
+                                        adminValue = optionvalue['value_array'][$i].split(':')[1];
+                                        dataLayerSteps[optionvalue['array_text']] = adminValue;
+                                    }   
+                                }
+                                stepsDataForLayer = dataLayerSteps;
+                            } else if(nextKey == 4){
+                                var adminValue = '';
+                                var id_name = optionvalue['id'];
+                                for($i=0 ; $i< optionvalue['value_array'].length; $i++)
+                                {       
+                                    var selectedValue = $("input[name="+id_name+"]:checked").val();
+                                    if(selectedValue != undefined){
+                                        if(optionvalue['value_array'][$i].split(':')[0] == selectedValue){
+                                            adminValue = optionvalue['value_array'][$i].split(':')[1];
+                                            dataLayerSteps[optionvalue['array_text']] = adminValue;
+                                        }  
+                                    } else {
+                                        checkError++;
+                                    }
+                                }
+                                if(checkError == 0){
+                                    stepsDataForLayer = dataLayerSteps;
+                                }
+                            } 
+                            else if(nextKey == 5){
+                                var adminValue = '';
+                                var selectedValue = $(''+optionvalue['id']).val();
+                                if(selectedValue != ""){
+                                    for($i=0 ; $i< optionvalue['value_array'].length; $i++)
+                                    {                               
+                                        if(optionvalue['value_array'][$i].split(':')[0] == selectedValue){
+                                        adminValue = optionvalue['value_array'][$i].split(':')[1];
+                                        dataLayerSteps[optionvalue['array_text']] = adminValue;
+                                        }   
+                                    }     
+                                    stepsDataForLayer = dataLayerSteps;
+                                    applySeeResultClick(window.diagnosisData.result_btn_config);
+                            } else {
+                                checkError++;
+                            }
+                           }
+                        });
+                       } // end of has option if
+                      } // end of is virtual page type if
+                      if(checkError == 0){
+                    window.dataLayer.push(stepsDataForLayer);
+                    nextKey++;
+                }
+                   }); // Click function ends
+                   
+                   clearInterval(checkClass);
+                } // Clicked item exist ennds
+              },80); // set interval ends
+            } // If item is not undefined ends
+        } // Function ends
+        /* -- Apply click event for next diagnosis button ends -- */
+
+        /* 
+         * apply click on see result button and push data into data layer
+         *
+         */
+        function applySeeResultClick(item){
+            var checkClass = setInterval(function(){
+            if ($(''+item).length) {
+                $(''+item).on('click', function(){
+                    window.seeTheResult = true;
+                    var previousStepData = window.diagnosisData['steps_data'][nextKey-1];
+                    var currentData = window.diagnosisData['steps_data'][nextKey];
+                    var dataLayerSteps = window.stepsDataForLayer;
+                        dataLayerSteps['event'] = currentData['gtm_element_name'];
+                        dataLayerSteps['virtualPageURL'] = currentData['gtm_virtual_url'];
+                        dataLayerSteps['virtualPageTitle'] = currentData['gtm_virtual_title'];
+                        var adminValue = '';
+                        var isVirtual = previousStepData['gtm_page_virtual'];
+                        var dataLength = previousStepData['options'].length;
+                        if(isVirtual == 'yes'){
+                        if(dataLength>0){
+                        $.each(previousStepData['options'], function( optionkey, optionvalue ){
+                        var id_name = optionvalue['id'];
+                            for($i=0 ; $i< optionvalue['value_array'].length; $i++)
+                            {       
+                                var selectedValue = $("input[name="+id_name+"]:checked").val();
+                                if(optionvalue['value_array'][$i].split(':')[0] == selectedValue){
+                                    adminValue = optionvalue['value_array'][$i].split(':')[1];
+                                    dataLayerSteps[optionvalue['array_text']] = adminValue;
+                                }   
+                            }
+                            });
+                          }
+                        }
+                        window.stepsDataForLayer = dataLayerSteps;
+                        if(window.seeTheResult == true )
+                        { 
+                            window.updateVirtualPathData = stepsDataForLayer;
+                        }
+                       
+                    });
+                    clearInterval(checkClass);
+                }
+            },80);
+        }
+        /* -- Apply click event for see diagnosis result button -- */
+
+        /*
+         * Logging Custom Events | Chat with us
+         * Bind Click Event on chat with us Classes and IDs
+         */
+        function applyClickEventForChatWithUs(item, index){
+            var eventLabel = '';
+            if (item != 'undefined') {
+                $(''+item).on('click', function(){
+                    $.each(chatWithusConfig, function( key, value ) {
+                        if(key == item) {
+                            eventLabel = value;
+                        }
+                    });
+                    var dataLayerForChatwithus = {
+                            'event' : 'uaevent',
+                            'eventCategory' : 'footer',
+                            'eventAction': 'chat with us',
+                            'eventLabel': eventLabel,
+                            'ecommerce': ''+chatWithusConfig.ecommerce
+                    };
+                    window.dataLayer.push(dataLayerForChatwithus);
+                });
+            }
+        }
+        /* -- Apply click event for chat with us ends -- */
+
+        /*
+         * Logging Custom Events | newsletter subscribe button
+         * Bind Click Event on newsletter Classes and IDs
+         */
+        function applyClickEventForNewsletter(item, index){
+            var eventLabel = '';
+            var customerName = window.newsletterConfig.customer;
+            if (item != 'undefined') {
+                $(''+item).on('click', function(){
+                    $.each(newsletterConfig, function( key, value ) {
+                        if(key == item) {
+                            eventLabel = value;
+                        }
+                    });
+                    if (eventLabel != '') { 
+                        if(customerName != '') {
+                            eventLabel = eventLabel +"::"+ customerName;
+                        } else {
+                            eventLabel = eventLabel +"::"+ 'partner-name';
+                        }
+                        var dataLayerForNewsletter = {
+                            'event' : 'uaevent',
+                            'eventCategory' : 'registration',
+                            'eventAction': 'newsletter',
+                            'eventLabel': eventLabel,
+                            'ecommerce': ''+newsletterConfig.ecommerce
+                        };
+                        window.dataLayer.push(dataLayerForNewsletter);
+                    }
+                });
+            }
+        }
+        /* -- Apply click event for newsletter ends -- */
+
+        /*
+         * Logging Custom Events | wish list
+         * Bind Click Event on wish list Classes and IDs
+         */
+        function applyClickEventForWishlist(item, index){
+            var productName = '';
+            var isLoggedIn = "<?= /* @noEscape */ $block->getCustomerStatus();?>";
+            if (item != 'undefined' && isLoggedIn != "") {
+                $(''+item).on('click', function(){
+                    var data = JSON.parse($(this).attr('data-post'));
+                    var productId = data['data']['product'];
+                    $.each(productsNameAndIdData, function( key, value ) {
+                      if(value['id'] == productId) {
+                        productName = value['name']
+                      }
+                    });
+                    if (productName != 'undefined') { 
+                        var dataLayerForWishlist = {
+                            'event' : 'uaevent',
+                            'eventCategory' : 'Ecommerce',
+                            'eventAction': 'add to favorites',
+                            'eventLabel': ''+productName
+                        };
+                        window.dataLayer.push(dataLayerForWishlist);
+                    }
+                });
+            }
+        }
+        /* -- Apply click event for wish list ends -- */ 
+
+        /*
+         * Logging Custom Events | PDP tabs
+         * Bind Function: prepareDataLayer
+         * Bind Click Event on PDP Classes and IDs
+         */
+        function applyClickEventForPdpTab(item, index){
+            if (index != 'undefined') {
+                $(''+item).on('click', function(){
+                    var pdpTabData = {};
+                    var dynamicIndex = 0;
+                    var configItem = pdpTabConfiguration[item];
+                    var productName = pdpTabConfiguration['product_name'];
+                    for(var i = 0; i < pdpTabClassesAndIds.length; i++)
+                    {
+                      if(pdpTabClassesAndIds[i] == item)
+                      {
+                        dynamicIndex = i+1;
+                      }
+                    }
+                    pdpTabData = preparePdpTabLayer(dynamicIndex,configItem, productName,item);
+                    window.dataLayer.push(pdpTabData);
+                });
+            }
+        }
+        /* -- ends -- */
+
+        /* -- Prepare PDP tab Layer -- */ 
+        function preparePdpTabLayer(dynamicIndex, ecommerce, productName, eventAction)
+        {
+            var dataLayerForTab = {
+                'event' : 'uaevent',
+                'eventCategory' : 'productpagetab',
+                'eventAction': ''+dynamicIndex + '::' + eventAction.slice(1),
+                'eventLabel': ''+productName,
+                'ecommerce': ecommerce
+            };
+
+            return dataLayerForTab;
+        }
+        /* -- ends -- */
+
+        /*
+         * Logging Custom Events | PDP Or Other Page services
+         * Bind Function: prepareDataLayer
+         * Bind Click Event on PDP Classes and IDs
+         */
+        function applyClickEventForPdp(item, index){
+            if (index != 'undefined') {
+                $(''+item).on('click', function(){
+                    var pdpData = {};
+                    var productName = pdpConfiguration['product_name'];
+                    pdpData = prepareDataLayer('ecommerce', pdpConfiguration[item], productName, false);
+                    
+                    window.dataLayer.push(pdpData);
+                });
+            }
+        }
+        /* -- Bind Click Event on PDP Classes and IDs Ends -- */
+        
+        /*
+         * Logging Custom Events | MEGA Menu - L1, L2 & L3
+         * Bind Click Event on MEGA Menu Classes and IDs
+         * Bind Function: prepareDataLayer
+         */
+        function applyClickEvent(item, index) {
+            if (item != 'undefined') {
+                $(''+item).on('click', function(){
+                    var category_name = '';
+                    var mega_menu_category_name = '';
+                    var category_name = $.trim($(this).children('a').text());
+                    var mega_menu_category_name = window.megaMenuCollection[category_name];
+                    var data = {};
+                    var ecommerce = "<?= /* @noEscape */ $block->getMegaMenuEcommerceValue();?>";
+                    var level1 = "<?= /* @noEscape */ __('Main Menu L1') ?>";
+                    var level2 = "<?= /* @noEscape */ __('Main Menu L2') ?>";
+                    var level3 = "<?= /* @noEscape */ __('Main Menu L3') ?>";
+                    if(mega_menu_category_name != undefined){
+                        switch(menuMapData[item]) {
+                            case 'level_1':
+                                data = prepareDataLayer(level1, 'select', mega_menu_category_name, ecommerce);
+                                break;
+
+                            case 'level_2':
+                                data = prepareDataLayer(level2, 'select', mega_menu_category_name, ecommerce);
+                                break;
+
+                            case 'level_3':
+                                data = prepareDataLayer(level3, 'select', mega_menu_category_name, ecommerce);
+                                break;
+                        }
+                    }
+                    if(Object.keys(data).length != 0) {
+                        window.dataLayer.push(data);
+                    }
+                });
+            }
+        }
+        /* -- Bind Click Event on Mega Menu Classes Ends -- */
+
+        /*
+         * Prepare data layer for mega menu
+         */
+        function prepareMegaMenuLayer(eventCategory, clickedMenu)
+        {
+            var mega_menu_layer = {
+                'event' : 'uaevent',
+                'eventCategory' : ''+eventCategory,
+                'eventAction': 'select',
+                'eventLabel': ''+clickedMenu,
+                'ecommerce': 'undefined'
+            };
+            return mega_menu_layer;
+        }
+        /* -- Function for Mega Menu Layer Ends -- */
+
+        /*
+         * prepare data layer for PDP events
+         */
+        function preparePdpLayer(eventAction, eventLabel)
+        {
+            var data_layer = {
+                'event' : 'uaevent',
+                'eventCategory' : 'ecommerce',
+                'eventAction': ''+eventAction,
+                'eventLabel': ''+eventLabel
+            };
+            return data_layer;
+        }
+        /* -- Function for PDP Layer Ends -- */
+
+        /*
+         * Click event for image arrows
+         */
+        function applyClickEventForArrows(item, index){
+            if (item != 'undefined') {
+                var checkArrowClass = setInterval(function() {
+                if($(''+item).length){
+                        $(''+item).on('click', function(){
+                            var pdpArrowData = {};
+                            pdpArrowData = preparePdpArrowLayer(pdpArrowConfiguration[item]);
+                            window.dataLayer.push(pdpArrowData);
+                        });
+                    clearInterval(checkArrowClass);
+                   }
+                }, 80);
+            }
+        }
+        /* -- Bind Click Event on image arrow click ends -- */
+
+        /*
+         * Prepare data layer for image carousel arrows
+         */
+        function preparePdpArrowLayer(ecommerce)
+        {
+            var dataLayerArrow = {
+                'event' : 'uaevent',
+                'eventCategory' : 'product pictures',
+                'eventAction': 'display',
+                'eventLabel': 'display::product-carrousel',
+                'ecommerce': ''+ecommerce
+            };
+            return dataLayerArrow;
+        }
+        /* -- Function for PDP arrow Layer Ends -- */
+
+        /* 
+         * Diagnostics result page-Store Locator
+         * Function Bind: prepareSaloonLayer
+         * Bind click function for Find Salon
+         */
+        function applyClickEventForSaloon(item, index) 
+        {
+            if (item != 'undefined') {
+                var checkSaloonClass = setInterval(function() {
+                    if($(''+item).length){
+                        $(''+item).on('click', function(){
+                            var saloonData = {};
+                            var ecommerce = findSaloonMapping[item].ecommerce;
+                            var isDiagnosis = findSaloonMapping[item].is_diagnose;
+                            saloonData = prepareSaloonLayer(ecommerce, isDiagnosis);
+                            window.dataLayer.push(saloonData);
+                        });
+                        clearInterval(checkSaloonClass);
+                    }
+                },80);
+            }
+        }
+        /* -- Bin click of find saloon end-- */
+
+         /* 
+         * Diagnostics result page-Store Locator
+         * Function Bind: prepareSaloonLayer
+         * Bind click function for Find Salon
+         */
+        function prepareSaloonLayer(ecommerce, eventLabel)
+        {
+            var dataLayerSaloon = {
+                'event' : 'uaevent',
+                'eventCategory' : 'salon locator',
+                'eventAction': 'find a salon'
+            };
+
+            if (eventLabel != "0") {
+                dataLayerSaloon.eventLabel = ''+eventLabel;
+            } else {
+                dataLayerSaloon.eventLabel = 'footer';
+            }
+
+            if (ecommerce != false) {
+                dataLayerSaloon.ecommerce = ''+ecommerce;
+            }
+
+            return dataLayerSaloon;
+        }
+        /* -- Function for find saloon data layer Ends -- */
+        
+        /*
+         * Logging Custom Events | Footer Links DataLayer
+         * Bind Click Event on Footer Classes and IDs
+         * Bind Function: prepareDataLayer
+         */
+        function applyClickEventForFooter(item, index){
+            if (item != 'undefined') {
+                $(''+item).on('click', function(){
+                    var footerData = {};
+                    var head = window.footerLinkMapData[item].head;
+                    var label = window.footerLinkMapData[item].label;
+                    var ecommerce = window.footerLinkMapData['ecommerce'];
+                    footerData = prepareDataLayer('footer', head, label, ecommerce);
+                    window.dataLayer.push(footerData);
+                });
+            }
+        }
+        /* -- Bind Click Event on Footer Classes and IDs Ends -- */
+
+        /*
+         * Logging Custom Events | Content Page - Select Article DataLayer
+         * Bind Click Event on Related Article Classes and IDs
+         * Bind Function: prepareDataLayer
+         */
+        function applyClickEventForRelatedArticle(item, index){
+            if (item != 'undefined') {
+                $(''+item).on('click', function(){
+                    var relatedArticlesData = {};
+                    var eventCategory = window.relatedArticleMapData[item].eventCategory;
+                    var eventAction = window.relatedArticleMapData[item].eventAction;
+                    var eventLabel = window.relatedArticleMapData[item].eventLabel;
+                    var ecommerce = window.relatedArticleMapData['ecommerce'];
+                    relatedArticlesData = prepareDataLayer(eventCategory,eventAction,eventLabel,ecommerce);
+                    window.dataLayer.push(relatedArticlesData);
+                });
+            }
+        }
+        /* -- Bind Click Event on Related Article Classes and IDs Ends -- */
+
+        /*
+         * Logging Custom Events | PDP Option
+         * Bind Click Event on PSP CTA Classes and IDs
+         * Bind Function: prepareDataLayer
+         */
+        function applyClickEventForPspCta(item, index){
+            if (item != 'undefined') {
+                $(''+item).on('click', function(){
+                    var data = {};
+                    data = prepareDataLayer(
+                        window.pspCtaMapping[item].eventCategory,
+                        window.pspCtaMapping[item].eventAction,
+                        window.pspCtaMapping[item].eventLabel,
+                        window.pspCtaMapping['ecommerce']);
+                        window.dataLayer.push(data);
+                });
+            }
+        }
+        /* -- Bind Click Event on PSP CTA Classes and IDs Ends -- */
+
+        /*
+         * Logging Custom Events | PDP Or Other Page services
+         * Bind Click Event on PDP Or Other Page services Classes and IDs
+         * Bind Function: prepareDataLayer
+         */
+        function applyClickEventForPspOtherService(item, index){
+            if (item != 'undefined') {
+                $(''+item).on('click', function(){
+                    var data = {};
+                    data = prepareDataLayer(
+                        window.pspOtherServicesMapping[item].eventCategory,
+                        window.pspOtherServicesMapping[item].eventAction,
+                        window.pspOtherServicesMapping[item].eventLabel,
+                        window.pspOtherServicesMapping['ecommerce']);
+                    window.dataLayer.push(data);
+                });
+            }
+        }
+        /* -- Bind Click Event on PSP Other Service Classes and IDs Ends -- */
+
+        /*
+         * Function for Diagnostic Page | Diagnose My Hair Page DataLayer
+         * Diagnostics result page-Store Locator
+         * Diagnostic Page - Shop Now CTA
+         * Diagnostic Page - Send By Email | Step 1 & 2
+         * Diagnostic Form Page - newsletter
+         **/
+        function applyClickEventSendByEmail(item, index){
+            if (item != 'undefined') {
+                $(''+item).on('click', function(){
+                    var data = {};
+
+                    /*
+                     * For Send By Email Step 1 & 2
+                     **/
+                    data = prepareDataLayer(
+                        window.send_by_email_mapping[item].eventCategory,
+                        window.send_by_email_mapping[item].eventAction,
+                        window.send_by_email_mapping[item].eventLabel,
+                        false);
+                    window.dataLayer.push(data);
+
+                    /*
+                     * For Diagnostic Form Page - newsletter
+                     * Email Form Check-box
+                     **/
+                    if (Object.keys(diagnose_newsletter).length != 0) {
+                        setTimeout(function(){
+                            $(''+diagnose_newsletter.element).on('click', function(){
+                                data = prepareDataLayer(
+                                    diagnose_newsletter.eventCategory, 
+                                    diagnose_newsletter.eventAction, 
+                                    diagnose_newsletter.eventLabel, 
+                                    false);
+                                window.dataLayer.push(data); 
+                            });
+                        }, 2000);
+                    }
+                    /*
+                     * For Diagnostic Form Page - CGU
+                     * Email Form Check-box
+                     **/
+                    if (Object.keys(diagnose_cgu).length != 0) {
+                        setTimeout(function(){
+                            $(''+diagnose_cgu.element).on('click', function(){
+                                data = prepareDataLayer(
+                                    diagnose_cgu.eventCategory, 
+                                    diagnose_cgu.eventAction, 
+                                    diagnose_cgu.eventLabel, 
+                                    false);
+                                window.dataLayer.push(data); 
+                            });
+                        }, 2000);
+                    }
+
+                    /*
+                     * For Diagnostic Result Page - Submit & Cancel Event
+                     * Email Form Submit and Cancel Button
+                     **/
+                    var submit_length = Object.keys(email_submit_elements).length;
+                    var element_length = Object.keys(email_submit_elements).length;
+                    if (submit_length != 0 && element_length != 0) {
+                        setTimeout(
+                            function(){ 
+                                email_submit_elements.forEach(applyClickEventForEmailSubmit);
+                            },
+                        2000);
+                    }
+                });
+            }
+        }
+        /* -- Bind Click Event on PSP CTA Classes and IDs Ends -- */
+
+        /*
+         * Diagnostic Page - Shop Now CTA
+         * Bind click event for pushing the data when customer clicked on the shop now
+         * link of the Diagnostic Page or Diagnose my hair page
+         **/
+        function applyClickEventShopNowCta(item)
+        {
+            if (item != 'undefined') {
+                $(''+item).on('click', function(){
+                    var data = {};
+                    data = prepareDataLayer(
+                        window.diagnose_shop_now_cta_data[item].eventCategory,
+                        window.diagnose_shop_now_cta_data[item].eventAction,
+                        window.diagnose_shop_now_cta_data[item].eventLabel,
+                        false);
+                    window.dataLayer.push(data);
+                });
+            }
+        }
+
+        /*
+         * Function that will return the 'updatevirtualpath' event data
+         * For K-Profile Send By Email Page & After Send By Email Submit
+         */
+        function getUpdateVirtualPathData()
+        {  
+            updateVirtualPathData['virtualPageURL'] = '/KER/ediagnostic/send-by-mail';
+            updateVirtualPathData['virtualPageTitle'] = 'Kprofile - send by mail';
+            return updateVirtualPathData;
+        }
+
+        /*
+         * Function For Pushing Data
+         * Diagnostic Result Page - Submit & Cancel Event
+         * K-Profile Send By Email Page | Data
+         * K-Profile Send By Mail | On Submit Button | Data
+         * K-Profile Send By Mail | On Cancel Button | Data
+         */
+        function applyClickEventForEmailSubmit(item, index)
+        {
+
+            /* K-Profile Send By Email Page | DataLayer Push */
+            if(updateVirtualPathByFunction < 2) {
+                window.dataLayer.push(getUpdateVirtualPathData());
+            }
+            /* K-Profile Send By Email Page | DataLayer Push | Ends*/
+
+            if (item != 'undefined') {
+                $(''+item).on('click', function(){
+                    var data = {};
+                    data = prepareDataLayer(
+                        window.email_submit_mapping[item].eventCategory,
+                        window.email_submit_mapping[item].eventAction,
+                        window.email_submit_mapping[item].eventLabel,
+                        false);
+                    window.dataLayer.push(data);
+
+                    /* After submit push the 'updatevirtualpath' event data */
+                    if (window.email_submit_mapping[item].eventLabel == 'submit') {
+                        window.dataLayer.push(getUpdateVirtualPathData());
+                    }
+                    /* After submit push the 'updatevirtualpath' event data ends */
+
+                    /* After cancel update variable 'updateVirtualPathByFunction' */
+                    if (window.email_submit_mapping[item].eventLabel == 'cancel') {
+                        updateVirtualPathByFunction = 1;
+                    }
+                    /* After cancel update variable 'updateVirtualPathByFunction' ends */
+                });
+            }
+            updateVirtualPathByFunction++;
+        }
+
+        /*
+         * Function for preparing the DataLayer
+         */
+        function prepareDataLayer(eventCategory, eventAction, eventLabel, ecommerce)
+        {
+            var data_layer = {
+                'event' : 'uaevent',
+                'eventCategory' : ''+eventCategory,
+                'eventAction': ''+eventAction,
+                'eventLabel': ''+eventLabel
+            };
+
+            if (ecommerce != false) {
+                data_layer.ecommerce = ''+ecommerce
+            }
+
+            return data_layer;
+        }
+        /* -- Function for DataLayer Ends -- */
+
+        /*
+         * Logging Custom Events | Select reviews - rating star
+         * Bind Click Event for rating
+         * Bind Function: prepareDataLayer
+         */
+        function applyClickEventForRating(item, index){
+            if (item != 'undefined') {
+                $(''+item).on('click', function(){
+                    var data = {};
+                    if (window.page_type == 'catalog_product_view') {
+                        var event = 'uaevent';
+                        var eventCategory = window.ratingConfigMapping[item].eventCategory;
+                        var configEventAction = window.ratingConfigMapping[item].eventAction;
+                        var eventAction = window.currentCatProduct['category_name']+ ' :: '+configEventAction;
+                        var productName = window.pdpTabConfiguration['product_name'];
+                        var productId = window.pdpTabConfiguration['product_id'];
+                        var eventLabel = productName + ' :: '+productId;
+                        var ecommerce = window.ratingConfigMapping['ecommerce'];
+                        data = prepareDataLayer(
+                            eventCategory, eventAction, eventLabel, ecommerce);
+                        window.dataLayer.push(data);
+
+                    } else {
+                        var product_id = $(this).parent().parent().find('.price-box').data('product-id');
+                        var eventCategory = window.ratingConfigMapping[item].eventCategory;
+                        var currentCategory = window.currentCatProduct['category_name'];
+                        var configEventAction = window.ratingConfigMapping[item].eventAction;
+                        var eventAction = currentCategory+' :: '+configEventAction;
+                        var productData = window.currentCatProduct[product_id]+' :: '+product_id;
+                        var ecommerce = window.ratingConfigMapping['ecommerce'];
+                        data = prepareDataLayer(
+                            eventCategory, eventAction, productData, ecommerce);
+                        window.dataLayer.push(data);
+                    }
+                });
+            }
+        }
+        /* --Bind Click Event for rating Ends -- */
+
+    });
+    /* --- ENDS --- */
+</script>
+<!-- Google Tag Manager by Cnnb (Web) Ends-->
+<?php } ?>

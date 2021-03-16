@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_OrderRestore
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <cnnb_order>
+            <order_restore>
+                <enable>1</enable>
+                <order_comment>The order has been restored.</order_comment>
+                <order_status>processing</order_status>
+                <order_restore_btn>Order Restore</order_restore_btn>
+            </order_restore>
+        </cnnb_order>
+    </default>
+</config>

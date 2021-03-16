@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!-- 
+/**
+ * @category  Cnnb
+ * @package   Cnnb_Gtm
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Route File
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route frontName="cnnb" id="cnnb">
+            <module name="Cnnb_Gtm"/>
+        </route>
+    </router>
+</config>

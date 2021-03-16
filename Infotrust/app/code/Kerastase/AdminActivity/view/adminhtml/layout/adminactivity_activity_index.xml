@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Kerastase
+ * @category   Kerastase
+ * @package    Kerastase_AdminActivity
+  */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Kerastase_AdminActivity::css/activity-view.css"/>
+    </head>
+    <body>
+        <referenceContainer name="js">
+            <block class="Kerastase\AdminActivity\Block\Adminhtml\Selector" template="Kerastase_AdminActivity::activity/js.phtml" name="activity.view.model.js"/>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <uiComponent name="admin_activity_listing"/>
+        </referenceContainer>
+    </body>
+</page>

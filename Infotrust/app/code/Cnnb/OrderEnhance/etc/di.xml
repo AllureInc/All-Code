@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @category  Cnnb
+ * @package   Cnnb_OrderEnhance
+ * @author    Cnnb
+ * @copyright Copyright © CNNB All rights reserved.
+ *
+ * Cnnb_OrderEnhance Module Dependency Injection
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Order Comment Controller -->
+    <preference for="Magento\Sales\Controller\Adminhtml\Order\AddComment" type="Cnnb\OrderEnhance\Controller\Adminhtml\Order\AddComment" />
+    <!-- Order Comment ControllerEnds -->
+    <!-- Order Comment Block -->
+    <preference for="Magento\Sales\Block\Adminhtml\Order\View\History" type="Cnnb\OrderEnhance\Block\Adminhtml\Order\View\History" />
+    <!-- Order Comment Block Ends -->
+    <!-- Order Invoice Save Action -->
+    <preference for="Magento\Sales\Controller\Adminhtml\Order\Invoice\Save" type="Cnnb\OrderEnhance\Controller\Adminhtml\Order\Invoice\Save" />
+    <!-- Order Invoice Save Action Ends -->
+    <!-- Order Credit Memo Save Action -->
+    <preference for="Magento\Sales\Controller\Adminhtml\Order\Creditmemo\Save" type="Cnnb\OrderEnhance\Controller\Adminhtml\Order\Creditmemo\Save" />
+    <!-- Order Credit Memo Save Action Ends -->
+    <!-- Order Credit Memo Save Action -->
+    <preference for="Magento\Shipping\Controller\Adminhtml\Order\Shipment\Save" type="Cnnb\OrderEnhance\Controller\Adminhtml\Order\Shipment\Save" />
+    <!-- Order Credit Memo Save Action Ends -->
+    <!-- Order Cancel Action -->
+    <preference for="Magento\Sales\Controller\Adminhtml\Order\Cancel" type="Cnnb\OrderEnhance\Controller\Adminhtml\Order\Cancel" />
+    <!-- Order Cancel Action Ends -->
+    <!-- Order RMA Action -->
+    <preference for="Magento\Rma\Controller\Adminhtml\Rma\Save" type="Cnnb\OrderEnhance\Controller\Adminhtml\Rma\Save" />
+    <!-- Order RMA Action Ends -->
+    <!-- Order Email Action -->
+    <preference for="Magento\Sales\Controller\Adminhtml\Order\Email" type="Cnnb\OrderEnhance\Controller\Adminhtml\Order\Email" />
+    <!-- Order Email Action Ends -->
+    <!-- Order Create Action -->
+    <preference for="Magento\Sales\Controller\Adminhtml\Order\Create\Save" type="Cnnb\OrderEnhance\Controller\Adminhtml\Order\Create\Save" />
+    <!-- Order Create Action Ends -->
+</config>
