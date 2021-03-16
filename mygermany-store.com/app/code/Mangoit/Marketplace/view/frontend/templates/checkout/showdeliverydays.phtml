@@ -1,0 +1,42 @@
+<?php 
+$shippingMethodTitles['dhlPr'] = 'DHL Premium';
+$shippingMethodTitles['dhlEx'] = 'DHL Express';
+$shippingMethodTitles['fedexPr'] = 'FedEx Economy';
+$shippingMethodTitles['fedexEx'] = 'FedEx Express';
+$vndrprodctDelDays = $this->getVendorDeliveryDays();
+?>
+<?php if (is_array($vndrprodctDelDays) && (!empty($vndrprodctDelDays))): ?>
+    <ul class="vendor_product_delivery_ul">
+        <li class="vendor_product_delivery">
+            <form id="mis_delivery_days_form" class="form">
+                <input name="form_key" type="hidden" value="<?php echo $block->getFormKey();?>">
+                <div class="mis_delivery_days">
+                    <table class="table-checkout-vendor-delivery-days">
+                        <thead>
+                            <tr class="row">
+                                <th class="col col-method" data-bind="i18n: 'Select Method'"><?php echo __('Vendors') ?></th>
+                                <th class="col col-price" data-bind="i18n: 'Price'"><?php echo __('Delivery days') ?> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($vndrprodctDelDays as $allKey => $allValue): ?>
+                                <tr class="row">
+                                    <td class="col col-method">
+                                        <span class="shop-title"><?php echo $allValue['shop_title']; ?></span>
+                                    </td>
+                                    <td class="col col-price">
+                                        <span class="delivery-days"><?php echo $allValue['final_days'].' working days'; ?></span>
+                                    </td>
+                                </tr>
+                                <?php // foreach ($allValue as $key => $value): ?>
+                                <?php // endforeach; ?>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </li>
+    </ul>
+<?php else:?>
+    <span><?php echo __('No information for vendor delivery days!'); ?></span>
+<?php endif;?>

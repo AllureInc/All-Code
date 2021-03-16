@@ -1,0 +1,429 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="scommerce" translate="label" sortOrder="400">
+            <label>Scommerce Configuration</label>
+        </tab>
+        <section id="scommerce_cookie_popup" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Cookie Popup</label>
+            <tab>scommerce</tab>
+            <resource>Scommerce_CookiePopup::config</resource>
+
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+
+                <field id="enable" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enabled</label>
+                    <comment>Enable extension</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="modal_title" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Modal Title</label>
+                    <comment>Modal Title</comment>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="button_text" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Save Choice Button Text</label>
+                    <comment>Save Choice Button Text</comment>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="accept_all_text" translate="label comment" type="text" sortOrder="33" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Allow All Button Text</label>
+                    <comment>Button title for accepting all cookies</comment>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="accept_button_text" translate="label comment" type="text" sortOrder="36" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Accept Button Text</label>
+                    <comment>Button title for accepting cookies on the cookie message</comment>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="list_header" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Cookies List Header</label>
+                    <comment>Cookies List Header</comment>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="link_text" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Cookie Settings Link Text</label>
+                    <comment>Cookie Settings Link Text</comment>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="cookie_message_link_text" translate="label comment" type="text" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Cookie Message Settings Link Text</label>
+                    <comment>Cookie Settings Link Text in the notification message</comment>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="use_gtm" translate="label comment" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>GTM</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>GTM</comment>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="use_datalayers" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Use Data Layers</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If enabled then Data Layers will be used instead of cookies for GTM</comment>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="show_if_not_accepted" translate="label comment" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Show if not all accepted</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If "Yes" then Cookie Notice message will appears if not all cookies accepted</comment>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+
+            </group>
+
+            <group id="style" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Popup Styling</label>
+
+                <field id="border" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Modal Border</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If "Yes" then you can set border color for the settings Modal box</comment>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="border_color" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Popup Border Color</label>
+                    <comment>Color of the Modal box. E.g. CCCCCC</comment>
+                    <frontend_model>Scommerce\CookiePopup\Block\Adminhtml\Config\Color</frontend_model>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                        <field id="*/style/border">1</field>
+                    </depends>
+                </field>
+
+                <field id="header_background_color" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Header Background Color</label>
+                    <comment>Header Background Color</comment>
+                    <frontend_model>Scommerce\CookiePopup\Block\Adminhtml\Config\Color</frontend_model>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="header_font_color" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Header Font Color</label>
+                    <comment>Header Font Color</comment>
+                    <frontend_model>Scommerce\CookiePopup\Block\Adminhtml\Config\Color</frontend_model>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="header_bottom_border" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Header Bottom Border</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If "Yes" then bottom border of the Modal box header will be shown</comment>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="header_bottom_border_color" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Header Bottom Border Color</label>
+                    <comment>Color of the Modal box bottom border</comment>
+                    <frontend_model>Scommerce\CookiePopup\Block\Adminhtml\Config\Color</frontend_model>
+                    <depends>
+                        <field id="*/*/header_bottom_border">1</field>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="footer_background_color" translate="label comment" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Footer Background Color</label>
+                    <comment>Footer Background Color</comment>
+                    <frontend_model>Scommerce\CookiePopup\Block\Adminhtml\Config\Color</frontend_model>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="footer_font_color" translate="label comment" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Footer Font Color</label>
+                    <comment>Footer font Color</comment>
+                    <frontend_model>Scommerce\CookiePopup\Block\Adminhtml\Config\Color</frontend_model>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="footer_top_border" translate="label comment" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Footer Top Border</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If "Yes" then top border of the footer of the Modal box will be shown</comment>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="footer_top_border_color" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Footer Top Border Color</label>
+                    <comment>Color of the top border for the footer</comment>
+                    <frontend_model>Scommerce\CookiePopup\Block\Adminhtml\Config\Color</frontend_model>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                        <field id="*/style/footer_top_border">1</field>
+                    </depends>
+                </field>
+
+                <field id="header_logo" translate="label comment" type="image" sortOrder="104" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Header Logo</label>
+                    <comment>Choose here logo for them modal header. It will be shown in the left top corner in header</comment>
+                    <backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+                    <upload_dir config="system/filesystem/media" scope_info="1">cookie_popup</upload_dir>
+                    <base_url type="media" scope_info="1">cookie_popup</base_url>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="close_image" translate="label comment" type="image" sortOrder="107" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Close image</label>
+                    <comment>Choose here custom close image. If it's set then it will replace standard cross image</comment>
+                    <backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+                    <upload_dir config="system/filesystem/media" scope_info="1">cookie_popup</upload_dir>
+                    <base_url type="media" scope_info="1">cookie_popup</base_url>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="active_tab_background" translate="label comment" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Active Tab Background Color</label>
+                    <comment>Background color for the active tab in the left sidebar of the Modal box</comment>
+                    <frontend_model>Scommerce\CookiePopup\Block\Adminhtml\Config\Color</frontend_model>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="number_tabs" translate="label comment" type="select" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Number tabs</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If "Yes" then top border of the footer of the Modal box will be shown</comment>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="tab_active_color" translate="label comment" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Tab Active Color</label>
+                    <comment>Text color of the active tab</comment>
+                    <frontend_model>Scommerce\CookiePopup\Block\Adminhtml\Config\Color</frontend_model>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="tab_header_color" translate="label comment" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Tab Header Color</label>
+                    <comment>Header text color of the tab content</comment>
+                    <frontend_model>Scommerce\CookiePopup\Block\Adminhtml\Config\Color</frontend_model>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="custom_button" translate="label comment" type="select" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Custom Button Style</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If "Yes" then custom styles for the buttons will be used instead of defaults</comment>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="custom_button_border" translate="label comment" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Custom Button Style</label>
+                    <comment>If "Yes" then custom styles for the buttons will be used instead of defaults</comment>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                        <field id="*/*/custom_button">1</field>
+                    </depends>
+                </field>
+
+                <field id="custom_button_background_color" translate="label comment" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Custom Button Background Color</label>
+                    <comment>Background color of the button</comment>
+                    <frontend_model>Scommerce\CookiePopup\Block\Adminhtml\Config\Color</frontend_model>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                        <field id="*/*/custom_button">1</field>
+                    </depends>
+                </field>
+
+                <field id="custom_button_font_color" translate="label comment" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Custom Button Font Color</label>
+                    <comment>Title color of the button</comment>
+                    <frontend_model>Scommerce\CookiePopup\Block\Adminhtml\Config\Color</frontend_model>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                        <field id="*/*/custom_button">1</field>
+                    </depends>
+                </field>
+
+                <field id="custom_checkbox" translate="label comment" type="select" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Custom Checkbox</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If "Yes" then you can choose images for "On" an "Off" state of the checkbox. Images will be used instead of the standard checkboxes. Both images should be set</comment>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="custom_checkbox_on" translate="label comment" type="image" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Checkbox On Image</label>
+                    <comment>Image for the "On" state of the choice</comment>
+                    <backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+                    <upload_dir config="system/filesystem/media" scope_info="1">cookie_popup</upload_dir>
+                    <base_url type="media" scope_info="1">cookie_popup</base_url>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                        <field id="*/*/custom_checkbox">1</field>
+                    </depends>
+                </field>
+
+                <field id="custom_checkbox_off" translate="label comment" type="image" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Checkbox Off Image</label>
+                    <comment>Image for the "Off" state of the choice</comment>
+                    <backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+                    <upload_dir config="system/filesystem/media" scope_info="1">cookie_popup</upload_dir>
+                    <base_url type="media" scope_info="1">cookie_popup</base_url>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                        <field id="*/*/custom_checkbox">1</field>
+                    </depends>
+                </field>
+
+                <field id="font_family" translate="label comment" type="text" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Font Family</label>
+                    <comment>Base font family for the Modal box. Should be string e.g. Arial. Font should be available on the site</comment>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="accept_button_text_color" translate="label comment" type="text" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Accept Button Text Color</label>
+                    <comment>Text color of the "Accept" button on the Cookie Message</comment>
+                    <frontend_model>Scommerce\CookiePopup\Block\Adminhtml\Config\Color</frontend_model>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="accept_button_background" translate="label comment" type="text" sortOrder="230" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Accept Button Background Color</label>
+                    <comment>Background color of the "Accept" button on the Cookie Message</comment>
+                    <frontend_model>Scommerce\CookiePopup\Block\Adminhtml\Config\Color</frontend_model>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="notice_height" translate="label comment" type="text" sortOrder="240" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Notice Height</label>
+                    <comment>Set min height of the Cookie Message. E.g. 80</comment>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="required_cookie_option_text" translate="label comment" type="text" sortOrder="250" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Required cookie option text</label>
+                    <comment>This text will replace checkbox for mandatory cookies</comment>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="custom_css" translate="label comment" type="textarea" sortOrder="260" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Custom CSS</label>
+                    <comment>For advanced users. Place here CSS styles</comment>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+            </group>
+
+            <group id="additional_tabs" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Additional Tabs</label>
+
+                <field id="first_tab_title" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>First Tab Title</label>
+                    <comment>Title of the additional tab. This tab will be shown first before cookie choices. Both Title and Text should be set to appears on the Modal box</comment>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="first_tab_text" translate="label comment" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>First Tab Text</label>
+                    <comment>Text for the additional information tab</comment>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="more_info_title" translate="label comment" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>More information Title</label>
+                    <comment>More information link text. This will be shown after all cookie choices as a last tab. Both title and link should be set to appears on the Modal box</comment>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="more_info_link" translate="label comment" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>More information link</label>
+                    <comment>More information link. E.g. http://test.com/moreinfo</comment>
+                    <depends>
+                        <field id="*/general/enable">1</field>
+                    </depends>
+                </field>
+
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,149 @@
+<?php
+namespace Mangoit\Orderdispatch\Controller\Order;
+
+use Magento\Framework\App\Action;
+use Magento\Framework\Exception\NotFoundException;
+use Magento\Framework\Controller\ResultFactory;
+use Webkul\Marketplace\Model\ResourceModel\Seller\CollectionFactory;
+
+class Status extends \Magento\Framework\App\Action\Action
+{
+    /**
+     * @var \Magento\Sales\Model\ResourceModel\Order\CollectionFactory
+     */
+    protected $orderObj;
+    protected $customerSession;
+    public $_storeManager;
+    public $salesOrderGrid;
+    private $_order;
+    private $sellerOrder;
+    private $mpHelper;
+    /**
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Sales\Model\Order $orderObj,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Mangoit\Orderdispatch\Model\SalesOrderGrid $salesOrderGrid,
+        \Magento\Sales\Model\Order $order,
+        \Webkul\Marketplace\Model\Orders $sellerOrder,
+        \Webkul\Marketplace\Helper\Data $mpHelper,
+        array $data = []
+    ) {
+        $this->customerSession = $customerSession;
+        $this->orderObj = $orderObj;
+        $this->_storeManager=$storeManager;
+        $this->salesOrderGrid = $salesOrderGrid;
+        $this->_order = $order;
+        $this->sellerOrder = $sellerOrder;
+        $this->mpHelper = $mpHelper;
+        parent::__construct($context);
+    }
+
+
+    /**
+     * Show customer tickets
+     *
+     * @return \Magento\Framework\View\Result\Page
+     * @throws NotFoundException
+     */
+    public function execute()
+    {
+        $postData = $this->getRequest()->getPost()->toArray();
+        $params = $this->getRequest()->getParams();
+
+        if (!empty($postData)) {
+            if (!empty($postData['mis_statuses'])) {
+                $trackingIdExist = $this->_order->load($postData['mis_tracking_id'],'vendor_tracking_id');
+                if (!empty($trackingIdExist->getData())) {
+                    $this->messageManager->addErrorMessage(__('Tracking Id already exist!')); 
+                } else{
+                    $orderData = $this->_order->load($postData['mis_order_id']);
+
+                    $preTrackIds = $orderData->getVendorTrackingId();
+                    $newTrackIds = trim($preTrackIds . ', ' . $postData['mis_tracking_id'], ', ');
+
+                    $sellerOrderData = $this->sellerOrder->getCollection()
+                        ->addFieldToFilter(
+                            'order_id',
+                            ['eq' => $postData['mis_order_id']]
+                        )
+                        ->addFieldToFilter(
+                            'seller_id',
+                            ['eq' => $this->getSellerId()]
+                        )
+                        ->getFirstItem();
+
+                    $sellerData = $this->mpHelper->getSellerDataBySellerId($this->getSellerId())->getData();
+                    $sellerData = (isset($sellerData[0])) ? $sellerData[0] : $sellerData;
+                    $sellerName = (isset($sellerData['name'])) ? $sellerData['name'] : '';
+
+                    $salesOrderObj = $this->salesOrderGrid->load($postData['mis_order_id']);
+                    if (!empty($salesOrderObj->getData())) {
+                        $salesOrderObj->setVendorTrackingId($newTrackIds)->save();
+
+                        $remainingItems = $this->sellerOrder->getCollection()
+                            ->addFieldToFilter(
+                                'order_id',
+                                ['eq' => $postData['mis_order_id']]
+                            )
+                            ->addFieldToFilter(
+                                'tracking_number',
+                                ['null' => true]
+                            );
+
+                        if($remainingItems->getSize() == 1) {
+                            $remainingItem = $remainingItems->getFirstItem();
+                            if($remainingItem->getSellerId() == $this->getSellerId()) {
+                                $orderData->setState($postData['mis_statuses'])->setStatus($postData['mis_statuses']);
+                                $orderData->addStatusToHistory($postData['mis_statuses'], NULL);
+                            }
+                        }
+
+                        $msg = 'Seller "' . $sellerName . '" sent items to myGermany. Tracking Id: '. $postData['mis_tracking_id'];
+                        $orderData->addStatusToHistory(false, $msg);
+                        $orderData->setVendorTrackingId($newTrackIds)->save();
+                        $sellerOrderData->setTrackingNumber($postData['mis_tracking_id'])->save();
+
+                        // $salesOrderObj->setVendorTrackingId($postData['mis_tracking_id'])->save();
+                        $this->messageManager->addSuccessMessage(__('Order status successfully updated!')); 
+                    } else{
+                        $this->messageManager->addSuccessMessage(__('Please try to update order after some time.')); 
+                    }
+                }
+            } else {
+                $this->messageManager->addErrorMessage(__('Please select order status to update!')); 
+            }
+            return $this->resultRedirectFactory->create()->setPath(
+                'marketplace/order/view',
+                ['id' => $postData['mis_order_id']],
+                ['_secure' => $this->getRequest()->isSecure()]
+            );
+        } elseif (isset($params['id']) && (isset($params['status']))) {
+
+            $this->_order->load($params['id'])->setState('closed')->setStatus('closed');
+            $this->_order->addStatusToHistory('closed', NULL)->save();
+
+            $this->messageManager->addErrorMessage(__('Please select order status to update!')); 
+            return $this->resultRedirectFactory->create()->setPath(
+                'marketplace/order/view',
+                ['id' => $params['id']],
+                ['_secure' => $this->getRequest()->isSecure()]
+            );
+        } else{
+            return $this->resultRedirectFactory->create()->setPath(
+                'marketplace/order/history',
+                ['_secure' => $this->getRequest()->isSecure()]
+            );
+        }
+    }
+
+    public function getSellerId()
+    {
+        return $this->customerSession->getCustomerId();
+    }
+}

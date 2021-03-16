@@ -1,0 +1,45 @@
+<h1>Praveen Verma</h1>
+<?php
+echo "<pre>";
+$attrArray = $block->getAttributeData();
+$rangeArray = $block->getCommissionValuesFromStore();
+$collectionData = $block->getCommissionValues();
+$sellerId = $block->getCustomerId();
+$commisionData;
+foreach ($collectionData->getData() as $key => $value) {
+	if ($sellerId == $value['seller_id']) {
+        $commisionData = $value['vender_commission'];
+	}
+}
+if ($commisionData == null) {
+	echo "Data null";
+} else {
+    echo "<br>commisionData : $commisionData";
+}
+$range =  explode(',', $rangeArray);?>
+<!-- <form id="commission-form" post="#"> -->
+<form class="form" action="result" method="post">
+ <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Test Form') ?></span></legend><br>
+<table class="admin__table-secondary">
+<tr>
+		<th>Product Category</th>
+	<?php foreach ($range as $key => $value): ?>
+		<th><?php echo $value;?>K</th>
+ 	<?php endforeach; ?>
+	<?php foreach ($attrArray as $key => $value): ?>
+		<tr><td><label for="number" class="label">
+            <span><?php /* @escapeNotVerified */ echo __($value) ?></span>
+        </label></td>
+        <?php for($i=0; $i<count($range);$i++) :?>
+            <td><input type="text" name="$value-<?php echo $i; ?>"></td>
+        <?php endfor;?>
+		</tr>
+ 	<?php endforeach; ?>
+
+</tr>
+
+</table>
+</form>
+
+        
+

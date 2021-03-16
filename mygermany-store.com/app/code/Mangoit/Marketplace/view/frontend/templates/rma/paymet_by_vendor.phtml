@@ -1,0 +1,129 @@
+<?php
+$helper = $this->helper('Mangoit\Marketplace\Helper\Data');
+$params = $this->getRequest()->getParams();
+$baseUrl = $this->getBaseUrl();
+$emailAfterPayUrl = $this->getUrl('marketplce/rma/emailafterpay/');
+if ($params['receive']) {
+    parse_str($params['receive'], $output);
+    $seller_id = $output['seller_id'];
+    $sellerPersonalData = $helper->getSellerInformations($seller_id);
+    // print_r($sellerPersonalData);
+
+    $amount = (float) filter_var($output['amount'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    // echo "<br>amount: ".$amount;
+}
+?>
+<style type="text/css">
+    .mis_payment_block {
+        font-size: 20px;
+        margin-top: 5%;
+        /*text-align: center;*/
+    }
+</style>
+<div class="mis_payment_block">
+    <p class="mis_msg_p">
+        <span class="mis_msg_span">
+            <?php 
+                echo __("Hello ".$sellerPersonalData['first_name']." the total amount you have to return is ".$output['amount'].".");
+                echo __("<br>Please click on the below button to pay.");
+            ?>            
+        </span>
+    </p>
+
+    <div class="paypal-custom-btn">
+        
+    </div >
+   <!--  <button class="paypal-custom-btn">
+        <span>
+            <span></span>
+        </span>
+    </button>  -->   
+</div>
+<div class="mis_payment_success_div" style="display: none">
+    <p class="success_div_p">
+        <span class="div_p_span">
+            <?php echo __('Your payment has been done. You will go to our homepage in 5 seconds.');?>
+        </span>
+    </p>
+</div>
+<script>
+   require(
+       [
+           'jquery',
+           'Magento_Ui/js/modal/modal',
+           'Magento_Paypal/js/in-context/express-checkout'
+       ],
+       function(
+           $,
+           modal,
+           paypal1
+       ) {
+           var baseUrl = '<?php echo $baseUrl; ?>';
+           var chargeTotal = '<?php echo $amount; ?>';
+           var emailAfterPayUrl = '<?php echo $emailAfterPayUrl; ?>';
+           console.log(emailAfterPayUrl);
+           paypal.Button.render({
+           <?php if($block->getConfigValue('marketplace/cancel_order_settings/is_sand')) { ?>
+                env: 'sandbox', // Optional: specify 'sandbox' environment
+           <?php } ?>
+                locale: 'en_US',
+                commit: true, // Optional: show a 'Pay Now' button in the checkout flow
+                style: {
+                    label: 'pay',
+                    size:  'small', // small | medium | large | responsive
+                    shape: 'rect',   // pill | rect
+                    color: 'gold'   // gold | blue | silver | black
+                },
+                client: {
+                    // sandbox: 'AcCnld0oScJ7b5Lj8fXNZNFpM8R54BNqxU8NW-LBjr_JznBwg6taiOz6hhLdkEAECzH6XZ0ZO-K-gNu4',
+                    // production: 'AQTGet58C8hGtr4TZAMOV1ik6sldx7VDXPnRBIN2Fdhh-QXCgWzxYitthYEQIIRGVlZCH27m-52PuwOZ',
+                    sandbox: '<?php echo $block->getConfigValue('marketplace/cancel_order_settings/client_id_sand') ?>',
+                    production: '<?php echo $block->getConfigValue('marketplace/cancel_order_settings/client_id_prod') ?>',
+                    stage: 'alc_client1',
+                    local: 'alc_client1'
+                },
+                payment(data, actions) {
+                    const transactions = [
+                        {
+                            amount: { total: chargeTotal, currency: 'EUR' }
+                        }
+                    ];
+                    return actions.payment.create({
+                        payment: { transactions }
+                    });
+                },
+                onAuthorize(data, actions) {
+                    actions.payment.execute().then(data => {
+                        console.log(data);
+                        if (! jQuery.isEmptyObject(data)) {
+                             $.ajax({
+                                url: emailAfterPayUrl,
+                                type: 'POST',
+                                dataType: 'json',
+                                showLoader: true,
+                                data: {
+                                    paid: true,
+                                    seller_data: "<?php echo $params['receive']; ?>",
+                                },
+                                complete: function(response) {
+                                    console.log(response);
+                                    if (response) {
+                                        $('.mis_payment_block').css('display', 'none');
+                                        $('.mis_payment_success_div').css('display', 'block');
+                                        setTimeout(function(){ 
+                                            window.location.replace(baseUrl);
+                                        }, 
+                                        5000);                                        
+                                    }
+                                    // window.location.reload();
+                                },
+                                error: function (xhr, status, errorThrown) {
+                                }
+                            });
+                        }
+                    });
+                }
+            }, '.paypal-custom-btn');
+       }
+   );
+</script>

@@ -1,0 +1,28 @@
+<!--
+/*
+ * File is used for Email Template module in Magento 2
+ * Mangoit Customobserver
+ */
+-->
+<!--@subject {{trans "Email Template Product Status Mail"}} @-->
+<!--@vars {
+"var data.id":"Product Id",
+"var data.name":"Product Name",
+"var data.url":"Product Url"} 
+@-->
+
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">{{trans "Hello Admin"}}</p>
+<p>{{trans "The quantity of this product #{{trans "%id," id=$data.id}} has reached below the defined minimum quantity."}}</p>
+<ul>
+<li>
+<strong>Product Details:</strong>
+<div>
+<p>Product Name: {{trans "%name," name=$data.name}}</p>
+<p>Product Id: {{trans "%id," id=$data.id}}</p>
+<p>Product Url: {{trans "%url," url=$data.url}}</p>
+</div>
+</li></ul>
+
+{{template config_path="design/email/footer_template"}}

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */  -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <head>
+        <css src="Webkul_Marketplace::css/wk_block.css"/>
+        <css src="Webkul_Marketplace::css/style.css"/>
+        <css src="Webkul_Marketplace::css/product.css"/>
+        <css src="Webkul_Marketplace::css/layout.css"/>
+    </head>
+    <body>
+        <referenceBlock name="page.main.title">
+            <action method="setPageTitle">
+                <argument translate="true" name="title" xsi:type="string">Rakuten Order History</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Mangoit\RakutenConnector\Block\Order\History" name="rakutenconnect.order.history" template="Mangoit_RakutenConnector::order/history.phtml" cacheable="false"/>
+        </referenceContainer>
+    </body>
+</page>

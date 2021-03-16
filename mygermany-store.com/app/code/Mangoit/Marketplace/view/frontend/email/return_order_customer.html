@@ -1,0 +1,27 @@
+<!--@subject Order return request by customer @-->
+<!--@vars {
+"var data.comment":"Comment",
+"var data.email":"Sender Email",
+"var data.orderid":"Sender Order Id",
+"var data.subject":"Reason",
+"var data.name":"Sender Name"
+} @-->
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">Hi Admin,</p>
+
+<table style="width:60%; padding: 10px;">
+	<tr>
+		<td style="padding: 10px 10px 10px 0px; width: 100%;">
+			The customer {{trans "%name" name=$data.name}} requested an order return.
+			Please review the order and take further required action for the same.
+
+		</td><br/>
+	</tr>
+	<tr>
+			Order ID - {{trans "%orderid" orderid=$data.orderid}}.<br>
+			Reason For Return- 
+			<q>{{trans "%subject" subject=$data.subject}}</q>		
+	</tr>
+</table>
+{{template config_path="design/email/footer_template"}}

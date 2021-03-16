@@ -1,0 +1,55 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpAdvertisementManager
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$isPartner= $helper->isSeller();
+$isSellerGroup = $helper->isSellerGroupModuleInstalled();
+$magentoCurrentUrl = $block->getCurrentUrl();
+if ($isPartner) { ?>
+    <?php if(($isSellerGroup && ($helper->isAllowedAction('mpads/block') || $helper->isAllowedAction('mpads/advertise'))) || !$isSellerGroup) { ?>
+        <li class="mp-advertisment nav item <?php /* @escapeNotVerified */ echo strpos($magentoCurrentUrl,'mpads/') !== false ? "current":"";?>">
+        <?php if (strpos($magentoCurrentUrl, 'mpads/') !== false ) { ?>
+            <strong><?php   /* @escapeNotVerified */ echo __('Advertisement') ?></strong>
+        <?php } else { ?>
+            <a href="#">
+                <?php  /* @escapeNotVerified */ echo __('Advertisement') ?>
+            </a>
+        <?php } ?>
+        <ul class="nav items">
+            <?php if(($isSellerGroup && $helper->isAllowedAction('mpads/block')) || !$isSellerGroup) { ?>
+                <li class="nav item <?php /* @escapeNotVerified */ echo strpos($magentoCurrentUrl,'mpads/block') !== false ? "current":"";?>">
+                    <?php if (strpos($magentoCurrentUrl, 'mpads/block') !== false ) { ?>
+                        <strong><?php   /* @escapeNotVerified */ echo __('Advertisement Blocks') ?></strong>
+                    <?php } else { ?>
+                        <a href="<?php /* @escapeNotVerified */ echo $block->getUrl('mpads/block',['_secure' => $this->getRequest()->isSecure()]); ?>">
+                            <?php  /* @escapeNotVerified */ echo __('Advertisement Blocks') ?>
+                        </a>
+                    <?php
+                    }
+                    ?>
+                </li>
+            <?php } ?>
+            <?php if(($isSellerGroup && $helper->isAllowedAction('mpads/advertise')) || !$isSellerGroup) { ?>
+                <li class="nav item <?php /* @escapeNotVerified */ echo strpos($magentoCurrentUrl,'mpads/advertise') !== false ? "current":"";?>">
+                    <?php if (strpos($magentoCurrentUrl, 'mpads/advertise') !== false ) {?>
+                        <strong><?php   /* @escapeNotVerified */ echo __('Buy Advertisement Positions') ?></strong>
+                    <?php } else { ?>
+                        <a href="<?php /* @escapeNotVerified */  echo $block->getUrl('mpads/advertise',['_secure' => $this->getRequest()->isSecure()]); ?>"
+                        >
+                            <?php  /* @escapeNotVerified */ echo __('Buy Advertisement Positions') ?>
+                        </a>
+                    <?php
+                    }
+                    ?>
+                </li>
+            <?php } ?>
+        </ul>
+    <?php } ?>
+<?php } ?>

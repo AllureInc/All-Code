@@ -1,0 +1,140 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/** @var \Magento\Wishlist\Block\Customer\Wishlist\Items $block */
+$columns = $block->getColumns();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $objectManager->get('Magento\Customer\Model\Session');
+$loggin = 0;
+if($customerSession->isLoggedIn()) {
+   $customerId = $customerSession->getCustomer()->getId();
+   $customerRepository = $objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
+   $loggin = 1;
+    $fskUser = $customerRepository->getFskCustomer();
+    if ($fskUser != 1) {
+        $fskUser = 0;
+    }
+}
+?>
+
+<div class="products-grid wishlist">
+    <?php $iterator = 1; ?>
+    <?php if (count($block->getItems())): ?>
+    <ol class="product-items">
+        <?php foreach ($block->getItems() as $item): ?>
+        <?= /* @noEscape */ ($iterator++ == 1) ? '<li data-row="product-item" class="product-item" id="item_' . $block->escapeHtmlAttr($item->getId()) . '">' : '</li><li class="product-item" id="item_' . $block->escapeHtmlAttr($item->getId()) . '">' ?>
+            <div class="product-item-info" data-container="product-grid">
+                <?php foreach ($columns as $column): ?>
+                    <?php $column->setItem($item); echo $column->toHtml($item);?>
+                <?php endforeach; ?>
+            </div>
+        <?= ($iterator == count($block->getItems())+1) ? '</li>' : '' ?>
+        <?php endforeach; ?>
+    </ol>
+    <?php else: ?>
+        <div class="message info empty">
+            <span><?= $block->escapeHtml(__('This Wish List has no Items')) ?></span>
+        </div>
+    <?php endif; ?>
+</div>
+
+<?php foreach ($columns as $column): ?>
+    <?= $column->getAdditionalHtml() ?>
+<?php endforeach; ?>
+<script type="text/javascript">
+    require(['jquery','vesallFancybox'],
+        function($) { 
+            $(document).on('click','#fskButton', function(event) {
+                event.preventDefault();
+                var productId = $(this).attr('data-item-id');
+                $('.product-to-cart').val(productId);
+                var fskCustomer = "<?php echo $fskUser;?>";  
+                console.log(fskCustomer);
+                if (fskCustomer < 1) {
+                    $.fancybox({
+                        'padding': '0px',
+                        'autoScale': true,
+                        'closeBtn' : true,
+                        'transitionIn': 'fade',
+                        'transitionOut': 'fade',
+                        'type': 'inline',
+                        'href': '#fskMessage',
+                        'onComplete': function() {
+
+                            $.cookie('fskPopUp', 'shown');
+                        },
+                        'helpers': {
+                            overlay: {
+                                closeClick: false,
+                                locked: false
+                            }
+                        }
+                    });
+                }
+            });
+
+        $("#btn-close").click(function(){
+            $.fancybox.close();
+        });
+
+        $("#btn-cancel").click(function(){
+            $.fancybox.close();
+        });
+
+        $("#btn-verify").click(function(){
+            $.fancybox.close();
+            $.fancybox({
+                    'padding': '5px',
+                    'autoScale': true,
+                    'closeBtn' : true,
+                    'transitionIn': 'fade',
+                    'transitionOut': 'fade',
+                    'type': 'inline',
+                    'href': '#verify-form',
+                    'onComplete': function() {
+                        $.cookie('fskPopUp', 'shown');
+                    },
+                    'helpers': {
+                        overlay: {
+                            closeClick: false,
+                            locked: false
+                        }
+                    }
+                });
+            var pId = $('.product-to-cart').val();
+            var qtyToAdd = $('.qty_'+pId).val();
+            $('.post_product_id').val(pId);
+            $('.post_product_qty').val(qtyToAdd);       
+            $('.post_wishlist').val(1);       
+        });
+        $("#submit-btn").click(function(e){
+            var fileUpload = $('#customer-file').val().split('.').pop().toLowerCase();
+            var fileName = $('#customer-file').val();
+            console.log("file name :"+fileName);
+            if($.inArray(fileUpload, ['gif','png','jpg','jpeg','pdf']) == -1) {
+                alert('invalid file!');
+                e.preventDefault();
+            } else{ 
+                var pId = $('.product-to-cart').val();
+                $('#add_to_cart_'+pId).hide();
+                $('.hidden_'+pId).show();
+                $('.trigger_'+pId).trigger('click');
+            }       
+        });
+        $("#btn-continue").click(function(){
+            $.fancybox.close(true); 
+            var pId = $('.product-to-cart').val();
+            $('#add_to_cart_'+pId).hide();
+            $('.hidden_'+pId).show();
+            var qtyToAdd = $('.qty_'+pId).val();
+            $('.trigger_'+pId).trigger('click');
+        });
+    });
+</script>

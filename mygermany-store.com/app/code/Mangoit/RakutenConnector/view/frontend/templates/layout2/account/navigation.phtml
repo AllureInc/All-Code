@@ -1,0 +1,80 @@
+<?php
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */ 
+
+// @codingStandardsIgnoreFile
+$_helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$isPartner= $_helper->isSeller();
+$magentoCurrentUrl = $block->getCurrentUrl();
+$allow_pro_type=$_helper->getAllowedProductType();
+$isSellerGroup = $_helper->isSellerGroupModuleInstalled();
+?>
+<nav data-mage-init='{"Webkul_Marketplace/js/sellerNavigation": {}}' class="wk-mp-menu wk-mp-main">
+    <ul id="wk-mp-nav">
+        <?php 
+        if($isPartner){ ?>
+            <?php if(($isSellerGroup && $_helper->isAllowedAction('rakutenconnect/account/index')) || ($isSellerGroup && $_helper->isAllowedAction('rakutenconnect/product/index')) || ($isSellerGroup && $_helper->isAllowedAction('rakutenconnect/product/unassigned')) || ($isSellerGroup && $_helper->isAllowedAction('rakutenconnect/producttorakuten/index')) || !$isSellerGroup) { ?>
+                <li class="wk-mp-item-rakuten-connect level-0 <?php echo strpos($magentoCurrentUrl,'rakutenconnect/product/')? "current active":"";?>" id="wk-mp-menu-rakuten-connect">
+                    <a href="#" onclick="return false;" class="">
+                        <span><?php echo __('Rakuten Connect')?></span>
+                    </a>
+                    <div class="wk-mp-submenu">
+                        <strong class="wk-mp-submenu-title"><?php echo __('Rakuten Connect')?></strong>
+                        <a href="#" class="action-close _close" data-role="wk-mp-close-submenu"></a>
+                        <ul>
+                            <li data-ui-id="menu-webkul-rakutenconnect-menu" class="item-menu  parent  level-1">
+                                <strong class="wk-mp-submenu-group-title">
+                                    <span><?php echo __('Menu')?></span>
+                                </strong>
+                                <div class="wk-mp-submenu">
+                                    <ul>
+                                        <?php if(($isSellerGroup && $_helper->isAllowedAction('rakutenconnect/account/index')) || !$isSellerGroup) { ?>
+                                            <li class="level-2">
+                                                <a href="<?php echo $block->getUrl('rakutenconnect/account/index', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                    <span><?php echo __('Manage Account') ?></span>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+                                        <?php if(($isSellerGroup && $_helper->isAllowedAction('rakutenconnect/product/index')) || !$isSellerGroup) { ?>
+                                            <li class="level-2">
+                                                <a href="<?php echo $block->getUrl('rakutenconnect/product/index', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                    <span><?php echo __('Mapped Product') ?></span>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+                                        <?php if(($isSellerGroup && $_helper->isAllowedAction('rakutenconnect/product/unassigned')) || !$isSellerGroup) { ?>
+                                            <li class="level-2">
+                                                <a href="<?php echo $block->getUrl('rakutenconnect/product/unassigned', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                    <span><?php echo __('Unassigned Product') ?></span>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+                                        <?php if(($isSellerGroup && $_helper->isAllowedAction('rakutenconnect/producttorakuten/index')) || !$isSellerGroup) { ?>
+                                            <li class="level-2">
+                                                <a href="<?php echo $block->getUrl('rakutenconnect/producttorakuten/index', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                    <span><?php echo __('Export Product') ?></span>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+                                        <?php if(($isSellerGroup && $_helper->isAllowedAction('rakutenconnect/order/index')) || !$isSellerGroup) { ?>
+                                            <li class="level-2">
+                                                <a href="<?php echo $block->getUrl('rakutenconnect/order/index', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                    <span><?php echo __('Mapped Order') ?></span>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            <?php } ?>
+    <?php } ?>
+    </ul>
+</nav>

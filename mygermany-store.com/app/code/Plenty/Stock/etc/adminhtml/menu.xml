@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Plenty_Stock::config_plenty_stock"
+             title="Plenty stock"
+             translate="title"
+             module="Plenty_Stock"
+             sortOrder="50"
+             parent="Plenty_Core::config"
+             action="adminhtml/system_config/edit/section/plenty_stock/"
+             resource="Plenty_Stock::configuration"/>
+    </menu>
+</config>

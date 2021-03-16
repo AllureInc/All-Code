@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpAdvertisementManager
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="page.top">
+             <block class="Webkul\MpAdvertisementManager\Block\Ads" name="checkout_seller_ads_page_top" template="Webkul_MpAdvertisementManager::block.phtml" cacheable="false" before="-">
+             	<arguments>
+                    <argument name="position" xsi:type="number">19</argument>
+                </arguments>
+             </block>
+        </referenceContainer>
+        <referenceContainer name="content">
+             <block class="Webkul\MpAdvertisementManager\Block\Ads" name="checkout_seller_ads_page_bottom_container" template="Webkul_MpAdvertisementManager::block.phtml" cacheable="false" after="-">
+             	<arguments>
+                    <argument name="position" xsi:type="number">20</argument>
+                </arguments>
+             </block>
+        </referenceContainer>
+    </body>
+</page>

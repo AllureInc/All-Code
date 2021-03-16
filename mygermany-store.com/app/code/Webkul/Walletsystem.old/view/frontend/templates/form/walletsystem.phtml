@@ -1,0 +1,19 @@
+<script>
+    window.walletconfig = <?php /* @escapeNotVerified */ echo \Zend_Json::encode($block->getCustomConfig()); ?>;
+</script>
+<div id="wallet-system-component" data-bind="scope:'wallet-system-component'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <script type="text/x-magento-init">
+    {
+        "#wallet-system-component": {
+            "Magento_Ui/js/core/app": {
+               "components": {
+                    "wallet-system-component": {
+                        "component": "Webkul_Walletsystem/js/wallet-payment"
+                    }
+                }
+            }
+        }
+    }
+    </script>
+</div>

@@ -1,0 +1,478 @@
+define(
+    [
+        'ko',
+        'jquery',
+        'uiComponent',
+        'uiRegistry',
+        "Magento_Ui/js/lib/view/utils/dom-observer",
+        'underscore',
+        'Magento_Checkout/js/model/step-navigator',
+        'Magento_Customer/js/model/customer',
+        'Mangoit_Marketplace/js/model/changeshippinrate',
+        'Mangoit_Marketplace/js/model/showDeliveryDays',
+        'Mangoit_Marketplace/js/model/changeshippingmethod',
+        'Mangoit_Marketplace/js/view/checkout/summary/grand-total',
+        "Magento_Checkout/js/model/shipping-save-processor",
+        'Magento_Checkout/js/model/quote',
+        'Magento_Checkout/js/checkout-data',
+        //'Magento_Checkout/js/view/shipping-address/address-renderer/default',
+        'mage/url',
+        'mage/translate'
+    ],
+    function (
+        ko,
+        $,
+        Component,
+        uiRegistry,
+        domObserver,
+        _,
+        stepNavigator,
+        customer,
+        changeshippinrate,
+        showDeliveryDays,
+        changeshippingmethod,
+        grandTotal,
+        shippingSaveProcessor,
+        quote,
+        checkoutData,
+        //default,
+        Url,
+        $t
+    ) {
+        'use strict';
+        var selectedMethod = ko.observable();
+
+        var misFirstname = ko.observable();
+        var reload = ko.observable(false);
+        var misLastname = ko.observable('myGermany');
+        var misStreet = ko.observable('Nordstr. 5');
+        var misCity = ko.observable('Weimar');
+        var misPostal = ko.observable('99427');
+        var misCountry = ko.observable('DE');
+        var misRegion = ko.observable('82');
+        var misTelephone = ko.observable('123456789');
+        var shippingDescUrl = Url.build('shipping-methods/');
+        var billingAddTitle = ko.observable('<span class="title-number"><span>2</span></span>Billing Address');
+        var warehouseSelectedMethodsTitle = ko.observable('<li class="mis-warehouse-selected"><label><span>Warehouse</span></label></li>');
+
+        var shippingMethods = ko.observableArray([
+            { "Id": "0", "Title": "Drop Shipment", "value": "dropship" },
+             { "Id": "1", "Title": "Ship To Warehouse", "value": "warehouse" }
+           ,
+        ]);
+
+        /**
+        *
+        * mystep - is the name of the component's .html template,
+        * <Vendor>_<Module>  - is the name of the your module directory.
+        *
+        */
+        return Component.extend({
+            defaults: {
+                template: 'Mangoit_Marketplace/mystep'
+            },
+
+            //add here your logic to display step,
+            isVisible: ko.observable(true),
+            orderTotalWIthTax: window.taxLabel,
+            orderTotalWIthoutTax: $t(''),
+            // orderTotalWIthoutTax: $t('Order Total'),
+
+            /**
+            *
+            * @returns {*}
+            */
+            initialize: function () {
+                this._super();
+                // register your step
+                stepNavigator.registerStep(
+                    //step code will be used as step content id in the component template
+                    'mis_shippings',
+                    //step alias
+                    null,
+                    //step title value
+                    'Shipping Methods',
+                    //observable property with logic when display step or hide step
+                    this.isVisible,
+
+                    _.bind(this.navigate, this),
+
+                    /**
+                    * sort order value
+                    * 'sort order value' < 10: step displays before shipping step;
+                    * 10 < 'sort order value' < 20 : step displays between shipping and payment step
+                    * 'sort order value' > 20 : step displays after payment step
+                    */
+                    15
+                );
+                jQuery(document).on('change','.form-shipping-address [name=country_id]', function() {
+                    if (jQuery(".mis_shippings_select").val() != 'warehouse') {
+                        var postVal = jQuery('.form-shipping-address [name=postcode]').val();
+                        jQuery('body').trigger('processStart');
+                        changeshippinrate(this.value, postVal);
+                    }
+                    // jQuery('body').trigger('processStop');
+                });
+
+                jQuery(document).on('blur','.form-shipping-address [name=postcode]', function() { 
+                    if (jQuery(".mis_shippings_select").val() != 'warehouse') {
+                        var countryCode = jQuery('.form-shipping-address [name=country_id]').find(":selected").val();
+                        jQuery('body').trigger('processStart');
+                        changeshippinrate(countryCode, this.value);
+                    } // jQuery('body').trigger('processStop');
+                });
+                jQuery(document).on('click','[name=mis_shippings_radio]',function(){
+                    jQuery('body').trigger('processStart');
+                    var shippingVal = this.value;
+                    var vendorTomyGermany = jQuery(this).attr('data-attr');
+                    changeshippingmethod(encodeURI(this.value), encodeURI(vendorTomyGermany));
+                });
+
+                var self = this;
+                jQuery(document).on('click','.shipping-address-item',function(){
+                    jQuery('body').trigger('processStart');
+                    var quoteObj = quote.shippingAddress();
+                    var countryCode = quoteObj.countryId;
+                    var postcode = quoteObj.postcode;
+                    changeshippinrate(countryCode, postcode);
+                    self.setOrderTotalLabel();
+                });
+                
+                changeshippinrate('reset', 'reset');
+                this.addTitleNumber();
+                return this;
+            },
+
+            /**
+            * The navigate() method is responsible for navigation between checkout step
+            * during checkout. You can add custom logic, for example some conditions
+            * for switching to your custom step
+            */
+            navigate: function () {
+
+            },
+            shippingPageUrl: function () {
+                return shippingDescUrl;
+            },
+            shippingMethods: function () {
+                return shippingMethods;
+            },
+            selectedMethod: function () {
+                return selectedMethod;
+            },
+
+            addTitleNumber: function () {
+                var self = this;
+
+                var customName = customer.customerData.firstname+' '+customer.customerData.lastname;
+                misFirstname(customName);
+
+                uiRegistry.async("checkout.steps.my-new-step")(
+                    function () {
+                        domObserver.get("#mis_shippings div.step-title", function (elem) {
+                            jQuery('#mis_shippings div.step-title').prepend(jQuery("<span class='title-number'><span>" + jQuery.mage.__("1") + "</span></span>").get(0));
+                             setTimeout(function(){
+                               if (customer.customerData.addresses.length) {
+                                    
+                                    // jQuery('.mis_shippings_select').change();
+                                    jQuery('select.mis_shippings_select').trigger( "change" );
+                               } else {
+                                    //jQuery('.mis_shippings_select').change();
+                                    jQuery('select.mis_shippings_select').trigger( "change" );
+                                
+                               }
+                               if (quote.isVirtual()) {
+                                    // This code is used to remove extra things from the checkout when advertisement product is there
+                                    jQuery('.no-quotes-block').css('display','none');
+                                    jQuery('#iosc-billing-container').css('display','none');
+                                    jQuery('.payment-methods .title-number > span').text(4);
+                                    jQuery('.mis_shippings_select').attr('disabled', 'disabled');
+                                    
+                                }
+                            }, 7000);
+                        });
+                        var mediaUrl = window.getMediaUrl;
+                        domObserver.get('input[name="payment[method]"]', function (elem) {
+                            var imageName = $(elem).attr('value');
+                            var imgUrl = mediaUrl+"payment_methods/"+imageName+".png";
+                            var imgObj = $(elem).next('.label').find('img');
+                            $(elem).parent().find('img').remove();
+                            $.ajax({
+                                url: imgUrl,
+                                type:'HEAD',
+                                success: function(){
+                                    $(elem).next('.label').find('span:first').prepend("<img src='"+imgUrl+"' class='payment_gateway_logos' alt='Payment gateways' />");
+                                    $('.payment_gateway_logos').css('width','80px');
+                                }
+                            });
+                        });
+                    }
+                );
+
+               
+            },
+
+            /**
+            * @returns void
+            */
+            navigateToNextStep: function () {
+                stepNavigator.next();
+            },
+            /**
+            * @returns void
+            */
+            changeMethod: function (el) {
+                var self = this;
+
+                var coShippingForm =  jQuery('#co-shipping-form');
+                var sameBillingAdd = jQuery('#iosc_billingaddress');
+                var shippingForm = '.form-shipping-address';
+                var shippingFormTitle = "#shipping .step-title";
+                var billingFormTitle = ".field-select-billing .step-title";
+                var opcNewAddress = "#opc-new-shipping-address";
+                var billingAddSameAsShipping = '[name=billing-address-same-as-shipping]';
+                var warehouseObj = jQuery('input[aria-labelledby="label_method_warehouse_warehouse label_carrier_warehouse_warehouse"]');
+                var dropshipObj = jQuery('input[aria-labelledby="label_method_dropship_dropship label_carrier_dropship_dropship"]');
+
+                // console.log(customer.customerData.addresses.length);
+                
+
+                //For drop shipment shipping method
+                if (self.selectedMethod == 'dropship') {
+                    dropshipObj.parent().parent().removeClass('mis-remove');
+                    warehouseObj.parent().parent().addClass('mis-remove');
+                    jQuery('.checkout-shipping-address').removeClass('shiptowarehouse-mit');
+                    //changeshippinrate('dropshipment');
+                    if (customer.customerData.addresses.length) {
+                        var quoteObj = quote.shippingAddress();
+                        var countryCode = quoteObj.countryId;
+                        var postcode = quoteObj.postcode;
+                        //When there is a saved address in customer address book
+
+                        jQuery('.shipping-address-items').css('visibility','unset');
+                        jQuery('.newaddress-button-title').css('display','block');
+                        jQuery('#iosc_billingaddress').css('visibility','unset');
+                        //jQuery(opcNewAddress).css('visibility','unset');
+                        //jQuery(opcNewAddress).css('display','block');
+                        self.resetFormFields(opcNewAddress);
+                        //self.changeFormTitles(billingFormTitle,shippingFormTitle);
+                        changeshippinrate(countryCode, postcode);
+
+                    } else {
+                        jQuery(coShippingForm).css('visibility','unset');
+                        jQuery(sameBillingAdd).css('visibility','unset');
+                        if (reload()) {
+                            self.resetFormFields(shippingForm);
+                            jQuery(shippingForm+' [name=country_id] ').val('').trigger('change');
+                           
+                        }
+
+                        jQuery(coShippingForm).removeClass('mis-hide-form');
+                    }
+                    reload(true);
+                    self.resetFormTitles(billingFormTitle, shippingFormTitle);
+                    if(jQuery("[name=billing-address-same-as-shipping]").prop('checked') == true){
+                        jQuery(billingAddSameAsShipping).trigger('click');
+                    }
+
+                   // shippingSaveProcessor.saveShippingInformation();
+                    dropshipObj.trigger( "click" );
+                    jQuery('.mis-warehouse-selected').remove();
+                    jQuery('.vendor_product_delivery_ul').remove();
+                } else {
+                    //For Warehouse shipping method
+                    warehouseObj.parent().parent().removeClass('mis-remove');
+                    dropshipObj.parent().parent().addClass('mis-remove');
+                    jQuery('.checkout-shipping-address').addClass('shiptowarehouse-mit');
+                    if (customer.customerData.addresses.length) {
+                        //When there is a saved address in customer address book
+                       // jQuery('.newaddress-button').trigger('click');
+                        jQuery(shippingForm).removeClass('mis-hide-form');
+                        jQuery(shippingForm).css('visibility','unset');
+                        jQuery('.shipping-address-items').css('visibility','hidden');
+                        jQuery('#shipping-save-in-address-book').parent().css('visibility','hidden');
+                        jQuery('#shipping-save-in-address-book').prop( "checked", true );
+                        jQuery('.newaddress-save-button-container').css('display','none');
+                       // self.setValuesToForm(shippingForm);
+                        //jQuery(opcNewAddress).css('visibility','hidden');
+                        jQuery('#iosc_billingaddress').css('visibility','hidden');
+                        jQuery(billingAddSameAsShipping).trigger('click');
+                        jQuery('.newaddress-button-title').css('display','none');
+                        self.changeFormTitles(billingFormTitle,shippingFormTitle);
+                        //self.resetFormTitles(billingFormTitle,shippingFormTitle);
+                    } else {
+                        //When there is no address either shipping or billing START
+                        jQuery(coShippingForm).addClass('mis-hide-form');
+                        
+                        self.setValuesToForm(shippingForm);
+                        jQuery(coShippingForm).css('visibility','hidden');
+                        jQuery(sameBillingAdd).css('visibility','hidden');
+
+                        jQuery(billingAddSameAsShipping).trigger('click');
+
+                        //When there is no address either shipping or billing END
+                        self.changeFormTitles(billingFormTitle,shippingFormTitle);
+                    }
+
+
+                    warehouseObj.trigger( "click" );
+                    jQuery('.scc_shipping_methods').remove();
+                    jQuery('.mis-warehouse-selected').remove();
+                    jQuery('.vendor_product_delivery_ul').remove();
+                    if (!quote.isVirtual()) {
+                        showDeliveryDays();
+                        // jQuery('#opc-shipping_method').append('<li class="mis-warehouse-selected"><label><span>Ship To Warehouse</span></label></li>');
+                    }
+                }
+                self.setOrderTotalLabel();
+            },
+
+            setOrderTotalLabel: function () {
+                var self = this;
+                // console.log(self.orderTotalWIthTax);
+                // For Order total label based on country
+                var shipCountryCode = jQuery('.form-shipping-address [name=country_id]');
+                var billcode = jQuery('.billing-address-form [name=postcode]');
+                var sameBillingAdd = jQuery('#iosc_billingaddress');
+                var countryArr = ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'GB'];
+                var shippingAddObj = quote.shippingAddress();
+                var billingAddObj = quote.billingAddress();
+                // console.log(quote);
+                var countryCode = shippingAddObj.countryId;
+
+                //if new address link is clicked then Priority 1
+                jQuery(document).on('click','.newaddress-button', function() {
+                    var checkboxVal = jQuery("[name=billing-address-same-as-shipping]").prop('checked');
+                    if(!checkboxVal){
+                        setTimeout(function(){
+                            if(jQuery('.newaddress-button').hasClass('_active')){
+                                countryCode = shipCountryCode.val();
+                            }else{
+                                countryCode = shippingAddObj.countryId;
+                            }
+                            // console.log(countryCode);
+                            if ((jQuery.inArray(countryCode, countryArr)> 0))
+                            {
+                                grandTotal().orderlabelValue(self.orderTotalWIthTax);
+                            } else {
+                                grandTotal().orderlabelValue(self.orderTotalWIthoutTax);
+                            };
+                        }, 1000);
+                    }
+                }); 
+                shipCountryCode.on('change',function() {
+                    // console.log(jQuery("[name=billing-address-same-as-shipping]").prop('checked'));
+                    var checkboxVal = jQuery("[name=billing-address-same-as-shipping]").prop('checked');
+                    if(!checkboxVal){
+                        countryCode = this.value;
+                        if ((jQuery.inArray(countryCode, countryArr)> 0))
+                        {
+                            grandTotal().orderlabelValue(self.orderTotalWIthTax);
+                        } else {
+                            grandTotal().orderlabelValue(self.orderTotalWIthoutTax);
+                        }
+                    }
+                });
+                if (customer.customerData.addresses.length) {
+                    if ((jQuery.inArray(countryCode, countryArr)> 0))
+                    {
+                        grandTotal().orderlabelValue(self.orderTotalWIthTax);
+                    } else {
+                        grandTotal().orderlabelValue(self.orderTotalWIthoutTax);
+                    }
+                } 
+                //When address is not available Start
+                //Billing address form is open
+                jQuery(document).on('change', "[name=billing_address_id]", function() { 
+                    setTimeout(function(){
+                        if(jQuery('.billing-address-form:visible').is(':visible'))
+                        {
+                            var countryCode = billcode.val();
+                        }else {
+                            if (billingAddObj.countryId) {
+                                var countryCode = billingAddObj.countryId;
+                            }
+                        }
+                        if ((jQuery.inArray(countryCode, countryArr)> 0))
+                        {
+                            grandTotal().orderlabelValue(self.orderTotalWIthTax);
+                        } else {
+                            grandTotal().orderlabelValue(self.orderTotalWIthoutTax);
+                        }
+                    }, 1000);
+
+                });
+                jQuery("[name=billing-address-same-as-shipping]").change(function() {
+                    if(this.checked) {
+
+                        var countryCode = billcode.val();
+                        if(jQuery('.billing-address-form:visible').length == 0)
+                        {
+                            if (billingAddObj.countryId) {
+                                var countryCode = billingAddObj.countryId;
+                            }
+                        }
+                    } else {
+                        var countryCode = shippingAddObj.countryId;
+                        if(jQuery('.newaddress-button').hasClass('_active')){
+                            countryCode = shipCountryCode.val();
+                        }
+                    }
+                    // console.log(countryCode);
+                    if ((jQuery.inArray(countryCode, countryArr)> 0))
+                    {
+                        grandTotal().orderlabelValue(self.orderTotalWIthTax);
+                    } else {
+                        grandTotal().orderlabelValue(self.orderTotalWIthoutTax);
+                    }
+                });
+
+                jQuery(document).on('change','.billing-address-form  [name=country_id]', function() {
+                    var countryCode = this.value;
+                    // console.log(countryCode);
+                    if ((jQuery.inArray(countryCode, countryArr)> 0))
+                    {
+                        grandTotal().orderlabelValue(self.orderTotalWIthTax);
+                    } else {
+                        grandTotal().orderlabelValue(self.orderTotalWIthoutTax);
+                    }
+                });
+            },
+
+            setValuesToForm: function (shippingFormSelector) {
+                jQuery(shippingFormSelector+' [name=firstname] ').trigger('focus').val(misFirstname());
+                jQuery(shippingFormSelector+' [name=lastname] ').trigger('focus').val(misLastname());
+                jQuery(shippingFormSelector+' [name="street[0]"] ').trigger('focus').val(misStreet());
+                jQuery(shippingFormSelector+' [name=city] ').trigger('focus').val(misCity());
+                jQuery(shippingFormSelector+' [name=postcode] ').trigger('focus').val(misPostal());
+
+                jQuery(shippingFormSelector+' [name=telephone] ').trigger('focus').val(misTelephone());
+                setTimeout(function(){
+                    jQuery(shippingFormSelector+' [name=country_id] ').val(misCountry()).trigger('change');
+                }, 3000);
+
+                setTimeout(function(){
+                    jQuery(shippingFormSelector+' [name=region_id] ').val(misRegion()).trigger('change');
+                }, 3500);
+            },
+            resetFormFields: function (resetFormSelector) {
+                jQuery(':input',resetFormSelector)
+                 .not(':button, :submit, :reset, :hidden')
+                 .val('')
+                 .removeAttr('checked')
+                 .removeAttr('selected');
+                jQuery(resetFormSelector+' *').each(function(){
+                   jQuery(this).trigger('focus');
+                });
+            },
+            changeFormTitles: function (billingFormTitle, shippingFormTitle) {
+                jQuery(billingFormTitle).html('<span class="title-number"><span>2</span></span>Billing Address');
+                jQuery(shippingFormTitle).first().css('display','none');
+            },
+            resetFormTitles: function (billingFormTitle, shippingFormTitle) {
+                jQuery(billingFormTitle).html('Billing Address');
+                jQuery(shippingFormTitle).first().css('display','block'); 
+            }
+        });
+    }
+);

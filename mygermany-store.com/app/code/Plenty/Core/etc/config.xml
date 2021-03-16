@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <system>
+            <plenty_core>
+                <auth>
+                    <app_name>Mage2Plenty</app_name>
+                    <app_url>https://[account-name].plentymarkets-cloud02.com</app_url>
+                    <plenty_id>Your account id</plenty_id>
+                    <owner_id>user id</owner_id>
+                    <store_id>1</store_id>
+                </auth>
+                <api_config>
+                    <api_retry>3</api_retry>
+                    <api_connection_timeout30>20</api_connection_timeout30>
+                    <api_timeout>0</api_timeout>
+                </api_config>
+                <dev>
+                    <debug_enabled>1</debug_enabled>
+                    <debug_directory>core</debug_directory>
+                    <debug_level>[1,2,3,5]</debug_level>
+                </dev>
+            </plenty_core>
+        </system>
+    </default>
+</config>

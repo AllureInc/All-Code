@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <system>
+            <plenty_stock>
+                <dev>
+                    <debug_enabled>1</debug_enabled>
+                    <debug_directory>item</debug_directory>
+                    <debug_level>[1,2,3,5]</debug_level>
+                </dev>
+            </plenty_stock>
+        </system>
+    </default>
+</config>

@@ -1,0 +1,32 @@
+{
+    "plenty_stock_import_inventory": {
+        "column": {
+            "entity_id": true,
+            "profile_id": true,
+            "item_id": true,
+            "variation_id": true,
+            "product_id": true,
+            "sku": true,
+            "warehouse_id": true,
+            "status": true,
+            "stock_physical": true,
+            "reserved_stock": true,
+            "reversed_ebay": true,
+            "reorder_delta": true,
+            "stock_net": true,
+            "reordered": true,
+            "reserve_bundle": true,
+            "average_purchase_price": true,
+            "message": true,
+            "created_at": true,
+            "updated_at": true,
+            "collected_at": true,
+            "processed_at": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "PLENTY_STOCK_IMPORT_INV_PROFILE_ID_PLENTY_CORE_PROFILE_ENTT_ID": true,
+            "PLENTY_STOCK_IMPORT_INVENTORY_PROFILE_ID_VARIATION_ID": true
+        }
+    }
+}

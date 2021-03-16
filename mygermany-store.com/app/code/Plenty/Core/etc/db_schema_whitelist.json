@@ -1,0 +1,112 @@
+{
+    "plenty_core_auth": {
+        "column": {
+            "entity_id": true,
+            "token_type": true,
+            "expires_in": true,
+            "access_token": true,
+            "refresh_token": true,
+            "license": true,
+            "domain": true,
+            "message": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "plenty_core_profile": {
+        "column": {
+            "entity_id": true,
+            "name": true,
+            "is_active": true,
+            "entity": true,
+            "adaptor": true,
+            "crontab": true,
+            "message": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "plenty_core_profile_config": {
+        "column": {
+            "entity_id": true,
+            "profile_id": true,
+            "scope": true,
+            "scope_id": true,
+            "path": true,
+            "value": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_BFFB7379FB5D63A6D8D18F349BC8E719": true,
+            "PLENTY_CORE_PROFILE_CONFIG_PROFILE_ID_SCOPE_SCOPE_ID_PATH": true
+        }
+    },
+    "plenty_core_profile_history": {
+        "column": {
+            "entity_id": true,
+            "profile_id": true,
+            "action_code": true,
+            "status": true,
+            "params": true,
+            "message": true,
+            "created_at": true,
+            "processed_at": true
+        },
+        "index": {
+            "PLENTY_CORE_PROFILE_HISTORY_PROFILE_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_EC3BEBCD328171A8B2303BF761C57662": true
+        }
+    },
+    "plenty_core_profile_schedule": {
+        "column": {
+            "entity_id": true,
+            "profile_id": true,
+            "status": true,
+            "job_code": true,
+            "params": true,
+            "message": true,
+            "created_at": true,
+            "scheduled_at": true,
+            "executed_at": true,
+            "finished_at": true
+        },
+        "index": {
+            "PLENTY_CORE_PROFILE_SCHEDULE_PROFILE_ID": true,
+            "PLENTY_CORE_PROFILE_SCHEDULE_JOB_CODE": true,
+            "PLENTY_CORE_PROFILE_SCHEDULE_SCHEDULED_AT_STATUS": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_6212763C713393C2C78CE106475C4900": true
+        }
+    },
+    "plenty_core_config_source": {
+        "column": {
+            "entity_id": true,
+            "entry_id": true,
+            "config_source": true,
+            "config_entries": true,
+            "created_at": true,
+            "updated_at": true,
+            "collected_at": true
+        },
+        "index": {
+            "PLENTY_CORE_CONFIG_SOURCE_CONFIG_SOURCE": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "PLENTY_CORE_CONFIG_SOURCE_ENTRY_ID_CONFIG_SOURCE": true
+        }
+    }
+}

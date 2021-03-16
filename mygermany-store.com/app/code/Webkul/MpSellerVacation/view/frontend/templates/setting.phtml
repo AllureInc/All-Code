@@ -1,0 +1,225 @@
+<?php
+/**
+* Webkul Software
+*
+* @category  Webkul
+* @package   Webkul_MpSellervacation
+* @author    Webkul
+* @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+* @license   https://store.webkul.com/license.html
+*/
+	$tooltipHelper = $this->helper('Mangoit\MisTooltip\Helper\Data');
+    $imgHelper = $this->helper('Webkul\Marketplace\Helper\Data');
+    $section_id = 'vacation_setting';
+    $vacation_setting_block = 'vacation_setting_block';
+    $vacation_setting_text_id = 'vacation_status_text';
+    $vacation_message_id = 'vacation_message';
+    $vacation_date_from_id = 'vacation_date_from';
+    $vacation_date_to_id = 'vacation_date_to';
+
+    $store_id = $tooltipHelper->getStoreId();
+    $vacationSettingToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $vacation_setting_text_id);
+    $vacationMessageToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $vacation_message_id);
+    $vacationDateFromToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $vacation_date_from_id);
+    $vacationDateToToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $vacation_date_to_id);
+    $vacationSettingBlock = $tooltipHelper->getToolTipData($store_id, $section_id, $vacation_setting_block);
+
+   $isPartner= $block->getMarketplaceHelper()->isSeller();
+   if($isPartner == 1)
+   {
+		$vacation=$block->getMpsellervacation();
+    $dateFromOffset = $vacation!=""? $vacation->getDateFrom() :false;
+    $dateToOffset = $vacation!=""? $vacation->getDateTo() :false;
+		$dateFrom = $vacation!=""? $block->getLocalDate($vacation->getDateFrom()) :false;
+		$currentDate = $block->getCurrentDate();
+		$formSubmitUrl = $block->getUrl('mpsellervacation/setting/save', ['_secure' => $this->getRequest()->isSecure()]) ;
+		/**
+		* create a object of Webkul\MpSellerVacation\Helper\Data
+		* to get vacation Mode using getVacationMode($vacation = false) method
+		*/
+		$_helper = $this->helper('Webkul\MpSellerVacation\Helper\Data');
+		$vacationMode = $_helper->getVacationMode();
+?>
+<style type="text/css">
+.tooltip {
+    position: relative;
+    display: inline-block ;
+    opacity: 1 !important;
+
+    /*border-bottom: 1px dotted black;*/
+}
+
+span.tooltip {
+    display: inline-block;
+    vertical-align: middle;
+    opacity: inherit !important;
+}
+
+.field.profile label {
+    display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 400px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 15%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+</style>
+		<form action="<?php echo $formSubmitUrl; ?>" enctype="multipart/form-data" method="post" id="form-mpsellervacation-validate">
+			<div class="wk-mp-design">
+				<fieldset class="fieldset info wk-mp-fieldset">
+					<legend class="legend">
+						<span><?php echo __('Vacation Setting') ?></span>
+						<button class="button wk-mp-btn" title="<?php echo __('Save') ?>" type="submit" id="save_butn">	<span><span><?php echo __('Save') ?></span></span></button>
+					</legend>
+					<div>
+                        <?php if(count($vacationSettingBlock) > 0): ?>
+                            <?php echo ( (count($vacationSettingBlock) > 0) ? $vacationSettingBlock[0]['tooltip_text'] : '');?>
+                        <?php endif; ?>
+                    </div>
+					<?php echo $block->getBlockHtml('formkey')?>
+          <?php echo $block->getBlockHtml('seller.formkey')?>
+          <input type="hidden" name="time_zone" id="seller_time_zone">
+					<input type="hidden" name="website_id" value="<?php echo $vacation!=""?$vacation->getWebsiteId():$block->getWebsiteId(); ?>" />
+					<input type="hidden" name="store_id" value="<?php echo $vacation!=""?$vacation->getStoreId():$block->getStoreId(); ?>" />
+					<input type="hidden" name="id" value="<?php echo $vacation!=""?$vacation->getId():""; ?>" />
+					<div class="wk_mp_design">
+						<div class="fieldset wk_mp_fieldset">
+							<div class="field required">
+								<label  class="label" for="vacation_msg"><?php echo __('Vacation Message') ?></label>
+								<?php if(count($vacationMessageToolTip) > 0): ?>
+                                    <span class="tooltip">
+                                        <img src="<?php echo $imgHelper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                                        <span class="price_cal tooltiptext">
+                                            <?php echo ( (count($vacationMessageToolTip) > 0) ? $vacationMessageToolTip[0]['tooltip_text'] : '');?>
+                                        </span>
+                                    </span>
+                                <?php endif; ?>
+								<div class="control">
+									<textarea id="vacation_msg" name="vacation_msg" title="<?php echo __('Vacation Message') ?>" class="input-text required-entry" ><?php echo $vacation!=""?$vacation->getVacationMsg():"";?></textarea>
+								</div>
+							</div>
+							<div class="field required">
+								<label class="label" for="vacation_date_from"><?php echo __('Vacation Date From') ?></label>
+								<?php if(count($vacationDateFromToolTip) > 0): ?>
+                                    <span class="tooltip">
+                                        <img src="<?php echo $imgHelper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                                        <span class="price_cal tooltiptext">
+                                            <?php echo ( (count($vacationDateFromToolTip) > 0) ? $vacationDateFromToolTip[0]['tooltip_text'] : '');?>
+                                        </span>
+                                    </span>
+                                <?php endif; ?>
+								<div class="control">
+									<input readonly type="text" id="date_from" name="date_from" value="<?php echo $vacation!=""? $block->getLocalDate($vacation->getDateFrom()):"";?>" title="<?php echo __('Vacation Date From') ?>" class="input-text required-entry" />
+								</div>
+							</div>
+							<div class="field required">
+								<label class="label" for="
+								"><?php echo __('Vacation Date To') ?></label>
+								<?php if(count($vacationDateToToolTip) > 0): ?>
+                                    <span class="tooltip">
+                                        <img src="<?php echo $imgHelper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                                        <span class="price_cal tooltiptext">
+                                            <?php echo ( (count($vacationDateToToolTip) > 0) ? $vacationDateToToolTip[0]['tooltip_text'] : '');?>
+                                        </span>
+                                    </span>
+                                <?php endif; ?>
+								<div class="control">
+									<input readonly type="text" id="date_to" name="date_to" value="<?php echo $vacation!=""? $block->getLocalDate($vacation->getDateTo()):"";?>" title="<?php echo __('Vacation Date To') ?>" class="input-text required-entry" />
+								</div>
+							</div>
+							<?php
+								$productstatus=$vacation!=""? $vacation->getProductStatus():"";
+								$vacationstatus=$vacation!=""? $vacation->getVacationStatus():"";
+								if($vacationMode == 'product_disable'):
+							?>     <div class="field">
+										<label for="product_status"><?php echo __('Product Status') ?></label>
+										<div class="control">
+											<select name="product_status">
+												<option value="0" <?php echo $productstatus?"":"selected='selected'";?> ><?php echo __('Enable');?></option>
+												<option value="1" <?php echo $productstatus?"selected='selected'":"";?>><?php echo __('Disable');?></option>
+											</select>
+										</div>
+									</div>
+						    <?php endif;
+							if ($vacationMode == 'add_to_cart_disable') { ?>
+								<input type="hidden" value="1" name="product_status" />
+							<?php
+							}
+							?>
+							<div class="field">
+								<label for="vacation_status"><?php echo __('Vacation Status') ?></label>
+								<?php if(count($vacationSettingToolTip) > 0): ?>
+                                    <span class="tooltip">
+                                        <img src="<?php echo $imgHelper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                                        <span class="price_cal tooltiptext">
+                                            <?php echo ( (count($vacationSettingToolTip) > 0) ? $vacationSettingToolTip[0]['tooltip_text'] : '');?>
+                                        </span>
+                                    </span>
+                                <?php endif; ?>
+								<div class="control">
+									<select name="vacation_status">
+										<option value="0" <?php echo $vacationstatus?"":"selected='selected'";?> ><?php echo __('Off');?></option>
+										<option value="1" <?php echo $vacationstatus?"selected='selected'":"";?>><?php echo __('On');?></option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="buttons-set">
+						<p class="back-link">
+							<a href="javascript:;" onclick="javascript: window.history.back();" class="left">&laquo; <?php echo __('Back') ?></a>
+						</p>
+					</div>
+				</fieldset>
+			</div>
+		</form>
+        <!--  get the date data for further proccess -->
+		<?php
+      $dateFromOffset = $block->getUtcOffset($dateFromOffset);
+      $dateToOffset = $block->getUtcOffset($dateToOffset);
+			$dateData = array('currentDate' => $currentDate, 'dateFrom' =>$dateFrom, 'vacationMode' => $vacationMode, 'startOffset' => $dateFromOffset,'stopOffset' => $dateToOffset);
+			$dateData=json_encode($dateData);
+		?>
+		<script type="text/x-magento-init">
+			{
+				"*": {
+				"Webkul_MpSellerVacation/js/setting" : <?php echo $dateData; ?>
+				}
+			}
+		</script>
+
+        <?php
+		}
+		else {
+	         echo "<h2 style='color:#FF0000;'>".__("FOR BECOME SELLER CONTACT TO ADMIN")."..</h2>";
+        }

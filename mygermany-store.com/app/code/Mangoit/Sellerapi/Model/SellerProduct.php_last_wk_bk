@@ -1,0 +1,758 @@
+<?php 
+namespace Mangoit\Sellerapi\Model;
+
+use Mangoit\Sellerapi\Api\SellerProductInterface; 
+use Magento\Framework\App\RequestInterface;
+use Magento\Tax\Model\Calculation\Rate;
+use Magento\Framework\Webapi\Exception;
+
+class SellerProduct implements SellerProductInterface {
+
+	protected $resultJsonFactory;
+	protected $_block;
+	protected $_webkulHelper;
+	protected $_storeManager;
+	protected $_session;
+	protected $_requestInterface;
+	protected $_helper;
+	protected $_productRepositoryInterface;
+    /**
+     * @var Rate
+     */
+    protected $_taxModelConfig;
+
+	/**
+     * @var \Webkul\Marketplace\Model\ResourceModel\Product\Collection
+     */
+    protected $_sellerProduct;
+
+    /**
+     * @var \Magento\Framework\Json\EncoderInterface
+     */
+    protected $jsonEncoder;
+
+    /**
+     * @var ObjectManagerInterface
+     */
+    protected $_objectManager;
+
+    /**
+     * @var ObjectManagerInterface
+     */
+    protected $_customerObserver;
+
+    /**
+     * Core registry.
+     *
+     * @var \Magento\Framework\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @var \Magento\Framework\Json\DecoderInterface
+     */
+    protected $_jsonDecoder;
+
+    /**
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
+     */
+    protected $_date;
+
+    /**
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
+     */
+    protected $_mediaGalleryProcessor;
+
+    /**
+     * @var \Magento\Eav\Model\Entity\Attribute
+     */
+    protected $_entityAttribute;
+
+    protected $_urlInterface;
+    protected $_directoryList;
+    protected $_file;
+    protected $_categoryLinkRepository;
+    protected $_attributeModel;
+    protected $_saveImage;
+    protected $_attributeFactory;
+
+
+	public function __construct(
+        \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
+        \Mangoit\Sellerapi\Block\Seller\View $block,
+		\Webkul\Marketplace\Helper\Data $webkulHelper,
+		\Magento\Store\Model\StoreManagerInterface $storeManager,
+		\Magento\Customer\Model\Session $session,
+		\Mangoit\Sellerapi\Helper\Data $helper,
+        \Mangoit\Sellerapi\Helper\Saveimage $saveImage,
+		\Magento\Catalog\Api\ProductRepositoryInterface $productRepositoryInterface,
+        \Webkul\Marketplace\Model\ResourceModel\Product\Collection $sellerProduct,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
+        \Magento\Framework\Registry $coreRegistry,
+        \Webkul\Marketplace\Observer\AdminhtmlCustomerSaveAfterObserver $customerObserver,
+        \Magento\Framework\Json\DecoderInterface $jsonDecoder,
+        \Magento\Framework\Stdlib\DateTime\DateTime $date,
+        \Magento\Catalog\Model\Product\Gallery\Processor $mediaGalleryProcessor,
+        \Magento\Framework\UrlInterface $urlInterface, 
+        \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
+        \Magento\Framework\Filesystem\Io\File $file,
+        \Magento\Catalog\Api\CategoryLinkManagementInterface $categoryLinkRepository,
+        \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute $attributeModel,
+        \Magento\Eav\Model\Entity\Attribute $entityAttribute,
+        \Magento\Catalog\Model\ResourceModel\Eav\Attribute $attributeFactory,
+        Rate $taxModelConfig,
+		RequestInterface $requestInterface
+    ) {
+        $this->resultJsonFactory = $resultJsonFactory;
+        $this->_block = $block;
+        $this->_webkulHelper = $webkulHelper;
+        $this->_storeManager = $storeManager;
+        $this->_session = $session;
+        $this->_requestInterface = $requestInterface;
+        $this->_productRepositoryInterface = $productRepositoryInterface;
+        $this->_helper = $helper;
+        $this->_coreRegistry = $coreRegistry;
+        $this->_sellerProduct = $sellerProduct;
+        $this->jsonEncoder = $jsonEncoder;
+        $this->_objectManager = $objectManager;
+        $this->_coreRegistry = $coreRegistry;
+        $this->_customerObserver = $customerObserver;
+        $this->_jsonDecoder = $jsonDecoder;
+        $this->_date = $date;
+        $this->_mediaGalleryProcessor = $mediaGalleryProcessor;
+        $this->_urlInterface = $urlInterface;
+        $this->_directoryList = $directoryList;
+        $this->_file = $file;
+        $this->_categoryLinkRepository = $categoryLinkRepository;
+        $this->_entityAttribute = $entityAttribute;
+        $this->_attributeModel = $attributeModel;
+        $this->_saveImage = $saveImage;
+        $this->_attributeFactory = $attributeFactory;
+        $this->_taxModelConfig = $taxModelConfig;
+    }
+
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function addSellerProduct($seller_id, \Magento\Catalog\Api\Data\ProductInterface $product) 
+	{
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instance of object manager
+        $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+        $connection = $resource->getConnection();
+        $tableName = $resource->getTableName('catalog_product_entity_media_gallery_value'); //gives table name with prefix
+
+        /*For validating the attributes*/
+        /*echo "<pre>";
+        foreach ($product['extension_attributes'] as $key => $value) {
+            print_r($key);
+            echo "<br> Key ".$key;
+            print_r($value);
+            echo "<br> value ".$value;
+            print_r(get_class_methods($key));
+        }*/
+        /*print_r($product->getExtensionAttributes());*/
+        /*die();*/
+        /*$loaded_product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($product->getSku(), 'sku');
+        print_r($loaded_product->debug());*/
+       /* print_r($product->debug());*/
+        /*die('........');*/
+        $this->isProductAttributeExistOrNot($product);
+
+
+        /*echo "<pre> custome";*/
+        /*foreach ($product->getData() as $value) {
+            print_r($value->__toArray());
+            # code...
+        }*/
+        /*var_dump($product->debug());*/
+        /*print_r($product->getName());
+        print_r($product->getCategoryIds());
+        print_r($product->getCategoryCollection()->getData());
+        print_r(get_class_methods($product));*/
+        
+        /*------------------ Configurable Product code ------------------ */
+
+        // if ($product->getTypeId() == 'configurable') {
+
+        //     /*un-comment from here*/
+
+        //     $productSku = $product->getSku();
+        //     $configurableAttributes = explode(',', $product->getConfigOptionsAttr());
+        //     $configurableChildSku = explode(',', $product->getConfigChildSku());
+        //     $attributes_config_data = $this->getProductBySku($configurableChildSku, $configurableAttributes);
+        //     if (!empty($attributes_config_data)) {
+        //         if (!empty($attributes_config_data['attributes_array']) && (isset($attributes_config_data['attributes_array'])) ) {
+        //             $configurable_attributes_data = $attributes_config_data['attributes_array'];
+        //             $product->setConfigurableAttributesData($configurable_attributes_data);
+        //         }
+        //         if (!empty($attributes_config_data['attribute_codes']) && (isset($attributes_config_data['attribute_codes'])) ) {
+        //             $attribute_codes = $attributes_config_data['attribute_codes'];
+        //         }
+        //         if (!empty($attributes_config_data['attributes_id']) && (isset($attributes_config_data['attributes_id'])) ) {
+        //             $attributes = $attributes_config_data['attributes_id'];
+        //             $product->setAttributes($attributes);
+        //         }
+        //         if (!empty($attributes_config_data['product_ids']) && (isset($attributes_config_data['product_ids'])) ) {
+        //             $product_ids = json_encode($attributes_config_data['product_ids']);
+        //             $product->setAssociatedProductIdsSerialized($product_ids);
+                    
+        //         }
+        //         $product->setAffectProductCustomOptions(true);
+        //         $product->setNewVariationsAttributeSetId(4);
+
+        //     }
+
+        //     $product->setAffectConfigurableProductAttributes(true);
+        //     $productRepo = $this->_productRepositoryInterface;
+        //     $product->save();
+        //     $productRepo->save($product);
+            
+        // }
+
+        /*------------------ Configurable Product code ends ------------------ */
+        $is_existing_product = false;
+        $is_seller = $this->_block->isSeller($seller_id);
+        $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($seller_id); 
+
+        $product_array_data = $product->toArray();
+   
+
+        if ($product_array_data['custom_attributes']['special_price']->getValue() != 0 || $product_array_data['custom_attributes']['special_price']->getValue() !== null) {
+            $product->setSpecialPrice(null);
+        }
+
+        
+        if ($customer->getSellerApiToken()) {
+            /* Check seller is exist or not.*/
+            if ($is_seller) {
+
+                $media_gallary_exist = false;        
+
+                /* If getImage is exist then we will get it's values to a variable after then we will remove that 'getImage' object. */
+                if ($product->getImage() !== null) {
+                    $product_images = $product->getImage();
+                    $media_gallary_exist = true;
+                    $product->setImage('');
+                }
+
+                $result_data = [];
+                $productRepo = $this->_productRepositoryInterface;
+                $productRepoExisting = $this->_productRepositoryInterface;
+
+        		try {
+                    /* Currently commented because assigning work not yet done. */
+                    /*if ($product->getTypeId() == 'configurable') {
+
+                        $this->setConfigurationOfProduct($product);
+                        die('00..00');
+                    }*/
+
+                    /* You need to save product by using the repository. */
+                    
+                    /*$productRepoExisting->setUrlKey();
+                    $productRepoExisting->setSku();*/
+                    /*print_r($productRepoExisting->toArray()); 
+                    die();*/
+                    /*$loaded_product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($product->getSku(), 'sku');*/
+                    $collection = $this->_objectManager->create('Magento\Catalog\Model\Product')->getCollection()->addFieldToFilter('sku', array('eq'=> $product->getSku()));
+
+                    if (count($collection->getData()) > 0) {
+                        /*$old_url_key = $product->getUrlKey();
+                        $product->setUrlKey($product->getSku().'-'.rand(10,100));
+                        $loaded_product->setCategoriesIds(null);
+                        $loaded_product->setData($product->toArray());*/
+                        /*echo "-----here--";*/
+
+                        $productRepoExisting = $this->_productRepositoryInterface->get($product->getSku());
+                        /*print_r($productRepoExisting->debug());
+                        die();*/
+                        $unused_attr = ['url_key', 'image', 'media_gallery', 'category_ids'];
+                        $existing_product_array = $product->toArray();
+                        unset($existing_product_array['custom_attributes']['image']);
+                        /*unset($existing_product_array['sku']);*/
+                        
+                        foreach ($existing_product_array as $key => $value) {
+                            /*echo "<br> ";*/
+                           /* print_r($key);*/
+                            /*if (in_array($key, $unused_attr)) {
+                                unset($existing_product_array[$key]);
+                            }*/
+
+                        }
+                        $existing_product_array['url_key'] = $product->getSku().'-'.rand(10,100);
+                        $existing_product_array['store_id'] = 0;
+                        /*$productRepoExisting->setStoreId(0);
+                        $productRepoExisting->setUrlKey(''.$product->getSku().rand(10,100));*/
+                        $productRepoExisting->setData($existing_product_array);
+                        /*$productRepoExisting->setData($product->toArray());*/
+
+                        /*print_r($productRepoExisting->debug());
+                        die();*/
+                        $productRepo->save($productRepoExisting);
+                    } else {
+                        $productRepo->save($product);
+                    }
+                    
+                    if ($product_array_data['custom_attributes']['special_price']->getValue() != 0 || $product_array_data['custom_attributes']['special_price']->getValue() !== null) {
+                        $product->setSpecialPrice(null);
+                    }
+
+
+        			/*$productRepo->save($product);*/
+
+        			$savedProduct = $this->_productRepositoryInterface->get($product->getSku());
+        			$productIds = $this->getSellerAssignedProductsJson($seller_id);
+        			$productids = array_flip($this->_jsonDecoder->decode($productIds));
+        			array_push($productids, $savedProduct->getId());
+        			$productids = $this->jsonEncoder->encode(array_flip($productids));
+        			$product_ids_array = $productids;
+        			try {
+        				$result_data = $this->assignProduct($seller_id, $product_ids_array);
+                        if (isset($result_data['error'])) {
+            				if ($result_data['error'] == 0) {
+                                if ($media_gallary_exist) {
+                                /* This will save the image urls into the folders and then it will assign to the product. */
+                                    $this->setImageToProduct($product_images, $savedProduct);
+                                    /* This function will enable all the images of the product*/
+                                    if (count($savedProduct->getMediaGallery()['images']) > 0 ) {
+                                        foreach ($savedProduct->getMediaGallery()['images'] as $item) {
+                                            $sql = "Update " . $tableName . " Set disabled = 0 where value_id = ".$item['value_id'];
+
+                                            $connection->query($sql);
+                                        }
+                                    }
+
+                                /*Previously done work which is not in use right now.*/
+                                    /*$this->downloadImages($product_images, $savedProduct->getId());*/
+                                }
+
+                                if ($is_existing_product == true) {
+                                    $result_data['message'] = "Product has been updated and assigned to the seller.";
+                                }
+            					return ['message'=> $result_data['message']];
+            				} else {
+            					return ['message'=> $result_data['message']];					
+            				}
+                            # code...
+                        }
+        				$productIds = $this->getSellerAssignedProductsJson($seller_id);	
+                        $productRepo->save($savedProduct);
+        			} catch (Exception $e) {
+        				print_r($e->getMessage());
+        			}
+
+
+        		} catch (Exception $e) {
+        			print_r($e->getMessage());
+        		}
+
+            } else {
+                return ['message'=> 'Seller is not exist. '];       
+            }
+        
+        } else {
+            throw new Exception(__('Please regenerate your authentication token. Your current authentication token has been expired.'));
+        }
+
+        
+        
+
+	}
+
+    /* This will set the images to the products.*/
+    public function setImageToProduct($product_images, $savedProduct)
+    {
+        if ($product_images !== null) {
+            $product_images = explode(',', $product_images);
+            foreach ($product_images as $imageUrl) {
+                $result_view = $this->_saveImage->saveImageToProduct($savedProduct, $imageUrl, true, ['png', 'jpg', 'jpeg', 'gif']);
+            }
+        }
+    } 
+
+    public function setConfigurationOfProduct($product)
+    {
+            $option_set = false;
+            $productSku = $product->getSku();
+            $option_set_result = false;
+            echo "<br> SKU: ".$productSku;
+            /*print_r($savedProduct->debug());*/
+
+            $configurableAttributes = explode(',', $product->getConfigOptionsAttr());
+
+            $configurableChildSku = explode(',', $product->getConfigChildSku());
+
+            $api_url = "rest/V1/configurable-products/".$productSku."/options";
+            $link_product_api_url = "rest/V1/configurable-products/".$productSku."/child";
+
+            foreach ($configurableChildSku as $child) {
+                $childProduct = $this->_productRepositoryInterface->get($child);
+                $position = 0;
+                foreach ($configurableAttributes as $attribute_code) {
+                    /*$array_json = $this->_block->getAttributeData($attribute_code);*/
+                    $array_json = $this->_block->getAttributeDataWithChild($attribute_code, $childProduct, $position);
+                    echo "<br> array_json ";
+                    print_r($array_json);
+                    try{
+                        $option_set = $this->_block->runCurlOperation($api_url, $array_json);
+                    } catch(Exception $e) {
+                        print_r($e->getMessage());
+                    }
+                    $position++;
+                }
+            }
+            if ($option_set) {
+                foreach ($configurableChildSku as $child) {
+                    $array = ["childSku"=> $child];
+                    $option_set_result = $this->_block->runCurlOperation($link_product_api_url, $array);
+                }
+                
+            }
+            if ($option_set_result) {
+                echo "<br> configurable product saved";
+            } else {
+                echo "<br> configurable product Not saved";
+            }
+        die('......');
+        $productSku = $product->getSku();
+        $configurableAttributes = explode(',', $product->getConfigOptionsAttr());
+        $configurableChildSku = explode(',', $product->getConfigChildSku());
+        $attributes_config_data = $this->getProductBySku($configurableChildSku, $configurableAttributes);
+        if (!empty($attributes_config_data)) {
+            if (!empty($attributes_config_data['attributes_array']) && (isset($attributes_config_data['attributes_array'])) ) {
+                $configurable_attributes_data = $attributes_config_data['attributes_array'];
+                $product->setConfigurableAttributesData($configurable_attributes_data);
+            }
+            if (!empty($attributes_config_data['attribute_codes']) && (isset($attributes_config_data['attribute_codes'])) ) {
+                $attribute_codes = $attributes_config_data['attribute_codes'];
+            }
+            if (!empty($attributes_config_data['attributes_id']) && (isset($attributes_config_data['attributes_id'])) ) {
+                $attributes = $attributes_config_data['attributes_id'];
+                $product->setAttributes($attributes);
+            }
+            if (!empty($attributes_config_data['product_ids']) && (isset($attributes_config_data['product_ids'])) ) {
+                $product_ids = json_encode($attributes_config_data['product_ids']);
+                $product->setAssociatedProductIdsSerialized($product_ids);
+                
+            }
+            $product->setAffectProductCustomOptions(true);
+            $product->setNewVariationsAttributeSetId(4);
+
+        }
+        
+        $product->setAffectConfigurableProductAttributes(true);
+        $productRepo = $this->_productRepositoryInterface;
+        $product->save();
+        $productRepo->save($product);
+    }
+
+    public function isProductAttributeExistOrNot($product)
+    {
+        $product_repo = $this->_productRepositoryInterface;
+        $ignore_validation = ['sku', 'name', 'attribute_set_id', 'price', 'status', 'visibility', 'type_id', 'weight', 'image', 'description', 'tax_class_id', 'special_price', 'special_from_date', 'special_to_date'];
+        $product_array = $product->debug(); 
+        /* Validate product images */
+        if ($product->getImage() !== null) {
+            $product_images = explode(',', $product->getImage());
+            foreach ($product_images as $value) {
+                if (filter_var($value, FILTER_VALIDATE_URL) == false) {
+                    throw new Exception(__('Please enter image urls in the "image". For example: "https://pasteboard.co/ImdWr81.png,https://pasteboard.co/ImdWMnM.png" '));
+                }
+            }
+        } else {
+            throw new Exception(__('Please enter image urls in the "image". For example: "https://pasteboard.co/ImdWr81.png,https://pasteboard.co/ImdWMnM.png" '));
+        }
+
+        /*validate special price */
+        if ($product->getSpecialPrice() !== null) {
+            if ($product->getSpecialFromDate() == null) {
+                throw new Exception(__('Please enter date in "special_from_date". '));
+            }
+            if ($product->getSpecialToDate() == null) {
+                throw new Exception(__('Please enter date in "special_to_date". '));
+            }
+
+        }
+
+        /* validate tax class*/
+        if (!empty($this->getAllActiveTaxClass())) {
+            if ($product->getTaxClassId() !== null) {
+                $tax_class_exist = false;
+                $tax_class = $product->getTaxClassId();
+                foreach ($this->getAllActiveTaxClass() as $key => $value) {
+                    if ($key == $tax_class) {
+                        $product->getTaxClassId($key);    
+                        $tax_class_exist = true;
+                    }
+                }
+                if ($tax_class_exist == false) {
+                    throw new Exception(__('Given tax class not found.'));
+                }                
+            } else {
+                throw new Exception(__('Please add tax class.'));
+            }
+        } else {
+            throw new Exception(__('There is no any active tax class. Please ask admin to active atleast one tax class.'));
+        }
+        $attributeInfo = $this->_attributeFactory->getCollection();
+
+
+        /*print_r($product_array);*/
+        /*foreach($attributeInfo as $attributes)
+        {
+            if (!in_array($attributes->getAttributeCode(), $ignore_validation) && (isset($product_array[$attributes->getAttributeCode()]) ) ) {
+                if ($attributes->getFrontendInput() == 'select') {
+                    foreach ($attributes->getOptions() as $option) {
+                        if (strtolower($product_array[$attributes->getAttributeCode()]) == strtolower($option->getValue())) {
+                            $product->setCustomAttribute($attributes->getAttributeCode(), 100);
+                        }
+                    }
+                }
+                if ($attributes->getFrontendInput() == 'multiselect') {
+                    echo "<br> ".$attributes->getAttributeCode();
+                }
+            }
+        }*/
+
+    }
+
+    public function downloadImages($product_images, $product_id)
+    {
+        $image_file_array = [];
+        echo "<br> I am here";
+        $filePath = "/catalog/product/";
+        $image_path = $this->_directoryList->getPath('media').$filePath.$product_id;
+        foreach ($product_images as $value) {
+            $url = $value;
+            $image_content = file_get_contents($value);
+            $ioAdapter = $this->_file;
+            $ioAdapter->mkdir($image_path, 0777);
+            if (is_dir($image_path)) {
+                try{
+                    $fileName = basename($url);
+                    $ioAdapter->open(array('path'=>$image_path));
+                    $ioAdapter->write($fileName, $image_content, 0777);
+                    $image_file_array[] = $fileName;
+                } catch(Exception $e) {
+                    print_r($e->getMessage());
+                }
+            } else {
+                echo "<br>File path else";
+                $product->addImageToMediaGallery($image_directory, null, false, false);
+            }
+
+        }
+        return ['file_path'=> $image_path, 'file_name'=> $image_file_array];
+    }
+
+    /*Old Function Backup*/
+    /*public function downloadImages($product_images, $product_id)
+    {
+        $filePath = "/catalog/product/";
+        $image_path = $this->_directoryList->getPath('media').$filePath.$product_id;
+        foreach ($product_images as $key => $value) {
+            $url = $value['image_url'];
+            $image_content = file_get_contents($url);
+            $ioAdapter = $this->_file;
+            $ioAdapter->mkdir($image_path, 0777);
+            if (is_dir($image_path)) {
+                $fileName = basename($url);
+                $ioAdapter->open(array('path'=>$image_path));
+                $ioAdapter->write($fileName, $image_content, 0777);
+            } else {
+                echo "<br>File path else";
+            }
+
+        }
+    }*/
+
+    public function assignCategoryToProduct($category_array, $product_id)
+    {
+
+    }
+
+	/**
+     * @return array
+     */
+    protected function getSellerAssignedProducts($seller_id)
+    {
+        $products = $this->_sellerProduct->getAllAssignProducts(
+            '`adminassign`= 1 AND `seller_id`='.$seller_id
+        );
+
+        return $products;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSellerAssignedProductsJson($seller_id)
+    {
+        $products = $this->getSellerAssignedProducts($seller_id);
+        if (!empty($products)) {
+            return $this->jsonEncoder->encode(array_flip($products));
+        }
+
+        return '{}';
+    }
+
+    public function assignProduct($sellerId, $productIds)
+    {
+    	$result_data = [];
+        $productids = array_flip($this->_jsonDecoder->decode($productIds));
+
+        // get all assign products
+        $assignProductIds = $this->getSellerAssignedProducts($sellerId);
+        // set product status to 2 to unassign products from seller
+
+        $coditionArr = [];
+        foreach ($assignProductIds as $key => $id) {
+            $condition = '`mageproduct_id`='.$id;
+            array_push($coditionArr, $condition);
+        }
+
+        if (count($coditionArr)) {
+            $coditionData = implode(' OR ', $coditionArr);
+            $this->_sellerProduct->setProductData(
+                $coditionData,
+                ['adminassign' => 2]
+            );
+        }
+
+        // set product status to 1 to assign selected products from seller
+        $productCollection = $this->_objectManager->create(
+            'Magento\Catalog\Model\Product'
+        )->getCollection()
+        ->addFieldToFilter(
+            'entity_id',
+            ['in' => $productids]
+        );
+        $successMessage = ''; 
+        foreach ($productCollection as $product) {
+            $proid = $product->getId();
+            $userid = '';
+            $collection = $this->_objectManager->create(
+                'Webkul\Marketplace\Model\Product'
+            )->getCollection()
+            ->addFieldToFilter(
+                'mageproduct_id',
+                $proid
+            );
+
+            $flag = 1;
+            foreach ($collection as $coll) {
+                $flag = 0;
+                if ($sellerId != $coll['seller_id']) {
+                	$result_data['error'] = 1;
+                	$result_data['message'] = 'The product with id '.$proid.' is already assigned to other seller.';
+                } else {
+                    $coll->setAdminassign(1)->save();
+                    $result_data['error'] = 0;
+                    $result_data['message'] = 'Product has been updated and assigned to the seller.'; 
+                }
+
+            }
+
+            if ($flag) {
+                $collection1 = $this->_objectManager->create(
+                    'Webkul\Marketplace\Model\Product'
+                );
+                $collection1->setMageproductId($proid);
+                $collection1->setSellerId($sellerId);
+                $collection1->setStatus($product->getStatus());
+                $collection1->setAdminassign(1);
+                $collection1->setCreatedAt($this->_date->gmtDate());
+                $collection1->setUpdatedAt($this->_date->gmtDate());
+                $collection1->save();
+                $result_data['error'] = 0;
+            	$result_data['message'] = 'Products has been created and successfully assigned to seller.';
+            }
+        }
+
+        return $result_data;
+    }
+
+    public function unassignProduct($sellerId, $productIds)
+    {
+        $productids = $productIds;
+        $collection = $this->_objectManager->create(
+            'Webkul\Marketplace\Model\Product'
+        )->getCollection()
+        ->addFieldToFilter(
+            'mageproduct_id',
+            ['in' => $productids]
+        )
+        ->addFieldToFilter(
+            'seller_id',
+            $sellerId
+        );
+        foreach ($collection as $coll) {
+            $coll->delete();
+        }
+    }
+
+    public function getProductBySku($configurableChildSku ,$configurableAttributes)
+    {
+        $attributes_array = [];
+        $attribute_codes = [];
+        $attributes_id = [];
+        $product_ids = [];
+        if (!empty($configurableChildSku)) {
+            foreach ($configurableChildSku as $sku) {
+                $childProduct = $this->_productRepositoryInterface->get($sku);
+                $product_ids[] = $childProduct->getId();
+                if (!empty($configurableAttributes)) {
+                    $position = 0;
+                    foreach ($configurableAttributes as $attribute_code) {
+                        /*$attr_data = $this->_block->getAttributeInfo($attribute_code);*/
+                        $attributeData = $this->_block->getAttributeInfo($attribute_code);
+                        $attribute_id = $attributeData->getAttributeId();
+                        $attribute_label = $attributeData->getFrontendLabel();
+                        /*echo "<br> value: ".$childProduct->getCustomAttribute($attribute_code)->getValue();*/
+                        if (!in_array($attribute_code, $attribute_codes)) {
+                            $attribute_codes[] = $attribute_code;
+                            # code...
+                        }
+                        if (!in_array($attribute_id, $attributes_id)) {
+                            $attributes_id[] = $attribute_id;
+                            # code...
+                        }
+                        $attributes_array[$attribute_id]['attribute_id'] = $attribute_id;
+                        $attributes_array[$attribute_id]['code'] = $attribute_code;
+                        $attributes_array[$attribute_id]['label'] = $attribute_label;
+                        $attributes_array[$attribute_id]['position'] = $position;
+                        $attributes_array[$attribute_id][$childProduct->getCustomAttribute($attribute_code)->getValue()] = array('include'=> 1, 'value_index'=> $childProduct->getCustomAttribute($attribute_code)->getValue());
+                        $position++;
+                    }
+                }
+                
+            }
+            
+        }
+        // return $attributes_array;
+        $final_array = [
+            'attributes_array'=> $attributes_array,
+            'attribute_codes'=> $attribute_codes,
+            'attributes_id'=> $attributes_id,
+            'product_ids'=> $product_ids
+        ];
+        return $final_array;
+    }
+
+    public function getAllActiveTaxClass()
+    {
+        $taxRates = $this->_taxModelConfig->getCollection()->getData();
+        $taxArray = array();
+        foreach ($taxRates as $tax) {
+            $taxRateId = $tax['tax_calculation_rate_id'];
+            $taxCode = $tax["code"];
+            $taxRate = $tax["rate"];
+            /*$taxName = $taxCode.'('.$taxRate.'%)';*/
+            $taxName = $taxCode;
+            $taxArray[$taxRateId] = $taxName;
+        }
+        return $taxArray;
+    }
+}

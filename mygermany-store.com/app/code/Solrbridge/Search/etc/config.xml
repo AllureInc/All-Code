@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <solrbridge_general>
+            <solr>
+                <server_url>http://localhost:8983/solr/</server_url>
+                <server_authentication_enable>0</server_authentication_enable>
+            </solr>
+            <indexer>
+                <item_per_commit>50</item_per_commit>
+                <update_index_after_product_save>1</update_index_after_product_save>
+            </indexer>
+        </solrbridge_general>
+        <solrbridge_autocomplete>
+            <autocomplete>
+                <show_keyword_suggestion>1</show_keyword_suggestion>
+                <keyword_suggestion_limit>5</keyword_suggestion_limit>
+                <show_product_suggestion>1</show_product_suggestion>
+                <product_suggestion_limit>5</product_suggestion_limit>
+                <show_category_suggestion>1</show_category_suggestion>
+                <category_suggestion_limit>5</category_suggestion_limit>
+                <show_brand_suggestion>1</show_brand_suggestion>
+                <brand_suggestion_limit>5</brand_suggestion_limit>
+                <brand_attribute_code>manufacturer</brand_attribute_code>
+                <thumb_size>50x50</thumb_size>
+                <use_advanced_mode>0</use_advanced_mode>
+                <display_category_dropdown>0</display_category_dropdown>
+            </autocomplete>
+            <termgeneration>
+                <use_product_category>1</use_product_category>
+                <use_product_tag>1</use_product_tag>
+                <use_product_attribute_set>1</use_product_attribute_set>
+                <product_attribute_codes>name,sku,meta_keyword</product_attribute_codes>
+            </termgeneration>
+        </solrbridge_autocomplete>
+        <solrbridge_layernav>
+            <general>
+                <render_category_as_dropdown>0</render_category_as_dropdown>
+                <render_all_attr_as_dropdown>0</render_all_attr_as_dropdown>
+            </general>
+            <catalog_layer_nav>
+                <replace>0</replace>
+            </catalog_layer_nav>
+            <price_filter>
+                <enable>1</enable>
+                <step>100</step>
+            </price_filter>
+        </solrbridge_layernav>
+    </default>
+</config>

@@ -1,0 +1,1567 @@
+<?php 
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Marketplace
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+// @codingStandardsIgnoreFile configurable
+
+/** @var $block \Webkul\Marketplace\Block\Product\Create */
+$tooltipHelper = $this->helper('Mangoit\MisTooltip\Helper\Data');
+$section_id = 'new_product'; 
+
+$product_type_id = 'product_type';
+$fsk_id = 'fsk';
+$product_cat_type_id = 'product_cat_type';
+$product_meta_title_id = 'product_meta_title';
+$product_meta_keywords_id = 'product_meta_keywords';
+$product_meta_description_id = 'product_meta_description';
+$related_product_id = 'related_product';
+$internal_note_tooltip = 'internal_note';
+$visibility_tooltip = 'visibility';
+$net_shipping_price_to_myGermany = 'shipping_price_to_mygermany'; 
+$net_price = 'net_price';
+
+$store_id = $tooltipHelper->getStoreId();
+$productTypeToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $product_type_id);
+$fskToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $fsk_id);
+$productCatTypeToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $product_cat_type_id);
+$productMetaTitleToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $product_meta_title_id);
+$productMetaKeywordToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $product_meta_keywords_id);
+$productMetaDescToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $product_meta_description_id);
+$relatedProductToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $related_product_id);
+$internalNoteToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $internal_note_tooltip);
+$visibilityToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $visibility_tooltip);
+$net_shipping_price_to_myGermany_ToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $net_shipping_price_to_myGermany); 
+$netPriceToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $net_price);
+$specialPriceToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, 'special_price');
+
+
+$formula = __('Click here to check your Earnings! =  Your Price + Shipping Costs - Fees (myGermany + Exchange + Payment).');
+$priceCalUrl = $this->getUrl('mygermany-price-calculation'); 
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$misHelper = $this->helper('Mangoit\Marketplace\Helper\Data');
+$sensitiveAttrs = $misHelper->getSensitiveAttributes();
+$attrArray = $this->helper('Mangoit\Vendorcommission\Helper\Data')->getCustomAttributeOption();
+$productNoteCollection = $this->helper('Mangoit\Vendorcommission\Helper\Data')->getProductNoteAttribute();
+$product_type = $this->getRequest()->getParam('type');
+$btnProp =  ($product_type == 'configurable') ? true : false ;
+
+
+// Working of custom attribute by vendor
+$customerSession = $this->helper('Mangoit\VendorAttribute\Helper\Data')->getCustomerIdFromSession();
+$vendorAttributeCollection = $this->helper('Mangoit\VendorAttribute\Helper\Data')->getVendorProductAttribute();
+$vendorData = $vendorAttributeCollection->getCollection()->addFieldToFilter('vendor_id',['eq' => $customerSession])->addFieldToFilter('is_visible',['eq' => '1']);
+$adminAttribute = $vendorAttributeCollection->getCollection()->addFieldToFilter('vendor_id',['eq' => '0'])->addFieldToFilter('is_visible',['eq' => '1']);
+// end of working 
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+$product_attribute = $objectManager->create('\Magento\Catalog\Model\ResourceModel\Product\Attribute\Collection');
+$attribute_code_array = ['product_cat_type','lithium','liquid_check','oil','restricted_product','fsk_product_type'];
+/*$attribute_code_array = ['product_cat_type','lithium','liquid_check','liquid','oil','restricted_product','fsk_product_type'];*/
+$attribute_label_array = [];
+
+foreach ($product_attribute as $attr_value) {
+    if (in_array($attr_value->getAttributeCode(), $attribute_code_array)) {
+        $attribute_label_array[$attr_value->getAttributeCode()] = $attr_value->getStoreLabel();
+    }
+}
+
+$product_hint_status = $helper->getProductHintStatus();
+$currency_code = $helper->getCurrentCurrencyCode();
+$currency_symbol = $helper->getCurrencySymbol();
+$set=$this->getRequest()->getParam('set');
+$type=$this->getRequest()->getParam('type');
+$skuType = $helper->getSkuType();
+$skuPrefix = $helper->getSkuPrefix();
+$data = $block->getPersistentData();
+
+$data['product']['shipping_price_to_mygmbh'] = isset($data['product']['shipping_price_to_mygmbh']) ? $data['product']['shipping_price_to_mygmbh'] : '';
+
+if (!empty($data['set'])) {
+    $set = $data['set'];
+}
+?>
+<style type="text/css">
+    .page-actions-buttons
+    {
+        display: none;
+    }
+    .pricetool
+    {
+        text-decoration: none;
+    }
+    .err-text
+    {
+        color: red;
+    }
+    .add-field
+    {
+        padding: 5px;
+        background-color: #dbdbdb!important;
+        color: #514943!important;
+        text-decoration: none;
+    }
+    .sensitive_attr{
+        float: left;
+        margin-right: 10px;
+    }
+    .mis_hidden_class{display: none}
+    .tooltip {
+        position: relative;
+        display: inline;
+        /*display: inline-block;*/
+        opacity: inherit !important;
+    /*border-bottom: 1px dotted black;*/
+    }
+
+    /*.tooltip .tooltiptext {
+        text-decoration: none;
+        visibility: hidden;
+        width: 150px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+
+        position: absolute;
+        z-index: 1;
+    }*/
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 400px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 15%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+</style>
+
+<form action="<?php echo $block->getUrl('marketplace/product/save', ['_secure' => $this->getRequest()->isSecure()]) ?>" enctype="multipart/form-data" method="post" id="edit-product" data-form="edit-product" data-mage-init='{"validation":{}}'>
+    <div class="wk-mp-design" id="wk-bodymain">
+        <fieldset class="fieldset info wk-mp-fieldset">
+            <div data-mage-init='{"formButtonAction": {}}' class="wk-mp-page-title legend">
+                <span><?php echo __('Add Product') ?></span>
+                <button class="button btn_type wk-mp-btn" title="<?php echo __('Save') ?>" type="submit" id="savebtn">
+                    <span><span><?php echo __('Save') ?></span></span>
+                </button>
+            </div> 
+            <input type="hidden" name="selectedCategories" id="selectedCategories" value=''>
+            <?php echo $block->getBlockHtml('formkey')?>
+            <?php echo $block->getBlockHtml('seller.formkey')?>
+            <input id="product_type_id" name="type" type="hidden" value="<?php echo $type?>" value="<?php echo $data['type']?>">
+            <?php if (count($helper->getAllowedSets()) > 1) { ?>
+                <div class="field required">
+                    <label class="label"><?php echo __('Attribute Set') ?></label>
+                    <div class="control">
+                        <select name="set" id="attribute-set-id" class="required-entry">
+                        <?php foreach($helper->getAllowedSets() as $setval) {?>
+                            <option value="<?php echo $setval['value'] ?>" <?php if($set==$setval['value']){ ?> selected="selected" <?php } ?>><?php echo $setval['label']?></option>
+                        <?php } ?>
+                        </select>
+                    </div>
+                </div>
+            <?php 
+            } else { 
+                $allowedSets = $helper->getAllowedSets();
+                ?>
+                <input type="hidden" name="set" id="attribute-set-id" value="<?php echo $allowedSets[0]['value'] ?>" />
+                <?php 
+            } ?>
+            <div class="field">
+                <label class="label"><?php echo __('Product Category') ?></label>
+                <?php
+                if($product_hint_status && $helper->getProductHintCategory()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProductHintCategory() ?>"/>
+                <?php
+                } ?>
+                <?php if ($helper->getIsAdminViewCategoryTree()) { ?>
+                    <div data-bind="scope: 'sellerCategory'">
+                        <!-- ko template: getTemplate() --><!-- /ko -->
+                    </div>
+                    <script type="text/x-magento-init">
+                        {
+                            "*": {
+                                "Magento_Ui/js/core/app": {
+                                    "components": {
+                                        "sellerCategory": {
+                                            "component": "Webkul_Marketplace/js/product/seller-category-tree",
+                                            "template" : "Webkul_Marketplace/seller-category-tree",
+                                            "filterOptions": true,
+                                            "levelsVisibility": "1",
+                                            "options": <?php echo $block->getCategoriesTree()?>,
+                                            "value": <?php echo json_encode($data['product']['category_ids'])?>
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    </script>
+                <?php } else { ?>
+                    <div class="wk-field wk-category">
+                        <div class="wk-for-validation">
+                            <div id="wk-category-label"><?php echo __("CATEGORIES"); ?></div>
+                            <?php
+                            $categories = $data['product']['category_ids'];
+                            foreach ($categories as $value) { ?>
+                                <input type="hidden" name="product[category_ids][]" value="<?php echo $value; ?>" id="wk-cat-hide<?php echo $value; ?>"/>
+                                <?php
+                            }
+                            ?>
+                            <?php
+                            if($helper->getAllowedCategoryIds()){
+                                $storeconfig_catids = explode(',',trim($helper->getAllowedCategoryIds()));
+                                foreach($storeconfig_catids as $storeconfig_catid)  {
+                                    $cat_model = $block->getCategory()->load($storeconfig_catid); 
+                                    if(isset($cat_model["entity_id"]) && $cat_model["entity_id"]){
+                                        ?>
+                                        <div class="wk-cat-container">
+                                            </span><span class="wk-foldersign"></span>
+                                            <span class="wk-elements wk-cat-name"><?php echo $cat_model->getName() ?></span>
+                                            <?php
+                                            if (in_array($cat_model["entity_id"], $categories)) {?>
+                                                <input class="wk-elements" type="checkbox" name="product[category_ids][]" value=<?php echo $cat_model['entity_id'] ?> checked />
+                                                <?php
+                                            } else { ?>
+                                                <input class="wk-elements" type="checkbox" name="product[category_ids][]" value='<?php echo $cat_model['entity_id'] ?>'/>
+                                            <?php
+                                            } ?>
+                                        </div> 
+                                        <?php 
+                                    }
+                                }
+                            }else{
+                                $count = 0;
+                                $category_helper = $this->helper('Magento\Catalog\Helper\Category');
+                                $category_model = $block->getCategory();
+                                $_categories = $category_helper->getStoreCategories();
+                                foreach($_categories as $_category) {
+                                    $count++;
+                                    if(count($category_model->getAllChildren($category_model->load($_category['entity_id'])))-1 > 0){ ?>
+                                        <div class="wk-cat-container" style="margin-left:0px;">
+                                            <span class="wk-plus">
+                                            </span><span class="wk-foldersign"></span>
+                                            <span class="wk-elements wk-cat-name"><?php echo $_category->getName() ?></span>
+                                            <?php 
+                                            if (in_array($_category["entity_id"], $categories)) {?>
+                                                <input class="wk-elements" type="checkbox" name="product[category_ids][]" value=<?php echo $_category['entity_id'] ?> checked />
+                                                <?php 
+                                            } else { ?>
+                                                <input class="wk-elements" type="checkbox" name="product[category_ids][]" value='<?php echo $_category['entity_id'] ?>'/>
+                                            <?php
+                                            } ?>
+                                        </div>
+                                        <?php
+                                    }else { ?>
+                                        <div class="wk-cat-container">
+                                            </span><span class="wk-foldersign"></span>
+                                            <span class="wk-elements wk-cat-name"><?php echo $_category->getName() ?></span>
+                                            <?php
+                                            if (in_array($_category["entity_id"], $categories)) {?>
+                                                <input class="wk-elements" type="checkbox" name="product[category_ids][]" value=<?php echo $_category['entity_id'] ?> checked />
+                                                <?php
+                                            } else { ?>
+                                                <input class="wk-elements" type="checkbox" name="product[category_ids][]" value='<?php echo $_category['entity_id'] ?>'/>
+                                            <?php 
+                                            } ?>
+                                        </div>
+                                        <?php
+                                    }
+                                } 
+                            } ?>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+            <div class="field required">
+                <label class="label">
+                    <?php 
+                    echo __(
+                        (isset($attribute_label_array['fsk_product_type'])) ? $attribute_label_array['fsk_product_type'] : 'FSK Compulsory'); ?>
+                <?php if(count($fskToolTip) > 0): ?>
+                    <div class="tooltip">
+                        <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                        <span class="tooltiptext">
+                            <?php echo ( (count($fskToolTip) > 0) ? $fskToolTip[0]['tooltip_text'] : '');?>
+                        </span>
+                    </div>
+                <?php endif; ?>
+                </label>
+                <?php
+                if($product_hint_status && $helper->getProductHintStock()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProductHintStock() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                    <!-- FSK Control -->
+                    <select id="" class="select" name="product[fsk_product_type]">
+                        <?php 
+                            if (isset($data['product']['fsk_product_type'])) { ?>
+                                <option value="0" <?php echo ($data['product']['fsk_product_type'] == 0) ? 'selected="selected"': '';?>><?php echo __('No');?></option>
+                                <option value="1"
+                                <?php echo ($data['product']['fsk_product_type'] == 1) ? 'selected="selected"': '';?>
+                                ><?php echo __('Yes');?></option>
+                        <?php } else { ?>
+                            <option value="0" selected="selected"><?php echo __('No');?></option>
+                            <option value="1"><?php echo __('Yes');?></option>
+
+                        <?php } ?> 
+
+                    </select>
+                    <!-- FSK Control Ends -->
+                    <!-- <select id="" class="select" name="product[fsk_product_type]">
+                        <option value="0" selected="selected"><?php// echo __('No');?></option>
+                        <option value="1"><?php// echo __('Yes');?></option>
+                    </select> -->
+                </div>
+            </div>
+            <!-- Sensitive attributes work - Start -->
+            <?php if (!empty($sensitiveAttrs)): ?>
+                <?php foreach ($sensitiveAttrs as $sensAttrValues): 
+                    $isRequired = $sensAttrValues->getIsRequired();
+                    $attributeSet = '';
+                    if (isset($product_coll[$sensAttrValues->getAttributeCode()])) {
+                        $attributeSet = $product_coll[$sensAttrValues->getAttributeCode()];
+                    }
+                    $attrTooltip = $tooltipHelper->getToolTipData($store_id, $section_id, $sensAttrValues->getAttributeCode());
+                ?>
+                    <?php //echo "<pre>"; print_r($sensAttrValues->getAttributeCode()); die('died'); echo "</pre>"; ?>
+                    <div class="field <?php echo (($isRequired) ? 'required' : '') ?>">
+                        <label class="label">
+
+                            <?php echo (isset($attribute_label_array[$sensAttrValues->getAttributeCode()])) ? $attribute_label_array[$sensAttrValues->getAttributeCode()] : $sensAttrValues['frontend_label']; ?>
+                            <?php if(count($attrTooltip) > 0): ?>
+                                <div class="tooltip">
+                                    <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                                    <span class="tooltiptext">
+                                        <?php echo ( (count($attrTooltip) > 0) ? $attrTooltip[0]['tooltip_text'] : '');?>
+                                    </span>
+                                </div>
+                            <?php endif; ?>
+                        </label>
+                        <div class="control">
+                            <select id="<?php echo $sensAttrValues->getAttributeCode(); ?>" class="sensitive_attr <?php echo (($isRequired) ? 'required-entry' : '') ?>  select" name="product[mis_2_41_35_sensitive_<?php echo $sensAttrValues->getAttributeCode(); ?>]" style="width: 20%" data-attr="<?php echo $sensAttrValues->getAttributeCode(); ?>" >
+                                <option value=""><?php echo __('Please select')?></option>
+                                <option value="0" <?php echo (isset($attributeSet) ? (($attributeSet == 0) ? 'selected' : '') : '') ?>><?php echo __('No')?></option>
+                                <option value="1" <?php echo (isset($attributeSet) ? (($attributeSet == 1) ? 'selected' : '') : '') ?>><?php echo __('Yes')?></option>
+                            </select>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+            <!-- Sensitive attributes work - End -->
+            <?php $product_type_attr =  __('Select Product Type'); ?>
+
+            <div class="field required">
+                <label class="label">
+                    <?php echo __(
+                        (isset($attribute_label_array['product_cat_type'])) ? $attribute_label_array['product_cat_type'] : $product_type_attr);  ?>
+                    <?php if(count($productCatTypeToolTip) > 0): ?>
+                        <div class="tooltip">
+                            <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                            <span class="tooltiptext">
+                                <?php echo ( (count($productCatTypeToolTip) > 0) ? $productCatTypeToolTip[0]['tooltip_text'] : '');?>                    
+                            </span>
+                        </div>
+                    <?php endif; ?>
+                </label>
+                <?php if($product_hint_status && $helper->getProductHintStock()){ ?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProductHintStock(); ?>"/>
+                <?php } ?>
+                <div class="control">
+                    <!-- product_cat_type control -->
+                    <select id="" class="select" name="product[product_cat_type]">
+                        <?php if (isset($data['product']['product_cat_type'])){ ?>
+                            <?php foreach ($attrArray as $key => $value): ?>
+                            <option 
+                            value="<?php echo $value['value'];?>" 
+                            <?php echo ($data['product']['product_cat_type'] == $value['value']) ? 'selected="selected"': '' ?>
+                            >
+                            <?php echo __($value['label']); ?></option>
+                            <?php endforeach; ?>
+                        <?php } else { ?>
+                        <?php foreach ($attrArray as $key => $value): ?>
+                            <option value="<?php echo $value['value']; ?>" ><?php echo __($value['label']); ?></option>
+                        <?php endforeach; } ?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="field required">
+                <label class="label"><?php echo __('Product Name'); ?></label>
+                <?php
+                if($product_hint_status && $helper->getProductHintName()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProductHintName() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                    <input type="text" 
+                    class="required-entry input-text" 
+                    name="product[name]" 
+                    id="name" 
+                    value="<?php echo $data['product']['name']?>"
+                    placeholder="<?php echo __('Enter Product Name');?>"
+                    />
+                </div>
+            </div>
+            
+
+            
+
+            <div class="field" style="display: none;">
+                <label class="label"><?php echo __('Country Wise Restricted') ?></label>
+                <?php
+                if($product_hint_status && $helper->getProductHintStock()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProductHintStock() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                    <select id="" class="select" name="product[restricted_product]">
+                        <option value="0" selected="selected"><?php echo __('No');?></option>
+                        <option value="1"><?php echo __('Yes');?></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="field" style="display: none;">
+                <label class="label"><?php echo __('Wallet Cash Back') ?></label>
+                <?php
+                if($product_hint_status && $helper->getProductHintStock()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProductHintStock() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                    <input type="text" name="product[wallet_cash_back]" value="0">
+                </div>
+            </div>
+            
+            <div class="field">
+                <label class="label"><?php echo __('Internal Note') ?>
+                <?php if(count($internalNoteToolTip) > 0): ?>
+                    <div class="tooltip">
+                        <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                        <span class="tooltiptext">
+                            <?php echo ( (count($internalNoteToolTip) > 0) ? $internalNoteToolTip[0]['tooltip_text'] : '');?>
+                        </span>
+                    </div>
+                <?php endif; ?>
+                </label>
+                <div class="control">
+                    <textarea 
+                    placeholder="<?php echo __('Enter Product Note');?>" 
+                    class="textarea" 
+                    id="" 
+                    name="product[product_note]"
+                    ><?php echo isset($data['product']['product_note']) ? $data['product']['product_note'] : null;?></textarea>
+                </div>
+            </div>
+
+            <div class="field required">
+                <label class="label"><?php echo __('Description') ?></label>
+                <?php
+                if($product_hint_status && $helper->getProductHintDesc()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProductHintDesc() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                    <textarea placeholder="<?php echo __('Enter Product Description');?>" name="product[description]" data-validate="{required:true}" class="required-entry input-text" id="description" rows="5" cols="75" ><?php echo $data['product']['description']?></textarea>
+                    <?php if ($helper->isWysiwygEnabled()) : ?>
+                        <script>
+                            require([
+                                "jquery",
+                                "mage/translate",
+                                "mage/adminhtml/events",
+                                "mage/adminhtml/wysiwyg/tiny_mce/setup"
+                            ], function(jQuery) {
+                                wysiwygDescription = new wysiwygSetup("description", {
+                                    "width" : "100%",
+                                    "height" : "200px",
+                                    "plugins" : [{"name":"image"}],
+                                    "tinymce4" : {
+                                        "toolbar":"formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | link table charmap","plugins":"advlist autolink lists link charmap media noneditable table contextmenu paste code help table",
+                                    }
+                                });
+                                wysiwygDescription.setup("exact");
+                            });
+                        </script>
+                    <?php endif; ?>
+                </div>
+            </div>
+            
+            <div class="field">
+                <label class="label"><?php echo __('Short Description') ?></label>
+                <?php
+                if($product_hint_status && $helper->getProductHintShortDesc()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProductHintShortDesc() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                    <textarea 
+                    placeholder="<?php echo __('Enter Short Description');?>"
+                    name="product[short_description]" 
+                    class="input-text" 
+                    id="short_description" 
+                    rows="5" 
+                    cols="75" 
+                    ><?php echo $data['product']['short_description']?></textarea>
+                    <?php if ($helper->isWysiwygEnabled()) : ?>
+                        <script>
+                            require([
+                                "jquery",
+                                "mage/translate",
+                                "mage/adminhtml/events",
+                                "mage/adminhtml/wysiwyg/tiny_mce/setup"
+                            ], function(jQuery) {
+                                wysiwygShortDescription = new wysiwygSetup("short_description", {
+                                    "width" : "100%",
+                                    "height" : "200px",
+                                    "plugins" : [{"name":"image"}],
+                                    "tinymce4" : {
+                                        "toolbar":"formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | link table charmap","plugins":"advlist autolink lists link charmap media noneditable table contextmenu paste code help table",
+                                    }
+                                });
+                                wysiwygShortDescription.setup("exact");
+                            });
+                        </script>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php 
+            if ($skuType == 'static') { ?>
+                <div class="field required">
+                    <label class="label"><?php echo __('SKU') ?></label>
+                    <?php
+                    if ($skuPrefix) {
+                        echo "(Prefix - ".$skuPrefix.")";
+                    } ?>
+                    <?php
+                    if($product_hint_status && $helper->getProductHintSku()){?>
+                        <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProductHintSku() ?>"/>
+                    <?php
+                    } ?>
+                    <div class="control">
+                        <input name="product[sku]" id="sku" class="required-entry input-text" type="text" value="<?php echo $data['product']['sku']?>"/>
+                    </div>
+                    <div id="skuavail" >
+                        <span class="success-msg skuavailable"><?php echo __('SKU Available') ?></span>
+                    </div>
+                    <div id="skunotavail" >
+                        <span class="error-msg err-text skunotavailable"><?php echo __('SKU Already Exist') ?></span>
+                    </div>
+                </div>
+            <?php
+            } ?>
+
+            <?php 
+               // Working of custom attribute
+                foreach ($adminAttribute->getData() as $key => $value) {
+
+                    $attributeCode = $value['attribute_code'];
+                    $attributeData = $this->helper(
+                            'Mangoit\VendorAttribute\Helper\Data')->getCustomAttributeOption($attributeCode);
+
+                    $frontType = $attributeData->getFrontendInput();
+                    $frontLabel = $attributeData->getFrontendLabel();
+                    switch ($frontType) {
+                        case 'text':
+                            include ($block->getTemplateFile('Webkul_Marketplace::product/text.phtml'));
+                            break;
+                        case 'textarea':
+                            include ($block->getTemplateFile('Webkul_Marketplace::product/textarea.phtml'));
+                            break;
+                        // case 'date':
+                        //     include ($block->getTemplateFile('Webkul_Marketplace::product/date.phtml'));
+                        //     break;
+                        // case 'boolean':
+                        //     include ($block->getTemplateFile('Webkul_Marketplace::product/yesNo.phtml'));
+                        //     break;
+
+                        // case 'select':
+                        //     include ($block->getTemplateFile('Webkul_Marketplace::product/select.phtml'));
+                        //     break;
+
+                        case 'multiselect':
+                            include ($block->getTemplateFile('Webkul_Marketplace::product/multiselect.phtml'));
+                            break;
+
+                        default:
+                            break;
+                    }
+                } 
+            ?>
+            <?php 
+               
+                foreach ($vendorData->getData() as $key => $value) {
+
+                    $attributeCode = $value['attribute_code'];
+                    $attributeData = $this->helper(
+                            'Mangoit\VendorAttribute\Helper\Data')->getCustomAttributeOption($attributeCode);
+
+                    $frontType = $attributeData->getFrontendInput();
+                    $frontLabel = $attributeData->getFrontendLabel();
+                    
+                    switch ($frontType) {
+                        case 'text':
+                            include ($block->getTemplateFile('Webkul_Marketplace::product/text.phtml'));
+                            break;
+                        case 'textarea':
+                            include ($block->getTemplateFile('Webkul_Marketplace::product/textarea.phtml'));
+                            break;
+                        // case 'date':
+                        //     include ($block->getTemplateFile('Webkul_Marketplace::product/date.phtml'));
+                        //     break;
+                        // case 'boolean':
+                        //     include ($block->getTemplateFile('Webkul_Marketplace::product/yesNo.phtml'));
+                        //     break;
+
+                        // case 'select':
+                        //     include ($block->getTemplateFile('Webkul_Marketplace::product/select.phtml'));
+                        //     break;
+
+                        case 'multiselect':
+                            include ($block->getTemplateFile('Webkul_Marketplace::product/multiselect.phtml'));
+                            break;
+
+                        default:
+                            break;
+                    }
+                } 
+                // end of working
+            ?>
+            <div class="field required">
+                <label class="label"><?php echo __('Net Price') ?><b><?php echo  " (".$currency_symbol.")"; ?></b></label>
+                <?php if(count($netPriceToolTip) > 0): ?>
+                    <div class="tooltip">
+                        <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                        <span class="tooltiptext">
+                            <?php echo ( (count($netPriceToolTip) > 0) ? $netPriceToolTip[0]['tooltip_text'] : '');?>
+                        </span>
+                    </div>
+                <?php endif; ?>
+                <?php
+                if($product_hint_status && $helper->getProductHintPrice()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProductHintPrice() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                    <input 
+                    type="text" 
+                    class="required-entry validate-zero-or-greater input-text" 
+                    name="product[price]" 
+                    id="price" 
+                    placeholder="<?php echo __('Enter Net Price');?>"
+                    value="<?php echo $data['product']['price']?>"/>
+                </div>
+            </div>
+
+            <div class="field"> 
+                <label class="label"><?php echo __('Meta Title') ?>
+                <?php if(count($productMetaTitleToolTip) > 0): ?>
+                    <div class="tooltip">
+                        <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                        <span class="tooltiptext">
+                            <?php echo ( (count($productMetaTitleToolTip) > 0) ? $productMetaTitleToolTip[0]['tooltip_text'] : '');?>
+                        </span>
+                    </div>
+                <?php endif; ?>
+                </label>
+                <div class="control">
+                    <input type="text" class="input-text" name="product[meta_title]" id="meta_title"  value="<?php echo $data['product']['meta_title']?>"
+                    placeholder="<?php echo __('Enter Meta Title');?>"
+                    />
+                </div>
+            </div>
+            <div class="field">
+                <label class="label"><?php echo __('Meta Keywords') ?>
+                <?php if(count($productMetaKeywordToolTip) > 0): ?>
+                    <div class="tooltip">
+                        <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                        <span class="tooltiptext">
+                            <?php echo ( (count($productMetaKeywordToolTip) > 0) ? $productMetaKeywordToolTip[0]['tooltip_text'] : '');?>
+                        </span>
+                    </div>
+                <?php endif; ?>
+                </label>
+                <div class="control">
+                    <textarea 
+                    class="textarea" 
+                    id="meta_keyword" 
+                    name="product[meta_keyword]"
+                    placeholder="<?php echo __('Enter Meta Keywords');?>"
+                    ><?php echo $data['product']['meta_keyword']?></textarea>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label"><?php echo __('Meta Description') ?>
+                <?php if(count($productMetaDescToolTip) > 0): ?>
+                    <div class="tooltip">
+                        <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                        <span class="tooltiptext">
+                            <?php echo ( (count($productMetaDescToolTip) > 0) ? $productMetaDescToolTip[0]['tooltip_text'] : '');?>
+                        </span>
+                    </div>
+                <?php endif; ?>
+                </label>
+                <div class="control">
+                    <textarea 
+                    class="textarea" 
+                    id="meta_description" 
+                    name="product[meta_description]"
+                    placeholder="<?php echo __('Enter Meta Description');?>"
+                    ><?php echo $data['product']['meta_description']?></textarea>
+                </div>
+            </div>
+
+            <div class="field required">
+                <label class="label"><?php echo __('Net shipping Price to myGermany GmbH') ?><b><?php echo  " (".$currency_symbol.")"; ?></b>
+                    <?php if(count($net_shipping_price_to_myGermany_ToolTip) > 0): ?>
+                        <div class="tooltip">
+                            <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                            <span class="tooltiptext">
+                                <?php echo ( (count($net_shipping_price_to_myGermany_ToolTip) > 0) ? $net_shipping_price_to_myGermany_ToolTip[0]['tooltip_text'] : '');?>
+                            </span>
+                        </div>
+                    <?php endif; ?>
+                </label>
+                <div class="control">
+                    <input 
+                    type="text" 
+                    class="required-entry validate-zero-or-greater input-text" 
+                    name="product[shipping_price_to_mygmbh]" 
+                    id="shipping_price_to_mygmbh" 
+                    data-ui-id="product-tabs-attributes-tab-fieldset-element-text-product-shipping-price-to-mygmbh" 
+                    value="<?php echo $data['product']['shipping_price_to_mygmbh']?>" 
+                    placeholder="<?php echo __('Enter net shipping Price to myGermany GMBH');?>"
+                    />
+                </div>
+            </div>
+
+            <div class="field required mis_fixed_fields">
+                <label class="label"><?php echo __('Length of item') ?><b><?php echo __(' (cm)'); ?></b></label>
+                <div class="control">
+                    <input type="text" class="required-entry validate-zero-or-greater input-text" name="product[mygmbh_shipping_product_length]" id="mygmbh_shipping_product_length" data-ui-id="product-tabs-attributes-tab-fieldset-element-text-product-shipping-price-to-mygmbh" 
+                    value="<?php echo isset($data['product']['mygmbh_shipping_product_length']) ? $data['product']['mygmbh_shipping_product_length'] : null;?>"
+                    placeholder="<?php echo __('Enter length of item');?>"
+                    />
+                </div>
+            </div>
+            <div class="field required mis_fixed_fields">
+                <label class="label"><?php echo __('Width of item') ?><b><?php echo __(' (cm)'); ?></b></label>
+                <div class="control">
+                    <input type="text" class="required-entry validate-zero-or-greater input-text" name="product[mygmbh_shipping_product_width]" id="mygmbh_shipping_product_width" data-ui-id="product-tabs-attributes-tab-fieldset-element-text-product-shipping-price-to-mygmbh" value="<?php echo isset($data['product']['mygmbh_shipping_product_width']) ? $data['product']['mygmbh_shipping_product_width'] : '';?>"
+                    placeholder="<?php echo __('Enter width of item');?>"
+                    />
+                </div>
+            </div>
+            <div class="field required mis_fixed_fields">
+                <label class="label"><?php echo __('Height of item') ?><b><?php echo __(' (cm)'); ?></b></label>
+                <div class="control">
+                    <input type="text" class="required-entry validate-zero-or-greater input-text" name="product[mygmbh_shipping_product_height]" id="mygmbh_shipping_product_height" data-ui-id="product-tabs-attributes-tab-fieldset-element-text-product-shipping-price-to-mygmbh" 
+                    value="<?php echo isset($data['product']['mygmbh_shipping_product_height']) ? $data['product']['mygmbh_shipping_product_height'] : ''; ?>"
+                    placeholder="<?php echo __('Enter height of item');?>"
+                    />
+                </div>
+            </div>
+
+            <div class="field required mis_fixed_fields">
+                <label class="label"><?php echo __('Weight of item') ?><b><?php echo __(' (Kg)'); ?></b></label>
+                <?php
+                if($product_hint_status && $helper->getProductHintWeight()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProductHintWeight() ?>"/>
+                <?php
+                } ?>
+                <?php /*<div data-role="weight-switcher">
+                    <label data-ui-id="product-tabs-attributes-tab-element-radios-product-product-has-weight-label" for="weight-switcher">
+                        <span><?php echo __('Does this have a weight?')?></span>
+                    </label>
+                    <div class="control">
+                        <div class="control">
+                            <input type="radio" <?php if($type!='virtual'||$type!='downloadable'||$data['product']['product_has_weight']==1){ ?> checked="checked" <?php } ?> class="weight-switcher" id="weight-switcher1" value="1" name="product[product_has_weight]">
+                            <label for="weight-switcher1">
+                                <span><?php echo __('Yes')?></span>
+                            </label>
+                        </div>
+                        <div class="control">
+                            <input type="radio" class="weight-switcher" id="weight-switcher0" value="0" name="product[product_has_weight]" <?php if($type=='virtual'||$type=='downloadable'||$data['product']['product_has_weight']==0){ ?> checked="checked" <?php } ?>>
+                            <label for="weight-switcher0">
+                                <span><?php echo __('No')?></span>
+                            </label>
+                        </div>
+                    </div>
+                </div> */?>
+                <div class="control">
+                    <input type="text" class="validate-zero-or-greater input-text required-entry" name="product[weight]" id="weight-id" 
+                    value="<?php echo isset($data['product']['weight']) ? $data['product']['weight'] : null;?>"
+                    placeholder="<?php echo __('Enter weight of item');?>"
+                    />
+
+                    <!-- <input type="text" class="validate-zero-or-greater input-text required-entry" name="product[weight]" id="weight" value=""/> -->
+                </div>
+            </div>
+            <!-- Delivery days work - Start -->
+             <div class="field required mis_fixed_fields">
+                <label class="label"><?php echo __('Delivery days from') ?></label>
+                <div class="tooltip">
+                    <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                    <span class="tooltiptext"><?php echo __('Delivery time form merchant to myGermany warehouse, from-to. End-customer will also be able to see that.')?></span>
+                    <!-- <span class="tooltiptext"><?php //echo __('Delivery date from vendor\'s warehouse to myGermany warehouse')?></span> -->
+                </div>
+                <div class="control">
+                    <!-- delivery-days-from control -->
+                    <select class="delivery_days_from select required-entry" style="width: 20%" name="product[delivery_days_from]">
+                        <option value=""><?php echo __('Please select')?></option>
+                        <?php if(isset($data['product']['delivery_days_from'])){ ?>
+                           <?php for ($i=1; $i < 30; $i++){ ?>
+                            <option  
+                            <?php echo ($data['product']['delivery_days_from'] == $i) ? 'selected="selected"' : '' ?>
+                            value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                           <?php } ?> 
+
+                        <?php } else { ?>
+                            <?php for ($i=1; $i < 30; $i++){ ?>
+                                <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                            <?php } ?>
+
+                        <?php } ?>
+
+                    </select>
+                    <!-- delivery-days-from control ends -->
+                </div>
+            </div>
+            <div class="field required mis_fixed_fields">
+                <label class="label"><?php echo __('Delivery days to') ?></label>
+                <div class="tooltip">
+                    <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                    <span class="tooltiptext"><?php echo __('Delivery time form merchant to myGermany warehouse, from-to. End-customer will also be able to see that.')?></span>
+                    <!-- <span class="tooltiptext"><?php //echo __('Delivery date from vendor\'s warehouse to myGermany warehouse')?></span> -->
+                </div>
+                <div class="control">
+                    <!-- delivery-days-to  -->
+                    <select class="delivery_days_to select required-entry" style="width: 20%" name="product[delivery_days_to]">
+                        <option value=""><?php echo __('Please select')?></option>
+                        <?php if(isset($data['product']['delivery_days_to'])){ ?>
+                           <?php for ($i=1; $i < 31; $i++){ ?>
+                            <option  
+                            <?php echo ($data['product']['delivery_days_to'] == $i) ? 'selected="selected"' : '' ?>
+                            value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                           <?php } ?> 
+
+                        <?php } else { ?>
+                            <?php for ($i=1; $i < 31; $i++){ ?>
+                                <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                            <?php } ?>
+
+                        <?php } ?>
+                    </select>
+                    <!-- delivery-days-to ends -->
+                    
+                </div>
+            </div>
+            <?php if($product_type != 'configurable'){ ?>
+                <?php echo $block->getChildHtml('customoption_option_add'); ?>
+            <?php } ?>
+            <!-- Delivery days work - End -->
+            <?php echo $block->getChildHtml('marketplace_product_add_configurable'); ?>
+
+            <div class="field"> 
+                <label class="label"><?php echo __('Special Price') ?><b><?php echo  " (".$currency_symbol.")"; ?></b></label>
+                <?php if(count($net_shipping_price_to_myGermany_ToolTip) > 0): ?>
+                    <div class="tooltip">
+                        <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                        <span class="tooltiptext">
+                            <?php echo ( (count($specialPriceToolTip) > 0) ? $specialPriceToolTip[0]['tooltip_text'] : '');?>
+                        </span>
+                    </div>
+                <?php endif; ?>
+                <?php
+                if($product_hint_status && $helper->getProductHintSpecialPrice()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProductHintSpecialPrice() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                    <input type="text" 
+                    class="widthinput input-text validate-zero-or-greater" 
+                    name="product[special_price]" 
+                    id="special-price" 
+                    value="<?php echo $data['product']['special_price']?>"
+                    placeholder="<?php echo __('Enter special price');?>"
+                    />
+                </div>
+            </div>
+            <div class="field">
+                <label class="label"><?php echo __('Special Price From') ?></label>
+                <?php
+                if($product_hint_status && $helper->getProductHintStartDate()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProductHintStartDate() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                    <input type="text" name="product[special_from_date]" id="special-from-date" class="input-text" value="<?php echo $data['product']['special_from_date']?>"
+                    placeholder="<?php echo __('Enter special price from');?>"
+                    />
+                </div>
+            </div>
+            <div class="field">
+                <label class="label"><?php echo __('Special Price To') ?></label>
+                <?php
+                if($product_hint_status && $helper->getProductHintEndDate()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProductHintEndDate() ?>"
+                    />
+                <?php
+                } ?>
+                <div class="control">
+                    <input type="text" name="product[special_to_date]" id="special-to-date" class="input-text" value="<?php echo $data['product']['special_to_date']?>"
+                    placeholder="<?php echo __('Enter special price to');?>"
+                    />
+                </div>
+            </div>
+
+            <?php 
+            // echo $this->getLayout()->createBlock("Webkul\MarketplacePreorder\Block\ManageConfiguration")->setTemplate("Lapisbard_General::customer_account.phtml")->toHtml();
+            ?>
+            <!-- Pre-order fields -->
+            <?php //echo $block->getChildHtml('mppreorder_attribute_add'); ?>
+
+            <input id="inventory_manage_stock" type="hidden" name="product[stock_data][manage_stock]" value="1">
+            <input type="hidden" value="1" name="product[stock_data][use_config_manage_stock]" id="inventory_use_config_manage_stock">
+            <div class="field required">
+                <label class="label"><?php echo __('Stock') ?></label>
+                <?php
+                if($product_hint_status && $helper->getProductHintQty()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProductHintQty() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                    <input type="text" class="required-entry validate-number input-text" name="product[quantity_and_stock_status][qty]" id="qty" value="<?php echo $data['product']['quantity_and_stock_status']['qty']?>"
+                    placeholder="<?php echo __('Enter stock');?>"
+                    />
+                </div>
+            </div>
+            <div class="field required">
+                <label class="label"><?php echo __('Stock Availability') ?></label>
+                <?php
+                if($product_hint_status && $helper->getProductHintStock()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProductHintStock() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                    <select id="" class="select" name="product[quantity_and_stock_status][is_in_stock]">
+                        <option value="1" <?php if($data['product']['quantity_and_stock_status']['is_in_stock'] == 1){ echo "selected='selected'";}?>><?php echo __("In Stock"); ?></option>
+                        <option value="0" <?php if($data['product']['quantity_and_stock_status']['is_in_stock'] == 0){ echo "selected='selected'";}?>><?php echo __("Out of Stock"); ?></option>
+                    </select>
+                </div>
+            </div>
+            <div class="field required">
+                <label class="label"><?php echo __('Visibility') ?>
+                <?php if(count($visibilityToolTip) > 0): ?>
+                    <div class="tooltip">
+                        <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                        <span class="tooltiptext">
+                            <?php echo ( (count($visibilityToolTip) > 0) ? $visibilityToolTip[0]['tooltip_text'] : '');?>
+                        </span>
+                    </div>
+                <?php endif; ?>
+                </label>
+                <div class="control">
+                    <select id="visibility" class=" required-entry required-entry select" name="product[visibility]">                        
+                        <option value="4" selected="selected"><?php echo __("Catalog Search")?></option>
+                    </select>
+                </div>
+            </div>
+            <div class="field required">
+                <label class="label"><?php echo __('Tax Class') ?></label>
+                <?php
+                if($product_hint_status && $helper->getProductHintTax()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProductHintTax() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                    <select id="tax-class-id" class=" required-entry required-entry select" name="product[tax_class_id]">
+                        <?php
+                        $taxes=$helper->getTaxClassModel();
+                        foreach($taxes as $tax){
+                            ?>
+                            <option value="<?php echo $tax->getId() ?>" <?php if($tax->getId()==$data['product']['tax_class_id']){ echo "selected='selected'";}?>><?php echo $tax->getClassName()?></option>
+                        <?php 
+                        } ?>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="field">
+                <label class="label"></label>
+                <input type="button" name="addFaqField" class="add-faq-field yellow-button" value="<?php echo __('Add Product FAQ')?>">
+            </div>
+            <div class="field mis-faq-field" style="display: none;">
+                <table name="faq_fields" class="mis_faq_field_value">
+                    <input type="hidden" name="hasValue" id="hasValue" value="0">
+                    <input type="hidden" name="deletValue" id="deletValue" value="0">
+                    <tr>
+                        <th><?php echo __('Title');?></th>
+                        <th><?php echo __('Answer');?></th>                     
+                        <th><?php echo __('Action');?></th> 
+                        <td>
+                            <input type='button' name='add' class='faq-add-btn yellow-button' value="<?php echo __('Add FAQ')?>" >
+                        </td>                   
+                    </tr>   
+                </table>
+            </div> 
+            <?php /*
+            <div class="field">
+                <label class="label"></label>
+                <input type="button" name="addField" class="add-field" value="<?php echo __('Add Custom Fields')?>">
+            </div>
+            <div class="field custom-field" style="display: none;" >
+                <table  id="cus-tbl">
+                    <input type="hidden" name="hasValue" id="hasValue" value="0">
+                    <input type="hidden" name="deletValue" id="deletValue" value="0">
+                    <tr>
+                        <th><?php echo __('Label');?></th>
+                        <th><?php echo __('Option');?></th>                     
+                        <th><?php echo __('Action');?></th> 
+                        <td>
+                            <input type='button' name='add' class='add-btn' value='Add'>
+                        </td>                   
+                    </tr>
+                    <tr class='fields-row'>
+                        <td><input type='text'  class='lable-name' id="lbl-name">
+                        <span style='display: none; color: red'><?php echo __('Only alphanumeric chatacters allowed.')?></span>
+                        </td>
+                        <td>
+                            <select id="lbl-opt">
+                                <option value='0'><?php echo __('No');?></option>
+                                <option value='1'><?php echo __('Yes');?></option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type='button' name='remove' class='remove-btn' value='Remove'>
+                        </td>
+                    </tr>
+                </table>
+            </div> */ ?> 
+            <?php echo $block->getChildHtml('marketplace_product_add_gallery'); ?>
+            <?php echo $block->getChildHtml('mpamazonconnector_edit'); ?>
+        </fieldset>
+    </div>      
+</form>
+<div id="config_image_not_available" style="display: none;">
+    <p><?php echo __('Please upload image with associate products.');?></p>
+</div>
+<div id="image_not_available" style="display: none;">
+    <p><?php echo __('Please add at least one image with this product.');?></p>
+</div>
+<div id="config_product_pop" style="display: none;">
+    <p><?php echo __('Please add at least one child product with this configurable product.');?></p>
+</div>
+<div id="category_pop" style="display: none;">
+    <p><?php echo __('Please select at least one category for product.');?></p>
+</div>
+<div id="discription_pop" style="display: none;">
+    <p><?php echo __('Please add discription of product.');?></p>
+</div>
+<?php
+$formData = [
+    'countryPicSelector' => '#country-pic',
+    'verifySkuAjaxUrl' => $block->getUrl('marketplace/product/verifysku', ['_secure' => $this->getRequest()->isSecure()]),
+    'categoryTreeAjaxUrl' => $block->getUrl('marketplace/product/categorytree/', ['_secure' => $this->getRequest()->isSecure()])
+];
+$serializedFormData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($formData);
+?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "sellerAddProduct": <?php /* @noEscape */echo $serializedFormData; ?>
+        }
+    }
+</script>
+<script type='text/javascript'>
+    require(['jquery', 'prototype', 'domReady!'], function($) {
+        var qty = $('#qty'),
+            productType = $('#product_type_id').val(),
+            stockAvailabilityField = $('#quantity_and_stock_status'),
+            manageStockField = $('#inventory_manage_stock'),
+            useConfigManageStockField = $('#inventory_use_config_manage_stock'),
+            fieldsAssociations = {
+                'qty': 'inventory_qty',
+                'quantity_and_stock_status': 'inventory_stock_availability'
+            };
+
+        var qtyDefaultValue = qty.val();
+    })
+</script>
+<!-- <script>
+    require([
+        "jquery",
+        "Webkul_Marketplace/catalog/type-events"
+    ], function($, TypeSwitcher){
+        var $form = $('[data-form=edit-product]');
+        $form.data('typeSwitcher', TypeSwitcher.init());
+    });
+</script> -->
+<script>
+    require([
+        "jquery",
+        "Webkul_Marketplace/catalog/type-events"
+    ], function($, TypeSwitcher){
+        var $form = $('[data-form=edit-product]');
+        $form.data('typeSwitcher', TypeSwitcher.init());
+
+        $(document).on('load', function(){
+            $("#weight").attr('disabled','false');
+            $("#qty").attr('disabled','false');
+        });
+
+        setTimeout(
+            function(){ 
+                $("#weight").attr('disabled','false');
+                $("#qty").attr('disabled','false');
+                $("#weight").removeAttr("disabled");    
+                $("#qty").removeAttr("disabled");    
+                console.log('removed disabled');
+            }, 5000);
+    });
+</script>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Webkul_Marketplace/js/product/weight-handler": {},
+            "Webkul_Marketplace/catalog/apply-to-type-switcher": {}
+        }
+    }
+</script>
+
+
+<script type="text/javascript">
+    var is_configurable = "<?php echo $btnProp;?>";
+    console.log(is_configurable);
+
+    function uploadImagePopMessage(){
+        jQuery.fancybox({
+                        'padding': '5px',
+                        'autoScale': true,
+                        'closeBtn' : true,
+                        'transitionIn': 'fade',
+                        'transitionOut': 'fade',
+                        'type': 'inline',
+                        'href': '#image_not_available',
+                        'onComplete': function() {
+                            $.cookie('image_not_available', 'shown');
+                        },
+                        'helpers': {
+                            overlay: {
+                                closeClick: false,
+                                locked: false
+                            }
+                        }
+                    }); 
+    }
+
+    function uploadConfigImagePopMessage(){
+        jQuery.fancybox({
+                        'padding': '5px',
+                        'autoScale': true,
+                        'closeBtn' : true,
+                        'transitionIn': 'fade',
+                        'transitionOut': 'fade',
+                        'type': 'inline',
+                        'href': '#config_image_not_available',
+                        'onComplete': function() {
+                            $.cookie('config_image_not_available', 'shown');
+                        },
+                        'helpers': {
+                            overlay: {
+                                closeClick: false,
+                                locked: false
+                            }
+                        }
+                    }); 
+    }
+
+    function checkboxPopMessage(){
+        jQuery.fancybox({
+                        'padding': '5px',
+                        'autoScale': true,
+                        'closeBtn' : true,
+                        'transitionIn': 'fade',
+                        'transitionOut': 'fade',
+                        'type': 'inline',
+                        'href': '#category_pop',
+                        'onComplete': function() {
+                            $.cookie('category_pop', 'shown');
+                        },
+                        'helpers': {
+                            overlay: {
+                                closeClick: false,
+                                locked: false
+                            }
+                        }
+                    }); 
+    }
+
+    function descriptionPopMessage(){
+        jQuery.fancybox({
+                        'padding': '5px',
+                        'autoScale': true,
+                        'closeBtn' : true,
+                        'transitionIn': 'fade',
+                        'transitionOut': 'fade',
+                        'type': 'inline',
+                        'href': '#discription_pop',
+                        'onComplete': function() {
+                            $.cookie('category_pop', 'shown');
+                        },
+                        'helpers': {
+                            overlay: {
+                                closeClick: false,
+                                locked: false
+                            }
+                        }
+                    }); 
+    }
+
+    function configurablePopUp()
+    {
+        jQuery.fancybox({
+            'padding': '5px',
+            'autoScale': true,
+            'closeBtn' : true,
+            'transitionIn': 'fade',
+            'transitionOut': 'fade',
+            'type': 'inline',
+            'href': '#config_product_pop',
+            'onComplete': function() {
+                $.cookie('config_product_pop', 'shown');
+            },
+            'helpers': {
+                overlay: {
+                    closeClick: false,
+                    locked: false
+                }
+            }
+        });
+    }
+
+    var checkbox_selected = false;
+    require(['jquery', 'jquery/ui', 'vesallFancybox',], function($){ 
+        $(document).on('click', '.btn_type', function(event){
+            
+            var config_pro_err = false;
+            var discriptiopn_err = false;
+            var checkbox_err = true;
+            var imageUploadErrConfig = false;
+
+            $('.wk-elements').each(function(){
+                if ($(this).is(':checked')) {
+                    checkbox_err = false;
+                }
+            });
+            if (is_configurable == true) {
+                if ($('.col-price').find('input').val() == null) {
+                    configurablePopUp();
+                    config_pro_err = true;
+                } else {
+                    config_pro_err = false;
+                }  
+
+                if ($('div.action-upload input[name="image"]').length !=
+                    $('div.action-upload .variation').length) {
+                    imageUploadErrConfig = true;
+                    uploadConfigImagePopMessage();
+                }
+            }
+
+            if ($('#description').val().trim().length < 1 ) {
+                descriptionPopMessage();
+                discriptiopn_err = true;
+            }  else {
+                discriptiopn_err = false;
+            }
+
+            if (checkbox_err == true) {
+                checkboxPopMessage();
+            }
+
+            if (
+                (checkbox_err == false) && 
+                (discriptiopn_err == false) && 
+                (config_pro_err == false) &&
+                (imageUploadErrConfig == false) &&
+                ($('div.image:not(.removed) .product-image').length > 0 )) {
+                /*$('.btn_type').attr('id', 'savebtn');*/
+            } else {
+                if ($('div.image:not(.removed) .product-image').length < 1 ) {
+                    console.log('Image not availabel');
+                    uploadImagePopMessage();
+                }
+                event.preventDefault();
+            }
+        });
+
+        jQuery(document).on('change', '.sensitive_attr', function(){
+            var attr_code = $(this).attr('data-attr');
+            var attrVal = $(this).val();
+            if (attrVal == 1) {
+                $('<input>').attr({
+                    type: 'text',
+                    name: 'product[mis_2_41_35_sensitive_'+attr_code+'_mis_2_41_35_comment]',
+                    class: 'sensitive_comment_box',
+                    style: 'width:50% !important;float:left;',
+                    placeholder: 'Enter comment here',
+                    value: ''
+                }).insertAfter(this);
+            } else {
+                $(this).next('.sensitive_comment_box').remove();
+            }
+        });
+        /*Vendor delivery days code - Start*/
+        $('.delivery_days_from').on('change', function(){
+            var deliveryFrom = parseInt($(this).val());
+            $('.delivery_days_to option').each(function(){
+                var deliveryTo = parseInt($(this).val());
+                if (deliveryTo != '' && (deliveryTo <= deliveryFrom)) {
+                    $(this).prop('disabled', 'disable');
+                } else {
+                    $(this).prop('disabled', '');
+                }
+                $('.delivery_days_to').val('');
+            });
+        });
+        /*Vendor delivery days code - End*/
+        var customFieldRow = 0;
+        var clickCount = 0;
+        var checkboxArray = [];
+        jQuery(document).on('click',".wk-elements",function(){
+            var index = checkboxArray.indexOf(this.value);
+             if (jQuery.inArray(this.value, checkboxArray) > -1) {
+                checkboxArray.splice(index, 1);
+                clickCount--; 
+            } else {
+                if (checkboxArray.length < 3) {
+                checkboxArray[clickCount] = this.value;
+                clickCount++;
+                } else {
+                   jQuery(this).attr('checked', false);
+                } 
+
+            }
+            var categories = JSON.stringify(checkboxArray);
+            /*typeof(checkboxArray);*/
+            jQuery('#selectedCategories').val(categories);
+
+        });
+        jQuery(document).on('click', '.add-field', function(){
+            /*event.preventDefault();*/ 
+            jQuery('#cus-tbl').attr('name', 'custom_field_value');
+            jQuery('#lbl-name').attr('name', 'custom_field_value[0][label_name]');
+            jQuery('#lbl-opt').attr('name', 'custom_field_value[0][label_value]');
+            jQuery('.custom-field').css('display', 'block');
+            /*jQuery('.custom-field').prop('disabled', false);*/
+        });
+        require(['jquery', 'mage/translate',], function($,$t){ 
+            $(document).on('click', '.add-btn', function(event){
+                fieldAdd = 1;
+                customFieldRow++;
+                $('#deletValue').val(customFieldRow);
+                $('.fields-row').last().after(addRow(counter, $t));
+                counter++;
+            });
+        });
+
+        // jQuery(document).on('click', '.add-btn', function(){
+        //     fieldAdd = 1;
+        //     customFieldRow++;
+        //     jQuery('#deletValue').val(customFieldRow);
+        //     jQuery('.fields-row').last().after(addRow(counter));
+        //     counter++;
+        // });
+
+        jQuery(document).on('click', '.remove-btn', function(){
+            customFieldRow--;
+            jQuery('#deletValue').val(customFieldRow);
+            jQuery(this).parent().parent().remove();
+        });
+
+        jQuery(document).on('change', '.lable-name', function(){
+            /*alert(jQuery(this).val().trim().length);*/
+            jQuery('#hasValue').val(1);
+            var patt = /^[a-zA-Z0-9\s]+$/;
+            var errnum =  jQuery(this).data('value');
+            if (jQuery(this).val().trim().length <= 0) {
+                jQuery(this).next().css({"color": "red", 'display':'block'});
+            } else if (! (patt.test(jQuery(this).val().trim()))) {
+                jQuery(this).next().css({"color": "red", 'display':'block'});
+            } else {
+                jQuery(this).next().css({'display':'none'});
+            }
+
+        });
+
+        jQuery(document).on('click', '#savebtn', function(){
+            var patt = /^[a-zA-Z ]+$/;
+            if (fieldAdd >= 1) {
+                jQuery('.lable-name').each(function() {
+                    var errnum =  jQuery(this).data('value');
+                    var value = jQuery(this).val();
+                    if ( ((value.trim().length) >=1 ) ) {
+                        if (! (patt.test(value)) ) {
+                            event.preventDefault();
+                            jQuery(this).next().css({"color": "red", 'display':'block'});
+                            jQuery('.error'+errnum).html("<?php echo __('Use only alphabets');?>");
+                        } else {
+                            jQuery('.error'+errnum).html('');
+                        }
+                    } else {
+                        event.preventDefault();
+                        jQuery(this).next().css({"color": "red", 'display':'block'});
+                        jQuery('.error'+errnum).html("<?php echo __('Custom field label cannot be empty.');?>");
+                    }
+                });
+                
+            }
+        });
+        
+        /*Code to uppercase the first latter of the product name.*/
+        jQuery(document).on('blur', '#name', function(){
+            var caps = jQuery(this).val();
+            caps = caps.charAt(0).toUpperCase() + caps.slice(1);
+            jQuery(this).val(caps);
+        });
+        /*FAQ jQuery - Start*/
+        jQuery(document).on('click', '.add-faq-field', function(event){
+            event.preventDefault();
+            jQuery('.mis-faq-field').css('display', 'block');
+        });
+
+        require(['jquery', 'mage/translate',], function($,$t){ 
+            $(document).on('click', '.faq-add-btn', function(event){
+                $('.mis_faq_field_value').append(addFaqRow(faqCounter, $t));
+                faqCounter++;
+            });
+        });
+
+        // jQuery(document).on('click', '.faq-add-btn', function(){
+        //     jQuery('.mis_faq_field_value').append(addFaqRow(faqCounter));
+        //     faqCounter++;
+        // });
+        jQuery(document).on('click', '.faq-remove-btn', function(){
+            if (faqCounter == 0 || faqCounter < 0) {
+                faqCounter = 0;
+            } else {
+                faqCounter--;
+            }
+            jQuery(this).parent().parent().remove();
+        });
+    });
+
+    
+
+    var counter = 1;
+    var fieldAdd = 0;
+    function addRow(counter, $t) {
+    var remove = $t('Remove');
+    var field = "<tr class='fields-row'>"+
+                    "<td><input type='text' name='custom_field_value["+counter+"][label_name]' class='lable-name' data-value="+counter+">"+
+                        "<span style='display: none; color: red'><?php echo __('Only alphanumeric chatacters allowed.')?></span>"+
+                    "</td>"+
+                    "<td>"+
+                        "<select name='custom_field_value["+counter+"][label_value]'>"+
+                            "<option value='0'><?php echo __('No');?></option>"+
+                            "<option value='1'><?php echo __('Yes');?></option>"+
+                        "</select>"+
+                    "</td>"+
+                        "<td>"+
+                            "<input type='button' name='remove' class='remove-btn' value='"+remove+"'>"+
+                        "</td>"+
+                    "</tr>";
+    return field;
+
+    }
+
+   
+    var faqCounter = 0;
+    function addFaqRow(faqCounter, $t) {
+    var remove = $t('Remove');
+    var field = "<tr class='fields-row'>"+
+                    "<td><input type='text' name='faq_fields["+faqCounter+"][title]' class='required-entry' data-value="+faqCounter+">"+
+                    "</td>"+
+                    "<td>"+
+                    "<textarea rows='4' cols='50' name='faq_fields["+faqCounter+"][description]' class='required-entry'></textarea>"+
+                    "</td>"+
+                        "<td colspan='2'>"+
+                            "<input type='button' name='remove' class='faq-remove-btn yellow-button' value='"+remove+"' data-attr='"+faqCounter+"'>"+
+                        "</td>"+
+                    "</tr>";
+        return field;
+
+    }
+</script>
+
+<div class="mis-loader-mask" style="display: none;" >
+    <img src="<?php echo $block->getViewFileUrl('Mangoit_Marketplace::image/loader-img.gif'); ?>" />
+</div>
+<div id="mis_attribute_list" style="display: none">
+    <?php include ($block->getTemplateFile('Mangoit_Marketplace::product/edit/attribute/steps/newAttribute.phtml'));?>
+</div>
+<script>
+    require([
+        "jquery"
+    ], function($){
+        setTimeout(function(){  
+            var next_btn = "<?php echo __('Next');?>";
+            var back_btn = "<?php echo __('Back');?>";
+
+            $(document).on('click', '.product-create-configuration-action', function(){
+                $(".action-next-step").html(next_btn);
+                $(".action-back-step").html(back_btn);
+              
+            });
+            $(document).on('click', '.action-next-step', function(){
+                $(".action-next-step").html(next_btn);
+                $(".action-back-step").html(back_btn);
+          
+            });
+            $(document).on('click', '.action-back-step', function(){
+                $(".action-next-step").html(next_btn);
+                $(".action-back-step").html(back_btn);
+
+            });
+
+        }, 2000);
+        setTimeout(function(){  
+            $("#qty").removeAttr("disabled");
+            $("#weight").removeAttr("disabled");
+        }, 4000);
+    });
+</script>

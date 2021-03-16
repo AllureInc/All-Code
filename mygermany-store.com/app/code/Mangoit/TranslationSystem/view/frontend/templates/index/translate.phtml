@@ -1,0 +1,102 @@
+<?php
+/**
+ * Mangoit Software.
+ *
+ * @category  Mangoit
+ * @package   Mangoit_TranslationSystem
+ * @author    Mangoit
+ *
+ */
+?>
+<?php if($block->isSectionVisible()){ ?>
+    <?php
+        $profileWords = $block->getSellerProfileWords();
+        $productsWords = $block->getProductsContent();
+        $vendorFaqWords = $block->getVendorFaqCount();
+        $preOrderMsgWords = $block->getVendorPreorderMsgCount();
+        $pricePerWord = $block->getPricePerWord();
+        $totalWords = ($profileWords + $productsWords + $vendorFaqWords + $preOrderMsgWords);
+        $totalPrice = ($totalWords * $pricePerWord);
+
+    ?>
+    <div class="wk-mp-design">
+        <fieldset class="fieldset info wk-mp-fieldset">
+            <div class="wk-mp-page-title legend">
+                <span><?php /* @escapeNotVerified */ echo __('Translate your shop') ?></span>
+            </div>
+            <div class="estimates_count_words">
+                <div class="contentWordPriceContainer">
+                    <div class="contentWordsContainer">
+                        <div><span><?php echo __("Number of words (total): %1", $totalWords) ?></span></div>
+                        <div><span><?php echo __("Number of words (shop): %1", $profileWords) ?></span></div>
+                        <div><span><?php echo __("Number of words (products): %1", $productsWords) ?></span></div>
+                        <div><span><?php echo __("Number of words (FAQs): %1", $vendorFaqWords) ?></span></div>
+                        <div><span><?php echo __("Number of words (Pre-Order Message): %1", $preOrderMsgWords) ?></span></div>
+                    </div>
+                </div>
+                <div class="actionsContainer buttons-set">
+                    <button type="submit" name="request_a_quote" title="<?php echo __('Request a free offer') ?>" class="action">
+                        <span><?php echo __('Request a free offer') ?></span>
+                    </button>
+                </div> 
+            </div>
+            <div class="requestquote_estimates">
+                <div class="contentWordPriceContainer">
+                    <div class="contentPriceContainer">
+                        <div>
+                            <p><?php echo __("Let us translate your content and request a fixed offer for your translation. Request your offer and get a response within 48h via eMail.") ?></p>
+                        </div>
+                        <div><span><?php echo __("Price per word: %1", $block->getFormatedCostPrice($pricePerWord)) ?></span></div>
+                        <div><span><?php echo __("Estimated total price: %1", $block->getFormatedCostPrice($totalPrice)) ?></span></div>
+                    </div>
+                </div>
+                <div class="actionsContainer buttons-set">
+                    <button type="submit" name="export_content" title="<?php echo __('Export content') ?>" class="action">
+                        <span><?php echo __('Export content') ?></span>
+                    </button>
+                    <button type="submit" name="import_content" title="<?php echo __('Import content') ?>" class="action">
+                        <span><?php echo __('Import content') ?></span>
+                    </button>
+                    <form method="post" enctype="multipart/form-data" id="importForm" action="<?php echo $block->getUrl('translation/operation/import', ['_secure' => $this->getRequest()->isSecure()]); ?>" style="display: none;">
+                        <input id="file-input" type="file" name="upload_csv" accept=".csv"/>
+                    </form>
+                </div>
+                <p><?php echo __("Export/Import total content in CSV file.") ?></p>
+            </div>
+        </fieldset>
+    </div>
+    <script type="text/javascript">
+        require([
+          "jquery",
+          ], function($){
+
+            $(document).on('click', '.actionsContainer button[type="submit"]', function(e){
+                e.preventDefault();
+                var typ = $(this).attr('name');
+                if(typ == 'request_a_quote') {
+                    window.location.href = "<?php echo $block->getUrl('translation/operation/requestquote', ['_ran' => rand(), '_secure' => $this->getRequest()->isSecure()]); ?>";
+                }
+                if(typ == 'export_content') {
+                    window.location.href = "<?php echo $block->getUrl('translation/operation/export', ['_ran' => rand(), '_secure' => $this->getRequest()->isSecure()]); ?>";
+                }
+                if(typ == 'import_content') {
+                    $('#file-input').trigger('click');
+
+                    // window.location.href = "<?php //echo $block->getUrl('translation/operation/import', ['_secure' => $this->getRequest()->isSecure()]); ?>";
+                }
+            });
+
+            $(document).on('change', '#file-input', function(e){
+                var file = e.target.files[0];
+                var reader = new FileReader();
+                reader.onload = function(event) {
+                    $('#importForm').submit();
+                    // The file's text will be printed here
+                    console.log(event.target.result)
+                };
+
+                reader.readAsText(file);
+            });
+        });
+    </script>
+<?php } ?>

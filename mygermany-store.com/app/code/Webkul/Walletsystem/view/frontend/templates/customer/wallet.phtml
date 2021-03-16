@@ -1,0 +1,181 @@
+<?php
+/**
+* Webkul Software
+*
+* @category Webkul
+* @package Webkul_Walletsystem
+* @author Webkul
+* @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+* @license https://store.webkul.com/license.html
+*/
+?>
+<?php
+use \Webkul\Walletsystem\Model\Wallettransaction;
+$accountDetailsBlock = $this->getLayout()->createBlock(
+    'Webkul\Walletsystem\Block\Transfer'
+);
+
+$minimumAmount = 0;
+$maximumAmount = 0;
+$helper = $this->helper('Webkul\Walletsystem\Helper\Data');
+if($helper->getWalletenabled()):
+    $customerId = $helper->getCustomerId();
+    $currency_code = $helper->getCurrentCurrencyCode();
+    $id = $helper->getWalletProductId(); ?>
+    <div class="wk_ws_main">
+        <div class='wk_ws_main_head'>
+            <div class="wk_ws_sub_head1">
+                <img src='<?php /* @escapeNotVerified */echo $block->getViewFileUrl('Webkul_Walletsystem::images/wallet.png');?>' width="70px" height="55px"/>
+            </div>
+            <div class="wk_ws_sub_head2">
+                <div class="wk_ws_sub_head_details">
+                    <h2><?php /* @escapeNotVerified */echo __('Wallet Details');?></h2>
+                    <h3><span class="wk_ws_price"><?php echo $block->getWalletRemainingTotal($customerId)?></span><?php /* @escapeNotVerified */echo "(".$currency_code.")"?></h3>
+                    <span><?php /* @escapeNotVerified */echo __("Your Wallet Balance")?></span>
+                </div>
+                <div class="wk_ws_sub_head_transfer button action primary">
+                    <span><?php echo __("Transfer Amount to bank account")?></span>
+                </div>
+            </div>
+        </div>
+        <div class='wk_ws_body'>
+            <fieldset class='wk_ws_fieldset'>
+                <h4><?php /* @escapeNotVerified */echo __('Enter Amount to be Added in wallet')?></h4>
+                <label class="error"></label>
+                <form action="<?php /* @escapeNotVerified */echo $block->getUrl('walletsystem/index/addwallettocart/')?>" enctype="multipart/form-data" method="post" id="form-custom-data">
+                    <?php /* @escapeNotVerified */echo $block->getBlockHtml('formkey')?>
+                    <input type="hidden" value='<?php /* @escapeNotVerified */echo $id?>' name='product'/>
+                    <input type="hidden" value='1' name='qty'/>
+                    <div class='wk_ws_price_outer'>
+                        <input type="text" name='price' id="wk_ws_price" class="required-entry validate-number validate-greater-than-zero" />
+                    </div>
+                    <div>
+                        <span>[<?php /* @escapeNotVerified */echo $currency_code;?>]</span>
+                        <button type="submit" title="Add to Cart" class="button wk_ws_add_payment action primary"><span><span><?php /* @escapeNotVerified */echo __("Add Money To Wallet")?></span></span></button>
+                    </div>
+                </form>
+            </fieldset>
+        </div>
+        <div class='wk_ws_table'>
+            <h3><?php /* @escapeNotVerified */echo __('Last Transactions')?></h3>
+            <?php $walletCollection = $block->getwalletTransactionCollection();
+            if (count($walletCollection)) : ?>
+                <div class='table-wrapper'>
+                    <table class="data table walletorder data table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="col description">
+                                    <?php /* @escapeNotVerified */echo __('Reference')?>
+                                </th>
+                                <th scope="col" class="col debit"><?php /* @escapeNotVerified */echo __('Debit')?></th>
+                                <th scope="col" class="col credit"><?php /* @escapeNotVerified */echo __('Credit')?></th>
+                                <th scope="col" class="col status"><?php /* @escapeNotVerified */echo __('Status')?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($walletCollection as $record) :
+                                $prefix = $helper->getTransactionPrefix($record->getSenderType(), $record->getAction());
+                                ?>
+                                <tr>
+                                    <td
+                                        data-th="<?php /* @escapeNotVerified */echo $prefix;?>"
+                                        class="col description"
+                                        >
+                                        <?php /* @escapeNotVerified */echo $prefix?>
+                                        <a href="<?php echo $block->getUrl(
+                                            'walletsystem/index/view/',
+                                            array('entity_id'=>$record->getEntityId())
+                                        );?>">#<?php echo $record->getEntityId();?></a>
+                                    </td>
+                                    <?php if ($record->getAction()==Wallettransaction::WALLET_ACTION_TYPE_DEBIT) : ?>
+                                        <td data-th="<?php /* @escapeNotVerified */echo __("Debit")?>" class="col debit">
+                                            <?php
+                                            $currencySymbol = $helper->getCurrencySymbol($record->getCurrencyCode());
+                                            /* @escapeNotVerified */echo $currencySymbol.$record->getCurrAmount();?>
+                                        </td>
+                                        <td data-th="<?php /* @escapeNotVerified */echo __("Credit")?>" class="col credit">
+                                            <?php /* @escapeNotVerified */echo __("-")?>
+                                        </td>
+                                    <?php else: ?>
+                                        <td data-th="<?php /* @escapeNotVerified */echo __("Debit")?>" class="col debit">
+                                            <?php /* @escapeNotVerified */echo __("-")?>
+                                        </td>
+                                        <td data-th="<?php /* @escapeNotVerified */echo __("Credit")?>" class="col credit">
+                                            <?php
+                                            $currencySymbol = $helper->getCurrencySymbol($record->getCurrencyCode());
+                                            /* @escapeNotVerified */echo $currencySymbol.$record->getCurrAmount();?>
+                                        </td>
+                                    <?php endif; ?>
+                                        <td data-th="<?php /* @escapeNotVerified */echo __("Status")?>" class="col status">
+                                            <?php if ($record->getStatus()==Wallettransaction::WALLET_TRANS_STATE_PENDING) {
+                                                echo __('Pending');
+                                            }
+                                            else if ($record->getStatus()==Wallettransaction::WALLET_TRANS_STATE_CANCEL) {
+                                                echo __('Cancelled');
+                                            } else {
+                                                echo __('Approved');
+                                            } ?>
+                                        </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <?php if ($block->getPagerHtml()): ?>
+                    <div class="order-transaction-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+                <?php endif ?>
+            <?php else: ?>
+                <h5><?php /* @escapeNotVerified */echo __('No records found!');?></h5>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="wk_ws_bank_transfer" style="display:none">
+        <form id="walletsystem_trasfer_amount" method="post" action="<?php echo $block->getUrl(
+            'walletsystem/transfer/bankamount',
+            ['_secure' => $block->getIsSecure()]
+            )?>">
+            <input type="hidden" name="customer_id" value="<?php echo $customerId?>" />
+            <div class="fieldset" >
+                <div>
+                    <label for="amount"><?php /* @escapeNotVerified */echo __("Amount"); ?></label>
+                    <input type="text" id="amount" name="amount" class="amount" data-validate="{required:true,'validate-greater-than-zero':true, 'validate-number':true}"/>
+                </div>
+                <div>
+                    <label for="bank_details"><?php /* @escapeNotVerified */echo __("Account Details"); ?></label>
+                    <?php if($accountDetailsBlock->getUserAccountData()->getSize()) :?>
+                        <select id="bank_details" name="bank_details" class="bank_details" data-validate="{required:true}">
+                            <?php foreach ($accountDetailsBlock->getUserAccountData() as $accountData):?>
+                                <option value=<?php echo $accountData->getEntityId()?>><?php echo $accountData->getBankname();?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    <?php else: ?>
+                    <p style="color:red"><?php echo __('Please configure the account details');?>
+                    </p>
+                    <style>
+                        .modal-footer .button{display:none;}
+                    </style>
+                    <?php endif;?>
+                </div>
+                <div>
+                    <label for="walletnote"><?php /* @escapeNotVerified */echo __("Note"); ?></label>
+                    <textarea id="walletnote" name="walletnote" class="walletnote"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+<?php else: ?>
+    <h3><?php echo __('Payment method is not enabled.')?></h3>
+<?php endif; ?>
+<?php
+$formData = [
+    'walletformdata'    =>  '#form-custom-data'
+];
+$serializedFormData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($formData);
+?>
+<script type="text/x-magento-init">
+{
+    "*": {
+        "Wkwalletsystem": <?php /* @escapeNotVerified */echo $serializedFormData; ?>
+    }
+}
+</script>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Webkul Software
+ *
+ * @category Webkul
+ * @package Webkul_Walletsystem
+ * @author Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license https://store.webkul.com/license.html
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Sales:etc/sales.xsd">
+    <section name="quote">
+        <group name="totals">
+            <item name="wallet_amount" instance="Webkul\Walletsystem\Model\Total\Quotetotal" sort_order="549"/>
+        </group>
+    </section>
+    <section name="order_invoice">
+        <group name="totals">
+            <item name="wallet_amount" instance="Webkul\Walletsystem\Model\Total\Invoicetotal" sort_order="549"/>
+        </group>
+    </section>
+</config>

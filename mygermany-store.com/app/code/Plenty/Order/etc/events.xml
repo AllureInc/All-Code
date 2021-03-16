@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!-- register new order -->
+    <event name="sales_order_place_after">
+        <observer name="plenty_sales_order_place_after" instance="Plenty\Order\Observer\SalesOrderPlaceAfter" />
+    </event>
+    <!-- attach plenty item ids to quote items -->
+    <event name="sales_quote_item_set_product">
+        <observer name="plenty_sales_quote_item_set_product" instance="Plenty\Order\Observer\SalesQuoteItemSetProduct" />
+    </event>
+</config>

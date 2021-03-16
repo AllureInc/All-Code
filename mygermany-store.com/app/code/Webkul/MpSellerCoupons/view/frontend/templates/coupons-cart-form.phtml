@@ -1,0 +1,137 @@
+<!-- 
+/**
+ * @category   Webkul
+ * @package    Webkul_MpSellerCoupons
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+<?php
+	$appliedCoupons = [];
+    $sellersDatail = [];
+    $couponAppliedNotification = 0;
+    $couponRemoveNotification = 0;
+	$sellersDatail = $block->getSellersDetail();
+	$appliedCoupons = $block->getCouponsFromSession();
+    $couponRemoveNotification = $block->getCouponRemoveNotificationFromSession();
+    if ($couponRemoveNotification) {
+        $block->setCouponRemoveNotificationFromSession(false);
+    }
+    if ($appliedCoupons) {
+        foreach ($appliedCoupons as $sellerId => $coupon) {
+            if (!$coupon['notified']) {
+                $couponAppliedNotification = 1;
+                $block->updateCouponNotificationInSession($sellerId);
+            }
+        }
+    }
+    
+    if (count($sellersDatail)) {
+    
+?>
+
+<div class="cart-discount" id="wk-bodymain" style="display:block;margin-bottom:20px">
+    <div id="wkSellerCouponErrorMessageContainer" class="messages" style="display:none;">
+        <div role="alert" class="message message-error error">
+            <div id="wkSellerCouponErrorMessage"><?php echo __('Coupon removed successfully');?></div>
+        </div>
+    </div>
+    <?php if ($couponRemoveNotification): ?>
+        <div id="wkSellerCouponSuccessMessageContainer" class="messages">
+            <div role="alert" class="message message-success success">
+                <div id="wkSellerCouponSuccessMessage"><?php echo __('Coupon code has been removed successfully'); ?></div>
+            </div>
+        </div>
+    <?php endif; ?>
+    <?php if($couponAppliedNotification): ?>
+    <div id="wkSellerCouponSuccessMessageContainer" class="messages">
+        <div role="alert" class="message message-success success">
+            <div id="wkSellerCouponSuccessMessage"><?php echo __('Coupon code has been applied successfully'); ?></div>
+        </div>
+    </div>
+    <?php endif; ?>
+    <fieldset class="fieldset info wk-mp-fieldset">
+        <legend class="legend">
+            <span><?php /* @escapeNotVerified */ echo __('Seller Discount Codes') ?></span>
+        </legend>
+
+        <!-- <form id="discount-coupon-form" action="<?php /* @escapeNotVerified */ echo $block->getUrl('mpsellercoupons/cart/applycoupon') ?>" data-mage-init='{"validation":{}}' method="post"> -->
+        <form id="discount-coupon-form">
+            <div class="coupon_container">
+                <label for="seller_coupon" class="label"><?php /* @escapeNotVerified */ echo __('Select Shop') ?>:</label>
+                <div class="control">
+                    <select id="select_coupon" class="required-entry required-entry select" name="seller_id">
+                        <option value=""><?php /* @escapeNotVerified */ echo __('Select seller');?></option>
+                        <?php foreach ($sellersDatail as $sellerId => $sellerData): ?>
+                                <?php if (!isset($appliedCoupons[$sellerId])): ?>
+                                    <option value="<?php /* @escapeNotVerified */ echo $sellerId; ?>">
+                                        <?php /* @escapeNotVerified */ echo __('Shop')." : ".$sellerData['shop_name']; ?>
+                                    </option>
+                                <?php endif; ?>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            <div class="coupon_entry_field" style="display:none">
+                <label class="label"><?php /* @escapeNotVerified */ echo __('Enter your coupon code') ?>:</label>
+                <div class="input-box">
+                    <input type="text" id="seller_coupon" class="required-entry input-text" placeholder="enter coupon" value="" name="coupon_code">
+                </div>
+            </div>
+            <div class="buttons-set">
+                <button type="button" id="apply_coupon" title="<?php /* @escapeNotVerified */ echo __('Apply Coupon') ?>" class="button" value="<?php /* @escapeNotVerified */ echo __('Apply Coupon') ?>"><span><span><?php /* @escapeNotVerified */ echo __('Apply Coupon') ?></span></span></button>
+            </div>
+        </form>
+        <?php  if($appliedCoupons): ?>
+            <form id="cancel-coupon-form">
+                <input type="hidden" name="remove" id="remove-coupon" value="<?php /* @escapeNotVerified */ echo $sellerId ?>" />
+                <dl class="wk_applied_coupon">
+                    <dt><?php /* @escapeNotVerified */ echo __('Applied Coupons') ?></dt>
+                    <dd>
+                    <?php foreach ($appliedCoupons as $sellerId => $info): ?>
+                        <?php if (isset($sellersDatail[$sellerId])): ?>
+                            <div class="applied-coupon-block">
+                                <label>
+                                    <span><?php /* @escapeNotVerified */ echo __('Shop')." : ";?><a href="<?php /* @escapeNotVerified */ echo $block->getUrl('marketplace/seller/profile',['shop'=>$sellersDatail[$sellerId]['shop_url']]) ?>"><?php /* @escapeNotVerified */ echo $sellersDatail[$sellerId]['shop_name']; ?></a></span><br/>
+                                    <span><?php /* @escapeNotVerified */ echo __('Coupon Code')." : ".$info['coupon_code'] ?></span>
+                                    
+                                </label>
+                                <div class="buttons-set">
+                                    <button type="button" id="<?php /* @escapeNotVerified */ echo $sellerId ?>" title="<?php /* @escapeNotVerified */ echo __('Cancel Credits') ?>" class="button cancel_coupon">
+                                        <span><?php /* @escapeNotVerified */ echo __('Cancel Credits') ?></span>
+                                    </button>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                    </dd>
+                </dl>
+            </form>
+        <?php endif;  ?>
+    </fieldset>
+</div>
+<script type="text/x-magento-init">
+{
+    "*": {
+        "couponCartAction": {}
+        }
+}
+</script>
+<?php } ?>
+<?php if ($block->isRewardSystemEnabled()) { ?>
+        <style>
+            /*.cart-discount {
+                display: block !important;
+            }
+            .wk_seller_reward_system .payment-option-title{
+                display: block !important;
+            }*/
+        </style>
+<?php } ?>
+<?php if ($block->isGiftCardEnabled()) { ?>
+        <style>
+            /*.wk-gift-card {
+                display: block !important;
+            }*/
+        </style>
+<?php } ?>

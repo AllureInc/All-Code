@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MarketplacePreorder
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="catalog_product_save_after">
+        <observer name="preorder_after_save_product" instance="Webkul\MarketplacePreorder\Observer\AfterSaveProduct"/>
+    </event>
+    <event name="catalog_product_save_before">
+        <observer name="preorder_before_save_product" instance="Webkul\MarketplacePreorder\Observer\BeforeSaveProduct"/>
+    </event>
+</config>

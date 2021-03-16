@@ -1,0 +1,128 @@
+<!-- Last edit 29-Jan-2019 -->
+<style type="text/css">
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+</style>
+<?php 
+$categoryNames =  $block->getNameOfCategories();
+$countryNames = $block->getCountriesName();
+$categoyIds = [];
+$catIdArray = $block->getIdsOfCategories();
+foreach ($catIdArray as $value) {
+    foreach ($value as $allIds) {
+        array_push($categoyIds, $allIds);
+    }
+}
+$countriesNamesString= "";
+$countriesNamesArray= [];
+$counter = 0;
+foreach ($categoyIds as $value) {
+    $countriesName = $block->getRestrictedCountriesNames($value);
+    if ($countriesName != "no") {
+        if ($counter != 0) {
+            $countriesNamesString = $countriesNamesString.",".$countriesName;
+        } else {
+            $countriesNamesString = $countriesNamesString.$countriesName;
+        }
+        $counter++;     
+    }
+}
+$countriesNamesArray = array_unique(explode(",", $countriesNamesString));
+?>
+<form method="post" action="<?php echo $block->getSaveUrl();?>">
+    <input type="hidden" name="form_key" value="<?php echo $block->getformKey();?>">
+    <input type="hidden" name="category_ids" value='<?php echo json_encode($block->getIdsOfCategories()); ?>'>
+    <div>
+        <div class="page-actions-buttons">
+            <button id="save" title="Save Config" type="submit" class="action-default scalable save primary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" data-ui-id="page-actions-toolbar-save-button" role="button" aria-disabled="false"><span class="ui-button-text">
+                <span>Save Config</span>
+            </span></button>
+        </div>
+        <div class="">
+            <label class="label" for="categoryNames"><span>Selected Categories : </span></label>
+            <div class="control">
+                <ul id="categoryNames">
+                    <?php foreach ($categoryNames as $value) { ?>
+                        <li><?php echo __($value)?></li>
+                    <?php } ?>
+                </ul>
+            </div>
+        </div>
+        <div class="">
+            <label class="" for="countryNames"><span>Select Countries : </span></label>
+            <div class="control">
+                <select id="countryNames" name="countryNames[]" class=" select multiselect admin__control-multiselect" multiple="multiple" size="10">
+                    <?php foreach ($countryNames as $key => $value) { ?>
+                        <?php 
+                        if (in_array($value['name'], $countriesNamesArray)) { ?>
+                            <option value="<?php echo $value['code'];?>" selected ="selected"><?php echo __($value['name']); ?></option>
+                        <?php  } else { ?>
+                            <option value="<?php echo $value['code'];?>"><?php echo __($value['name']); ?></option>
+                        <?php    } ?>                        
+                        
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+
+    requirejs(['jquery'], function( $ ) {
+        jQuery(document).on('click', '#save', function(){
+            var len = jQuery('#countryNames option:selected').length;
+            if (!(len > 0)) {
+                event.preventDefault();
+                jQuery("#myModal").css('display', 'block');
+            }
+            console.log(len);
+            console.log('preventDefault');
+        });
+
+        jQuery(document).on('click', '.close', function(){
+            jQuery("#myModal").css('display', 'none');
+        });
+    });
+</script>
+
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p><?php echo __('Please select atleast one country.');?></p>
+</div>
+</div>

@@ -1,0 +1,65 @@
+<div class="select-attributes-block" data-role="select-attributes-step">
+    <div class="select-attributes-actions" data-type="skipKO">
+        <?= /* @noEscape */  $block->getAddNewAttributeButton() ?>
+        <button id="mis_new_attribute" title="Create New Attribute" type="button" class="mis_new_attribute action-default scalable" data-ui-id="widget-button-0">
+            <span><?= /* @escapeNotVerified */  __('Create New Attribute') ?></span>
+        </button>
+    </div>
+    <h2 class="steps-wizard-title"><?= /* @escapeNotVerified */  __('Step 1: Select Attributes') ?></h2>
+    <div class="selected-attributes" data-bind="scope: 'variation-steps-wizard_step1'">
+        <?= /* @escapeNotVerified */  __('Selected Attributes:') ?>
+        <span data-bind="text: selectedAttributes() || '--'"></span>
+    </div>
+</div>
+
+<?= $block->getChildHtml(); ?>
+
+<script type="text/javascript">
+    require(
+    [
+        'jquery',
+        'Magento_Ui/js/modal/modal'
+    ],
+    function(
+        $,
+        modal
+    ) {
+        var options = {
+            type: 'slide',
+            responsive: true,
+            innerScroll: true,
+            title: '',
+            buttons: [{
+                text: $.mage.__('Close'),
+                class: '',
+                click: function () {
+                    this.closeModal();
+                }
+            }]
+        };
+
+        var popup = modal(options, $('#mis_attribute_list'));
+        jQuery(document).on('click', '.mis_new_attribute', function(){
+            $("#mis_attribute_list").modal("openModal");
+        });
+
+    }
+);
+</script>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "variation-steps-wizard_step1": {
+                        "component": "Webkul_Marketplace/js/variations/steps/select_attributes",
+                        "multiselectName":
+                            "marketplace_product_attributes_listing.marketplace_product_attributes_listing.product_attributes_columns.ids",
+                        "providerName": "marketplace_product_attributes_listing.marketplace_product_attributes_listing_data_source",
+                        "appendTo": "variation-steps-wizard"
+                    }
+                }
+            }
+        }
+    }
+</script>

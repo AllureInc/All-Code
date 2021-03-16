@@ -1,0 +1,72 @@
+<?php
+/**
+ * Webkul Software
+ *
+ * @category Webkul
+ * @package Webkul_Walletsystem
+ * @author Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license https://store.webkul.com/license.html
+ */
+?>
+<?php
+	$helper = $this->helper('Webkul\Walletsystem\Helper\Data');
+	if ($helper->getWalletenabled()) {
+		$status = 0;
+		$customerId = $helper->getCustomerId();
+		$currency_code = $helper->getCurrentCurrencyCode();
+		$customerCollection = $block->getCustomerCollection();
+        $params = $block->getTransferParameters();
+?>
+    <div class="wk_ws_main">
+            <div class='wk_ws_main_head'>
+                <div class="wk_ws_sub_head1">
+                    <img src='<?php /* @escapeNotVerified */echo $block->getViewFileUrl(
+                        'Webkul_Walletsystem::images/wallet.png'
+                    );?>' width="70px" height="55px">
+                </div>
+                <div class="wk_ws_sub_head2"><h2><?php /* @escapeNotVerified */echo __('Wallet Details');?></h2>
+                    <h3>
+                        <span class="wk_ws_price">
+                            <?php /* @escapeNotVerified */echo $block->getWalletRemainingTotal($customerId)?>
+                        </span>
+                        <?php /* @escapeNotVerified */echo "(".$currency_code.")"?>
+                    </h3>
+                    <span><?php /* @escapeNotVerified */echo __("Your Wallet Balance")?></span>
+                </div>
+            </div>
+            <div class='wk_ws_body'>
+                <div>
+                    <form action="<?php /* @escapeNotVerified */echo $block->getUrl(
+                        'walletsystem/transfer/sendamount/'
+                    )?>" enctype="multipart/form-data" method="post" id="verify-form" class="form">
+                        <fieldset class='wk_ws_fieldset fieldset'>
+                            <input type="hidden" name="amount" value="<?php /* @escapeNotVerified */echo $params['amount']?>"/>
+                            <input type="hidden" name="base_amount" value="<?php /* @escapeNotVerified */echo $params['base_amount']?>"/>
+                            <input type="hidden" name="reciever_id" value="<?php /* @escapeNotVerified */echo $params['reciever_id']?>"/>
+                            <input type="hidden" name="sender_id" value="<?php /* @escapeNotVerified */echo $params['sender_id']?>"/>
+                            <?php /* @escapeNotVerified */echo $block->getBlockHtml('formkey')?>
+                            <div class="field">
+                                <label class="label" for="amount">
+                                    <span><?php /* @escapeNotVerified */echo __("Enter code")?></span>
+                                </label>
+                                <div class="control">
+                                    <input type="text" name="code" class="required">
+                                </div>
+                            </div>
+                            <div>
+                                <button type="submit" title="send amount" class="button action primary">
+                                    <span><span><?php /* @escapeNotVerified */echo __("Send amount")?></span></span>
+                                </button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="resendCode">
+                    <a href="<?php /* @escapeNotVerified */echo $block->getUrl('walletsystem/transfer/sendcode',$params)?>">
+                        <?php /* @escapeNotVerified */echo __("Resend Code")?>
+                    </a>
+                </div>
+            </div>
+        </div>
+<?php }?>

@@ -1,0 +1,73 @@
+<?php
+$unserializedData = $block->getSerializedData();
+$attrArray = $block->getAttributeData();
+$rangeArray = $block->getCommissionValuesFromStore();
+$collectionData = $block->getCommissionValues();
+$symbol = $block->getCurrencySymbol();
+$commisionData;
+$range =  explode(',', $rangeArray);
+$flag = false;
+foreach ($range as $key => $value) {
+    foreach ($attrArray as $attrkey => $attrvalue) {
+        $commissionValue = $block->getFieldValue($unserializedData, $attrvalue, $value);
+        if (empty($commissionValue)) {
+            $flag = true;
+        }
+    }
+}
+?>
+<form class="form" action="<?php echo $block->getSaveUrl(); ?>" method="post">
+   <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('') ?></span></legend><br>
+   <input name="form_key" type="hidden" value="<?php echo $block->getformKey();?>">
+   <table class="admin__table-secondary">
+    <?php foreach ($range as $key => $value): ?>
+        <tr>    
+            <?php foreach ($attrArray as $attrkey => $attrvalue): ?>
+                <?php $commissionValue = $block->getFieldValue($unserializedData, $attrvalue, $value); ?>
+                <td><label for="number" class="label">
+                    <span><?php echo __($attrvalue.' ('.$symbol.' '.$value.') ') ?></span>
+                </label></td>
+                <td>
+                    <?php 
+                    if ($flag) { ?>
+                     <input type="text" name="commission[<?php echo __($attrvalue.','.$value) ?>]" value="<?php echo isset($commissionValue) ? $commissionValue : '0'; ?>" class= 'rang_text' >
+                     <span style="display: none; color: red;" ><small><?php echo __('Not a valid value.')?></small></span>
+                 <?php     } else { ?>
+                    <input type="text" name="commission[<?php echo __($attrvalue.','.$value) ?>]" value="<?php echo isset($commissionValue) ? $commissionValue : '0'; ?>" disabled = "disabled" class= 'rang_text' >
+                    <span style="display: none; color: red;" ><small><?php echo __('Not a valid value.')?></small></span>
+                <?php } ?>
+            </td>
+        <?php endforeach; ?>
+    </tr>
+<?php endforeach; ?>
+<?php
+if ($flag) { ?>
+   <tr>
+    <td><input type="submit" id="submit-btn" name="<?php echo __('Submit') ?>"></td>
+</tr>
+<?php }?>
+
+</table>
+</form>
+<script type="text/javascript">
+    var intOnly = /^-?\d+\.?\d*$/;
+
+    require([
+        "jquery"
+        ], function($){
+            $(document).on('click', '#submit-btn', function(){
+                $(".rang_text").each(function(){
+                    var textVal = jQuery(this).val();
+                    if (textVal.trim().length < 1) {
+                        event.preventDefault();
+                        $(this).next().css({"color": "red", 'display':'block'});
+                    } else if (! intOnly.test(textVal.trim())) {
+                        event.preventDefault();
+                        $(this).next().css({"color": "red", 'display':'block'});
+                    } else {
+                        $(this).next().css({'display':'none'});
+                    }
+                });
+            });            
+        });
+    </script>

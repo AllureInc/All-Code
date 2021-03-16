@@ -1,0 +1,15 @@
+<?php
+
+if ($product_coll->getCustomAttribute($attributeCode)) {
+
+	$textData = $product_coll->getCustomAttribute($attributeCode)->getValue();
+} else {
+	$textData = '';
+} 
+?>
+<div >
+    <label class="label"><?php echo __($frontLabel) ?></label>
+    <div class="control">
+        <input type="text" class="required-entry input-text" name="<?php echo "product[$attributeCode]";?>" id="name" value="<?php echo $textData; ?>"/>
+    </div>
+</div>

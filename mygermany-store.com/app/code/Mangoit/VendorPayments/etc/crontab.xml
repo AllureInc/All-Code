@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <job name="mist_order_cancel_notify_cron" instance="Mangoit\VendorPayments\Model\Cron" method="notifyCanceledOrdersToAdmin">
+            <schedule>0 0 * * *</schedule>
+        </job>
+    </group>
+</config>
+

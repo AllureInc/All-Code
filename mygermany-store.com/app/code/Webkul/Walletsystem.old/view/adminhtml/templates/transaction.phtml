@@ -1,0 +1,136 @@
+<?php
+/**
+ * Webkul Software
+ *
+ * @category Webkul
+ * @package Webkul_Walletsystem
+ * @author Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license https://store.webkul.com/license.html
+ */
+?>
+<?php
+	$helper = $this->helper('Webkul\Walletsystem\Helper\Data');
+	if ($helper->getWalletenabled()) {
+        $transactionData = $block->getTransactionData();
+?>
+		<div class="wk_ws_main">
+			<div class='wk_ws_body'>
+                <table class="wallet-transaction-view data-grid">
+                    <tbody>
+                        <tr>
+                            <th><?php echo __("Amount")?></th>
+                            <td><?php echo $block->getTransactionAmount($transactionData)?></td>
+                        </tr>
+                        <tr>
+                            <th><?php echo __("Action")?></th>
+                            <td><?php echo $transactionData->getAction()?></td>
+                        </tr>
+                        <?php
+                            if ($transactionData->getOrderId()) {
+                                $order = $block->getOrder()->load($transactionData->getOrderId());
+                                $incrementid = $order->getIncrementId();
+                            }
+                            if ($transactionData->getSenderType()==0) {
+                                if ($transactionData->getAction()=='credit') {?>
+                                    <tr>
+                                        <th><?php echo __("Type")?></th>
+                                        <td><?php echo __("Amount added to wallet")?></td>
+                                    </tr>
+                            <?php } else { ?>
+                                <tr>
+                                    <th><?php echo __("Type")?></th>
+                                    <td><?php echo __("Amount used from wallet to place an order")?></td>
+                                </tr>
+                            <?php } ?>
+                            <tr>
+                                <th><?php echo __("Reference")?></th>
+                                <td><a href="<?php echo $block->getUrl(
+                                        'sales/order/view/',
+                                        array('order_id'=>$transactionData->getOrderId())
+                                    );?>"><?php echo "#".$incrementid?></a></td>
+                            </tr>
+                        <?php } elseif ($transactionData->getSenderType()==1) {
+                            if ($transactionData->getAction()=='credit') { ?>
+                                <tr>
+                                    <th><?php echo __("Type")?></th>
+                                    <td><?php echo __("Cash back amount is added")?></td>
+                                </tr>
+                                <tr>
+                                    <th><?php echo __("Reference")?></th>
+                                    <td><a href="<?php echo $block->getUrl(
+                                            'sales/order/view/',
+                                            array('order_id'=>$transactionData->getOrderId())
+                                        );?>"><?php echo "#".$incrementid?></a></td>
+                                </tr>
+                        <?php }
+                        } elseif ($transactionData->getSenderType()==2) {
+                            if ($transactionData->getAction()=='credit') { ?>
+                                <tr>
+                                    <th><?php echo __("Type")?></th>
+                                    <td><?php echo __("Amount credited in wallet with refunded amount of an order")?></td>
+                                </tr>
+                        <?php } else {?>
+                            <tr>
+                                <th><?php echo __("Type")?></th>
+                                <td><?php echo __("Amount debited from wallet, because of wallet amount order redunded.")?></td>
+                            </tr>
+                        <?php }?>
+                            <tr>
+                                <th><?php echo __("Reference")?></th>
+                                <td><a href="<?php echo $block->getUrl(
+                                        'sales/order/view/',
+                                        array('order_id'=>$transactionData->getOrderId())
+                                    );?>"><?php echo "#".$incrementid?></a></td>
+                            </tr>
+                        <?php } elseif ($transactionData->getSenderType()==3) {
+                            if ($transactionData->getAction()=='credit') { ?>
+                                <tr>
+                                    <th><?php echo __("Type")?></th>
+                                    <td><?php echo __("Amount credited by admin")?></td>
+                                </tr>
+                        <?php } else {?>
+                            <tr>
+                                <th><?php echo __("Type")?></th>
+                                <td><?php echo __("Amount debited by admin")?></td>
+                            </tr>
+                        <?php }
+                        } elseif ($transactionData->getSenderType()==4) {
+                            if ($transactionData->getAction()=='credit') {
+                                $senderData = $block->getCustomerDataById($transactionData->getSenderId());
+                            ?>
+                            <tr>
+                                <th><?php echo __("Type")?></th>
+                                <td><?php echo __("Amount transferred by customer")?></td>
+                            </tr>
+                            <tr>
+                                <th><?php echo __("Sender")?></th>
+                                <td><?php echo __($senderData->getFirstname()." ".$senderData->getLastname())?></td>
+                            </tr>
+                        <?php } else {
+                            $recieverData = $block->getCustomerDataById($transactionData->getSenderId());
+                            ?>
+                            <tr>
+                                <th><?php echo __("Type")?></th>
+                                <td><?php echo __("Amount transferred to customer")?></td>
+                            </tr>
+                            <tr>
+                                <th><?php echo __("Receiver")?></th>
+                                <td><?php echo __($recieverData->getFirstname()." ".$recieverData->getLastname())?></td>
+                            </tr>
+                        <?php }
+                        } ?>
+                        <tr>
+                            <th><?php echo __("Transaction At")?></th>
+                            <?php $date = $block->getFormattedDate($transactionData->getTransactionAt());?>
+                            <td><?php echo $date->format('g:ia \o\n l jS F Y');?></td>
+                        </tr>
+                        <tr>
+                            <th><?php echo __("Transaction note")?></th>
+                            <td><?php echo $transactionData->getTransactionNote()?></td>
+                        </tr>
+                    </tbody>
+                </table>
+			</div>
+		</div>
+<?php }?>

@@ -1,0 +1,188 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpMassUpload
+ * @author    Webkul
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+$helper = $this->helper("Webkul\MpMassUpload\Helper\Data");
+$isPartner = $this->helper('Webkul\Marketplace\Helper\Data')->isSeller();
+$attributeSetCollection = $block->getAttributeSetCollection();
+$profiles = $block->getDataFlowProfiles();
+?>
+<?php if($isPartner == 1): ?>
+    <form action="<?php echo $block->getUrl('mpmassupload/dataflow_profile/save') ?>" enctype="multipart/form-data" method="post" id="form-dataflow-profile" data-mage-init='{"validation":{}}'>
+        <fieldset class="fieldset">
+            <?php echo $block->getBlockHtml('formkey') ?>
+			<?php echo $block->getBlockHtml('seller.formkey')?>
+            <legend class="legend">
+                <span><?php echo __("Add New Profile"); ?></span>
+                <button class="button wk-mp-btn" type="submit">
+                    <span><span><?php echo __("Save Profile"); ?></span></span>
+                </button>
+            </legend>
+            <div class="field required">
+                <label for="profile_name" class="label">
+                    <span><?php echo __("Profile Name"); ?></span>
+                </label>
+                <div class="control">
+                    <input type="text" class="profilename required-entry" name="profile_name" data-validate="{required:true}" title="<?php echo __("Profile Name"); ?>" id="profile_name"/>
+                </div>
+            </div>
+            <div class="field required">
+                <label for="attribute_set" class="label">
+                    <span><?php echo __("Attribute Set"); ?></span>
+                </label>
+                <div class="control">
+                    <select data-validate="{'validate-select':true}" title="<?php echo __("Attribute Set"); ?>" class="required-entry" id="attribute_set" name="attribute_set_id" aria-required="true">
+                        <option value=""><?php echo __("Select Attribute Set"); ?></option>
+                        <?php foreach ($attributeSetCollection as $attribute): ?>
+                            <option value="<?php echo $attribute->getAttributeSetId(); ?>"><?php echo $attribute->getAttributeSetName(); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <form action="<?php echo $block->getUrl('mpmassupload/dataflow_profile/massDelete') ?>" method="post" id="form-dataflow-profile-delete" name="form_dataflow_profile_delete" data-mage-init='{"validation":{}}' class="wk-massupload-container">
+        <fieldset class="fieldset">
+            <?php echo $block->getBlockHtml('formkey') ?>
+			<?php echo $block->getBlockHtml('seller.formkey')?>
+            <legend class="legend">
+                <span><?php echo __("Manage Profile Information"); ?></span>
+                <button class="button wk-mp-btn" title="<?php echo __('Delete Products') ?>" type="button" id="dataflow-profile-mass-delete">
+                    <span><span><?php echo __('Delete Profiles') ?></span></span>
+                </button>
+            </legend>
+            <table cellspacing="0" class="border wk-mp-list-table wk-mp-list-container-table">
+            <thead>
+                <tr class="wk-content">
+                    <th class="wk-check-first-td">
+                        <span>
+                            <input type="checkbox" name="dataflow_profile_select_all" value="all" id="dataflow-profile-select-all"/>
+                        </span>
+                    </th>
+                    <th class="wk-first-td">
+                        <span class="label name">
+                            <?php echo __('Profile Name')?>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="label pro_status">
+                            <?php echo __('Attribute Set Name')?>
+                        </span>
+                    </th>
+                    <th class="wk-list-th-display">
+                        <span class="label qty">
+                            <?php echo __('Date')?>
+                        </span>
+                    </th>
+                    <th class="wk-list-th-display">
+                        <span class="label qty">
+                            <?php echo __('Add Mapping')?>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="label">
+                            <?php echo __('Action')?>
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $i = 0;
+                foreach($profiles as $profile){
+                    $attrSetId = $profile->getAttributeSetId();
+                    $attributeSetName = $block->getAttributeSetNameById($attrSetId);
+                    $i++;
+                    $totalCountRow =0;
+                    if(!empty($this->getCollection())) {
+                        $totalCountRow = $this->getCollection()->getSize();
+                    }
+                    ?>
+                    <tr class="wk-row-view <?php echo $class = ($i == $totalCountRow)? 'wk-last-tr':''?>">
+                        <td class="wk-check-first-td">
+                          <span>
+                          <input type="checkbox" name="profile_mass_delete[]" class="mpcheckbox" value="<?php echo $block->escapeHtml($profile->getId()); ?>"/>
+                        </span>
+                        </td>
+                        <td class="wk-first-td">
+                        <input type="hidden" class="hidden_id" value="<?php echo $block->escapeHtml($profile->getId()); ?>" />
+                        <span class="label pro_status">
+                            <?php echo $block->escapeHtml($profile->getProfileName()); ?>
+                        </span>
+                        </td>
+                        <td>
+                          <span class="label pro_status">
+                            <?php echo $block->escapeHtml($attributeSetName); ?>
+                          </span>
+                        </td>
+                        <td class="wk-list-th-display">
+                          <span class="label qty">
+                            <?php echo $block->escapeHtml($profile->getCreatedDate()); ?>
+                          </span>
+                        </td>
+                        <td class="wk-list-th-display">
+                          <span class="label qty">
+                            <a href="<?php echo $block->getUrl('mpmassupload/dataflow_profile/edit', ['id'=>$profile->getId(), '_secure' => $this->getRequest()->isSecure()])?>"><?php echo __('Add Mapping')?></a>
+                          </span>
+                        </td>
+                        <td>
+                            <span class="label wk-action">
+                                <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/icon-edit.png'); ?>" data-url="<?php echo $block->getUrl('mpmassupload/dataflow_profile/edit', ['id'=>$profile->getId(), '_secure' => $this->getRequest()->isSecure()])?>" alt="<?php echo __('Edit')?>" title="<?php echo __('Edit')?>" class="mp-dataflow-profile-edit"/>
+                                <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/icon-trash.png'); ?>" alt="<?php echo __('Delete')?>" title="<?php echo __('Delete')?>" class="mp-dataflow-profile-delete" data-url="<?php echo $block->getUrl('mpmassupload/dataflow_profile/delete/', ['id'=>$profile->getId(), '_secure' => $this->getRequest()->isSecure()]) ?>"/>
+                          </span>
+                        </td>
+                    </tr>
+                    <?php
+                } ?>
+            </tbody>
+        </table>
+            <?php if ($block->getPagerHtml()): ?>
+      	        <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+      	    <?php endif ?>
+            <?php if(empty($profiles->getSize())){?>
+                <div class="wk-emptymsg"><?php /* @escapeNotVerified */echo __("We couldn't find any records.");?></div>
+            <?php }?> 
+        </fieldset>
+    </form>
+    <div class="buttons-set">
+        <p class="back-link">
+            <a href="javascript:;" onclick="javascript: window.history.back();" class="left">&laquo; <?php echo __('Back') ?></a>
+        </p>
+    </div>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "dataflowprofile": {}
+            }
+        }
+    </script>
+<?php else: ?>
+    <h2 class="wk-mp-error-msg">
+        <?php echo __("To Become Seller Please Contact to Admin."); ?>
+    </h2>
+<?php endif; ?>
+<!-- to avoid multiple form submission -->
+<script type="text/javascript">
+    require([
+        "jquery"
+    ], function ($) {
+        $("#form-dataflow-profile").submit(function () {
+        if ($(this).valid()) {
+            $(this).submit(function () {
+                return false;
+            });
+            return true;
+        }
+        else {
+            return false;
+        }
+    });
+});
+</script>

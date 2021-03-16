@@ -1,0 +1,649 @@
+<?php 
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+
+$tooltipHelper = $this->helper('Mangoit\MisTooltip\Helper\Data');
+$section_id = 'mygermany_price_calculation';
+
+$store_tooltip_id = 'store';
+$store_tooltip_id = 'store';
+$store_tooltip_id = 'store';
+$store_tooltip_id = 'store';
+$store_tooltip_id = 'store';
+
+$shipping_charge_tooltip_id = 'shipping_charges';
+$mygermany_commission_tooltip_id = 'mygermany_commission';
+$payment_fees_tooltip_id = 'payment_fees';
+$exchange_fees_tooltip_id = 'exchange_fees';
+$total_fees_from_mygermany_tooltip_id = 'total_fees_from_mygermany';
+$your_earnings_tooltip_id = 'your_earnings';
+$loggedIn_tooltip_id = 'mygermany_commission_logged_in';
+
+$store_id = $tooltipHelper->getStoreId();
+
+
+$attrArray = $this->helper('Mangoit\Vendorcommission\Helper\Data')->getCustomAttributeOption();
+$currencySymbol = $this->helper('Mangoit\Marketplace\Helper\Data')->getCurrencySymbol();
+
+$commissionToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $mygermany_commission_tooltip_id);
+
+$paymentToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $payment_fees_tooltip_id);
+
+$exchangeToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $exchange_fees_tooltip_id);
+
+$totalFeesToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $total_fees_from_mygermany_tooltip_id);
+
+$vendorAmountToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $your_earnings_tooltip_id);
+
+$shippingToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $shipping_charge_tooltip_id);
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $objectManager->create('Magento\Customer\Model\Session');
+if ($customerSession->isLoggedIn()) {
+    $commissionToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $loggedIn_tooltip_id);
+ }
+
+
+// $commissionToolTip = 'Commission percentage depends on your revenue, it will decrease with your increasing revenue.';
+// $paymentToolTip = 'Payment fee will be charged as per selected payment method by end-customer.';
+// $exchangeToolTip = 'Exchange fee is charged 1% always.';
+// $totalFeesToolTip = 'Total fee includes myGermany commission, payment fee and exchange rate.';
+// $vendorAmountToolTip = 'Your account will be credited  by the amount, which is remaining after deducting total fees.';
+// $shippingToolTip = 'Shipping cost will be included in the total price to calculate the fees.';
+?>
+<style>
+.important_field
+{
+    color: red;
+    display: none;
+}
+.contact_us
+{
+    float: right;
+    margin-top: 10%;
+    font-size: 20px;
+    color: #0097D6 !important;
+    text-decoration: none !important;
+}
+.generic_fee_model
+{
+    float: right;
+    margin-top: 2%;
+    font-size: 20px;
+    color: #0097D6 !important;
+    text-decoration: none !important;
+}
+.tooltip {
+    position: relative;
+    display: inline-block;
+    opacity: inherit  !important;
+    /*border-bottom: 1px dotted black;*/
+    font-size: 15px;
+    color: #007bff;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 350px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    /*bottom: 150%;*/
+    bottom: 122%;
+    left: 50%;
+    margin-left: -174px;
+    /*margin-left: -150px;*/
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip .tooltiptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: black transparent transparent transparent;
+    }
+
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+/*.tooltip {
+        position: relative;
+        display: inline-block;
+        opacity: inherit !important;
+        font-size: 15px;
+        color: #007bff;
+    }
+
+    .tooltip .tooltiptext {
+        text-decoration: none;
+        visibility: hidden;
+        width: 150px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        top: -36px;
+        left: -67px;
+        position: absolute;
+        z-index: 1;
+    }
+
+    .tooltip .tooltiptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: black transparent transparent transparent;
+    }
+
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+    }*/
+</style>
+<h3 style="color: black;"><?php echo __('Check your earnings with our calculator:');?></h3>
+<br>
+<form id="price_cal_form" class="price_cal_form" data-mage-init='{"validation":{}}'>
+    <div class="mis_price_cal_div">
+       <div class="field required">
+            <label class="label"><?php echo __('Marketplace') ?>:</label>
+            <div class="control">
+                <input type="text" name="" disabled="disabled" value="myGermany">
+            </div>
+        </div>
+       <div class="field required">
+            <label class="label"><?php echo __('Account type') ?>:</label>
+            <div class="control">
+                <input type="text" name="" disabled="disabled" value="Vendor">
+            </div>
+        </div>
+       <div class="field required">
+            <label class="label"><?php echo __('Product category') ?>:<span class="important_field">*</span></label>
+            <div class="control">
+                <select name='product_type' class='product_type required-entry' data-validate='{"required":true}' onchange="checkSelect(this);">
+                    <option value=""><?php echo __('-- select --');?></option>
+                    <?php foreach ($attrArray as $key => $value): ?>
+                        <option value="<?php echo $value['label']; ?>"><?php echo __($value['label']); ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <span class="mage-error" style="color: red; display: none;"><?php echo __('This field is required.');?></span>
+            </div>
+        </div>
+        <div class="field required">
+            <label class="label"><?php echo __("Shipping charge from Vendor to myGermany warehouse"); echo __(" (in $currencySymbol)") ?>:<span class="important_field">*</span></label>
+            <div class="control">
+                <input type="number" name="shipping_charge" class="shipping_charge required-entry" onchange="checkDecimalNumber(this);" data-validate='{"required":true}'  value="0">
+            </div>
+        </div>
+        <div class="mis_artical_price">
+            <div class="field required">
+                <label class="label"><?php echo __('Number of articles') ?>:<span class="important_field">*</span></label>
+                <div class="control">
+                    <input type="number" name="num_of_articles" class="num_of_articles required-entry" onchange="checkNumber(this);" data-validate='{"required":true}'  value="1">
+                </div>
+            </div>
+            <div class="field required">
+                <label class="label"><?php echo __("Price per item"); echo __(" (in $currencySymbol)"); ?>:<span class="important_field">*</span></label>
+                <div class="control">
+                    <input type="number" name="item_price" class="item_price required-entry" onchange="checkDecimalNumber(this);" value="0" data-validate='{"required":true}'>
+                </div>
+            </div>
+        </div>
+        <div class="mis_payment">
+            <div class="field required"> 
+                <label class="label"><?php echo __('Payment method') ?>:<span class="important_field">*</span></label>
+                <div class="control">
+                    <select name='payment_method' class='payment_method required-entry' data-validate='{"required":true}' onchange="checkPaymentMethod(this);">
+                        <option value="0"><?php echo __('-- select --');?></option>
+                        <option value="paypal"><?php echo __('PayPal');?></option>
+                        <option value="credit_card"><?php echo __('Credit Cards');?></option>
+                        <option value="crypto"><?php echo __('Crypto');?></option>
+                        <option value="other"><?php echo __('Other');?></option>
+                    </select>
+                <span class="mage-error-payment-method" style="color: red; display: none;"><?php echo __('This field is required.');?></span>
+                </div>
+            </div>
+            <div class="field required result_of_payment_method"  style="display: none;">
+                <label class="label "><span class="result_of_payment_label"></span><span class="important_field">*</span></label>
+                <div class="control">
+                    <select name='payment_option' class='result_of_payment required-entry' data-validate='{"required":true}' onchange="getCountries(this);" >
+                    <option value='0'><?php echo __('-- select --')?></option>
+                    </select>
+                    <span class="mage-error-payment-option" style="color: red; display: none;"><?php echo __('This field is required.');?></span>
+                </div>
+            </div>
+            <div class="field required country_field" style="display: none;">
+                <label class="label country_drop_lable"><?php echo __('Country: ');?><span class='important_field'>*</span></label>
+                <div class="control">
+                    <select name='country_drop' class='country_drop required-entry' data-validate='{"required":true}' >
+                    <option value='0'><?php echo __('-- select --')?></option>
+                    </select>
+                    <span class="mage-error-country-drop" style="color: red; display: none;"><?php echo __('This field is required.');?></span>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="button_div">
+            <input type="submit" style="background-color: grey;" name="calculate" class="calculate" value="<?php echo __('To calculate')?>">
+        </div>
+    </div>    
+</form>
+<div class="resultDiv" style="display: none;">
+    <table style="width: 50%" class="result_tbl">
+        <tr class="grey">
+            <td><?php echo __('Item');?>
+            </td> 
+            <td><?php echo $currencySymbol;?><span class="itemCost">0.00</span></td>
+        </tr>
+        <tr class="grey">
+            <td><?php echo __('Shipping charges');?>
+                <?php if(count($shippingToolTip) > 0): ?>
+                <div class="tooltip">
+                    <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="25px"/>
+                    <span class="tooltiptext"><?php echo ( (count($shippingToolTip) > 0) ? $shippingToolTip[0]['tooltip_text'] : '');?></span>
+                    <!-- <span class="tooltiptext"><?php /*echo __($shippingToolTip);*/ ?></span> -->
+                </div>
+                <?php endif;?>
+            </td> 
+            <td><?php echo $currencySymbol;?><span class="shippingCost">0.00</span></td>
+        </tr>
+        <tr class="orange">
+            <td><?php echo __('myGermany commission');?>
+                <?php if(count($commissionToolTip) > 0): ?>
+                <div class="tooltip">
+                    <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="25px"/>
+                    <span class="tooltiptext"><div class="mis_tooltip_tbl"><?php echo ( (count($commissionToolTip) > 0) ? $commissionToolTip[0]['tooltip_text'] : '');?></div></span>
+                </div>
+                <?php endif;?>
+            </td>
+            <td><?php echo $currencySymbol;?><span class="adminAmount">0.00</span></td>
+        </tr>
+        <tr class="orange">
+            <td><?php echo __('Payment fees');?>
+                <?php if(count($paymentToolTip) > 0): ?>
+                <div class="tooltip">
+                    <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="25px"/>
+                    <span class="tooltiptext"><?php echo ( (count($paymentToolTip) > 0) ? $paymentToolTip[0]['tooltip_text'] : '');?></span>
+                </div>
+                <?php endif;?>
+            </td>
+            <td><?php echo $currencySymbol;?><span class="paymentFeesAmount">0.00</span></td>
+        </tr>
+        <tr class="orange">
+            <td><?php echo __('Exchange fees');?>
+                <?php if(count($exchangeToolTip) > 0): ?>
+                <div class="tooltip">
+                    <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="25px"/>
+                    <span class="tooltiptext"><?php echo ( (count($exchangeToolTip) > 0) ? $exchangeToolTip[0]['tooltip_text'] : '');?></span>
+                </div>
+                <?php endif;?>
+            </td>
+            <td><?php echo $currencySymbol;?><span class="exchangeFeesAmount">0.00</span></td>
+        </tr>
+        <tr class="orange">
+            <td><b><?php echo __('Total fees from myGermany');?></b>
+                <?php if(count($totalFeesToolTip) > 0): ?>
+                <div class="tooltip">
+                    <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="25px"/>
+                    <span class="tooltiptext"><?php echo ( (count($totalFeesToolTip) > 0) ? $totalFeesToolTip[0]['tooltip_text'] : '');?></span>
+                </div>
+                <?php endif;?>
+            </td>
+            <td><b><?php echo $currencySymbol;?><span class="totalFees">0.00</span></b></td> 
+        </tr>
+        <tr class="blue">
+            <td><b><?php echo __('YOUR EARNINGS')?></b>
+                <?php if(count($vendorAmountToolTip) > 0): ?>
+                <div class="tooltip">
+                    <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="25px"/>
+                    <span class="tooltiptext"><?php echo ( (count($vendorAmountToolTip) > 0) ? $vendorAmountToolTip[0]['tooltip_text'] : '');?></span>
+                </div>
+                <?php endif;?>
+            </td>
+            <td><b><?php echo $currencySymbol;?><span class="vendorAmount">0.00</span></b></td>
+        </tr>
+    </table>
+</div>
+<div class="footer_link">
+    <span><a class="contact_us" href="<?php echo $this->getUrl('contact');?>" target="_blank"><?php echo __('Need more information on pricing >');?></a></span>
+    <span style="width: 100%; display: inline-block;">
+        <input type="hidden" name="" value="<?php echo $this->getBaseUrl().'partner-werden-produkte-verkaufen#fees';?>">
+        <?php $generic_fee_model_url = $this->getBaseUrl().'partner-werden-produkte-verkaufen#fees';?>
+        <a class="generic_fee_model" href="<?php echo $generic_fee_model_url;?>" target="_blank"><?php echo __('Overview generic fee model >');?></a>
+    </span>
+</div>
+<script type="text/x-magento-init">
+    {
+        "#price_cal_form": {
+            "validation": {}
+        }
+    }
+</script>
+<script type='text/javascript'>
+    var symbol = "<?php echo $currencySymbol;?>";
+
+    // console.log(symbol);
+
+    function checkNumber(ele)
+    {
+        var numberValue =  jQuery(ele).val();
+        var pattern = /^[0-9]*$/;
+        // console.log(!pattern.test(numberValue));
+
+        if (!pattern.test(numberValue)) 
+        {
+            jQuery(ele).val(1);
+        } else if (numberValue.length < 1) {
+            jQuery(ele).val(1);
+        }
+    }
+
+    function checkDecimalNumber(ele)
+    {
+        var numberValue =  jQuery(ele).val();
+        var pattern = /^\d{0,9}(\.\d{1,2})?$/; 
+        // console.log(!pattern.test(numberValue));
+
+        if (!pattern.test(numberValue)) 
+        {
+            jQuery(ele).val(0);
+        } else if (numberValue.length < 1) {
+            jQuery(ele).val(0);
+        }
+    }
+
+    function checkSelect(ele)
+    {
+        var selectval = jQuery(ele).val();
+        if (selectval == 0) {
+            jQuery('.calculate').css('background-color', 'grey');
+            jQuery('.calculate').attr('disabled', 'disabled');
+        } else {
+            jQuery('.calculate').removeAttr('disabled');
+            jQuery('.calculate').css('background-color', 'black');
+        }
+    }
+
+
+    require(['jquery', 'prototype', 'domReady!'], function($) {
+        /*$('.generic_fee_model').on('click', function(){
+            window.location.href = "<?php /*echo $this->getBaseUrl().'partner-werden-produkte-verkaufen#fees'*/;?>";
+        });*/
+
+        jQuery(document).on('click', '.calculate', function(event){
+            event.preventDefault();
+            var product_type = jQuery('.product_type').val();
+
+            var num_of_articles = jQuery('.num_of_articles').val();
+            var item_price = jQuery('.item_price').val();
+            var shipping_charge = jQuery('.shipping_charge').val();
+
+            var selected_payment_method = jQuery('.payment_method').val();
+            var payment_option = jQuery('.result_of_payment').val();
+            var country_name = jQuery('.country_drop').val();
+            saveJquery(product_type, num_of_articles, item_price, shipping_charge, selected_payment_method, payment_option, country_name);
+
+            // saveJquery(product_type, num_of_articles, item_price, shipping_charge);
+
+        });
+
+    });
+
+    function checkPaymentMethod(ele)
+    {
+        var ajaxurl = "<?php echo $this->getUrl('marketplce/price/calculation') ?>"; 
+        var selectval = jQuery(ele).val();
+        // console.log('in payment method ');
+        // console.log('selectval : '+selectval);
+        html = "<option value='0'><?php echo ('select')?></option>";
+
+        jQuery('.result_of_payment').prop('selectedIndex',0);
+        jQuery('.country_drop').prop('selectedIndex',0);
+        jQuery('.country_field').css('display', 'none');
+        jQuery('.result_of_payment_method').css('display', 'none');
+
+        if (selectval == 0) {
+            // jQuery('.calculate').css('background-color', 'grey');
+            // jQuery('.calculate').attr('disabled', 'disabled');
+        } else {
+            jQuery('.result_of_payment').html('');
+
+            if (selectval == 'paypal') {
+                // jQuery('.result_of_payment_label').text('');
+                var result_of_payment_label = 'Zone: ';
+            } 
+
+            if (selectval == 'credit_card') {
+                // jQuery('.result_of_payment_label').text('');
+                var result_of_payment_label = 'Card: ';
+            }
+            if ((selectval == 'paypal') || (selectval == 'credit_card')) {
+                jQuery.ajax({
+                    type: "POST",
+                    data : {
+                        'payment_ajax' : '1',
+                        'payment_method': selectval,
+                    },
+                    async : true,
+                    url: ajaxurl,
+                    showLoader: true,
+                    success: function (response) {
+                        // console.log(response);
+                         data = jQuery.parseJSON(response);
+                            jQuery.each(data, function (i,v)
+                            {
+                              html += "<option value="+i+">"+v+"<option>"; 
+                            });
+                            jQuery('.result_of_payment_method').css('display', 'block');
+                            jQuery('.result_of_payment').append(html);
+                            jQuery('.result_of_payment_label').text(result_of_payment_label);
+
+                    },
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });  
+                
+            }
+        }
+    }
+// country_field
+    function getCountries(ele)
+    {
+        var ajaxurl = "<?php echo $this->getUrl('marketplce/price/calculation') ?>"; 
+        var selectval = jQuery(ele).val();
+        // console.log('in getCountries method ');
+        // console.log('selectval : '+selectval);
+        html = "<option value='0'><?php echo ('select')?></option>";
+
+        jQuery('.country_drop').prop('selectedIndex',0);
+        jQuery('.country_field').css('display', 'none');
+        if (selectval == 0) {
+            // jQuery('.calculate').css('background-color', 'grey');
+            // jQuery('.calculate').attr('disabled', 'disabled');
+        } else {
+            var method_name = jQuery('.payment_method').val();
+            if (method_name == 'paypal') {
+                jQuery('.country_drop').html('')
+
+                jQuery.ajax({
+                    type: "POST",
+                    data : {
+                        'country_ajax' : '1',
+                        'paypal_zone': selectval,
+                    },
+                    async : true,
+                    url: ajaxurl,
+                    showLoader: true,
+                    success: function (response) {
+                        // console.log(response);
+
+                         data = jQuery.parseJSON(response);
+                            jQuery.each(data, function (i,v)
+                            {
+                              html += "<option value="+i+">"+v+"<option>"; 
+                              // console.log(html);
+                            });
+                            jQuery('.country_field').css('display', 'block');
+                            jQuery('.country_drop').append(html);
+                    },
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });  
+
+            }
+        }
+    }
+
+    function saveJquery(product_type, num_of_articles, item_price, shipping_charge, selected_payment_method, payment_option, country_name)
+    {
+        var ajaxurl = "<?php echo $this->getUrl('marketplce/price/calculation') ?>"; 
+
+        // console.log(product_type);
+        // console.log(ajaxurl);     
+
+        // console.log('selected_payment_method: '+selected_payment_method); 
+        // console.log('payment_option: '+payment_option); 
+        // console.log('country_name: '+country_name);
+
+        if (product_type) {
+            jQuery('.mage-error').css('display', 'none');
+            if ((selected_payment_method != 0) ) {
+                if ( (selected_payment_method  == 'paypal') || (selected_payment_method  == 'credit_card') || (selected_payment_method  == 'crypto') || (selected_payment_method  == 'other') ) {
+
+
+                    if ( ( (selected_payment_method  == 'paypal') && (country_name != 0) ) && (payment_option != 0) ||  
+                         ( (selected_payment_method  == 'credit_card') && (payment_option != 0) ) ||
+                         ( (selected_payment_method  == 'crypto') ) ||
+                         ( (selected_payment_method  == 'other') ) ) 
+                    {
+                        jQuery('.mage-error-payment-method').css('display', 'none');
+                        jQuery('.mage-error-payment-option').css('display', 'none');
+                        jQuery('.mage-error-country-drop').css('display', 'none');
+                        jQuery.ajax({
+                            type: "POST",
+                            data : {
+                                'product_type': product_type, 
+                                'num_of_articles': num_of_articles, 
+                                'item_price': item_price,
+                                'shipping_charge': shipping_charge,
+                                'selected_payment_method': selected_payment_method,
+                                'payment_option': payment_option,
+                                'country_name': country_name
+                            },
+                            async : true,
+                            url: ajaxurl,
+                            showLoader: true,
+                            success: function (response) {
+                                // console.log(response);
+                                var resultData = JSON.parse(response);
+                                jQuery('.resultDiv').css('display', 'block');
+                                jQuery('.itemCost').html(resultData.itemCost);
+                                jQuery('.adminAmount').html(resultData.adminAmount);
+                                jQuery('.paymentFeesAmount').html(resultData.paymentFeesAmount);
+                                jQuery('.exchangeFeesAmount').html(resultData.exchangeFeesAmount);
+                                jQuery('.vendorAmount').html(resultData.vendorAmount);
+                                jQuery('.totalFees').html(resultData.totalFees);
+                                jQuery('.shippingCost').html(resultData.shippingCost);
+
+                            },
+                            error: function (response) {
+                                console.log(response);
+                            }
+                        });            
+
+                    } else {
+
+                        if (selected_payment_method != 0) {
+                            jQuery('.mage-error-payment-method').css('display', 'none');
+                        }
+
+                        if (
+                            ((selected_payment_method  == 'paypal') || (selected_payment_method  == 'credit_card')) && (payment_option == 0)
+                        ) {
+                            jQuery('.mage-error-payment-option').css('display', 'block');
+                        } else {
+                            jQuery('.mage-error-payment-option').css('display', 'none');
+
+                        }
+
+                        if( (selected_payment_method  == 'paypal') && (country_name == 0)) {
+                            jQuery('.mage-error-country-drop').css('display', 'block');
+                        } else {
+                            jQuery('.mage-error-country-drop').css('display', 'none');                            
+                        }
+
+                    }
+
+                }
+
+
+            } else {
+                if (selected_payment_method == 0) {
+                    jQuery('.mage-error-payment-method').css('display', 'block');
+                } else if (selected_payment_method == 0) {
+                    jQuery('.mage-error-payment-option').css('display', 'block');
+                } else if ( (selected_payment_method == 'paypal') && (country_name == 0) ) {
+                    jQuery('.mage-error-country-drop').css('display', 'block');
+
+                }
+            }
+        } else {
+            jQuery('.mage-error').css('display', 'block');
+        }
+    } 
+    
+    /*Old Code */
+    /*function saveJquery(product_type, num_of_articles, item_price, shipping_charge){
+        var ajaxurl = "<?php /*echo $this->getUrl('marketplce/price/calculation')*/ ?>"; 
+        console.log(product_type);
+        console.log(ajaxurl);      
+        if (product_type) {
+            jQuery('.mage-error').css('display', 'none');
+            jQuery.ajax({
+                type: "POST",
+                data : {
+                    'product_type': product_type, 
+                    'num_of_articles': num_of_articles, 
+                    'item_price': item_price,
+                    'shipping_charge': shipping_charge
+                },
+                async : true,
+                url: ajaxurl,
+                showLoader: true,
+                success: function (response) {
+                    console.log(response);
+                    var resultData = JSON.parse(response);
+                    jQuery('.resultDiv').css('display', 'block');
+                    jQuery('.itemCost').html(resultData.itemCost);
+                    jQuery('.adminAmount').html(resultData.adminAmount);
+                    jQuery('.paymentFeesAmount').html(resultData.paymentFeesAmount);
+                    jQuery('.exchangeFeesAmount').html(resultData.exchangeFeesAmount);
+                    jQuery('.vendorAmount').html(resultData.vendorAmount);
+                    jQuery('.totalFees').html(resultData.totalFees);
+                    jQuery('.shippingCost').html(resultData.shippingCost);
+
+                },
+                error: function (response) {
+                    console.log(response);
+                }
+            });            
+        } else {
+            jQuery('.mage-error').css('display', 'block');
+        }
+    } */
+</script>

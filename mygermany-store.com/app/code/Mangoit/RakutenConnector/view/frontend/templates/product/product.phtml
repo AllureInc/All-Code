@@ -1,0 +1,48 @@
+<?php
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */ 
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+// use to display quote options on creating a new or editing a new product in marketplace
+$params = $block->getParameters();
+$productId = 0;$quoteType = null;
+if (array_key_exists('id', $params)) {
+    $productId = $params['id'];
+}
+$helper = $this->helper('\Mangoit\RakutenConnector\Helper\Data');
+$barCode = '';$barCodeType = '';
+if ($productId) {
+    $product = $block->getProduct()->load($productId);
+    $barCode = $product->getIdentificationValue();
+    $barCodeType = $product->getIdentificationLabel();
+} 
+$options = $block->getProductIdentifierCodes();
+?>
+<div class="field">
+    <label class="label"><?php /* @escapeNotVerified */echo __('Rakuten Unique Identifier') ?>:</label>
+        <div class="input-box">
+            <select name="product[identification_label]" id='identification_label'>
+                <?php foreach($options as $attrVal): ?>
+                <option value="<?php echo  $attrVal['value']?>" <?php if ($barCodeType == $attrVal['value']) { echo " selected=selected";} ?>><?php echo $attrVal['label']  ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+</div>
+<div class="field">
+    <label class="label"><?php /* @escapeNotVerified */echo __('Rakuten Unique Identifier Code') ?>:</label>
+        <div class="input-box">
+            <input type="text"
+                name='product[identification_value]'
+                value='<?php /* @escapeNotVerified */echo $barCode?>'
+                id='identification_value'
+                >
+        </div>
+</div>

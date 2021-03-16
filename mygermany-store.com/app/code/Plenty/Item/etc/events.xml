@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!-- register import saved items -->
+    <event name="catalog_product_import_bunch_save_after">
+        <observer name="plenty_item_observer_product_import_save_after" instance="Plenty\Item\Observer\CatalogProductImportAfter" />
+    </event>
+    <!-- register import failed items -->
+    <event name="catalog_product_import_bunch_failed_after">
+        <observer name="plenty_item_observer_product_import_failed_after" instance="Plenty\Item\Observer\CatalogProductImportAfter" />
+    </event>
+    <!-- register import saved category -->
+    <event name="catalog_category_import_bunch_save_after">
+        <observer name="plenty_item_observer_category_import_save_after" instance="Plenty\Item\Observer\CatalogCategoryImportAfter" />
+    </event>
+    <!-- register import failed category -->
+    <event name="catalog_category_import_bunch_failed_after">
+        <observer name="plenty_item_observer_category_import_failed_after" instance="Plenty\Item\Observer\CatalogCategoryImportAfter" />
+    </event>
+</config>

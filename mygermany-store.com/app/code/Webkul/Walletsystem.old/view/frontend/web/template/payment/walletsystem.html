@@ -1,0 +1,82 @@
+<div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}" >
+    <div style='display:none' class="payment-method-title field choice" >
+        <input type="radio"
+               name="payment[method]"
+               class="radio"
+               data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, visible: isRadioButtonVisible()"/>
+        <label data-bind="attr: {'for': getCode()}" class="label">
+            <span data-bind="text: getTitle()"></span>
+        </label>
+    </div>
+        <div class='wk_ws_wallet_payment'>
+        <!-- ko if: getWalletamount()>0 -->
+            <form action="" enctype="multipart/form-data" method="post" id="form-custom-data">
+                <input data-bind="attr:{'value':getGrandTotal()}" type="hidden" id='wk_ws_grandtotal' name='wallet_subtotal' >
+                <div class='wk_ws_payment_form_outer'>
+                    <div>
+                        <div class='wk_wallet_check_outer'>
+                            <input id='wallet_auto' type="checkbox" name="payment[method]" value='automatic' class="wk_ws_custom_checkbox"
+                            data-bind="attr: {'for': getCode()}, value: getCode(), checked: myValue, click: setwalletamount"
+                            />
+                            <label><span></span><!-- ko i18n: 'Payment By Your Wallet' --><!-- /ko --></label>
+                        </div>
+                    </div>
+                    <div class='wk_ws_payment_outer' data-bind="css: {'_active':myValue()}">
+                        <table class='wk_ws_payment_table'>
+                            <tr>
+                                <th><h4><!-- ko i18n: 'Payment to be Made' --><!-- /ko --></h4></th>
+                                <th></th>
+                                <th><h4><!-- ko i18n: 'Amount in your Wallet' --><!-- /ko --></h4></th>
+                                <th></th>
+                                <th class='wk_ws_leftamount_th' data-bind="css:{'wk_ws_restpayment_color':(leftamount() != 0)}"><h4 class=''><!-- ko i18n: 'Left Amount to be Pay' --><!-- /ko --></h4></th>
+                            </tr>
+                            <tr>
+                                <td><!-- ko text: currecysymbol --><!-- /ko --><!-- ko text: getUpdatedGrandTotal() --><!-- /ko --></td>
+                                <td><hr class='wk_ws_line'><div class="wk_ws_minus"></div><hr class='wk_ws_line'></td>
+                                <td><!-- ko text: walletformatamount --><!-- /ko --></td>
+                                <td><hr class='wk_ws_line'><div class="wk_ws_plus"></div><hr class='wk_ws_line'></td>
+                                <td class='wk_ws_leftamount' data-bind="css:{'wk_ws_restpayment_color':(leftamount() != 0)}"><!-- ko text: currecysymbol --><!-- /ko --><!-- ko text: leftamount() --><!-- /ko --></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td style='color:#298CCF' class='wk_ws_restamount'><!-- ko i18n: 'Remaining: ' --><!-- /ko --><!-- ko text: leftinWallet --><!-- /ko --></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class='wk_appliedAmount'></div>
+                </div>
+            </form>
+            <!--/ko-->
+        <!-- ko if: getWalletamount()<=0 -->
+            <h5><!-- ko i18n: 'No Amount available in wallet' --><!-- /ko --></h5>
+        <!--/ko-->
+    </div>
+    <div class="payment-method-content">
+        <!-- ko foreach: getRegion('messages') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+        <div class="checkout-agreements-block">
+            <!-- ko foreach: $parent.getRegion('before-place-order') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!-- /ko -->
+        </div>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button class="action primary checkout"
+                        type="submit"
+                        data-bind="
+                        click: placeOrder,
+                        attr: {title: $t('Place Order')},
+                        css: {disabled: !isPlaceOrderActionAllowed()},
+                        enable: (getCode() == isChecked())
+                        "
+                        disabled>
+                    <span data-bind="i18n: 'Place Order'"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

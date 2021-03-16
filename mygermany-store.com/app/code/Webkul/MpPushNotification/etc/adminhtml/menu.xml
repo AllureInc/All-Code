@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Webkul
+ * @package    Webkul_MpPushNotification
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Webkul_MpPushNotification::manager" title="Push Notification Manager" module="Webkul_MpPushNotification"
+            sortOrder="10" resource="Webkul_MpPushNotification::manager" parent="Webkul_Marketplace::marketplace"/>
+
+        <add id="Webkul_MpPushNotification::template_setting" title="Notification Templates" module="Webkul_MpPushNotification" sortOrder="20" parent="Webkul_MpPushNotification::manager" action="mppushnotification/templates/index" resource="Webkul_MpPushNotification::template_setting"/>
+
+        <add id="Webkul_MpPushNotification::register_customer" title="Send Notification" module="Webkul_MpPushNotification" sortOrder="30" parent="Webkul_MpPushNotification::manager" action="mppushnotification/manageusers/index" resource="Webkul_MpPushNotification::register_customer"/>
+    </menu>
+</config>
+

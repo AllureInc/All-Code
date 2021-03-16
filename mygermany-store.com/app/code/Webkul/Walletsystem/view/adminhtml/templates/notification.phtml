@@ -1,0 +1,46 @@
+<?php
+/**
+ * Webkul Software
+ *
+ * @category Webkul
+ * @package Webkul_Walletsystem
+ * @author Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license https://store.webkul.com/license.html
+ */
+?>
+
+<?php 
+    $image = $block->getImageUrl();
+    $payeeNotification = $block->getPayeeNotificationCount();
+    if ($payeeNotification > 5) {
+        $payeeNotification = "5+";
+    }
+
+    $bankcounter = $block->getBankTransferCounter();
+    if ($bankcounter > 5) {
+        $bankcounter = "5+";
+    }
+?>
+<?php if($payeeNotification) { ?>
+    <script>
+        require([
+            'jquery'
+            ], function ($) {
+                $( document ).ready(function() {
+                    $('.item-walletpayee a').append("<span><img class='wk-wallet-notification-image' src = '<?php echo $image;?>'><span class='wk-wallet-counter'><?php echo $payeeNotification; ?></span></span>");
+                });
+            });    
+    </script>
+<?php } ?>
+<?php if($bankcounter) { ?>
+    <script>
+        require([
+            'jquery'
+            ], function ($) {
+                $( document ).ready(function() {
+                    $('.item-banktransfer a').append("<span><img class='wk-wallet-notification-image' src = '<?php echo $image;?>'><span class='wk-wallet-counter'><?php echo $bankcounter; ?></span></span>");
+                });
+            });    
+    </script>
+<?php } ?>

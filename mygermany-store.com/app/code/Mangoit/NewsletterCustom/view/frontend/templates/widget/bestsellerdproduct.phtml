@@ -1,0 +1,96 @@
+<?php
+if ($exist = ($this->getBestsellerProduct() && $this->getBestsellerProduct()->getPageSize())) {
+    $fet_prodcollection = $this->getBestsellerProduct();
+    $productcount = $this->getProductLimit();
+    $imagewidth = $this->getProductimagewidth();
+    $imageheight = $this->getProductimageheight();
+    $mode = 'grid';
+    $title = __('Bestseller Products');
+    $type = 'widget-bestseller-grid';
+    $image = 'bestseller_products_content_widget_grid';
+}
+?>
+<?php if ($exist):?>
+    <div class="block widget block-bestseller-products <?php /* @escapeNotVerified */ echo $mode; ?>">
+        <div class="block-title">
+            <strong role="heading" aria-level="2"><?php /* @escapeNotVerified */ echo $title; ?></strong>
+        </div>
+        <div class="block-content">
+            <?php /* @escapeNotVerified */ echo '<!-- ' . $image . '-->' ?>
+            <div class="products-<?php /* @escapeNotVerified */ echo $mode; ?> <?php /* @escapeNotVerified */ echo $mode; ?>">
+                <ol class="product-items <?php /* @escapeNotVerified */ echo $type; ?>" style="margin-top: 0; margin-bottom: 22.5px; padding: 0px;">
+                    <?php $iterator = 1; ?>
+                    <?php
+                    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                    $productModel = $objectManager->create('Magento\Catalog\Model\Product');
+                    foreach ($fet_prodcollection as $item):
+                        $_product = $productModel->load($item->getId());
+
+                        $liCss = 'style="margin-top: 0; min-height: 190px; margin-bottom: 9px; list-style: none; width: 23%; display: inline-block; vertical-align: top; text-align: center; border: 1px solid #eee; margin-right: 1%; padding: 10px; box-sizing: border-box;margin-left: 3px;"';
+                    ?>
+                    <?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li class="product-item" '.$liCss.'>' : '</li><li class="product-item" '.$liCss.'>' ?>
+                    <div class="product-item-info">
+                        <?php 
+                        $image_url = $block->imageHelperObj()->init($_product, 'product_page_image_small')
+                            ->setImageFile($_product->getFile())
+                            // ->resize($imagewidth,$imageheight)
+                            ->getUrl();
+                        
+                        ?>
+                        <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" class="product-item-photo" style="color: #08c; text-decoration: none;">
+                            <img src="<?php echo  $image_url;?>" alt="<?php echo $this->escapeHtml($_product->getName()) ?>" style="border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none;"/>
+                        </a>
+                        <div class="product-item-details">
+                            <strong class="product-item-name" style="font-weight: 700;">
+                                <a title="<?php echo $block->escapeHtml($_product->getName()) ?>"
+                                    href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>"
+                                    class="product-item-link" style="text-decoration: none; color: #08c; font-size: 12px;">
+                                    <?php
+                                        $productName = $_product->getName();
+                                        $name = (strlen($productName) > 35) ? substr($productName,0, 35) . "..." : $productName;
+                                        echo $block->escapeHtml($name);
+                                    ?>
+                                </a>
+                            </strong>
+                            <?php
+                            echo $this->getProductPriceHtml($_product, $type);
+                            ?>
+                            <!-- <div class="product-item-actions">
+                                <div class="actions-primary">
+                                    <?php // if ($_product->isSaleable()): ?>
+                                        <?php // if ($_product->getTypeInstance()->hasRequiredOptions($_product)): ?>
+                                            <button class="action tocart primary"
+                                            data-mage-init='{"redirectUrl":{"url":"<?php // /* @escapeNotVerified */ echo $block->getAddToCartUrl($_product) ?>"}}'
+                                            type="button" title="<?php // /* @escapeNotVerified */ echo __('Add to Cart') ?>">
+                                            <span><?php // /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                                        </button>
+                                    <?php // else: ?>
+                                        <?php
+                                        // $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
+                                        // $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_product), ['product' => $_product->getId()]);
+                                        ?>
+                                        <button class="action tocart primary"
+                                        data-post='<?php // /* @escapeNotVerified */ echo $postData; ?>'
+                                        type="button" title="<?php // /* @escapeNotVerified */ echo __('Add to Cart') ?>">
+                                        <span><?php // /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                                    </button>
+                                <?php // endif; ?>
+                            <?php // else: ?>
+                                <?php // if ($_product->getIsSalable()): ?>
+                                    <div class="stock available"><span><?php // /* @escapeNotVerified */ echo __('In stock') ?></span></div>
+                                <?php // else: ?>
+                                    <div class="stock unavailable"><span><?php // /* @escapeNotVerified */ echo __('Out of stock') ?></span></div>
+                                <?php // endif; ?>
+                            <?php // endif; ?>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <?php
+                echo($iterator == count($fet_prodcollection)+1) ? '</li>' : '';
+                $_product->reset();
+            ?>
+        <?php endforeach; ?>
+    </ol>
+</div>
+<?php endif;?>

@@ -1,0 +1,35 @@
+#addMore { background-color: #35302c;border-color: #35302c;box-shadow: 0 0 0 1px #007bdb;color: #fff;text-decoration: none; }
+#addMore:hover { background: #fff; border-color: #fff;  color: #333; text-shadow: none; box-shadow:none; }
+.entry-edit.form-inline table {
+  width: 40%;
+}
+
+.entry-edit.form-inline table tr td { padding: 10px; /*width: 70%;*/ }
+.entry-edit.form-inline table tr td:first-child { /*width: 30%;*/ padding: 10px 0px ; }
+.entry-edit.form-inline table tr td select, .entry-edit.form-inline table tr td  input[type="text"] { /*width: 50%;*/ }
+.catalog-category-edit .entry-edit.form-inline table {
+    width: 100%;}
+
+/*body.catalog-category-edit .entry-edit.form-inline table tr td:first-child,
+body.catalog-category-edit .entry-edit.form-inline table tr td.col-name,
+body.catalog-category-edit .entry-edit.form-inline table tr td.col-sku,
+body.catalog-category-edit .entry-edit.form-inline table tr td.col-price,
+body.catalog-category-edit .entry-edit.form-inline table tr td.col-position  {
+    width: 15%;}*/
+/*body.catalog-category-edit .entry-edit.form-inline table tr td.col-id.col-entity_id{    width:25%;}*/
+body.catalog-category-edit .entry-edit.form-inline table td.col-select.col-massaction.col-in_category {
+    text-align: center;}
+body.catalog-category-edit .entry-edit.form-inline table .data-grid-checkbox-cell-inner{text-align: center;}
+
+body.fskrestricted-product-addcountry #container form > div { width: 100%; display: inline-block; margin-bottom: 5px; } 
+body.fskrestricted-product-addcountry #container form > div label { vertical-align: top; display: inline-block; }
+body.fskrestricted-product-addcountry #container form > div:last-child { margin-top: 40px; }
+body.fskrestricted-category-categoryform  #container form > div > div { width: 100%; display: inline-block; margin-bottom: 5px; margin-top: 10px; } 
+body.fskrestricted-category-categoryform  #container form > div > div  label { text-align: left !important; font-size: 15px; width: auto; display: inline-block; margin-right: 25px; }
+body.fskrestricted-category-categoryform  #container form > div > div  label + div { width: auto; display: inline-block; vertical-align: top; }
+.data-grid tr:nth-child(2n + 0) > td { background: #f9f9f9; }
+.data-grid tr td { padding: 10px 15px !important; }
+.form-list td label { display: inline-block;
+vertical-align: middle;
+margin-top: 5px;
+margin-right: 15px; }

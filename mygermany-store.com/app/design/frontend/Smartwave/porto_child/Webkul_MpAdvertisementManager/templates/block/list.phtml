@@ -1,0 +1,235 @@
+<!-- Last edited 29-Jan-2019 -->
+<style type="text/css">
+.block_btn
+{
+    text-transform: capitalize;
+}
+
+.optional_yellow_btn_css{
+    background-color: #FEC10D !important;
+    border-color: #FEC10D !important;
+    color: #FFFFFF !important;
+    height: 32px !important;
+    line-height: 30px !important;
+    letter-spacing: 1px;
+    border: 1px solid;
+    padding: 0 15px !important;
+    text-align: center;
+    text-transform: capitalize;
+    display: inline-block;
+    font-family: "Oswald" !important;
+}
+.optional_yellow_btn_css:hover{
+    background-color: #323132 !important;
+    border-color: #323132 !important;
+}
+
+</style>
+<?php
+$filter = $block->getRequest()->getParam('title')?$block->getRequest()->getParam('title'):false;    
+
+?>
+<div class="wk-mp-design mpads-block-manager-cont">
+    <fieldset class="fieldset info wk-mp-fieldset">
+        <legend class="legend">
+            <span><?php echo __('Advertisement Blocks') ?></span>
+        </legend>
+        <div class="grid">
+            <a class="action primary wk-mp-btn optional_yellow_btn_css" 
+            href="
+            <?php 
+            /* @escapeNotVerified */
+            echo $block->getUrl('mpads/block/edit', 
+            ['_secure' => $block->getRequest()->isSecure()] ) ?>">
+            <span>
+                <span>
+                    <span class="block_btn"> 
+                        <?php  echo __('Create Ads Blocks') ?>
+                    </span>
+                </span>
+            </span>
+        </a>
+        <div class="hor-scroll">
+            <form action="<?php echo $block->getUrl('mpads/block', ['_secure' => $block->getRequest()->isSecure()])?>" method="get" id="form-adsblock-filter"  name="form_ads_block_filter" data-mage-init='{"validation":{}}'>
+                <table cellspacing="0" class="border wk-mp-list-table">
+                    <thead>
+                        <tr id="wk-mp-tr-heading">
+                            <th><span><?php echo __('Block Title') ?></span></th>
+                            <th><span><?php echo __('Action') ?></span></th>
+                        </tr>
+                    </thead>
+                    <tbody class="wk-mp-body">
+                        <tr>
+                            <td>
+                                <input 
+                                type="text" 
+                                class="input-text required-entry" 
+                                name="title" placeholder='<?php echo __('Search by block name') ?>' value="<?php echo ($filter == false)?'':$filter; ?>"/>
+                            </td>
+                            <td>
+                                <button class="button" title="<?php echo __('Search');?>" type="submit">
+                                    <span><span><span><?php echo __('Search') ?></span></span></span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>  
+        <?php $count = $block->getCollection()->getSize(); ?>
+        <form action="<?php 
+        echo $block->getUrl(
+        'mpads/block/delete', 
+        [
+        '_secure' => $this->getRequest()->isSecure()
+        ]
+        ); 
+        ?>" method="post" id="form-blocklist-massdelete" name="form-blocklist-massdelete" data-mage-init='{"validation":{}}'>
+        <?php echo $block->getBlockHtml('seller.formkey')?>
+        <?php echo $block->getBlockHtml('formkey')?>
+        <span class="wk-spn-adv">
+            <button class="button" title="<?php echo __('Delete Ads Blocks') ?>" type="submit"  id="mass-delete-butn">
+                <span><span><?php echo __('Delete Ads Blocks') ?></span></span>
+            </button>            
+        </span>
+        <?php if($filter) {?>
+        <span class="wk-spn-adv">
+            <a class="yellow-button" href="<?php echo $this->getUrl('mpads/block');?>" style="text-decoration: none;">
+                <span><span><?php echo __('Reset Filter') ?></span></span>
+            </a>            
+        </span>
+        <?php } ?>
+        <?php 
+        
+        $i=0;
+        if($count > 0) {
+            $collection = $block->getCollection();          
+            ?>
+            <table 
+            cellspacing="0" 
+            class="border wk-mp-list-table wk-mp-list-container-table"
+            >
+            <thead>
+                <tr class="wk-content">
+                    <th class="wk-check-first-td">
+                        <span>
+                            <input type="checkbox" name="mpselecctall" value="all" id="mpselecctall"/>
+                        </span>
+                    </th>
+                    <th>
+                        <?php
+                        /* @escapeNotVerified */ 
+                        echo __('ID');
+                        ?>
+                    </th>
+                    <th>
+                        <?php
+                        /* @escapeNotVerified */ 
+                        echo __('Title');
+                        ?>
+                    </th>
+                    <th>
+                        <?php
+                        /* @escapeNotVerified */ 
+                        echo __('Created At');
+                        ?>
+                    </th>
+                    <th>
+                        <?php
+                        /* @escapeNotVerified */
+                        echo __('Updated At');
+                        ?>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($collection as $adsblock) { $i ++; ?>
+                    <tr 
+                    title="<?php
+                    /* @escapeNotVerified */ 
+                    echo $block->getUrl(
+                    'mpads/block/edit', 
+                    [
+                    'id' => $adsblock->getId(),
+                    '_secure' => $block->getRequest()->isSecure()
+                    ]
+                    ); 
+                    ?>" 
+                    class="wk-row-view 
+                    <?php echo $class = ($i == $count)? 'wk-last_tr':''?>"
+                    style="cursor: pointer;"
+                    >
+                    <td class="wk-check-first-td">
+                        <span>
+                            <input type="checkbox" name="blockId[]" class="mpcheckbox checkbox required-entry validate-one-required-by-name" value="<?php echo /* @escapeNotVerified */ $adsblock->getId(); ?>"/>
+                        </span>
+                    </td>
+                    <td>
+                        <?php 
+                        /* @escapeNotVerified */
+                        echo $adsblock->getId();
+                        ?>
+                    </td>
+                    <td>
+                        <?php 
+                        /* @escapeNotVerified */
+                        echo $block->escapeHtml($adsblock->getTitle());
+                        ?>
+                    </td>
+                    <td>
+                        <?php 
+                        /* @escapeNotVerified */
+                        echo date_format(date_create($adsblock->getCreatedAt()),"d.m.Y");
+                        ?>
+                    </td>
+                    <td class="wk-list-th-display">
+                        <?php 
+                        if (strlen($adsblock->getUpdatedAt()) > 1) {
+                            echo date_format(date_create($adsblock->getUpdatedAt()),"d.m.Y");
+                        }
+                        ?>
+                    </td>
+                </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+</form>
+<?php  echo $block->getPagerHtml(); ?>
+<?php } else {
+    ?>
+    <div class="emptymsg">
+        <?php 
+        echo __('No ads blocks added yet') 
+        ?>
+    </div>
+    <?php
+} ?>
+</div>
+</fieldset>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*":{
+        "adsManager":{
+        "blockData": {
+        "rowClass":"tr.wk-row-view"
+    }
+}
+}
+}
+</script>
+<script type="text/javascript">
+    require([
+    "jquery",
+    'mage/url',
+    'jquery/ui'
+], function($, url){
+    $('#mass-delete-butn').on('click', function(){
+        if (!$('.checkbox:checked').length > 0) {
+            var msg =  "<?php echo __("Please select atleast one checkbox.");?>";
+            alert(msg);
+            
+        }
+    });
+});
+</script>

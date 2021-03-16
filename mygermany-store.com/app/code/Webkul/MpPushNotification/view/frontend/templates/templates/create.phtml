@@ -1,0 +1,63 @@
+<?php
+/**
+ * @category   Webkul
+ * @package    Webkul_MpPushNotification
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+
+
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$isPartner = $this->helper('Webkul\Marketplace\Helper\Data')->isSeller();
+?>
+<?php if ($isPartner == 1) : ?>
+<form action="<?php /* @noEscape */ echo $block->getUrl('mppushnotification/templates/save', ['_secure' => $this->getRequest()->isSecure()]) ?>" enctype="multipart/form-data" method="post" id="new-template" data-form="new-template" data-mage-init='{"validation":{}}'>
+    <div class="wk-mp-design" id="wk-bodymain">
+        <fieldset class="fieldset info wk-mp-fieldset">
+            <legend class="legend">
+                <span><?php /* @noEscape */ echo __('Save Template') ?></span>
+                <button class="button wk-mp-btn" title="<?php /* @noEscape */ echo __('Save') ?>" type="submit" id="save-btn">
+                    <span><span><?php /* @noEscape */ echo __('Save') ?></span></span>
+                </button>
+            </legend>            
+            <?php /* @noEscape */ echo $block->getBlockHtml('formkey')?>
+            <div class="field required">
+                <label class="label"><?php /* @noEscape */ echo __('Title') ?>:</label>
+                <div class="control">
+                    <input type="text" class="required-entry input-text" name="title" id="title"/>
+                </div>
+            </div>
+            <div class="field required">
+                <label class="label"><?php /* @noEscape */ echo __('Message') ?>:</label>
+                <div class="control">
+                    <input type="text" class="required-entry input-text" name="message" id="message"/>
+                </div>
+            </div>
+            <div class="field required">
+                <label class="label"><?php /* @noEscape */ echo __('Redirect Url') ?>:</label>
+                <div class="control">
+                    <input type="url" class="required-entry input-text" name="url" id="name"/>
+                </div>
+            </div>
+            <div class="field required">
+                <label class="label"><?php /* @noEscape */ echo __('Tags') ?>:</label>
+                <div class="control">
+                    <input type="text" class="required-entry input-text" name="tags" id="tags"/>
+                </div>
+            </div>
+            <div class="field required">
+                <label class="label"><?php /* @noEscape */ echo __('Logo') ?>:</label>
+                <div class="control">
+                    <input type="file" class="required-entry input-text" name="logo" id="logo"/>
+                </div>
+            </div>
+
+        </fieldset>
+    </div>        
+</form>
+<?php else : ?>
+    <h2 class="wk-mp-error-msg">
+        <?php /* @noEscape */ echo __("To Become Seller Please Contact to Admin."); ?>
+    </h2>
+<?php endif; ?>

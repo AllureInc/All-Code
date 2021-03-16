@@ -1,0 +1,62 @@
+<?php
+/* Last updated 29-Jan-2019*/
+$helper = $this->helper("Webkul\MpMassUpload\Helper\Data");
+$isPartner = $this->helper('Webkul\Marketplace\Helper\Data')->isSeller();
+$getAllCustomAttributes = $helper->getAttributeDetails();
+$wholeData = $this->helper("Webkul\MpMassUpload\Helper\Export")
+->prepareFileColumnRow('simple', []);
+?>
+<?php if($isPartner == 1): ?>
+    <style>
+    th.wk-check-first-td, td.wk-check-first-td {
+        width: 2%;
+        text-align: center;
+    }
+</style>
+<!-- Start : Export Proucts in file -->
+<form method="post" action="<?php echo $block->getUrl('mitsshopconfig/shopconfig/export'); ?>" id="wk_massupload_product_export_form" class="wk-massupload-container" enctype="multipart/form-data" data-mage-init='{"validation":{}}'>
+    <fieldset class="fieldset">
+        <?php echo $block->getBlockHtml('formkey') ?>
+        <?php echo $block->getBlockHtml('seller.formkey')?>
+        <legend class="legend">
+            <span><?php echo __("Export Shop Configuration (CSV, Excel, XML, JSON file format)"); ?></span>            
+        </legend>
+        <div class="field required">
+            <label for="attribute_set" class="label">
+                <span><?php echo __("Export File Type"); ?></span>
+            </label>
+            <div class="control">
+                <select data-validate="{'validate-select':true}" title="<?php echo __("Export File Type"); ?>" class="required-entry" id="export_type" name="export_type" aria-required="true">
+                    <option value=''><?php echo __('Please select') ?></option>
+                    <option value='Excel'><?php echo __('Excel') ?></option>
+                    <option value='CSV'><?php echo __('CSV') ?></option>
+                    <option value='JSON'><?php echo __('JSON') ?></option>
+                    <option value='XML'><?php echo __('XML') ?></option>
+                </select>
+            </div>
+        </div>
+        <div class="field">
+            <button class="button wk-mp-btn" type="submit">
+                <span><span><?php echo __("Export"); ?></span></span>
+            </button>
+        </div>
+    </fieldset>
+</form><br/>
+<div class="buttons-set">
+    <p class="back-link">
+        <a href="javascript:;" onclick="javascript: window.history.back();" class="left">&laquo; <?php echo __('Back') ?></a>
+    </p>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+        "dataflowprofile": {}
+    }
+}
+</script>
+<!-- End : Export Products -->
+<?php else: ?>
+    <h2 class="wk-mp-error-msg">
+        <?php echo __("To Become Seller Please Contact to Admin."); ?>
+    </h2>
+<?php endif; ?>

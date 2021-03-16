@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Webkul
+ * @package    Webkul_MpPushNotification
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */ -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+       <link rel="manifest" src="Webkul_MpPushNotification::json/manifest.json"/>
+   </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template" name="default.mp.push.notification" template="Webkul_MpPushNotification::permission-popup.phtml"/>
+        </referenceContainer>
+        <referenceBlock name="layout2_seller_account_navigation">
+            <block class="Webkul\Marketplace\Block\Account\Navigation" name="layout2_seller_mppushnotification_menu" template="Webkul_MpPushNotification::/layout2/account/navigation.phtml">
+            </block>
+        </referenceBlock>
+        	<referenceBlock name="head.additional">
+            <block class="Webkul\MpPushNotification\Block\PushHome" name="push.head.manifest" template="Webkul_MpPushNotification::templates/head.phtml" ></block>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Webkul\MpPushNotification\Block\PushHome" name="push_page_js" template="Webkul_MpPushNotification::templates/push_script.phtml" ></block>
+        </referenceContainer>
+    </body>
+</page>

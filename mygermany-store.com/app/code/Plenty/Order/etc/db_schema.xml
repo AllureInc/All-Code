@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <!-- add plenty_order_export_order table entity -->
+    <table name="plenty_order_export_order" resource="default" engine="innodb" comment="Plenty Order Export">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="int" name="profile_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Profile ID"/>
+        <column xsi:type="int" name="order_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Order ID"/>
+        <column xsi:type="int" name="order_increment_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Order ID"/>
+        <column xsi:type="int" name="customer_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Customer ID"/>
+        <column xsi:type="varchar" name="status" nullable="true" length="32" comment="Status"/>
+        <column xsi:type="int" name="plenty_order_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Plenty Order ID"/>
+        <column xsi:type="varchar" name="plenty_status_id" nullable="true" length="32" comment="Plenty Status ID"/>
+        <column xsi:type="varchar" name="plenty_status_name" nullable="true" length="128" comment="Plenty Status Name"/>
+        <column xsi:type="varchar" name="plenty_status_lock" nullable="true" length="32" comment="Plenty Status Lock"/>
+        <column xsi:type="varchar" name="plenty_referrer_id" nullable="true" length="32" comment="Plenty Referrer ID"/>
+        <column xsi:type="int" name="plenty_contact_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Plenty Contact ID"/>
+        <column xsi:type="int" name="plenty_billing_address_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Plenty Billing Address ID"/>
+        <column xsi:type="int" name="plenty_shipping_address_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Plenty Billing Address ID"/>
+        <column xsi:type="int" name="plenty_payment_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Plenty Payment ID"/>
+        <column xsi:type="int" name="plenty_payment_method_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Plenty Payment Method ID"/>
+        <column xsi:type="varchar" name="plenty_payment_status_id" nullable="true" length="32" comment="Plenty Payment Status ID"/>
+        <column xsi:type="int" name="plenty_payment_order_assignment_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Plenty Payment Order Assignment ID"/>
+        <column xsi:type="int" name="plenty_payment_contact_assignment_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Plenty Payment Contact Assignment ID"/>
+        <column xsi:type="int" name="plenty_location_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Plenty Location ID"/>
+        <column xsi:type="text" name="message" nullable="true"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="processed_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PLENTY_ORDER_EXPORT_ORDER_PROFILE_ID_PLENTY_CORE_PROFILE_ENTT_ID"
+                    table="plenty_order_export_order" column="profile_id" referenceTable="plenty_core_profile" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="PLENTY_ORDER_EXPORT_ORDER_ORDER_ID_SALES_ORDER_ENTITY_ID"
+                    table="plenty_order_export_order" column="order_id" referenceTable="sales_order" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_ORDER_EXPORT_ORDER_PROFILE_ID_ORDER_ID">
+            <column name="profile_id"/>
+            <column name="order_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ORDER_EXPORT_ORDER_PROFILE_ID" indexType="btree">
+            <column name="profile_id"/>
+        </index>
+        <index referenceId="PLENTY_ORDER_EXPORT_ORDER_ORDER_ID" indexType="btree">
+            <column name="order_id"/>
+        </index>
+    </table>
+    <!-- add plenty order and status ID to sales order table -->
+    <table name="sales_order" resource="sales" comment="Sales Flat Order">
+        <column xsi:type="int" name="plenty_order_id" padding="11" unsigned="false" nullable="true"
+                identity="false" comment="Plenty Order ID"/>
+        <column xsi:type="varchar" name="plenty_order_status" nullable="true" length="32" default="new"
+                comment="Plenty Order Status"/>
+    </table>
+    <!-- add plenty order and status ID to sales order grid table -->
+    <table name="sales_order_grid" resource="sales" comment="Sales Flat Order Grid">
+        <column xsi:type="int" name="plenty_order_id" padding="11" unsigned="false" nullable="true"
+                identity="false" comment="Plenty Order ID"/>
+        <column xsi:type="varchar" name="plenty_order_status" nullable="true" length="32" comment="Plenty Status"/>
+    </table>
+    <!-- add plenty item variation ID to quote item table -->
+    <table name="quote_item" resource="checkout" comment="Sales Flat Quote Item">
+        <column xsi:type="int" name="plenty_variation_id" padding="11" unsigned="false" nullable="true" identity="false"
+                comment="Plenty Variation ID"/>
+    </table>
+    <!-- add plenty item variation ID to sales order item table -->
+    <table name="sales_order_item" resource="sales" comment="Sales Flat Order Item">
+        <column xsi:type="int" name="plenty_variation_id" padding="11" unsigned="false" nullable="true" identity="false"
+                comment="Plenty Variation ID"/>
+    </table>
+</schema>

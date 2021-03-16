@@ -1,0 +1,166 @@
+<?php
+// $block->getOwnedAdsCollection();
+?>
+<?php
+    // $filter = $block->getRequest()->getParam('title')?$block->getRequest()->getParam('title'):false;
+
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $orderRepository = $objectManager->create('Magento\Sales\Api\OrderRepositoryInterface');
+
+?>
+<div class="wk-mp-design mpads-block-manager-cont">
+    <fieldset class="fieldset info wk-mp-fieldset">
+       <legend class="legend">
+           <span><?php echo __('Purchased ads blocks') ?></span>
+       </legend>
+        <div class="grid"> 
+                <?php 
+                $count = $block->getOwnedAdsCollection()->getSize(); 
+                $i=0;
+                if($count > 0) {
+                    $collection = $block->getOwnedAdsCollection();
+                    $collection = $collection->setOrder('id','DESC');
+                ?>
+                    <table 
+                        cellspacing="0" 
+                        class="border wk-mp-list-table wk-mp-list-container-table"
+                    >
+                        <thead>
+                            <tr class="wk-content">
+                                <th>
+                                    <?php
+                                        /* @escapeNotVerified */ 
+                                        echo __('ID');
+                                    ?>
+                                </th>
+                                <th>
+                                    <?php
+                                        /* @escapeNotVerified */ 
+                                        echo __('Block Name');
+                                    ?>
+                                </th>
+                                <th>
+                                    <?php
+                                        /* @escapeNotVerified */ 
+                                        echo __('Price');
+                                    ?>
+                                </th>
+                                <th>
+                                    <?php
+                                        /* @escapeNotVerified */ 
+                                        echo __('Valid for');
+                                    ?>
+                                </th>
+                                <th>
+                                    <?php
+                                        /* @escapeNotVerified */ 
+                                        echo __('Approval Status');
+                                    ?>
+                                </th>
+                                <th>
+                                    <?php
+                                        /* @escapeNotVerified */ 
+                                        echo __('Approved At');
+                                    ?>
+                                </th>
+                                <th>
+                                    <?php
+                                        /* @escapeNotVerified */
+                                        echo __('Created At');
+                                    ?>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            foreach($collection as $adsblock) {
+                                $i++;
+                                $order = $orderRepository->get($adsblock->getOrderId());
+                            ?>
+                            <tr 
+                            title="<?php
+                                /* @escapeNotVerified */ 
+                                echo $block->getUrl(
+                                'mpads/block/edit', 
+                                [
+                                    'id' => $adsblock->getId(),
+                                    '_secure' => $block->getRequest()->isSecure()
+                                ]
+                                ); 
+                            ?>" 
+                            class="wk-row-view 
+                            <?php echo $class = ($i == $count)? 'wk-last_tr':''?>"
+                            style="cursor: pointer;"
+                            >
+                                <td>
+                                    <?php 
+                                        /* @escapeNotVerified */
+                                        echo $adsblock->getId();
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php 
+                                        /* @escapeNotVerified */
+                                        echo $block->escapeHtml($adsblock->getBlockName());
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php 
+                                        /* @escapeNotVerified */
+                                        // echo $adsblock->getPrice();
+                                        echo $order->formatPrice($order->getBaseSubtotalInclTax());
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php 
+                                        /* @escapeNotVerified */
+                                        echo __('%1 Day(s)', $adsblock->getValidFor());
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php 
+                                        /* @escapeNotVerified */
+                                        if($adsblock->getMisApprovalStatus() == 1){
+                                            echo __('Approved');
+                                        } elseif ($adsblock->getMisApprovalStatus() == 2) {
+                                            echo __('Declined');
+                                        } else{
+                                            echo __('Pending');
+                                        }
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php
+                                        $approvalDate = '';
+                                        if($adsblock->getMisApprovalDate() != '') {
+                                            $approvalDate = date_format(
+                                                    date_create($adsblock->getMisApprovalDate()),
+                                                    "d.m.Y"
+                                                );
+                                        }
+                                        echo $approvalDate;
+                                    ?>
+                                </td>
+                                <td class="wk-list-th-display">
+                                    <?php
+                                        $date = date_create($adsblock->getCreatedAt());
+                                        echo date_format($date,"d.m.Y");
+                                    ?>
+                                </td>
+                            </tr>
+                    <?php } ?>
+                        </tbody>
+                    </table>
+                <?php /* @escapeNotVerified */ echo $block->getPagerHtml(); ?>
+            <?php } else {
+                ?>
+                <div class="emptymsg">
+                    <h1 class="page-title">
+                        <span class="base" data-ui-id="page-title-wrapper"><?php echo __('No ads blocks purchased yet');?></span>
+                    </h1>   
+                </div>
+                <?php
+                } ?>
+        </div>
+    </fieldset>
+</div>

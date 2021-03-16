@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Webkul Software
+ *
+ * @category Webkul
+ * @package Webkul_Walletsystem
+ * @author Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license https://store.webkul.com/license.html
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <walletsystem>
+                <model>Webkul\Walletsystem\Model\PaymentMethod</model>
+                <title>Webkul Wallet System</title>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <minimumamounttoadd>1</minimumamounttoadd>
+                <maximumamounttoadd>1000</maximumamounttoadd>
+            </walletsystem>
+        </payment>
+        <walletsystem>
+            <transfer_settings>
+                <duration>30</duration>
+            </transfer_settings>
+            <prefixfortransaction>
+                <prefix_admin_credit><![CDATA[Admin credit]]></prefix_admin_credit>
+                <prefix_admin_debit><![CDATA[Admin debit]]></prefix_admin_debit>
+                <prefix_customer_credit><![CDATA[Transfer by customer]]></prefix_customer_credit>
+                <prefix_customer_debit><![CDATA[Transfer to customer]]></prefix_customer_debit>
+                <prefix_order_credit><![CDATA[Recharge wallet]]></prefix_order_credit>
+                <prefix_order_debit><![CDATA[Use wallet]]></prefix_order_debit>
+                <cashback_prefix><![CDATA[Cashback]]></cashback_prefix>
+                <refund_order_amount><![CDATA[Refund order]]></refund_order_amount>
+                <refund_wallet_order><![CDATA[Wallet amount order refund]]></refund_wallet_order>
+                <bank_transfer_amount><![CDATA[Wallet amount transferred to bank]]></bank_transfer_amount>
+            </prefixfortransaction>
+            <email_template>
+                <recharge_wallet_customer>walletsystem_email_template_recharge_wallet_customer</recharge_wallet_customer>
+                <recharge_wallet_admin>walletsystem_email_template_recharge_wallet_admin</recharge_wallet_admin>
+                <used_wallet_customer>walletsystem_email_template_used_wallet_customer</used_wallet_customer>
+                <used_wallet_admin>walletsystem_email_template_used_wallet_admin</used_wallet_admin>
+                <cashback_wallet_customer>walletsystem_email_template_cashback_wallet_customer</cashback_wallet_customer>
+                <cashback_wallet_admin>walletsystem_email_template_cashback_wallet_admin</cashback_wallet_admin>
+                <refund_wallet_amount_customer>walletsystem_email_template_refund_wallet_amount_customer</refund_wallet_amount_customer>
+                <refund_wallet_amount_admin>walletsystem_email_template_refund_wallet_amount_admin</refund_wallet_amount_admin>
+                <refund_order_customer>walletsystem_email_template_refund_order_customer</refund_order_customer>
+                <refund_order_admin>walletsystem_email_template_refund_order_admin</refund_order_admin>
+                <admin_credit_amount_customer>walletsystem_email_template_admin_credit_amount_customer</admin_credit_amount_customer>
+                <admin_credit_amount_admin>walletsystem_email_template_admin_credit_amount_admin</admin_credit_amount_admin>
+                <admin_debit_amount_customer>walletsystem_email_template_admin_debit_amount_customer</admin_debit_amount_customer>
+                <admin_debit_amount_admin>walletsystem_email_template_admin_debit_amount_admin</admin_debit_amount_admin>
+                <customer_credit_amount_customer>walletsystem_email_template_customer_credit_amount_customer</customer_credit_amount_customer>
+                <customer_credit_amount_admin>walletsystem_email_template_customer_credit_amount_admin</customer_credit_amount_admin>
+                <customer_debit_amount_customer>walletsystem_email_template_customer_debit_amount_customer</customer_debit_amount_customer>
+                <customer_debit_amount_admin>walletsystem_email_template_customer_debit_amount_admin</customer_debit_amount_admin>
+                <sendcode>walletsystem_email_template_sendcode</sendcode>
+                <monthlystatement>walletsystem_email_template_monthlystatement</monthlystatement>
+                <customer_bank_transfer_customer>walletsystem_email_template_customer_bank_transfer_customer</customer_bank_transfer_customer>
+                <customer_bank_transfer_admin>walletsystem_email_template_customer_bank_transfer_admin</customer_bank_transfer_admin>
+            </email_template>
+        </walletsystem>
+    </default>
+</config>

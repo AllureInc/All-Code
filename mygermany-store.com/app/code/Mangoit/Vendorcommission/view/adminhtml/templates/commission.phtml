@@ -1,0 +1,448 @@
+<style type="text/css">
+	#close {
+    float:right;
+    display:inline-block;
+    padding:2px 5px;
+    background:#ccc;
+}
+
+#close:hover {
+        float:right;
+        display:inline-block;
+        padding:2px 5px;
+        background:#ccc;
+    color: black;
+    }
+#successMsg {
+	width: 30%;
+	border: 1px solid green;
+
+}
+.error_msg {
+	color: red;
+	display: none;
+}
+.wait {
+  display: none;
+  margin: auto;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 60px;
+  height: 60px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+</style>
+<?php 
+$flag = 0;
+$attributes = $block->getAttributesType();
+$attributesNameArray = [];
+foreach ($attributes as $key => $value) {
+	array_push($attributesNameArray, $value['label']);
+}
+$attrLabelSerialize = serialize($attributesNameArray);
+/*echo "<pre>";
+print_r($attrLabelSerialize);
+die();*/
+$param = $this->getRequest()->getParam('id');
+
+$id = $block->getCustomerId();
+foreach ($id->getData() as $key => $value) {
+	$cusId = $value['seller_id'];
+}
+$collection = $block->getSallerCollection();
+$counter = 0;
+$turnover = 0;
+if (!empty($cusId)) {
+	$sellerData = $collection->load($cusId, 'seller_id');
+	$serializeRule = $sellerData->getCommissionRule();
+	$turnover = $sellerData->getSellerTurnover();
+	if (!empty($serializeRule)) {
+		$unserializeRule = unserialize($serializeRule);
+	    $flag =1;	?>
+	<div id="successMsg" style="display: none;" >
+	    <span id='close'>x</span>
+	    <p>Commission setting has been changed.</p>
+    </div>
+	<div>
+		<p>Current commission Rule: Vendor Specific Rule</p>
+	</div>
+	<p class="error_msg">error message</p>
+	<form id="commissionForm">
+	<input type="hidden" name="attrarry" value='<?php echo $attrLabelSerialize;?>' >
+	<input type="button" name="resetCommission" id="resetCommission" value="Reset Commission">
+	<input type="hidden" name="customer_id" value="<?php echo $cusId;?>">
+	<table class="data-grid">
+		<tr>
+			<th class="data-grid-th col-entity_id">Product Type</th>
+			<th class="data-grid-th col-entity_id">Range From</th>
+			<th class="data-grid-th col-entity_id">Range To</th>
+			<th class="data-grid-th col-entity_id">Commission %</th>
+			<th class="data-grid-th col-entity_id"><input type='button' name='addMore' id='addMore' value='Add More' class="action-default scalable action-secondary"></th>
+		</tr>
+		<?php foreach ($unserializeRule as $key => $value): ?>
+		<?php foreach ($value as $newKey => $newValue): ?>
+		<?php
+				if ($key == 'Electronincs') {
+					$trClass = 'one ec';
+				} else if ($key == 'Non-Electronics') {
+					$trClass = 'one non-ec';
+				} else {
+					$trClass == 'one '.$key;
+				}
+
+			?>
+			<tr class="<?php  echo $trClass; ?>" >
+				<td>
+					<select class= "select" id ="attribute<?php echo $counter;?>" data-value="<?php echo $counter;?>">
+						<?php foreach ($attributes as $newkey => $newvalue): 
+						if ($newvalue['label'] == $key) {?>
+							<option value="<?php echo $newvalue['value']; ?>" selected ><?php echo __($newvalue['label']); ?></option>
+						
+						<?php } else { ?>
+							<option value="<?php echo $newvalue['value']; ?>" ><?php echo __($newvalue['label']); ?></option>
+						<?php }
+						endforeach; ?>
+					</select>
+				</td>
+				<?php 
+		            $rangeValue = explode("-", $newKey);
+				?>
+					<td>
+						<input type="text" name="<?php echo $key; ?>[<?php echo $counter; ?>][from]" value="<?php echo $rangeValue[0]; ?>" id="from<?php echo $counter;?>" class="from">
+					</td>
+					<td>
+						<input type="text" name="<?php echo $key; ?>[<?php echo $counter; ?>][to]" value="<?php echo $rangeValue[1]; ?>"  id="to<?php echo $counter;?>" class="to">
+					</td>
+					<td>
+					    <input type="text" name="<?php echo $key; ?>[<?php echo $counter; ?>][commission]" value="<?php echo $newValue; ?>"  id="commission<?php echo $counter;?>">
+					</td>
+					<td>
+						<?php if ($counter != 0) {?>
+                    		<input type='button' name='remove' class='remove' value='remove' >
+						<?php  }?>
+					</td>
+				
+			</tr>
+			<?php $counter++; ?>
+		<?php endforeach; ?>
+			
+			
+		<?php endforeach; ?>
+	</table>
+		<input type="button" name="saveCommission" id="saveCommission" class="saveCommission" value="Save Setting">
+	</form>
+<?php }  else { ?>
+	<div>
+		<p>Commission Rule: Global Commission Rule</p>
+	</div>
+	<p class="error_msg">error message</p>
+	<form id="commissionForm">	
+	<input type="hidden" name="attrarry" value='<?php echo $attrLabelSerialize;?>' >
+	<input type="hidden" name="customer_id" value="<?php echo $param;?>">
+		<table class="data-grid">
+			<tr>
+				<th class="data-grid-th col-entity_id"> Product Type</th>
+				<th class="data-grid-th col-entity_id"> Range From</th>
+				<th class="data-grid-th col-entity_id"> Range To</th>
+				<th class="data-grid-th col-entity_id"> Commission %</th>
+				<th class="data-grid-th col-entity_id"><input type='button' name='addMore' id='addMore' value='Add More' class="action-default scalable action-secondary"></th>
+			</tr>
+			<tr class="one ec" >
+				<td>
+				    <select class= "select" id ="attribute<?php echo $counter;?>" data-value="<?php echo $counter;?>">
+				    	<?php foreach ($attributes as $key => $value): ?>
+	                        <option value="<?php echo $value['value']; ?>" ><?php echo __($value['label']); ?></option>
+	                    <?php endforeach; ?>
+				    </select>
+				</td>
+				<td>
+					<input type="text" name="Electronincs[<?php echo $counter ?>][from]" id="from<?php echo $counter;?>" class="from" data-value="<?php echo $counter;?>">
+				</td>
+				<td>
+					<input type="text" name="Electronincs[<?php echo $counter ?>][to]" class="to" id="to<?php echo $counter;?>" data-value="<?php echo $counter;?>">
+				</td>
+				<td>
+					<input type="text" name="Electronincs[<?php echo $counter ?>][commission]" id="commission<?php echo $counter;?>" class="commission" data-value="<?php echo $counter;?>">
+				</td>
+			</tr>
+		</table>
+		<input type="button" name="saveCommission" id="saveCommission" class="saveCommission" value="Save Setting">
+	</form>
+<?php } } else {?>
+		<div>
+		<p>Commission Rule: Global Commission Rule</p>
+	</div>
+	<p class="error_msg">error message</p>
+	<form id="commissionForm">
+	<input type="hidden" name="attrarry" value='<?php echo $attrLabelSerialize;?>' >
+	<input type="hidden" name="customer_id" value="<?php echo $param;?>">
+		<table class="data-grid">
+			<tr>
+				<th class="data-grid-th col-entity_id"> Product Type</th>
+				<th class="data-grid-th col-entity_id"> Range From</th>
+				<th class="data-grid-th col-entity_id"> Range To</th>
+				<th class="data-grid-th col-entity_id"> Commission %</th>
+				<th class="data-grid-th col-entity_id"><input type='button' name='addMore' id='addMore' value='Add More' class="action-default scalable action-secondary" ></th>
+			</tr>
+			<tr class="one ec" >
+				<td>
+				    <select class= "select" id ="attribute<?php echo $counter;?>" data-value="<?php echo $counter;?>">
+				    	<?php foreach ($attributes as $key => $value): ?>
+	                        <option value="<?php echo $value['value']; ?>" ><?php echo __($value['label']); ?></option>
+	                    <?php endforeach; ?>
+				    </select>
+				</td>
+				<td>
+					<input type="text" name="Electronincs[<?php echo $counter ?>][from]" id="from<?php echo $counter;?>" class="from" data-value="<?php echo $counter;?>">
+				</td>
+				<td>
+					<input type="text" name="Electronincs[<?php echo $counter ?>][to]" class="to" id="to<?php echo $counter;?>" data-value="<?php echo $counter;?>">
+				</td>
+				<td>
+					<input type="text" name="Electronincs[<?php echo $counter ?>][commission]" id="commission<?php echo $counter;?>" class="commission" data-value="<?php echo $counter;?>">
+				</td>
+			</tr>
+		</table>
+		<input type="button" name="saveCommission" id="saveCommission" class="saveCommission" value="Save Setting">
+	</form>
+<?php } ?>
+<script type="text/javascript">
+var attrNameArray = new Array();
+// attrNameArray =  "<?php $attributesNameArray;?>";
+<?php foreach ($attributesNameArray as $value) { ?>
+	attrNameArray.push('<?php echo $value; ?>');
+<?php } ?>
+
+console.log(attrNameArray);
+var counter = "<?php echo $counter;?>";
+
+function rowAdd() 
+{
+counter++;
+var from = "Electronincs["+counter+"][from]";
+var to = "Electronincs["+counter+"][to]";
+var commission = "Electronincs["+counter+"][commission]";
+
+
+var newRow = "<tr class='one ec' ><td><select id ='attribute"+counter+"' class='select' data-value="+counter+"><?php foreach ($attributes as $key => $value): ?><option value=<?php echo $value['value']; ?> ><?php echo __($value['label']); ?></option><?php endforeach; ?></select></td><td><input type='text' name = "+from+" id='from"+counter+"' class='from' data-value="+counter+"></td><td><input type=text name = "+to+" id='to"+counter+"' class='to' data-value="+counter+" ></td><td><input type='text' name ="+commission+" id='commission"+counter+"' class='commission' data-value="+counter+" ></td><td><input type='button' name='remove' class='remove' value='remove' ></td></tr>";
+
+return newRow;
+}
+
+jQuery(document).on('click','#addMore', function(){
+	console.log('hhjhdjkhfjkh');
+	var tblRowData = rowAdd();
+	jQuery('.one').last().after(tblRowData);
+   // jQuery("tr:last").after(newRow);
+});
+
+jQuery(document).on('click','.remove', function(){
+	console.log('remove');
+	jQuery(this).parent().parent().remove();
+	counter--;
+});	
+
+jQuery(document).on('click','#saveCommission', function(){
+	var form = jQuery("#commissionForm");
+	var ajaxurl = "<?php echo $this->getUrl('vendorcommission/commission/setcommission') ?>";
+	jQuery.ajax({
+			type: "POST",
+		    data : form.serialize(),
+		    async : true,
+   			url: ajaxurl,
+   			success: function (response) {//response is value returned from php (for your example it's "bye bye"
+     			if (response == 'true') {
+     				location.reload();
+                    // jQuery('#successMsg').css('display', 'block');
+                    jQuery('.error_msg').html("");
+     			} else if(response == 'improper') {
+     				jQuery('.error_msg').html("Ranges are improper.");
+     				jQuery('.error_msg').css('display', 'block');
+     			} else if(response == 'from') {     
+     				jQuery('.error_msg').css('display', 'block');				
+     				jQuery('.error_msg').html(" 'From' range should be greater than previous 'to' Range.");
+     			} else if(response == 'commission') {     
+     				jQuery('.error_msg').css('display', 'block');				
+     				jQuery('.error_msg').html(" Commission field is not proper or empty.");
+     			}
+     			 else {
+     				jQuery('.error_msg').html('');
+     			}
+   		},
+   	        error: function (response) {
+   	    	console.log('err'+response);
+   	    	// alert(response);
+   	    }
+	});
+});	
+
+jQuery(document).on('click','#resetCommission', function(){
+	console.log("reset");
+	var form = jQuery("#commissionForm");
+	var ajaxurl = "<?php echo $this->getUrl('vendorcommission/commission/resetcommission') ?>";
+	jQuery.ajax({
+			type: "POST",
+		    data : form.serialize(),
+		    async : true,
+   			url: ajaxurl,
+   			success: function (response) {//response is value returned from php (for your example it's "bye bye"
+     			if (response == 'true') {
+     				location.reload();
+                    // jQuery('#successMsg').css('display', 'block');
+                    jQuery('.error_msg').html("");
+     			} else if(response == 'noseller') {
+     				jQuery('.error_msg').html("Vendor Specific rule not found for this seller.");
+     				jQuery('.error_msg').css('display', 'block');
+     			} else {
+     				jQuery('.error_msg').html('');
+     			}
+   		},
+   	        error: function (response) {
+   	    	console.log('err'+response);
+   	    	// alert(response);
+   	    }
+	});
+});	
+
+jQuery(document).ajaxStart(function(){
+	console.log('ajaxStart');
+        jQuery("#wait").css("display", "block");
+});
+
+jQuery(document).ajaxComplete(function(){
+	console.log('ajaxComplete');
+    jQuery("#wait").css("display", "none");
+});
+
+jQuery(document).on('click', '#close', function(){
+	jQuery('#successMsg').css('display', 'none');
+});
+
+
+
+
+jQuery(document).on('change','.select', function(){
+	var classname = jQuery(this).closest('tr').attr('class');
+	var data = jQuery(this).data('value');
+	var attrName = jQuery('#attribute'+data+' :selected').text();
+	console.log('attrName'+attrName);
+	var clsChange =  classname.split(' ');
+	console.log('clsChange '+clsChange[1]);
+	// classname.split(' ');
+	jQuery.each(attrNameArray, function(key, value){
+		// jQuery("#from"+data).attr('name', ""+attrName+"["+data+"][from]");
+		// jQuery("#to"+data).attr('name', ""+attrName+"["+data+"][to]");
+		// jQuery("#commission"+data).attr('name', ""+attrName+"["+data+"][commission]");
+	 //    jQuery(this).closest('tr').removeClass(''+clsChange).addClass(''+attrName);
+	});
+	if (attrName == 'Electronincs') {
+		attrClsName = 'ec';
+		console.log('remove cls '+clsChange[1]);
+		console.log('add cls '+attrName);
+	} 
+
+	if (attrName == 'Non-Electronics') {
+		attrClsName = 'non-ec';
+		console.log('remove cls '+clsChange[1]);
+		console.log('add cls '+attrName);
+	} 
+
+	jQuery("#from"+data).attr('name', ""+attrName+"["+data+"][from]");
+		jQuery("#to"+data).attr('name', ""+attrName+"["+data+"][to]");
+		jQuery("#commission"+data).attr('name', ""+attrName+"["+data+"][commission]");
+		if ( (attrName != 'Non-Electronics') && (attrName != 'Electronincs') ) {
+	    	jQuery(this).closest('tr').removeClass(''+clsChange[1]).addClass(''+attrName);			
+		} else {
+			jQuery(this).closest('tr').removeClass(''+clsChange[1]).addClass(''+attrClsName);
+		}
+
+	/*console.log('data '+data);
+	console.log('classname '+classname);
+	if (classname == 'one ec') {
+		jQuery("#from"+data).attr('name', "Non-Electronics["+data+"][from]");
+		jQuery("#to"+data).attr('name', "Non-Electronics["+data+"][to]");
+		jQuery("#commission"+data).attr('name', "Non-Electronics["+data+"][commission]");
+	    jQuery(this).closest('tr').removeClass('ec').addClass('non-ec');
+	} else if (classname == 'one non-ec') {
+		jQuery("#from"+data).attr('name', "Electronics["+data+"][from]");
+		jQuery("#to"+data).attr('name', "Electronics["+data+"][to]");
+		jQuery("#commission"+data).attr('name', "Electronics["+data+"][commission]");
+	    jQuery(this).closest('tr').removeClass('non-ec').addClass('ec');	
+	} else {
+		jQuery("#from"+data).attr('name', ""+attrName+"["+data+"][from]");
+		jQuery("#to"+data).attr('name', ""+attrName+"["+data+"][to]");
+		jQuery("#commission"+data).attr('name', ""+attrName+"["+data+"][commission]");
+	    jQuery(this).closest('tr').removeClass(''+clsChange[1]).addClass(''+attrName);
+	}*/
+});	
+
+jQuery(document).on('change','.commission', function(){
+	console.log('commission');
+	var patten = /^[0-9]+$/;
+	var commissionData = jQuery(this).val();
+	if ((commissionData == '') && (typeof commissionData == 'undefined')) {
+	   jQuery(".error_msg").html("Range value should be positive number.");
+       jQuery(this).css('background-color', 'red');
+	} else if ((patten.test(commissionData) == false) || (commissionData < 0)) {
+       jQuery(".error_msg").html("Range value should be positive number.");
+       jQuery(this).css('background-color', 'red');
+	} else {
+		jQuery(".error_msg").html("");
+       jQuery(this).css('background-color', 'white');
+	}
+});	
+
+
+	
+</script>
+
+<?php  // ************** Overall Commission setting **************** ?>
+<?php
+
+ $commissionValue = $block->getCommission(); 
+	$currencySymbol = $block->getCurrencySymbol();
+?>
+<div>
+	<p><?php echo __('Use "<" for greater than.');?></p>
+</div>
+<div class="admin__fieldset-wrapper opened">
+	<div class="admin__fieldset-wrapper-content">
+        <fieldset class="admin__fieldset">
+			<table class="admin__table-secondary">
+		        <tbody>
+		            <tr>
+		                <th><?php echo __('Total Sale');?></th>
+		                <td><?php echo $currencySymbol.number_format($commissionValue['total_sale'],2); ?></td>
+		            </tr>
+		            <tr>
+		                <th><?php echo __('Total Seller Sale'); ?></th>
+		                <td><?php echo $currencySymbol.number_format($commissionValue['actual_seller_amt'],2); ?></td>
+		            </tr>
+		            <tr>
+		                <th><?php echo __('Total Admin Sale') ?></th>
+		                <td><?php echo $currencySymbol.number_format($commissionValue['total_comm'],2); ?></td>
+		            </tr>
+		            <tr>
+		                <th><?php echo __('Turnover of seller') ?></th>
+		                <td><?php echo $currencySymbol.number_format($turnover,2); ?></td>
+		            </tr>
+		        </tbody>
+		    </table>    
+		</fieldset>
+	</div>
+</div>
+​<div class="wait" id="wait"></div>

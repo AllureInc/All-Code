@@ -1,0 +1,103 @@
+.placeholder-content {
+    overflow: hidden;
+    background: #000;
+    position: relative;
+    
+    // Animation
+    animation-duration: 1.7s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-name: placeholderAnimate;
+    background: #f6f7f8; // Fallback
+    background: linear-gradient(to right, #f8f8f8 2%, #eee 18%, #f8f8f8 33%);
+    background-size: 1300px; // Animation Area
+    
+    &_item {
+        width: 100%;
+        height: 30px;
+        /*position: absolute;*/
+        background: #fff;
+        z-index: 2;
+        margin: 10px 0;
+        
+        &:after,
+        &:before {
+            width: inherit;
+            height: inherit;
+            content: '';
+            position: absolute;
+        }
+        
+        &:nth-child(1) {
+            top: 0;
+            left: 0;
+        }
+        
+        &:nth-child(2) {
+            top: 20px;
+            left: 0;
+        }
+        
+        &:nth-child(3) {
+            top: 0px;
+            left: 0;
+        }
+        
+        &:nth-child(4) {
+            top: 20px;
+        }
+        
+        &:nth-child(5) {
+            top: 40px;
+            left: 190px;
+        }
+        
+        &:nth-child(6) {
+            top: 75px;
+            left: 190px;
+        }
+        
+        &:nth-child(7) {
+            top: 20px;
+            right: 0;
+        }
+        
+        &:nth-child(8) {
+            top: 0;
+            right: 0;
+        }
+        
+        &:nth-child(9) {
+            top: 110px;
+            left: 0;
+        }
+
+        &:nth-child(10) {
+            top: 149px;
+            left: 0;
+        }
+        
+        &:nth-child(11) {
+            top: 183px;
+            left: 0;
+        }
+    }
+}
+
+@keyframes placeholderAnimate {
+    0%{ background-position: -650px 0; }
+    100%{ background-position: 650px 0; }
+}
+
+#solrbridge-search-result-product-list {
+    .placeholder-content .product-item-info {
+        min-height: 300px;
+    }
+    
+    .toolbar-products .placeholder-content {
+        min-width: 100px;
+        min-height: 30px;
+        padding: 0;
+    }
+}

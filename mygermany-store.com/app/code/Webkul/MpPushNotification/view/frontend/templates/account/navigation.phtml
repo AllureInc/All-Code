@@ -1,0 +1,46 @@
+<?php
+/**
+ * @category   Webkul
+ * @package    Webkul_MpPushNotification
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+
+?>
+<?php
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+if ($helper->isSeller()) { ?>
+    <li class="mp-push-notification nav item <?php /* @noEscape */ echo $block->getCurrentNavClass('mppushnotification/users/index')?>
+    <?php /* @noEscape */ echo $block->getCurrentNavClass('mppushnotification/templates/index')?>">  
+        <?php if ($block->getCurrentNavClass('mppushnotification/users/index')) { ?>   
+            <strong><?php /* @noEscape */ echo __('Push Notification') ?></strong>        
+            <?php
+        } else { ?>    
+            <a href="#"><?php /* @noEscape */ echo __('Push Notification') ?></a>                
+        <?php } ?>
+        <ul class="nav items">
+            <li class="nav item <?php /* @noEscape */ echo $block->getCurrentNavClass('mppushnotification/users/index');?>">
+                <?php if ($block->getCurrentNavClass('mppushnotification/users/index')) { ?>   
+                    <strong><?php /* @noEscape */ echo __('Registered Users') ?></strong>        
+                    <?php
+                } else { ?>    
+                    <a href="<?php /* @noEscape */ echo $block->getPushUrl('mppushnotification/users/index')?>">
+                        <?php /* @noEscape */ echo __('Registered Users') ?>
+                    </a>                
+                <?php } ?>
+            </li>
+            <li class="nav item <?php /* @noEscape */ echo $block->getCurrentNavClass('mppushnotification/templates/index');?>">
+                <?php if ($block->getCurrentNavClass('mppushnotification/templates/index')) { ?>   
+                    <strong><?php /* @noEscape */ echo __('Notification Templates') ?></strong>        
+                    <?php
+                } else { ?>    
+                    <a href="<?php /* @noEscape */ echo $block->getPushUrl('mppushnotification/templates/index')?>">
+                        <?php /* @noEscape */ echo __('Notification Templates') ?>
+                    </a>                
+                <?php } ?>
+            </li>
+        </ul>   
+    </li>
+<?php } ?>
+

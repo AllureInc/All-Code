@@ -1,0 +1,142 @@
+<?php 
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpAdvertisementManager
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */ 
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$isPartner= $helper->isSeller();
+$isSellerGroup = $helper->isSellerGroupModuleInstalled();
+$magentoCurrentUrl = $block->getCurrentUrl();
+?>
+<?php
+if ($isPartner) {
+?>
+<?php if(($isSellerGroup && $_helper->isAllowedAction('mpads/block')) || ($isSellerGroup && $_helper->isAllowedAction('mpads/advertise')) || ($isSellerGroup && $_helper->isAllowedAction('marketplace/product_attribute/new')) || !$isSellerGroup) { ?>
+<li class="wk-mp-mpads-block level-0 <?php echo strpos($magentoCurrentUrl,'mpads/')? "current active":"";?>" id="wk-mp-menu-advertisment">
+    <a href="#" onclick="return false;" class="">
+        <span><?php echo __('Advertisment')?></span>
+    </a>
+    <div class="wk-mp-submenu">
+        <strong class="wk-mp-submenu-title"><?php echo __('Advertisment')?></strong>
+        <a href="#" class="action-close _close" data-role="wk-mp-close-submenu"></a>
+        <ul>
+            <li data-ui-id="menu-webkul-marketplace-menu" class="item-menu  parent  level-1">
+                <strong class="wk-mp-submenu-group-title">
+                    <span><?php echo __('Menu')?></span>
+                </strong>
+                <div class="wk-mp-submenu">
+                    <ul>
+<?php 
+    if(($isSellerGroup && $helper->isAllowedAction('mpads/block')) || !$isSellerGroup) { 
+?>
+     <li 
+        class="nav item notification-link level-2 <?php
+            /* @escapeNotVerified */ 
+            echo strpos(
+                $magentoCurrentUrl,
+                'mpads/block'
+            ) !== false ? "current active":"";
+        ?>"
+     >        
+        <?php 
+        if (
+            strpos($magentoCurrentUrl, 'mpads/block') !== false 
+        ) {
+        ?>    
+            <a href="<?php
+                    /* @escapeNotVerified */ 
+                    echo $block->getUrl(
+                        'mpads/block',
+                        ['_secure' => $this->getRequest()->isSecure()]
+                    ); 
+                ?>"
+            >
+            <?php   
+                /* @escapeNotVerified */ 
+                echo __('Advertisement Blocks') 
+            ?>
+            </a>  
+        <?php 
+        } else {
+        ?>        
+            <a href="<?php
+                    /* @escapeNotVerified */ 
+                    echo $block->getUrl(
+                        'mpads/block',
+                        ['_secure' => $this->getRequest()->isSecure()]
+                    ); 
+                ?>"
+            >
+                <?php  /* @escapeNotVerified */ echo __('Advertisement Blocks') ?>
+            </a>                        
+        <?php 
+        } 
+        ?>  
+    </li>
+<?php } ?>
+
+<?php 
+    if(($isSellerGroup && $helper->isAllowedAction('mpads/advertise')) || !$isSellerGroup) { 
+?>
+
+    <li 
+        class="nav item notification-link level-2 <?php
+            /* @escapeNotVerified */ 
+            echo strpos(
+                $magentoCurrentUrl,
+                'mpads/advertise'
+            ) !== false ? "current active":"";
+        ?>"
+     >        
+        <?php 
+        if (
+            strpos($magentoCurrentUrl, 'mpads/advertise') !== false 
+        ) {
+        ?>    
+            <a href="<?php
+                    /* @escapeNotVerified */ 
+                    echo $block->getUrl(
+                        'mpads/block',
+                        ['_secure' => $this->getRequest()->isSecure()]
+                    ); 
+                ?>"
+            >
+            <?php   
+                /* @escapeNotVerified */ 
+                echo __('Buy Advertisement Positions') 
+            ?>
+            </a>  
+        <?php 
+        } else {
+        ?>        
+            <a href="<?php
+                    /* @escapeNotVerified */ 
+                    echo $block->getUrl(
+                        'mpads/advertise',
+                        ['_secure' => $this->getRequest()->isSecure()]
+                    ); 
+                ?>"
+            >
+                <?php  /* @escapeNotVerified */ echo __('Buy Advertisement Positions') ?>
+            </a>                        
+        <?php 
+        } 
+        ?>  
+    </li>
+
+<?php
+    }?>
+    </ul>
+ </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+<?php }
+}
+?>

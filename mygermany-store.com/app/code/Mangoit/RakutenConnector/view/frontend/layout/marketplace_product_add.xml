@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- /**
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */  -->
+<!-- Use to add quote attributes in marketplace product add page -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <body>
+        <!-- <referenceContainer name="marketplace_product_add">
+            <block class="Mangoit\RakutenConnector\Block\ProductCreate" name="rakutenconnector_add" template="Mangoit_RakutenConnector::product/product.phtml" cacheable="false">
+            </block>
+        </referenceContainer> -->
+    </body>
+</page>
+

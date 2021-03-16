@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Plenty_Core::plenty_core"
+             title="Plenty"
+             translate="title"
+             module="Plenty_Core"
+             sortOrder="20"
+             dependsOnModule="Plenty_Core"
+             resource="Plenty_Core::plenty_core"/>
+        <add id="Plenty_Core::config"
+             title="Configuration"
+             translate="title"
+             module="Plenty_Core"
+             sortOrder="10"
+             parent="Plenty_Core::plenty_core"
+             resource="Plenty_Core::configuration"/>
+        <add id="Plenty_Core::config_plenty_core"
+             title="Plenty core"
+             translate="title"
+             module="Plenty_Core"
+             sortOrder="10"
+             parent="Plenty_Core::config"
+             action="adminhtml/system_config/edit/section/plenty_core/"
+             resource="Plenty_Core::configuration"/>
+        <add id="Plenty_Core::plenty_sync"
+             title="Synchronisation"
+             translate="title"
+             module="Plenty_Core"
+             sortOrder="20"
+             parent="Plenty_Core::plenty_core"
+             resource="Plenty_Core::plenty_sync"/>
+        <add id="Plenty_Core::plenty_core_profile"
+             title="Profiles"
+             translate="title"
+             module="Plenty_Core"
+             sortOrder="10"
+             parent="Plenty_Core::plenty_sync"
+             action="plenty_core/profile/"
+             resource="Plenty_Core::plenty_core_profile"/>
+    </menu>
+</config>

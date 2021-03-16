@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */  -->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+	<update handle="formkey"/>
+	<head>
+		<css src="Mangoit_RakutenConnector::css/style.css"/>
+	</head>
+    <container name="root" label="Root">
+        <block class="Mangoit\RakutenConnector\Block\Adminhtml\Accounts\Edit\Tab\Product" name="adminhtml.mpamzmagesync.edit.tab.product.gridreset"/>
+    </container>
+</layout>

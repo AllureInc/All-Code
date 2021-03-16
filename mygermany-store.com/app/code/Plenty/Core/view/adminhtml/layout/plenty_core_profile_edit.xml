@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="plenty_core_profile_config"/>
+    <body>
+        <referenceContainer name="left">
+            <block class="Plenty\Core\Block\Adminhtml\Profile\Edit\Tabs" name="plenty.profile.config.tabs" before="-"/>
+        </referenceContainer>
+    </body>
+</page>

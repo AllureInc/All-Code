@@ -1,0 +1,197 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpAdvertisementManager
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */	
+?>
+<?php
+	$filter = $block->getRequest()->getParam('title')?$block->getRequest()->getParam('title'):false;
+	
+?>
+<div class="wk-mp-design mpads-block-manager-cont">
+	<fieldset class="fieldset info wk-mp-fieldset">
+
+		<legend class="legend">
+			<a 
+				class="action primary wk-mp-btn"
+				href="
+					<?php 
+						/* @escapeNotVerified */
+						echo $block->getUrl(
+							'mpads/block/edit', 
+							['_secure' => $block->getRequest()->isSecure()]
+						) 
+					?>
+				"
+			>
+				<span><span> 
+				<?php 
+					/* @escapeNotVerified */ 
+					echo __('Ads Blocks') 
+				?>
+				</span></span>
+			</a>
+		</legend>
+		<div class="grid">
+				<div class="hor-scroll">
+					<form action="<?php echo $block->getUrl('mpads/block', ['_secure' => $block->getRequest()->isSecure()])?>" method="get" id="form-adsblock-filter"  name="form_ads_block_filter" data-mage-init='{"validation":{}}'>
+					<table cellspacing="0" class="border wk-mp-list-table">
+					    <thead>
+					        <tr id="wk-mp-tr-heading">
+					            <th><span><?php echo __('Block Title') ?></span></th>
+					            <th><span>&nbsp;</span></th>
+					        </tr>
+					    </thead>
+					    <tbody class="wk-mp-body">
+					    	<tr>
+					    		<td>
+					    			<input type="text" class="input-text" name="title" placeholder='<?php echo __('Search by product name') ?>' value="<?php echo ($filter == false)?'':$filter; ?>"/>
+					    		</td>
+					    		<td>
+					    			<button class="button" title="Save" type="submit">
+										<span><span><span><?php echo __('Submit') ?></span></span></span>
+									</button>
+					    		</td>
+					    	</tr>
+					    </tbody>
+					</table>
+					</form>
+			</div>	
+			<form action="<?php 
+						echo $block->getUrl(
+							'mpads/block/delete', 
+							[
+							'_secure' => $this->getRequest()->isSecure()
+							]
+						); 
+						?>" method="post" id="form-blocklist-massdelete" name="form-blocklist-massdelete" data-mage-init='{"validation":{}}'>
+				<?php echo $block->getBlockHtml('seller.formkey')?>
+				<?php echo $block->getBlockHtml('formkey')?>
+				<button class="button" title="<?php echo __('Delete Ad Blocks') ?>" type="submit"  id="mass-delete-butn">
+					<span><span><?php echo __('Delete Ad Blocks') ?></span></span>
+				</button>
+				<?php 
+				$count = $block->getCollection()->getSize(); 
+				$i=0;
+				if($count > 0) {
+					$collection = $block->getCollection();			
+				?>
+					<table 
+						cellspacing="0" 
+						class="border wk-mp-list-table wk-mp-list-container-table"
+					>
+						<thead>
+							<tr class="wk-content">
+								<th class="wk-check-first-td">
+					    			<span>
+										<input type="checkbox" name="mpselecctall" value="all" id="mpselecctall"/>
+									</span>
+					    		</th>
+								<th>
+									<?php
+										/* @escapeNotVerified */ 
+										echo __('Id');
+									?>
+								</th>
+								<th>
+									<?php
+										/* @escapeNotVerified */ 
+										echo __('Title');
+									?>
+								</th>
+								<th>
+									<?php
+										/* @escapeNotVerified */ 
+										echo __('Created At');
+									?>
+								</th>
+								<th>
+									<?php
+										/* @escapeNotVerified */
+										echo __('Updated At');
+									?>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach($collection as $adsblock) { $i ++; ?>
+							<tr 
+							title="<?php
+								/* @escapeNotVerified */ 
+								echo $block->getUrl(
+								'mpads/block/edit', 
+								[
+									'id' => $adsblock->getId(),
+									'_secure' => $block->getRequest()->isSecure()
+								]
+								); 
+							?>" 
+							class="wk-row-view 
+							<?php echo $class = ($i == $count)? 'wk-last_tr':''?>"
+							style="cursor: pointer;"
+							>
+								<td class="wk-check-first-td">
+					    			<span>
+										<input type="checkbox" name="blockId[]" class="mpcheckbox checkbox required" value="<?php echo /* @escapeNotVerified */ $adsblock->getId(); ?>"/>
+									</span>
+					    		</td>
+								<td>
+									<?php 
+										/* @escapeNotVerified */
+										echo $adsblock->getId();
+									?>
+								</td>
+								<td>
+									<?php 
+										/* @escapeNotVerified */
+										echo $block->escapeHtml($adsblock->getTitle());
+									?>
+								</td>
+								<td>
+									<?php 
+										/* @escapeNotVerified */
+										echo $adsblock->getCreatedAt();
+									?>
+								</td>
+								<td class="wk-list-th-display">
+									<?php 
+										/* @escapeNotVerified */
+										echo $adsblock->getUpdatedAt();
+									?>
+								</td>
+							</tr>
+					<?php } ?>
+						</tbody>
+					</table>
+				</form>
+				<?php /* @escapeNotVerified */ echo $block->getPagerHtml(); ?>
+			<?php } else {
+				?>
+				<div class="emptymsg">
+					<?php 
+						/* @escapeNotVerified */
+						echo __('No ad blocks added yet') 
+					?>
+				</div>
+				<?php
+				} ?>
+		</div>
+	</fieldset>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "*":{
+            "adsManager":{
+                "blockData": {
+                	"rowClass":"tr.wk-row-view"
+                }
+            }
+        }
+    }
+</script>

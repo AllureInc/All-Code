@@ -1,0 +1,13 @@
+<?php
+if ($product_coll->getCustomAttribute($attributeCode)) {
+	$textAreaData = $product_coll->getCustomAttribute($attributeCode)->getValue();
+} else {
+	$textAreaData = '';
+} 
+?>
+<div class="field">
+    <label class="label"><?php echo __($frontLabel) ?></label>
+    <div class="control">
+        <textarea class="textarea" id="" name="<?php echo "product[$attributeCode]";?>"><?php echo $textAreaData;?></textarea>
+    </div>
+</div>

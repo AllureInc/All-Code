@@ -1,0 +1,229 @@
+<?php
+/**
+ * Mangoit Software.
+ *
+ * @category  Mangoit
+ * @package   Mangoit_VendorAttribute
+ * @author    Mangoit
+ */
+namespace Mangoit\FskRestricted\Controller\Adminhtml\Category;
+
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\View\Result\PageFactory;
+
+/**
+ * Mangoit Marketplace admin seller controller
+ */
+class Makecategoryrestricted extends Action
+{
+    /**
+     * @param Action\Context $context
+     */
+    protected $newObjectManager;
+
+    public function __construct(
+        Context $context,
+        \Magento\Framework\ObjectManagerInterface $objectmanager,
+        PageFactory $resultPageFactory
+    ) {
+        parent::__construct($context);
+        $this->newObjectManager = $objectmanager;
+        $this->resultPageFactory = $resultPageFactory;
+    }
+
+    /**
+     * Check for is allowed
+     *
+     * @return boolean
+     */
+    // protected function _isAllowed()
+    // {
+    //     return $this->_authorization->isAllowed('Mangoit_VendorAttribute::vendorattribute');
+    // }
+
+    public function execute()
+    {
+        // $resultPage = $this->resultPageFactory->create();
+        // $resultPage->getConfig()->getTitle()->prepend(__("Add Countries "));
+        // return $resultPage;  \Magento\Catalog\Model\CategoryFactory'
+        $param = $this->getRequest()->getParams();
+        $countryNameArray = [];
+        unset($param['key']);
+        unset($param['form_key']);
+        $countryId = $param['countryNames'];
+        $categoryIds = json_decode($param['category_ids']);
+        $countryModel = $this->newObjectManager->create('Magento\Directory\Model\Country');
+        foreach ($countryId as $value) {
+            $countryName = $countryModel->loadByCode($value)->getName();
+            array_push($countryNameArray, $countryName);
+        }
+        $countries = implode(",", $countryNameArray);
+
+        $productModel = $this->newObjectManager->create('Mangoit\FskRestricted\Model\Restrictedproduct');
+        $categoryModel = $this->newObjectManager->create('Mangoit\FskRestricted\Model\Restrictedcategory');
+
+        $categoryFactory = $this->newObjectManager->get('Magento\Catalog\Model\CategoryFactory');
+        $categoryHelper = $this->newObjectManager->get('Magento\Catalog\Helper\Category');
+        $categoryRepository = $this->newObjectManager->get('Magento\Catalog\Model\CategoryRepository');
+        $productModelCollection = $productModel->getCollection();
+        $categoryModelCollection = $categoryModel->getCollection();
+         echo "<pre>";
+         // print_r($categoryIds);
+
+        foreach ($categoryIds as $value) {
+
+            foreach ($value as $id) {
+                # code...
+                $category = $categoryFactory->create()->load($id);
+                $categoryId = $id;
+                $categoryModel->load($categoryId, 'category_id');
+                $categoryModel->setRestrictedCountries($countries);
+                $categoryModel->save();
+                $categoryModel->unsetData();
+                $categoryName = $category->getName();
+                $categoryProducts = $category->getProductCollection()->addAttributeToSelect('*');
+                $hasData = $this->allreadyExistData($categoryId);
+                print_r($hasData);
+                if ($hasData) {
+
+
+                   	$productModelCollection->clear()->getSelect()->reset('where');
+                    $productModelCollection->addFieldToFilter('category_id', array('eq' => $categoryId));
+                    // print_r(count($productModelCollection->getData()));
+                    // die("after productModel");
+                    if (count($productModelCollection->getData()) >= 1) {
+                        foreach ($productModelCollection as $item) {
+                       		$productModel->load($item->getId());
+                       		$productModel->setRestrictedCountries($countries);
+        					$productModel->save();
+        					$productModel->unsetData();
+                        }
+                    } else {
+                            foreach ($categoryProducts as $product) {
+                                if ($product->getStatus() == 1) {
+                                    $status = 'Enabled';
+                                } else {
+                                    $status = 'Disabled';
+                                }
+                                $vendor = $this->getVendorName($product->getId());                                  
+                                    // echo "<br>has no data 1";
+                                    // echo "<br>Category name 1: ".$categoryName;
+                                    $productModel->setCategoryId($categoryId);
+                                    $productModel->setCategoryName($categoryName);
+                                    $productModel->setProductId($product->getId());
+                                    $productModel->setProductName($product->getName());
+                                    $productModel->setProductStatus($status);
+                                    $productModel->setVendorName($vendor);
+                                    $productModel->setRestrictedCountries($countries);
+                                    
+                                    $productModel->save();
+                                    $productModel->getData();
+                                    $productModel->unsetData();     
+                            } 
+                    }
+
+                }
+                foreach ($categoryProducts as $product) {
+                    if ($product->getStatus() == 1) {
+                        $status = 'Enabled';
+                    } else {
+                        $status = 'Disabled';
+                    }
+                    $vendor = $this->getVendorName($product->getId());
+                    if (!$hasData) {
+                    	# code...
+                    	// echo "<br>has no data";
+                    	// echo "<br>Category name: ".$categoryName;
+	                    $productModel->setCategoryId($categoryId);
+	                    $productModel->setCategoryName($categoryName);
+	                    $productModel->setProductId($product->getId());
+	                    $productModel->setProductName($product->getName());
+	                    $productModel->setProductStatus($status);
+	                    $productModel->setVendorName($vendor);
+	                    $productModel->setRestrictedCountries($countries);
+	                    
+	                	$productModel->save();
+	                	$productModel->getData();
+	                	$productModel->unsetData();
+                    }
+
+                }
+                if (!$hasData) {
+                	# code...
+
+	                $categoryModel->setCategoryId($categoryId);
+	                $categoryModel->setCategoryName($categoryName);
+	                $categoryModel->setRestrictedCountries($countries);
+	                
+	            	$categoryModel->save();
+	            	$categoryModel->getData();
+	            	$categoryModel->unsetData();
+                }
+
+            }
+        }
+        $this->messageManager->addSuccess( __('Categories restricted successfully.'));
+        return $this->resultRedirectFactory->create()->setPath(
+                '*/*/',
+                ['_secure' => $this->getRequest()->isSecure()]
+            );
+        
+    }
+
+    public function allreadyExistData($categoryId)
+    {
+    	$categoryModel = $this->newObjectManager->create('Mangoit\FskRestricted\Model\Restrictedcategory');
+        echo "<br>".count($categoryModel->load($categoryId, 'category_id')->getData());
+    	if ( count($categoryModel->load($categoryId, 'category_id')->getData()) >= 1 ) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+    	// return	$categoryModel->load($categoryId, 'category_id');
+    }
+
+    public function saveExistProductData($id, $countries)
+    {
+    	$productModel = $this->newObjectManager->create('Mangoit\FskRestricted\Model\Restrictedproduct')->load($id);
+    	$productModel->setRestrictedCountries($countries);
+    	$productModel->save();
+    	// $productModel->unsetData();
+
+    }
+
+    public function saveExistCategoryData($id, $countries)
+    {
+    	$categoryModel = $this->newObjectManager->create('Mangoit\FskRestricted\Model\Restrictedcategory')->load($id);
+    	$categoryModel->setRestrictedCountries($countries);
+    	$categoryModel->save();
+    	// $categoryModel->unsetData();
+    }
+
+    public function getAllParameters()
+    {
+         $param = $this->getRequest()->getParams();
+        unset($param['key']);
+        unset($param['form_key']);
+        unset($param['selectAll']);
+        return $param;
+    }
+
+    public function getVendorName($productId)
+    {
+        $webkulModel = $this->newObjectManager->create('Webkul\Marketplace\Model\Product');
+        if ( !empty($webkulModel->load($productId, 'mageproduct_id')->getData()) ) {
+                 $productCollection = $webkulModel->load($productId, 'mageproduct_id');
+                $sellerID = $productCollection->getSellerId();
+                $sellerModel = $this->newObjectManager->create('Magento\Customer\Model\Customer')->load($sellerID, 'entity_id');
+                $vendorFirstName = $sellerModel->getFirstname();
+                $vendorLastName = $sellerModel->getLastname();
+                $vendorName = $vendorFirstName.' '.$vendorLastName;
+        } else {
+                $vendorName = 'Admin';
+        }
+
+        return $vendorName;
+    }
+
+}

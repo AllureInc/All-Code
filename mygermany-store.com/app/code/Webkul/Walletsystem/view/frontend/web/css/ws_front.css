@@ -1,0 +1,343 @@
+/**
+ * Webkul
+ *
+ * @category  Webkul
+ * @package   Webkul_Walletsystem
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+.wk_ws_outer{
+    margin: 10px;
+}
+.wk_ws_sub_head1{
+    display: inline-block;
+    float: left;
+    margin-right: 15px;
+}
+.wk_ws_sub_head2 h2, .wk_ws_sub_head2 h3{
+    margin: 0px;
+}
+.wk_ws_outer table{
+    width: 100%;
+    clear: both;
+}
+.wk_ws_outer th{
+    text-align: center;
+    background-color: #DDDDDD;
+    padding: 10px;
+    font-size: 18px;
+}
+.wk_ws_outer td{
+    text-align: center;
+}
+.wk_ws_outer tr:nth-child(odd){
+    background-color: #EEEEEE;
+}
+.wk_ws_wallet_payment {
+    border-top: 1px solid #cccccc;
+    padding-top: 10px;
+}
+.wk_ws_wallet_payment li{
+    list-style-type: none;
+}
+.wk_ws_price{
+    color: green;
+    margin-left: 10px;
+}
+.wk_ws_wallet_tocart_outer{
+    margin: 10px;
+}
+.wk_ws_main *{
+    box-sizing:border-box;
+}
+.wk_ws_main h2, .wk_ws_main h3{
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+.wk_ws_wallet_payment .wk_ws_payment_reset{
+    margin-top: 10px;
+}
+.wk_ws_wallet_tocart_outer .button{
+    display: none;
+    margin-top: 10px;
+}
+.wk_ws_wallet_payment .wk_ws_payment_submit{
+    display: block;
+}
+.wk_ws_none{
+    display: none !important;
+}
+.wk_ws_block{
+    display: block !important;
+}
+.wk_ws_loader{
+    display: none;
+    background:none repeat scroll 0 0 rgba(255, 244, 232, 0.61);
+    position: absolute;
+    top: 0px;
+    left:0;
+    width: 100%;
+    z-index:2000;
+    height: 2000px;
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFF4E9,endColorstr=#FFF4E9);
+}
+.wk_ws_line{
+    display: block;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+    display: inline-block;
+    width: 60px;
+}
+.multishipping-checkout-billing.page-layout-checkout .wk_ws_line {
+    width: 15px;
+}
+.wk_ws_payment_table tr:nth-child(even) td:nth-child(odd){
+    height: 40px;
+    background-color: #eeeeee;
+    border: 1px solid #ddd;
+    color: #666;
+    font-family: raleway regular;
+    font-size: 13px;
+    text-align: center;
+}
+.wk_ws_payment_table th{
+    padding: 0px;
+}
+.wk_ws_payment_table td{
+    max-width: 160px;
+    word-wrap:break-word;
+    padding: 0px;
+
+}
+.wk_ws_minus {
+    background: url('../images/minus.png');
+    height: 30px;
+    display: inline-block;
+    width: 30px;
+}
+.wk_ws_plus{
+    background: url('../images/equal.png');
+    height: 30px;
+    display: inline-block;
+    width: 30px;
+}
+.wk_ws_loader > div{
+    background:url("../images/loader.gif") no-repeat scroll 0 0 transparent;
+    position: fixed;
+    top: 48%;
+    border-radius: 18px;
+    left:48%;
+    width: 32px;
+    height: 32px;
+    width: 32px;
+}
+.wk_appliedAmount{
+    font-weight: bold;
+    color: green;
+}
+.wk_ws_restpayment_color{
+    color: #ef5350 !important;
+}
+.wk_appliedAmount label{
+    display: block !important;
+    background: none !important;
+}
+.wk_ws_payment_inner{
+    display: inline-block;
+    float: left;
+    width: 33%;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.wk_ws_payment_form_outer{
+    border: 1px solid #ccc;
+    background-color: #ccc;
+    display: table;
+    width: 100%;
+}
+.wk_ws_payment_outer{
+    display: none;
+    background-color: white;
+    padding: 10px;
+}
+.wk_ws_payment_outer._active{
+    display: block;
+}
+.wk_ws_payment_inner h4{
+    color: green;
+}
+.wk_ws_payment_table{
+    margin: 0px auto;
+    text-align: center;
+}
+.wk_ws_payment_table h4{
+    font-weight: normal;
+    text-transform: capitalize;
+    margin: 0px;
+    margin-bottom: 10px;
+}
+.wk_wallet_total_outer{
+    display: inline-block;
+    float: right;
+    padding: 5px;
+}
+.wk_wallet_check_outer{
+    display: inline-block;
+    padding: 5px;
+}
+.wk_ws_fieldset{
+    clear: both;
+}
+.wk_ws_body{
+    background-color: #fff;
+    border: 1px solid #ccc;
+    margin: 40px 20px;
+    padding: 25px;
+
+}
+#wk_ws_price{
+    border: none;
+    background: none;
+    border-bottom: 1px solid #bdbdbd;
+    width: 100%;
+    margin-right: 20px;
+}
+#wk_ws_price:focus{
+    box-shadow: none;
+}
+.wk_ws_main #form-custom-data button{
+    margin-left: 20px;
+}
+.wk_ws_add_payment{
+    border-radius: 5px;
+}
+.wk_ws_main .wk_ws_fieldset{
+    font-size: 16px;
+}
+.fieldset.wk_ws_fieldset .field label.label {
+    width: 100%;
+    display: block;
+    float: none;
+    text-align: left;
+    margin-bottom: 10px;
+}
+#transfer-form-data .fieldset.wk_ws_fieldset .field .control {
+    width: 100%;
+}
+#verify-form .fieldset.wk_ws_fieldset .field .control {
+    width: 100%;
+}
+.wk_ws_cart_table > thead > tr{
+    background-color: #DDDDDD;
+    color: #333;
+
+}
+.wk_ws_cart_table > thead > tr >th,.wk_ws_cart_table > tbody > tr >td{
+    padding: 10px;
+}
+.wk_ws_cart_table{
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+}
+.wk_ws_checkout_button_outer{
+    margin-top: 10px;
+}
+.wk_ws_price_outer{
+    display: inline-block;
+    width: 60%;
+    float: left;
+}
+.wk_credited_highlight {
+    background-color: #F5F5F5;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: justify;
+    font-weight: 600;
+}
+.wk_ws_table .walletorder .col.description {
+    text-transform: capitalize;
+}
+.walletsystemnav
+{
+    position: relative;
+}
+.walletsystemnav ul.nav
+{
+    display:none;
+    top: 0px;
+    position: absolute;
+    background-color: #f5f5f5;
+    margin-left: 35%;
+    border: 1px solid rgb(204, 204, 204);
+    z-index: 1;
+}
+.walletsystemnav:hover ul.nav
+{
+    display:block;
+}
+.block-collapsible-nav .walletsystemnav.current .item a {
+    font-weight: normal;
+    border-left:none;
+}
+.wk_ws_main .limiter {
+    display: block;
+}
+.wallet-transaction-view td {
+    text-transform: capitalize;
+}
+.wk-ws-details {
+    width: 100%;
+    margin-bottom: 10px;
+}
+.wk_ws_center {
+    text-align: center;
+}
+.wk-details{
+    border: 1px solid #e5e5e5;
+}
+.wk-ws-details tr>td{
+    width: 60%;
+    padding: 10px;
+    border-right: 1px solid #e5e5e5;
+    text-transform: capitalize;
+}
+.wk-ws-details tr>th {
+    text-transform: capitalize;
+    padding: 10px;
+    text-align: left;
+}
+.wk-ws-details th {
+    background-color: #e0e0e0;
+}
+.resendCode {
+    font-size: 16px;
+    padding: 10px;
+    padding-top: 20px;
+    font-weight: bold;
+}
+.resendCode a:active {
+    color: #006bb4;
+}
+.wk_ws_sub_head2 .wk_ws_sub_head_details{
+    display: inline-block;
+    width:60%
+}
+.wk_ws_sub_head2 .wk_ws_sub_head_transfer, .wk_ws_sub_head2 .wk_ws_sub_add_payee{
+    display: inline-block;
+    float: right;
+    cursor: pointer;
+}
+#walletsystem_trasfer_amount .fieldset *, #walletsystem_add_payee .fieldset *
+{
+    margin-top: 10px;
+}
+.error_msg{
+    color: red;
+}
+.limiter{
+    float:right;
+}

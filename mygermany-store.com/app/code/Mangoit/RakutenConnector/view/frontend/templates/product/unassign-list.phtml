@@ -1,0 +1,166 @@
+<?php
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */ 
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Mangoit\RakutenConnector\Block\Product\Unassigned */
+
+$productsColl = $block->getUnAssignedProList();
+// customiaton start
+$catesData = json_encode($block->getCategoryTree(4));
+$catesDataAtSameLvl = json_encode($block->getCategoryTreeAtSameLvl(4));
+// customization stop
+?>	
+<div class="wk-mp-design ebay-unassigned-products">
+	<fieldset class="fieldset info wk-mp-fieldset">
+		<legend class="legend">
+			<span><?php /* @escapeNotVerified */ echo __('Rakuten Magento Sync Products') ?></span>
+		</legend>
+		<div class="grid">
+			<div class="hor-scroll">
+				<?php if ($productsColl && $productsColl->getSize()): ?>
+					<form action="<?php echo $block->getProAssignToCategoryUrl() ?>" method="post" id="form-productlist-massassign" name="formProductlistMassDisable" data-mage-init='{"validation":{}}'>
+						<?php echo $block->getBlockHtml('formkey')?>
+						<div class="field category">
+						<label class="label"><?php echo __('Product Category') ?>:</label>
+						<div data-bind="scope: 'sellerCategory'">
+							<!-- ko template: getTemplate() --><!-- /ko -->
+						</div>
+						<script type="text/x-magento-init">
+							{
+								"*": {
+									"Magento_Ui/js/core/app": {
+										"components": {
+											"sellerCategory": {
+												"component": "Webkul_Marketplace/js/product/seller-category-tree",
+												"template" : "Webkul_Marketplace/seller-category-tree",
+												"filterOptions": true,
+												"levelsVisibility": "1",
+												"options": <?php echo $block->getCategoriesTree()?>
+											}
+										}
+									}
+								}
+							}
+						</script>
+					</div>
+
+						<button class="button" title="<?php /* @escapeNotVerified */ echo __('Assign Product To Category') ?>" type="submit" id="mass-delete-butn-rakuten">
+							<span>
+								<span><?php /* @escapeNotVerified */ echo __('Assign Product To Category') ?></span>
+							</span>
+						</button>
+						<div class="mis_unassignd_list">
+							<table cellspacing="0" class="border wk-mp-list-table wk-mp-list-container-table">
+							    <thead>
+							        <tr class="wk-content">
+							        	<th class="wk-check-first-td">
+							    			<span>
+												<input type="checkbox" name="mpselecctall" value="all" id="mpunassignselecctall"/>
+											</span>
+							    		</th>
+							    		<th class="wk-first-td name">
+							    			<span class="label">
+												<?php /* @escapeNotVerified */ echo __('Product')?>
+											</span>
+							    		</th>
+	                                    <th class="wk-first-td">
+							    			<span class="label">
+												<?php /* @escapeNotVerified */ echo __('Magento Product Id')?>
+											</span>
+							    		</th>
+							    		<th class="wk-first-td">
+							    			<span class="label">
+												<?php /* @escapeNotVerified */ echo __('Rakuten Product Id')?>
+											</span>
+							    		</th>
+							    		<th class="wk-first-td">
+							    			<span class="label name">
+												<?php /* @escapeNotVerified */ echo __('Product Type')?>
+											</span>
+							    		</th>
+							    		<th class="wk-first-td">
+							    			<span class="label name">
+												<?php /* @escapeNotVerified */ echo __('Action')?>
+											</span>
+							    		</th>    		
+							    	</tr>
+							    </thead>
+							    <tbody>
+							    	<?php 
+							    	$i = 0;
+									foreach($productsColl as $amzProDetail){
+										$i++;
+										$products = $block->getProductDetail($amzProDetail->getMagentoProId());
+						            	$imageUrl = $block->getProImgUrl($products);
+										?>
+								    	<tr class="wk-row-view <?php /* @escapeNotVerified */ echo $i == $productsColl->getSize()? 'wk-last_tr':''?>">
+								    		<td class="wk-check-first-td">
+								    			<span>
+													<input type="checkbox" name="unassign_sync_pro_ids[]" class="mpcheckbox" value="<?php /* @escapeNotVerified */ echo $products->getEntityId(); ?>"/>
+												</span>
+								    		</td>
+								    		<td class="wk-first_td">
+												<input type="hidden" class="hidden-id" value="<?php /* @escapeNotVerified */ echo $products->getEntityId(); ?>" />
+												<div class="label name" title="<?php /* @escapeNotVerified */ echo $products->getName(); ?>">
+													<div class="wk-pro-divide1">
+														<img src="<?php /* @escapeNotVerified */ echo $imageUrl?>" class="image" />
+													</div>
+													<div class="wk-pro-divide2">
+														<div style="width:100%;">
+															<?php if($products->getStatus()==1 && $products->getVisibility()!=1) { ?>
+																<a href="<?php echo $products->getProductUrl()?>" target="blank">
+															<?php }?>
+																<?php echo $products->getName();?>
+															<?php if($products->getStatus()==1 && $products->getVisibility()!=1) { ?>
+																</a>
+															<?php }?>
+														</div>
+													</div>
+												</div>
+								    		</td>
+	                                        <td><?php echo $amzProDetail->getMagentoproId()?></td>
+								    		<td><?php echo $amzProDetail->getRakutenProId()?></td>
+								    		<td><?php echo ucwords($amzProDetail->getProductType()) ?></td>
+								    		<td>
+								    			<img src="<?php echo $block->getViewFileUrl('Webkul_Marketplace::images/icon-edit.png'); ?>" data-url="<?php echo $block->getUrl('marketplace/product/edit', ['id'=>$products->getId(), '_secure' => $this->getRequest()->isSecure()])?>" alt="<?php echo __('Edit')?>" title="<?php echo __('Edit')?>" class="mp-edit"/>
+								    			<img data-url="<?php echo $block->getDeleteProMapUrl($amzProDetail->getEntityId())?>" class="mp-delete" title="<?php echo __('Delete Map') ?>" alt="<?php echo __('Delete Map') ?>" src="<?php echo $block->getViewFileUrl('Webkul_Marketplace::images/icon-trash.png'); ?>" />
+								    		</td>	    		
+								    	</tr>
+								    	<?php
+								    }?>
+							    </tbody>
+							</table>
+						</div>
+					</form>				
+				<?php else: ?>
+					<div class="wk-emptymsg">
+						<?php /* @escapeNotVerified */ echo __('No Product Available') ?>
+					</div>
+				<?php endif ?>
+			</div>
+		</div>
+		<?php if ($block->getPagerHtml()): ?>
+	        <div class="order-products-toolbar toolbar bottom"><?php /* @escapeNotVerified */ echo $block->getPagerHtml(); ?></div>
+	    <?php endif ?>	
+	</fieldset>	
+	<br>
+<div class="buttons-set">
+		<p class="back-link">
+			<a href="javascript:;" onclick="javascript: window.history.back();" class="left">&laquo; <?php /* @escapeNotVerified */ echo __('Back') ?></a>
+		</p>
+	</div>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "rktnunassignprolist": {}
+        }
+    }
+</script>

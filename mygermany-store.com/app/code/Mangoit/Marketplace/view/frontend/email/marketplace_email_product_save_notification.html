@@ -1,0 +1,20 @@
+<!--@subject Product Saved | {{trans "%product_name" product_name=$data.product_name}} @-->
+<!--@vars {
+"var data.product_name":"Product Name",
+"var data.product_qty":"Product Quantity",
+"var data.product_image":"Product Image",
+"var data.product_type":"Product Type",
+"var data.name":"Sender Name"
+} @-->
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">Hi {{trans "%name" name=$data.name}}</p>
+
+<table style="width:60%; padding: 10px;">
+    <tr>
+        <td style="padding: 10px 10px 10px 0px; width: 100%;">
+            Your product(s) was saved successfully. Now it needs to be released by admin, which can take up to 24h. You will be notified via email once your product is released! Only then it will be available in the marketplace.
+        </td><br/>
+    </tr>
+</table>
+{{template config_path="design/email/footer_template"}}

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+    	<add id="Mangoit_VendorAttribute::vendorattribute" title="Vendor Attributes" module="Mangoit_VendorAttribute" sortOrder="20" resource="Mangoit_VendorAttribute::vendorattribute"/>
+    	<add id="Mangoit_VendorAttribute::attribute" title="Manage Attributes" module="Mangoit_VendorAttribute" sortOrder="10" parent="Mangoit_VendorAttribute::vendorattribute" action="vendorattribute/attribute"  resource="Mangoit_VendorAttribute::vendorattribute"/>
+    </menu>
+</config>

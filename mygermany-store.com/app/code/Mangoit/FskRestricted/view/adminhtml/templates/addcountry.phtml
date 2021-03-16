@@ -1,0 +1,134 @@
+<!-- Last edit 29-Jan-2019 -->
+<style type="text/css">
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
+<?php 
+$itemsName = [];
+$itemIds = [];
+$procatId = [];
+$postValues =  $block->getPostValuesFromController();
+
+foreach ($postValues as $key => $value) {
+  array_push($itemsName, $value['product_name']);
+  array_push($itemIds, $value['product_id']);
+  array_push($procatId, array('category_id' =>$value['category_id'], 'product_id' => $value['product_id']));
+}
+$productName = implode(',', $itemsName);
+$productIds = implode(',', $itemIds);
+$countryArrayNew = [];
+$countryArrayString = "";
+$counter = 0;
+$serializeData = serialize($procatId);
+foreach ($procatId as $key => $value) {
+ $data =  $block->getCountriesName($value['category_id'], $value['product_id']);
+ foreach ($data as $newkey => $newvalue) {
+  if ($counter > 0) {
+   $countryArrayString = $countryArrayString.','.$newvalue['restricted_countries'];
+ } else {
+   $countryArrayString = $countryArrayString.''.$newvalue['restricted_countries'];
+ }
+
+ $counter++;
+ 
+}
+}
+$countryArrayNew = array_unique(explode(",", $countryArrayString));
+
+$countryArray = $block->getCountryList();
+// $postData = $block->getPostValues();
+?>
+<p> You are Restricating these products <?php echo $productName; ?></p>
+
+
+<form method="post" action="<?php echo $block->getSaveUrl();?>">
+  <div>
+   <input name="form_key" type="hidden" value="<?php echo $this->getformKey();?>">
+   <input type="hidden" name="productIds" value="<?php echo $productIds;?>">
+   <input type="hidden" name="categoryIds" value='<?php echo $serializeData;?>'>
+ </div>
+ <div>
+   <label class="" for="countries">Select Countries :</label>
+   <select id="countries" name="countries[]" class=" select multiselect admin__control-multiselect" multiple>
+     <?php 
+     foreach ($countryArray as $key => $value) { ?>
+      <?php 
+      if (in_array($value['name'], $countryArrayNew)) { ?>
+       <option value="<?php echo $value['code'];?>" selected><?php echo __($value['name'])?></option>
+     <?php    } else { ?>
+      <option value="<?php echo $value['code'];?>"><?php echo __($value['name'])?></option>
+    <?php }
+    ?>
+
+    <?php    
+  } ?>
+</select>
+</div>
+<div class="">
+ <div class="">
+  <button type="submit" title="Submit" class="action submit primary" id="submitbtn">
+    <span>Submit</span>
+  </button>
+</div>
+</div>
+</form>
+<script type="text/javascript">
+  requirejs(['jquery'], function( $ ) {
+    jQuery(document).on('click', '#submitbtn', function(){
+      var len = jQuery('#countries option:selected').length;
+      if (!(len > 0)) {
+       event.preventDefault();
+       jQuery("#myModal").css('display', 'block');
+     }
+     console.log(len);
+     console.log('preventDefault');
+   });
+
+   jQuery(document).on('click', '.close', function(){
+    jQuery("#myModal").css('display', 'none');
+  });
+ });
+</script>
+<div id="myModal" class="modal">
+
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Please select atleast one country.</p>
+  </div>
+
+</div>

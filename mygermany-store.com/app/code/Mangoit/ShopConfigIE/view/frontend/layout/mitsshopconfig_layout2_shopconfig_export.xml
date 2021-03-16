@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mangoit Software.
+ *
+ * @category  Mangoit
+ * @package   Mangoit_ShopConfigIE
+ * @author    Mangoit
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="seller-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Webkul_MpMassUpload::css/styles.css"/>
+    </head>
+    <body>
+        <referenceBlock name="seller.page.main.title">
+            <action method="setPageTitle">
+                <argument translate="true" name="title" xsi:type="string">Shop Configuration Export</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="seller.content">
+            <block class="Mangoit\ShopConfigIE\Block\View" name="shop_config_export" template="Mangoit_ShopConfigIE::account/export.phtml" cacheable="false"></block>
+        </referenceContainer>
+    </body>
+</page>

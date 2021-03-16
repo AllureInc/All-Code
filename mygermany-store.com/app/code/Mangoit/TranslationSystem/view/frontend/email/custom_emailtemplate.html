@@ -1,0 +1,45 @@
+<!--
+/*
+ * File is used for Email Template module in Magento 2
+ * Mangoit Customobserver
+ */
+-->
+<!--@subject {{trans "New Translation Quote"}} @-->
+<!--@vars {
+"var data.id":"Product Id",
+"var data.name":"Product Name",
+"var data.url":"Product Url"} 
+@-->
+
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">{{trans "Hello Admin"}}</p>
+<p>{{trans "%sellername has requested a quote for the translation." sellername=$data.sellername}}</p>
+<ul>
+	<li>
+		<strong>{{trans "Seller Details:"}}</strong>
+		<div>
+			<p>{{trans "Seller Name: %sellername" sellername=$data.sellername}}</p>
+			<p>{{trans "Seller Id: %sellerid" sellerid=$data.sellerid}}</p>
+			<p>{{trans 'Shop Url: <a href="%url">%url</a>' url=$data.url|raw}}</p>
+			{{if data.phone}}
+				<p>{{trans "Contact Number: %phone" phone=$data.phone}}</p>
+			{{/if}}
+		</div>
+	</li>
+</ul>
+<ul>
+	<li>
+		<strong>{{trans "Translation Details:"}}</strong>
+		<div>
+			<p>{{trans "Number of words (total): %totalnumber" totalnumber=$data.totalnumber}}</p>
+			<p>{{trans "Number of words (shop): %shopwords" shopwords=$data.shopwords}}</p>
+			<p>{{trans "Number of words (products): %productwords" productwords=$data.productwords}}</p>
+			<p>{{trans "Number of words (FAQs): %faqword" faqword=$data.faqword}}</p>
+			<p>{{trans "Number of words (Pre-Order Message): %custom_msg_word" custom_msg_word=$data.custom_msg_word}}</p>
+			<p>{{trans "Price per word: %priceperword" priceperword=$data.priceperword}}</p>
+			<p>{{trans "Total price for translation: %price" price=$data.price}}</p>
+		</div>
+	</li>
+</ul>
+{{template config_path="design/email/footer_template"}}

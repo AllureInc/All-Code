@@ -1,0 +1,36 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/* @var \Magento\Wishlist\Block\Link $block */
+$_helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$isPartner = $_helper->isSeller();
+ $sellerData = $_helper->getSellerData()->getFirstItem()->getBecomeSellerRequest();
+?>
+<?php if (!$isPartner && (!$sellerData)): ?>
+    <li class="link wishlist" data-bind="scope: 'wishlist'">
+        <a <?= /* @noEscape */ $block->getLinkAttributes() ?>><?= $block->escapeHtml($block->getLabel()) ?>
+            <!-- ko if: wishlist().counter -->
+            <span data-bind="text: wishlist().counter" class="counter qty"></span>
+            <!-- /ko -->
+        </a>
+    </li>
+<?php endif;  ?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "wishlist": {
+                        "component": "Magento_Wishlist/js/view/wishlist"
+                    }
+                }
+            }
+        }
+    }
+
+</script>

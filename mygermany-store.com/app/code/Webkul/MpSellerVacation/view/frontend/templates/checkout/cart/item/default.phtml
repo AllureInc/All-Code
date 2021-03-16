@@ -1,0 +1,37 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpSellerVacation
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<?php
+$_item = $block->getItem();
+$product = $_item->getProduct();
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$_product=$product;
+$seller_id = '';
+$marketplaceProduct = $helper->getSellerProductDataByProductId($_product['entity_id']);
+foreach ($marketplaceProduct as $value) {
+    $seller_id = $value['seller_id'];
+}
+if($seller_id!=""){
+    $vacationHelper = $this->helper('Webkul\MpSellerVacation\Helper\Data');
+    $vacation = $vacationHelper->getVacationdetails($seller_id);
+    $status = $vacationHelper->getProductvacationStatus($_product['entity_id']);
+    $vacationMessage = $vacationHelper->getCartVacationMessage();
+    if($status && $vacation){
+    ?>
+    <div class="wk-block" id="mp-wk-block" style="padding-left:20px; color:red;">
+        <div>
+            <span><?php echo __($vacationMessage)?></span>
+        </div>
+    </div>
+<?php
+}} ?>

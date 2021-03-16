@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Webkul
+ * @package    Webkul_MpAmazonConnector
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c)  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+	<head>
+		<css src="Webkul_MpAmazonConnector::css/styles.css"/>
+	</head>
+	<update handle="formkey"/>
+    <container name="root" label="Root">
+    	<block class="Webkul\MpAmazonConnector\Block\Adminhtml\Product\ProductSync" name="adminhtml.mpamzmagesync.product" template="product/product-sync.phtml" />
+        <block class="Webkul\MpAmazonConnector\Block\Adminhtml\Accounts\Edit\Tab\Product" name="adminhtml.mpamzmagesync.edit.tab.product"/>
+    </container>
+</layout>

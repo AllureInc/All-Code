@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Webkul
+ * @package    Webkul_MpAmazonConnector
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c)  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <virtualType name="Webkul\MpAmazonConnector\Model\ResourceModel\Accounts\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">marketplace_amazon_accounts</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\MpAmazonConnector\Model\ResourceModel\Accounts</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Webkul\MpAmazonConnector\Model\ResourceModel\ProductMap\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">marketplace_amazon_mapped_product</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\MpAmazonConnector\Model\ResourceModel\ProductMap</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Webkul\MpAmazonConnector\Model\ResourceModel\OrderMap\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">marketplace_amazon_mapped_order</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\MpAmazonConnector\Model\ResourceModel\OrderMap</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="mpamazonconnect_accounts_list_data_source" xsi:type="string">Webkul\MpAmazonConnector\Model\ResourceModel\Accounts\Grid\Collection</item>
+
+                <item name="mpamazonconnect_product_map_list_data_source" xsi:type="string">Webkul\MpAmazonConnector\Model\ResourceModel\ProductMap\Grid\Collection</item>
+
+                <item name="mpamazonconnect_order_map_list_data_source" xsi:type="string">Webkul\MpAmazonConnector\Model\ResourceModel\OrderMap\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Webkul\MpAmazonConnector\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Webkul\MpAmazonConnector\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">customLogHandler</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Webkul\MpAmazonConnector\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference for="Webkul\MpAmazonConnector\Api\Data\ProductMapInterface" type="Webkul\MpAmazonConnector\Model\ProductMap" />
+    <preference for="Webkul\MpAmazonConnector\Api\ProductMapRepositoryInterface" type="Webkul\MpAmazonConnector\Model\ProductMapRepository" />
+
+    <preference for="Webkul\MpAmazonConnector\Api\Data\OrderMapInterface" type="Webkul\MpAmazonConnector\Model\OrderMap" />
+    <preference for="Webkul\MpAmazonConnector\Api\OrderMapRepositoryInterface" type="Webkul\MpAmazonConnector\Model\OrderMapRepository" />
+
+    <preference for="Webkul\MpAmazonConnector\Api\Data\AccountsInterface" type="Webkul\MpAmazonConnector\Model\Accounts" />
+    <preference for="Webkul\MpAmazonConnector\Api\AccountsRepositoryInterface" type="Webkul\MpAmazonConnector\Model\AccountsRepository" />
+
+    <preference for="Webkul\MpAmazonConnector\Api\Data\AmazonTempDataInterface" type="Webkul\MpAmazonConnector\Model\AmazonTempData" />
+    <preference for="Webkul\MpAmazonConnector\Api\AmazonTempDataRepositoryInterface" type="Webkul\MpAmazonConnector\Model\AmazonTempDataRepository" />
+
+    <type name="\Webkul\Marketplace\Block\Order\History">
+        <plugin name="Webkul_MpAmazonConnector::mpOrderHistory"
+                type="Webkul\MpAmazonConnector\Plugin\Marketplace\Block\Order\History"
+                sortOrder="0" />
+    </type>
+
+</config>

@@ -1,0 +1,213 @@
+<style type="text/css">
+.lable-name{
+	    width: 100%;
+	    margin-right: 10%;
+}
+.lable-value{
+	    width: 100%;
+	    margin-right: 10%;
+}
+.custom_field_value
+{
+	width: 100%;
+}
+</style>
+<?php 
+$product = $block->getCurrentProduct();
+$fieldModel = $block->getGetAllData($product->getEntityId());
+$row = 0;
+?>
+<form name="custom_field_form" id="custom_field_form">
+<input type="hidden" name="form_key" value="<?php echo $block->getCustomFormKey(); ?>">
+	<table name="custom_field_value" class="custom_field_value">
+		<tr class="data-row">
+			<th><?php echo __('Label');?></th>
+			<th><?php echo __('Option');?></th>						
+			<th><?php echo __('Action');?></th>	
+			<td>
+				<input type='button' name='add' class='add-btn action-basic' value='Add More'>
+			</td>					
+		</tr>
+			<?php if (count($fieldModel->getData()) >= 1) { ?>					
+				<?php foreach ($fieldModel->getData() as $item) { ?>						
+		<tr class='fields-row'>
+			<td>
+				<input type="hidden" name="custom_field_value[<?php echo $row; ?>][current_id]" value="<?php echo $item['id']?>">
+			    <input type='text' name="custom_field_value[<?php echo $row; ?>][label_name]" class='lable-name admin__control-text' data-value="0" value="<?php echo $item['custom_fields'];?>">
+			    <span style='display: none; color: red'><?php echo __('Only alphanumeric chatacters allowed.')?></span>
+			</td>
+			<td>
+				<select class='lable-value admin__action-multiselect-text' name="custom_field_value[<?php echo $row; ?>][label_value]">
+			<?php if ($item['custom_field_value'] == 1) { ?>
+					<option value='2' selected="selected"><?php echo __('select')?></option>
+					<option value='0'><?php echo __('No');?></option>
+					<option value='1' selected="selected"><?php echo __('Yes');?></option>
+		    <?php } else if ($item['custom_field_value'] == 2) {?>
+		    		<option value='2' selected="selected"><?php echo __('select')?></option>
+					<option value='0'><?php echo __('No');?></option>
+					<option value='1'><?php echo __('Yes');?></option>
+			<?php } else if ($item['custom_field_value'] == 0) {?>
+		    		<option value='2' ><?php echo __('select')?></option>
+					<option value='0' selected="selected"><?php echo __('No');?></option>
+					<option value='1'><?php echo __('Yes');?></option>
+			<?php }?>
+				</select>
+			</td>
+			<td>
+				<input type='button' name='remove' class='remove-btn' value='Remove'>
+			</td>
+		</tr>
+		<?php 
+		$row++;
+		   } ?>
+	   <?php } else { ?>
+		<tr class='fields-row'>
+			<td>
+				<input type='text' name='custom_field_value[0][label_name]' class='lable-name admin__control-text' data-value="0">
+				<span style='display: none; color: red'><?php echo __('Only alphanumeric chatacters allowed.')?></span>
+			</td>
+			<td>
+				<select class='lable-value admin__action-multiselect-text' name='custom_field_value[0][label_value]'>
+				   <option value='2'><?php echo __('select')?></option>
+				   <option value='0'><?php echo __('No');?></option>
+				   <option value='1'><?php echo __('Yes');?></option>
+				</select>
+			</td>
+			<td>
+				<input type='button' name='remove' class='remove-btn' value='Remove'>
+			</td>
+		</tr>
+		<?php } ?>
+	</table>
+</form>
+<script type="text/javascript">
+var proceedForAjax = 0;
+var counter = "<?php echo $row > 0 ? $row : 1; ?>";
+var fieldAdd = 0;
+function addRow(counter) {
+var field = "<tr class='fields-row'>"+
+				"<td><input type='text' name='custom_field_value["+counter+"][label_name]' class='lable-name admin__control-text' data-value="+counter+">"+
+					"<span style='display: none; color: red'><?php echo __('Only alphanumeric chatacters allowed.')?></span>"+
+				"</td>"+
+				"<td>"+
+					"<select class='lable-value admin__action-multiselect-text' name='custom_field_value["+counter+"][label_value]'>"+
+						"<option value='2'><?php echo __('select')?></option>"+
+						"<option value='0'><?php echo __('No');?></option>"+
+						"<option value='1'><?php echo __('Yes');?></option>"+
+					"</select>"+
+				"</td>"+
+					"<td>"+
+						"<input type='button' name='remove' class='remove-btn' value='Remove'>"+
+					"</td>"+
+				"</tr>";
+return field;
+
+}
+    jQuery(document).on('click', '.add-field', function(){
+    	event.preventDefault();
+    	jQuery('.custom-field').css('display', 'block');
+    });
+
+    jQuery(document).on('click', '.add-btn', function(){
+    	jQuery("#save-button").addClass("MIS");
+    	fieldAdd = 1;
+    	jQuery('.fields-row').last().after(addRow(counter));
+    	counter++;
+    });
+
+    jQuery(document).on('click', '.remove-btn', function(){
+    	jQuery("#save-button").addClass("MIS");
+    	jQuery(this).parent().parent().remove();
+        proceedForAjax = 1;
+    });
+
+    jQuery(document).on('change', '.lable-value, .lable-name', function(){
+    	proceedForAjax = 1;
+    });
+
+    jQuery(document).on('click', '.MIS', function(){
+    	
+    	console.log('save');
+    	var patt = /^[a-zA-Z ]+$/;
+    	if (fieldAdd >= 1) {
+	        jQuery('.lable-name').each(function() {
+	        	var errnum =  jQuery(this).data('value');
+	        	console.log("errnum "+errnum);
+			    var value = jQuery(this).val();
+			    console.log('value '+value);
+			    if ( ((value.trim().length) >=1 ) ) {
+			    	console.log(patt.test(value));
+			    	if (! (patt.test(value)) ) {
+			    		event.preventDefault();
+			    		jQuery('.error'+errnum).html("<?php echo __('Use only alphabets');?>");
+			    	} else {
+			    		jQuery('.error'+errnum).html('');
+			    	}
+			    } else {
+			    	event.preventDefault();
+			    	jQuery('.error'+errnum).html("<?php echo __('Filed Required.');?>");
+			    }
+			});
+    		
+    	}
+    });
+jQuery(document).on('change', ".lable-name", function(){
+	console.log("change");
+	jQuery("#save-button").addClass("MIS");
+	var patt = /^[a-zA-Z0-9\s]+$/;
+    	console.log( (patt.test(jQuery(this).val().trim())) );
+    	var errnum =  jQuery(this).data('value');
+    	console.log(errnum);
+    	if (jQuery(this).val().trim().length <= 0) {
+    		jQuery(this).next().css({"color": "red", 'display':'block'});
+    	} else if (! (patt.test(jQuery(this).val().trim()))) {
+    		jQuery(this).next().css({"color": "red", 'display':'block'});
+    	} else {
+            jQuery(this).next().css({'display':'none'});
+        }
+});
+
+jQuery(document).on('change', ".lable-value", function(){
+	console.log("change");
+	jQuery("#save-button").addClass("MIS");
+});
+
+jQuery(document).on('blur', ".lable-name", function(){
+	jQuery("#save-button").addClass("MIS");
+	var patt = /^[a-zA-Z ]+$/;
+	var errnum =  jQuery(this).data('value');
+	var value = jQuery(this).val();
+	if (value.trim() == '') {
+		jQuery('.error'+errnum).html("<?php echo __('Field Can not be empty.');?>");
+	} else if (! (patt.test(value.trim()))) {
+		jQuery('.error'+errnum).html("<?php echo __('Use only alphabets');?>");
+	} else {
+		jQuery('.error'+errnum).html("");
+	}
+	
+});
+
+jQuery(document).on('click','.MIS', function(event){
+	console.log("save button");
+	event.preventDefault();
+	var form = jQuery("#custom_field_form");
+	console.log(form);
+	console.log('proceedForAjax '+proceedForAjax);
+	var ajaxurl = "<?php echo $this->getUrl('vendorfield/savefield/fieldsave') ?>";
+	if (proceedForAjax == 1) {
+		jQuery.ajax({
+				type: "POST",
+			    data : form.serialize(),
+			    async : true,
+	   			url: ajaxurl,
+	   			success: function (response) {
+	   				console.log(response);
+	   		},
+	   	        error: function (response) {
+	   	    	console.log('err'+response);
+	   	    }
+		});
+		
+	}
+});
+</script>

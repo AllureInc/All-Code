@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Marketplace
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Webkul\Marketplace\Model\Notification\MarketplaceConfigProvider" type="Mangoit\Productfaq\Model\Notification\MarketplaceConfigProvider"/>
+    <preference for="Ced\Productfaq\Controller\Adminhtml\Productfaq\Index" type="Mangoit\Productfaq\Controller\Adminhtml\Productfaq\Index"/>
+    <preference for="Ced\Productfaq\Block\Product\View\Description" type="Mangoit\Productfaq\Block\Product\View\Description"/>
+    <preference for="Ced\Productfaq\Controller\Adminhtml\Productfaq\Delete" type="Mangoit\Productfaq\Controller\Adminhtml\Productfaq\Delete"/>
+    <preference for="Ced\Productfaq\Controller\Adminhtml\Productfaq\MassDelete" type="Mangoit\Productfaq\Controller\Adminhtml\Productfaq\MassDelete"/>
+    <preference for="Ced\Productfaq\Controller\Adminhtml\Productfaq\MassEnable" type="Mangoit\Productfaq\Controller\Adminhtml\Productfaq\MassEnable"/>
+    <preference for="Ced\Productfaq\Controller\Adminhtml\Productfaq\MassDisable" type="Mangoit\Productfaq\Controller\Adminhtml\Productfaq\MassDisable"/>
+</config>

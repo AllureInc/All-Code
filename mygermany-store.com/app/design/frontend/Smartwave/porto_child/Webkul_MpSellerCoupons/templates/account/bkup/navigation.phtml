@@ -1,0 +1,34 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpSellerCoupons
+ * @author    Webkul Software Private Limited 
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+// @codingStandardsIgnoreFile
+$_helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$isPartner= $_helper->isSeller();
+$magentoCurrentUrl = $block->getCurrentUrl();
+$isSellerGroup = $_helper->isSellerGroupModuleInstalled();
+?>
+<?php 
+if($isPartner){ ?>
+<?php if(($isSellerGroup && $_helper->isAllowedAction('mpsellercoupons/index/index')) || !$isSellerGroup) { ?>
+    <li class="nav item <?php echo strpos($magentoCurrentUrl,'mpsellercoupons/index/index')? "current":"";?>">     
+        <?php if(strpos($magentoCurrentUrl,'mpsellercoupons/index/index')!==FALSE){ ?>   
+            <strong><?php /* @escapeNotVerified */ echo __('Seller Coupons Manager') ?></strong>        
+        <?php 
+        } else{ ?>    
+            <a href="<?php echo $block->getUrl('mpsellercoupons/index/index', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                <?php /* @escapeNotVerified */ echo __('Seller Coupons Manager') ?>
+            </a>                
+        <?php 
+        } ?>      
+    </li>
+<?php } ?>
+<?php } ?>
+

@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="stock_import" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>General Configuration</label>
+            <tab>plenty_tab</tab>
+            <resource>Plenty_Core::config_plenty_core</resource>
+            <group id="import_config" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Import Configuration</label>
+                <field id="is_active" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable stock import</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enables stock import.</comment>
+                </field>
+                <field id="import_batch_size" translate="label comment" type="text" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Import batch size</label>
+                    <comment>Number of records to import per process. Default: 100. Max 10,000.</comment>
+                </field>
+                <field id="reindex_after" translate="label comment" type="select" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Re-index after</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enables re-indexing of product stock upon import completion.</comment>
+                </field>
+            </group>
+            <group id="api_config" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>API Configuration</label>
+                <field id="api_behaviour" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>API behaviour</label>
+                    <source_model>Plenty\Core\Model\Profile\Config\Source\Behaviour</source_model>
+                    <comment>Api behaviour can be configured to either collected recently updated records or to replace existing records with new data. Consider "update" as this is more efficient way of collecting data.</comment>
+                </field>
+                <field id="api_collection_size" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>API collection size</label>
+                    <source_model>Plenty\Core\Model\Profile\Config\Source\ApiCollectionSize</source_model>
+                    <comment>Number of records an API returns per page request. Default: 50. Max 500.</comment>
+                </field>
+            </group>
+            <group id="warehouse_config" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Warehouse Configuration</label>
+                <field id="main_warehouse_id" translate="label comment" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Main warehouse ID</label>
+                    <source_model>Plenty\Stock\Profile\Config\Source\Warehouse</source_model>
+                    <comment>The ID of the main warehouse</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,21 @@
+{
+    "name": "webkul/module-mp-mass-upload",
+    "description": "Magento2 Mass Upload Marketplace Add-on",
+    "require": {
+        "webkul/module-marketplace": "2.2.*",
+        "phpoffice/phpspreadsheet": "*"
+    },
+    "type": "magento2-module",
+    "version": "2.1.2",
+    "license": [
+        "proprietary"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Webkul\\MpMassUpload\\": ""
+        }
+    }
+}

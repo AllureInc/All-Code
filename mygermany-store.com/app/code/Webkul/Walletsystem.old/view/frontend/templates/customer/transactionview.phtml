@@ -1,0 +1,119 @@
+<?php
+/**
+ * Webkul Software
+ *
+ * @category Webkul
+ * @package Webkul_Walletsystem
+ * @author Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license https://store.webkul.com/license.html
+ */
+?>
+<?php
+	$helper = $this->helper('Webkul\Walletsystem\Helper\Data');
+	if ($helper->getWalletenabled()) {
+		$status = 0;
+		$customerId = $helper->getCustomerId();
+		$currency_code = $helper->getCurrentCurrencyCode();
+        $transactionData = $block->getTransactionData();
+        $prefix = $helper->getTransactionPrefix($transactionData->getSenderType(), $transactionData->getAction());
+?>
+		<div class="wk_ws_main">
+			<div class='wk_ws_main_head'>
+				<div class="wk_ws_sub_head1">
+                    <img src='<?php /* @escapeNotVerified */echo $block->getViewFileUrl('Webkul_Walletsystem::images/wallet.png');?>' width="70px" height="55px">
+                </div>
+				<div class="wk_ws_sub_head2">
+				<h2><?php /* @escapeNotVerified */echo __('Wallet Details');?></h2>
+				<h3>
+                    <span class="wk_ws_price">
+                        <?php /* @escapeNotVerified */echo $block->getWalletRemainingTotal($customerId)?>
+                    </span>
+                    <?php /* @escapeNotVerified */echo "(".$currency_code.")"?>
+                </h3>
+				<span><?php /* @escapeNotVerified */echo __("Your Wallet Balance")?></span>
+				</div>
+			</div>
+			<div class='wk_ws_body'>
+                <table class="wallet-transaction-view">
+                    <tbody>
+                        <tr>
+                            <th><?php /* @escapeNotVerified */echo __("Amount")?></th>
+                            <td><?php /* @escapeNotVerified */echo $block->getTransactionAmount($transactionData)?></td>
+                        </tr>
+                        <tr>
+                            <th><?php /* @escapeNotVerified */echo __("Action")?></th>
+                            <td><?php /* @escapeNotVerified */echo $transactionData->getAction()?></td>
+                        </tr>
+                        <tr>
+                            <th><?php /* @escapeNotVerified */echo __("Type")?></th>
+                            <td><?php /* @escapeNotVerified */echo __($prefix)?></td>
+                        </tr>
+                        <?php
+                            if ($transactionData->getOrderId()) {
+                                $order = $block->getOrder()->load($transactionData->getOrderId());
+                                $incrementid = $order->getIncrementId();
+                            }
+                            if ($transactionData->getSenderType()==0) {?>
+                            <tr>
+                                <th><?php /* @escapeNotVerified */echo __("Reference")?></th>
+                                <td><a href="<?php /* @escapeNotVerified */echo $block->getUrl(
+                                        'sales/order/view/',
+                                        ['order_id'=>$transactionData->getOrderId()]
+                                    );?>"><?php /* @escapeNotVerified */echo "#".$incrementid?></a></td>
+                            </tr>
+                        <?php } elseif ($transactionData->getSenderType()==1) {
+                            if ($transactionData->getAction()=='credit') { ?>
+                                <tr>
+                                    <th><?php /* @escapeNotVerified */echo __("Reference")?></th>
+                                    <td><a href="<?php /* @escapeNotVerified */echo $block->getUrl(
+                                            'sales/order/view/',
+                                            ['order_id'=>$transactionData->getOrderId()]
+                                        );?>"><?php /* @escapeNotVerified */echo "#".$incrementid?></a></td>
+                                </tr>
+                        <?php }
+                    } elseif ($transactionData->getSenderType()==2) {?>
+                            <tr>
+                                <th><?php /* @escapeNotVerified */echo __("Reference")?></th>
+                                <td><a href="<?php /* @escapeNotVerified */echo $block->getUrl(
+                                        'sales/order/view/',
+                                        ['order_id'=>$transactionData->getOrderId()]
+                                    );?>"><?php /* @escapeNotVerified */echo "#".$incrementid?></a></td>
+                            </tr>
+                        <?php } elseif ($transactionData->getSenderType()==3) {
+                        } elseif ($transactionData->getSenderType()==4) {
+                            if ($transactionData->getAction()=='credit') {
+                                $senderData = $block->getCustomerDataById($transactionData->getSenderId());
+                            ?>
+                            <tr>
+                                <th><?php /* @escapeNotVerified */echo __("Sender")?></th>
+                                <td><?php /* @escapeNotVerified */echo __($senderData->getFirstname()." ".$senderData->getLastname())?></td>
+                            </tr>
+                        <?php } else {
+                            $recieverData = $block->getCustomerDataById($transactionData->getSenderId());
+                            ?>
+                            <tr>
+                                <th><?php /* @escapeNotVerified */echo __("Receiver")?></th>
+                                <td><?php /* @escapeNotVerified */echo __($recieverData->getFirstname()." ".$recieverData->getLastname())?></td>
+                            </tr>
+                        <?php }
+                        } ?>
+                        <tr>
+                            <th><?php /* @escapeNotVerified */echo __("Transaction At")?></th>
+                            <?php $date = $block->getFormattedDate($transactionData->getTransactionAt());?>
+                            <td><?php /* @escapeNotVerified */echo $date->format('g:ia \o\n l jS F Y');?></td>
+                        </tr>
+                        <tr>
+                            <th><?php /* @escapeNotVerified */echo __("Transaction note")?></th>
+                            <td><?php /* @escapeNotVerified */echo $transactionData->getTransactionNote()?></td>
+                        </tr>
+                    </tbody>
+                </table>
+			</div>
+		</div>
+<?php }?>
+<div class="buttons-set">
+	<p class="back-link">
+		<a href="javascript:;" onclick="javascript: window.history.back();" class="left">&laquo; <?php /* @escapeNotVerified */echo __('Back') ?></a>
+	</p>
+</div>

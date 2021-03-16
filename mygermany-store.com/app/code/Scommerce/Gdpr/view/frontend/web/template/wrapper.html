@@ -1,0 +1,37 @@
+<!--
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<div id="js-cookienotice" class="scommerce-gdpr-cookienotice" afterRender="function(target, viewModel) { viewModel.renderDone(); }" style="display: none;">
+    <div class="message">
+        <!-- ko if: !isPopupEnabled -->
+        <span class="cookie-title" data-bind="text: title"></span>
+        <!-- /ko -->
+        <p data-bind="css: { 'text' : isPopupEnabled }">
+            <!--ko text: getCookieTextMessage() --><!--/ko-->
+            <!-- ko if: !isPopupEnabled --><br/><!--/ko-->
+            <a data-bind="attr: {href: cmsPageUrl }, text: cookieLinkText"></a>
+        </p>
+        <!-- ko if: !isPopupEnabled -->
+        <p class="accept">
+            <a id="js-gdpr-accept" href="" data-bind="text: acceptText, click: accept"></a>
+        </p>
+            <!-- ko if: !isBlocked -->
+            <p class="decline">
+                <a id="js-gdpr-decline" href="" data-bind="text: declineText, click: decline"></a>
+            </p>
+            <!--/ko-->
+        <!--/ko-->
+        <!-- ko if: isPopupEnabled -->
+            <!-- ko if: hasChoices -->
+            <p><a href="#" class="js-cookie-settings" data-bind="text: popupLinkText"></a></p>
+            <!--/ko-->
+        <p class="accept">
+            <a id="js-gdpr-accept" href="" data-bind="text: acceptButtonText, click: accept"></a>
+        </p>
+        <!--/ko-->
+    </div>
+</div>

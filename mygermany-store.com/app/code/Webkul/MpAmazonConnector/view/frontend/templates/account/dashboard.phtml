@@ -1,0 +1,29 @@
+<?php 
+/**
+ * @category   Webkul
+ * @package    Webkul_MpAmazonConnector
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c)  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Webkul\MpAmazonConnector\Block\Account\Dashboard */ 
+
+?>
+
+<div style="padding-bottom:15px;">
+	<div style="border:1px solid #cccccc;">
+		<div style="border-bottom: 1px solid #ccc;padding:5px;">
+			<?php echo __('Amazon Order(s)') ?>
+		</div>
+		<div style="padding:5px;">
+			<center><strong class="wk-dashboard-sales-font"><?php echo $block->getTotalSales(); ?></strong></center>
+			<br />
+			<span><?php echo "Orders:- ".count($block->getAmzOrders()); ?></span>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<span><a href="<?php echo $block->getAmzOrdersViewUrl() ?>">View</a></span>
+		</div>
+	</div>
+</div>

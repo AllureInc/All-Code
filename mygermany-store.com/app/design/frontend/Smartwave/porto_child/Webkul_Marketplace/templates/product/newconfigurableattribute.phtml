@@ -1,0 +1,366 @@
+<style type="text/css">
+.lblImage {
+   cursor: pointer;
+   /* Style as you please, it will become the visible UI component. */
+}
+.page-main-actions {
+   width: 100%;
+   /* Style as you please, it will become the visible UI component. */
+}
+.mis-h1
+{
+    font-family: queulat;
+    box-sizing: content-box;
+    font-size: 1.8rem;
+    font-weight: 300;
+    line-height: 1.2;
+    color: #323132;
+}
+.upload-photo {
+   opacity: 0;
+   position: absolute;
+   z-index: -1;
+}
+.optionswt{
+	height: 30px;
+	width: 10px;
+}
+.img{
+	height: 30px;
+	width: 40px;
+}
+#error{
+	margin-top : 7px;
+	color: #e02b27;
+	font-size: 1.2rem;
+}
+table {
+    /*font-family: arial, sans-serif;*/
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Marketplace
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Webkul\Marketplace\Block\Product\Configurableattribute */
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$attributeModel = $objectManager->create('Mangoit\VendorAttribute\Model\Attributemodel');
+$customerSession = $objectManager->create('Magento\Customer\Model\Session');
+$customerId = $customerSession->getCustomer()->getId();
+$collection = $attributeModel->getCollection()->addFieldToFilter('vendor_id', ['eq'=> $customerId])->addFieldToFilter('is_visible', ['eq'=> 1]);
+?>
+<form action="<?php echo $block->getUrl('marketplace/product_attribute/save', ['_secure' => $this->getRequest()->isSecure()]) ?>" enctype="multipart/form-data" method="POST"  id="form-customer-attr-new" data-mage-init='{"validation":{}}' >
+	<div class="wk-mp-design">
+		<fieldset class="info wk-mp-fieldset fieldset" id="associate-product">
+			<legend class="legend">
+				<span><?php echo __('Create Attribute Products') ?></span>
+				<button type="reset" class="button wk-mp-btn">
+					<span><span><?php echo __('Reset') ?></span></span>
+				</button>
+				<button class="button wk-mp-btn" title="<?php echo __('Save') ?>" type="submit" id="save-btn">
+					<span><span><?php echo __('Save Attribute') ?></span></span>
+				</button>
+			</legend>			
+			<?php echo $block->getBlockHtml('seller.formkey')?>
+			<?php echo $block->getBlockHtml('formkey')?>
+
+			<div class="fieldset form-list" id="cust">
+				<div class="field required" style="display: none;">
+					<label class="label"><?php echo __('Scope') ?> : </label>
+					<div class="control">
+						<select id="frontend_input_first" class=" select validate-select" title="<?php echo __('Scope') ?>" name="frontend_input">
+							<option value="0" ><?php echo __("Store View"); ?></option>
+							<option value="2"><?php echo __("Website"); ?></option>
+							<option value="1" selected="selected"><?php echo __("Global"); ?></option>						
+						</select>
+					</div>
+				</div>
+				<div class="field required" style="display: none;">
+					<label class="label"><?php echo __('Visibal on Frontend') ?> : </label>
+					<div class="control">
+						<select id="is_visible_on_front" class=" select validate-select" title="<?php echo __('Visibal on Frontend') ?>" name="is_visible_on_front">
+							<option value="0" ><?php echo __("No"); ?></option>
+							<option value="1" selected="selected"><?php echo __("Yes"); ?></option>					
+						</select>
+					</div>
+				</div>
+				<div class="field required">
+					<label class="label"><?php echo __('Attribute Code') ?> : </label>
+					<div class="control">
+						<input type="text" class="validate-code validate-length maximum-length-30 input-text required-entry" name="attribute_code" id="" />
+					</div>
+				</div>
+				<div class="field required">
+					<label class="label"><?php echo __('Attribute Label') ?> : </label>
+					<div class="control">
+						<input type="text" class="required-entry widthinput input-text" name="attribute_label" id="" />
+					</div>
+				</div>
+				<div class="field required">
+					<label class="label"><?php echo __('Catalog Input Type') ?> : </label>
+					<div class="control">
+						<select id="frontend_input" class=" select validate-select" title="<?php echo __('Catalog Input Type for Store Owner') ?>" name="frontend_input">
+							<option value="0"><?php echo __("Please Select"); ?></option>
+							<option value="text"><?php echo __("Text Field"); ?></option>
+							<option value="textarea"><?php echo __("Text Area"); ?></option>
+							<option value="date"><?php echo __("Date"); ?></option>
+							<option value="boolean"><?php echo __("Yes/No"); ?></option>
+							<option value="multiselect"><?php echo __("Multiple Select"); ?></option>
+							<option value="select"><?php echo __("Dropdown"); ?></option>						
+						</select>
+					</div>
+					<p id='error'></p>
+				</div>
+				<div class="field" style="display: none;">
+					<label class="label"><?php echo __('Values Required') ?> : </label>
+					<div class="control">
+						<select id="val_required" class="select val_required" title="<?php echo __('Values Required') ?>" name="val_required">
+							<option value="1"><?php echo __("Yes"); ?></option>
+							<option selected="selected" value="0"><?php echo __("No"); ?></option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+	</div>
+    <div>
+    	<h1 class="mis-h1"><?php echo __('ATTRIBUTES CREATED BY YOU: '); ?></h2>
+    	<ul>
+    	<?php /*foreach ($collection->getData() as $key => $value) { ?>
+    		<li><?php echo $value['attribute_label']; ?></li>
+    	<?php }*/ ?>
+    	</ul>
+        <div id="popup-attribute-edit" >
+        </div>
+        <table class="border">
+            <tr>
+                <th><?php echo __('Attribute') ?></th>
+                <th><?php echo __('Action') ?></th>
+            </tr>
+            <?php foreach ($collection->getData() as $key => $value) { ?>
+                <tr>
+                    <td><?php echo $value['attribute_label']; ?></td>
+                    <td class='edit_attribute attributeId_<?php echo $value["attribute_id"] ?>' data-attributeid='<?php echo $value["attribute_id"] ?>'><a href="javascript:void(0)"><span><?php echo __('Edit') ?></span></a></td>
+                </tr>
+            <?php } ?>
+        </table>
+    </div>
+    <div class="buttons-set">
+    	<p class="back-link">
+    		<a href="javascript:;" onclick="javascript: window.history.back();" class="left">&laquo; <?php echo __('Back') ?></a>
+    	</p>
+    </div>
+    <div id="tblDivData" style="display: none;">
+    	<table id="optiontbl">
+    		<tr>
+    			<th><?php echo __('Is Default') ?></th>
+    			<th><?php echo __('Swatch Type') ?></th>
+    			<th><?php echo __('Name') ?></th>
+    			<th><?php echo __('Action') ?></th>
+    		</tr>
+            <tr id="valuRow">
+                <td><input type="radio" id="radio0" name="" count='0' ></td>
+                <td><span><img id="img" class='img' name="imgOptionName[0][]"><input type="button" name="swtoption" class="optionswt" data-custom=""></span>
+                <span>
+                <div id="panel" style="display: none;">
+                <ul>
+                    <li><label for="upload-photo0" class="lblImage" value="12">Upload Image</label><input type="file" name="imgOption[0]" id="upload-photo0" class="upload-photo" data-val="" /></li>
+                    <li><label for="choose-color0" class="lblImage">Choose Color</label><input type="color" value="#2c1212" name="color[0][]" id="choose-color0" class="upload-photo" ></li>
+                    </ul>
+                </div>
+                </span>
+                </td>
+                <!-- <td><input type="button" class="colorSwatch" id="colorSwatch" value="Color"><span><input type="button" value="upload image" class="fileCls"></span></td> -->
+                <td><input type="text" name="optName[0][]" id="optName0"></td>
+                <td><input type="button" name="closebtn" value="REMOVE"  ></td>
+                <td><input type="button" name="addMore" value="ADD" class="addBtn" id="addBtn"></td>
+            </tr>
+    	</table>
+</div>
+
+</form>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Mangoit_VendorAttribute/js/product/attribute/create": {}
+        }
+    }
+</script>
+<script type="text/javascript"> 
+    function tblAddRowFunction()
+    {
+      var tblRow = "<tr><td><input type='radio' id='radio'></td><td><span><img id='img"+count+"' class='img' name='imgOptionName["+count+"][]' ><input type='button' name='swtoption' class='optionswt' data-custom='"+count+"'></span><span><div id='panel"+count+"' style='display: none;'><ul><li><label for='upload-photo"+count+"' class='lblImage' >Upload Image</label><input type='file' name='imgOption["+count+"]' id='upload-photo"+count+"' class='upload-photo' data-val='' /></li><li><label for='choose-color"+count+"' class='lblImage'>Choose Color</label><input type='color' value='#2c1212' name='color["+count+"][]' id='choose-color"+count+"' class='upload-photo'></li></ul></div></span></td><td><input type='text' name='optName["+count+"][]' id='optName["+count+"][]'></td><td><input type='button' name='closebtn' id='closebtn"+count+"' value='REMOVE' class='removeBtn' ></td><td><input type='button' name='addMore' value='ADD' class='addBtn' id='addBtn'></td></tr>";
+      count++;
+      return tblRow;
+
+    }
+    require(['jquery', 'jquery/ui'], function($){
+        var count=1;
+        var color = 1;
+        var file = 1;
+
+        $(document).on('click', '#save-btn', function(){  
+            var selectedOption = $("#frontend_input").find(":selected").val();
+            if (selectedOption == 0) {
+                $("#frontend_input").css("border-color", "#e02b27");
+                $("#error").html("This is a required field");
+                event.preventDefault();
+            }
+        });
+    	$(document).on('change','#frontend_input', function(e){
+    		var dropdownVal = this.options[e.target.selectedIndex].value;
+    		if (dropdownVal== 'swatch_visual') {		
+    			// $(".wk-mp-option-box").css("display", "none");
+    			$("#tblDivData").css("display", "block");
+    		} else {
+    			$("#tblDivData").css("display", "none");
+    		}
+        });
+        $(document).on('click','#addBtn', function(){
+        	var tblRowData = tblAddRowFunction();
+           $("tr:last").after(tblRowData);
+        });
+        $(document).on('click','.optionswt', function(){
+            var bb = $(this).attr('data-custom');
+            $('#upload-photo'+bb).attr('data-val', bb);
+            $('#choose-color'+bb).attr('data-val', bb);
+           $("#panel"+bb).slideToggle("slow");
+        });
+        $(document).on('click','.colorSwatch', function(){
+           $(this).replaceWith("<input type='color' id='myColor"+color+"'>");
+           color++;
+           console.log('color'+color);
+        });
+        $(document).on('click','.fileCls', function(){
+        	$('#myColor1').replaceWith("<input type='button' class='colorSwatch' id='colorSwatch' value='Color'>");
+           $(this).replaceWith("<input type='file' name='fileToUpload' id='fileToUpload'"+file+">");
+           file++;
+        });
+        $(document).on('click','.removeBtn', function(){
+        	$(this).parent().parent().remove();
+        	// var tblRowData = tblAddRowFunction();
+         //   $("tr:last").after(tblRowData);
+        });
+
+        $(document).on('change','.upload-photo',function(){
+            var rowId = $(this).attr('data-val');
+            if (this.files && this.files[0]) {    
+                var FR= new FileReader();    
+                FR.addEventListener("load", function(e) {
+                    document.getElementById("img"+rowId).setAttribute("style", "background-color: 0 ;");
+                    // document.getElementById("img"+rowId).removeAttribute("style");
+                    // $("choose-color"+rowId).remove();
+                    document.getElementById("img"+rowId).src = e.target.result;
+                    $("#panel"+rowId).slideUp("slow");
+                });     
+                FR.readAsDataURL( this.files[0] );
+            } else {
+          	    document.getElementById('img'+rowId).src = "";
+          	    var clr = $(this).val();
+          	    document.getElementById("img"+rowId).setAttribute('style', 'background-color:'+clr+';');
+          	    $("#panel"+rowId).slideUp("slow");
+            }
+        });
+    });
+</script>
+
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'slide',
+                responsive: true,
+                innerScroll: true,
+                buttons: [
+                    {
+                        text: $.mage.__('Cancel'),
+                        class: 'mymodal1',
+                        click: function () {
+                            this.closeModal();
+                        }
+                    },
+                    {
+                        text: $.mage.__('Save'),
+                        class: 'saveaction',
+                        click: function () {
+                            var attributeid = $(this).data('attributeid');
+                            var customurl = "<?php echo $this->getUrl('marketplace/product_attribute/save/') ?>";
+                            $.ajax({
+                                url: customurl,
+                                type: 'POST',
+                                dataType: 'html',
+                                showLoader: true,
+                                data: $("#form-customer-attr-edit").serialize(),
+                                complete: function(response) {     
+                                    console.log(response.responseText);        
+                                    //$("#popup-attribute-edit").html(response.responseText);  
+                                    $("#popup-attribute-edit").modal("closeModal"); 
+                                    location.reload();
+                                },
+                                error: function (xhr, status, errorThrown) {
+                                    console.log('Error happens. Try again.');
+                                }
+                            });
+                        }
+                    }
+                ]
+            };
+
+            var popup = modal(options, $('#popup-attribute-edit'));
+            $(".edit_attribute").on('click',function(){
+                var attributeid = $(this).data('attributeid');
+                var customurl = "<?php echo $this->getUrl().'marketplce/attribute/edit'?>";
+                $.ajax({
+                    url: customurl,
+                    type: 'POST',
+                    dataType: 'html',
+                    showLoader: true,
+                    data: {attributeid:attributeid
+                    },
+                    complete: function(response) {     
+                        console.log(response.responseText);        
+                        $("#popup-attribute-edit").html(response.responseText);  
+                        $("#popup-attribute-edit").modal("openModal");  
+                    },
+                    error: function (xhr, status, errorThrown) {
+                        // console.log('Error happens. Try again.');
+                    }
+                });
+            });
+            $(document).on('click',".mis_delete_option",function(){
+                    var deletedOptionId = $(this).attr('data-attr');
+                $('.deleted_options').val(function(i,val = 0) { 
+                    return val + (val ? ',' : '') + deletedOptionId;
+                });
+            });
+        }
+    );
+</script>

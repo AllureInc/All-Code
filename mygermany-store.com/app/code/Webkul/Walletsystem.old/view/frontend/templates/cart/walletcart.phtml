@@ -1,0 +1,149 @@
+<?php
+/**
+ * Webkul Software
+ *
+ * @category Webkul
+ * @package Webkul_Walletsystem
+ * @author Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license https://store.webkul.com/license.html
+ */
+?>
+<?php
+    $walletHelper = $this->helper('Webkul\Walletsystem\Helper\Data');
+?>
+<?php $mergedCells = ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices() ? 2 : 1); ?>
+<?php /* @escapeNotVerified */ echo $block->getChildHtml('form_before') ?>
+<?php if(!$walletHelper->getCartStatus()){ ?>
+        <div class="page-title title-buttons">
+            <h2><?php /* @escapeNotVerified */ echo __('Adding To Wallet') ?></h2>
+        </div>
+        <form action="<?php /* @escapeNotVerified */ echo $block->getUrl('checkout/cart/updatePost') ?>"
+              method="post"
+              id="form-validate"
+              data-mage-init='{"validation":{}}'
+              class="form form-cart">
+        <?php /* @escapeNotVerified */ echo $block->getBlockHtml('formkey'); ?>
+        <div class="cart table-wrapper<?php /* @escapeNotVerified */ echo $mergedCells == 2 ? ' detailed' : ''; ?>">
+        <table id="shopping-cart-table" class="wk_ws_cart_table">
+            <thead>
+                <tr>
+                    <th class="a-center"><span class="nobr"><?php /* @escapeNotVerified */ echo __("Wallet Holder's Name") ?></span></th>
+                    <th class="a-center"><span class="nobr"><?php /* @escapeNotVerified */ echo __('Current Amount') ?></span>
+                    </th>
+                    <th class="a-center">
+                        <?php /* @escapeNotVerified */ echo __('Credited Amount') ?>
+                    </th>
+                    <th class="a-center">
+                        <?php /* @escapeNotVerified */ echo __('Subtotal') ?>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class='cart item'>
+                <?php
+                    $returnData = $walletHelper->getWalletDetailsData();
+                    foreach($block->getItems() as $_item): ?>
+                    <?php $productId = $_item->getProductId();
+                        if($productId==$returnData['walletProductId']){?>
+                        <tr class="item-info">
+                            <?php
+                            $currency_symbol = $returnData['currencySymbol'];
+                            $currentWalletamount = $returnData['wallet_amount'];
+                            ?>
+                            <td class="a-center"><?php /* @escapeNotVerified */ echo $returnData['customer_name']."'s Wallet";?></td>
+                            <td class="a-center"><?php /* @escapeNotVerified */ echo $currency_symbol.$currentWalletamount;?></td>
+                            <td class="a-center"><?php /* @escapeNotVerified */ echo $currency_symbol.$_item->getCustomPrice();?></td>
+                            <td class="a-center"><?php /* @escapeNotVerified */ echo $currency_symbol.($currentWalletamount + $_item->getCustomPrice());?></td>
+                        </tr>
+                        <tr class='item-actions'>
+                            <td colspan="100">
+                                <div class='actions-toolbar'>
+                                    <a href="#"
+                                        title="<?php /* @escapeNotVerified */ echo __('Remove item'); ?>"
+                                        class="action action-delete wkProductDelete"
+                                        url='<?php /* @escapeNotVerified */ echo $block->getDeletePostJson($_item); ?>'>
+                                        <span>
+                                            <?php /* @escapeNotVerified */ echo __('Remove item')?>
+                                        </span>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php   }
+                    ?>
+                <?php endforeach ?>
+                </tbody>
+
+            </table>
+    </div>
+    </form>
+<?php } else { ?>
+<form action="<?php /* @escapeNotVerified */ echo $block->getUrl('checkout/cart/updatePost') ?>"
+          method="post"
+          id="form-validate"
+          data-mage-init='{"validation":{}}'
+          class="form form-cart">
+    <?php echo $block->getBlockHtml('formkey'); ?>
+    <div class="cart table-wrapper<?php /* @escapeNotVerified */ echo $mergedCells == 2 ? ' detailed' : ''; ?>">
+        <table id="shopping-cart-table"
+               class="cart items data table"
+               data-mage-init='{"shoppingCart":{"emptyCartButton": "action.clear",
+               "updateCartActionContainer": "#update_cart_action_container"}}'>
+            <caption role="heading" aria-level="2" class="table-caption"><?php /* @escapeNotVerified */ echo __('Shopping Cart Items') ?></caption>
+            <thead>
+                <tr>
+                    <th class="col item" scope="col"><span><?php /* @escapeNotVerified */ echo __('Item') ?></span></th>
+                    <th class="col price" scope="col"><span><?php /* @escapeNotVerified */ echo __('Price') ?></span></th>
+                    <th class="col qty" scope="col"><span><?php /* @escapeNotVerified */ echo __('Qty') ?></span></th>
+                    <th class="col subtotal" scope="col"><span><?php /* @escapeNotVerified */ echo __('Subtotal') ?></span></th>
+                </tr>
+            </thead>
+            <?php foreach ($block->getItems() as $_item): ?>
+                <?php /* @escapeNotVerified */ echo $block->getItemHtml($_item) ?>
+            <?php endforeach ?>
+        </table>
+    </div>
+    <div class="cart main actions">
+        <?php if ($block->getContinueShoppingUrl()): ?>
+            <a class="action continue"
+               href="<?php /* @escapeNotVerified */ echo $block->escapeUrl($block->getContinueShoppingUrl()) ?>"
+               title="<?php /* @escapeNotVerified */ echo $block->escapeHtml(__('Continue Shopping')); ?>">
+                <span><?php /* @escapeNotVerified */ echo __('Continue Shopping') ?></span>
+            </a>
+        <?php endif; ?>
+        <button type="submit"
+                name="update_cart_action"
+                data-cart-empty=""
+                value="empty_cart"
+                title="<?php /* @escapeNotVerified */ echo $block->escapeHtml(__('Clear Shopping Cart')); ?>"
+                class="action clear" id="empty_cart_button">
+            <span><?php /* @escapeNotVerified */ echo __('Clear Shopping Cart'); ?></span>
+        </button>
+        <button type="submit"
+                name="update_cart_action"
+                data-cart-item-update=""
+                value="update_qty"
+                title="<?php /* @escapeNotVerified */ echo $block->escapeHtml(__('Update Shopping Cart')); ?>"
+                class="action update">
+            <span><?php /* @escapeNotVerified */ echo __('Update Shopping Cart'); ?></span>
+        </button>
+        <input type="hidden" value="" id="update_cart_action_container" data-cart-item-update=""/>
+    </div>
+</form>
+<?php }?>
+<?php /* @escapeNotVerified */ echo $block->getChildHtml('checkout.cart.order.actions') ?>
+<?php /* @escapeNotVerified */ echo $block->getChildHtml('shopping.cart.table.after'); ?>
+<?php
+$formData = [
+    'deletelink'    =>  '.wkProductDelete'
+];
+$serializedFormData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($formData);
+?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Wkwalletsystem": <?php /* @escapeNotVerified */ echo $serializedFormData; ?>
+        }
+    }
+</script>

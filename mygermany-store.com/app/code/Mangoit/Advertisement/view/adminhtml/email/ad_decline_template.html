@@ -1,0 +1,20 @@
+<!--
+/*
+ * File is used for Email Template module in Magento 2
+ * Mangoit Customobserver
+ */
+-->
+<!--@subject {{trans "Ad Block Declined."}} @-->
+<!--@vars {
+"var data.id":"Product Id",
+"var data.name":"Product Name",
+"var data.url":"Product Url"} 
+@-->
+
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">{{trans "Hello %sellername" sellername=$data.sellername}}</p>
+<p>{{trans "The Ad block you have purchased, is declined by admin."}}</p>
+<p>{{trans "for the following reason."}}</p>
+<p>{{trans "Message: %msg" msg=$data.msg}}</p>
+{{template config_path="design/email/footer_template"}}

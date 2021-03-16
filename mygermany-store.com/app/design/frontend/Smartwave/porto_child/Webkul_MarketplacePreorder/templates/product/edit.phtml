@@ -1,0 +1,67 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MarketplacePreorder
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<?php
+$productId = $this->getRequest()->getParam('id');
+$currentHelper = $this->helper('Webkul\MarketplacePreorder\Helper\Data');
+
+$attributeOptions = $currentHelper->getEditPreorderAttribute($productId);
+
+
+if($this->getRequest()->getParam('type')!=="bundle"
+	&& $this->getRequest()->getParam('type')!=="grouped"
+):
+
+$preorderAvailability = '';
+if ($attributeOptions['preorderAvailability'] != '') {
+	$objectMngr = \Magento\Framework\App\ObjectManager::getInstance();
+	$date = $objectMngr->get('\Magento\Framework\Stdlib\DateTime\DateTime');
+	$preorderAvailability = $date->gmtDate('m/d/y', strtotime($attributeOptions['preorderAvailability']));
+}
+?>
+	<div class="field">
+		<label class="label"><?php echo __('Preorder Status') ?></label>
+		<div class="control">
+			<select name="product[wk_marketplace_preorder]" id="wk_marketplace_preorder" class="required-entry">
+			<?php foreach($attributeOptions['attributeoptions'] as $option) {
+					if($option['value']!=="" && $option['value']!==NULL){
+				?>
+					<option value="<?php echo $option['value'] ?>" <?php if($option['value']==$attributeOptions['preorderstatus']){ ?>selected="true"<?php } ?> ><?php echo __($option['label']); ?></option>
+			<?php 	}
+				}
+			 ?>
+			</select>
+		</div>
+	</div>
+	<div class="field">
+		<label class="label"><?php echo __('Preorder Product Availability Date') ?></label>
+		<div class="control">
+			<input type="text" name="product[wk_marketplace_availability]" id="wk-marketplace-availability" class="input-text" value="<?php echo $preorderAvailability; ?>"/>
+		</div>
+	</div>
+	<?php if ($currentHelper->getPreorderQtyEnable()): ?>
+	<div class="field ">
+		<label class="label"><?php echo __('Preorder Product Quantity') ?></label>
+		<div class="control">
+			<input type="text" name="product[wk_mppreorder_qty]" id="wk-mppreorder-qty" class="input-text" value="<?php echo $attributeOptions['mppreorderqty'] ?>"/>
+		</div>
+	</div>
+<?php endif; ?>
+	<script type="text/x-magento-init">
+    {
+        "*": {
+            "preorderProduct": ""
+        }
+    }
+</script>
+<?php endif; ?>

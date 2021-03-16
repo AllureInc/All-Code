@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="plenty_stock" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Plenty Stock</label>
+            <tab>plenty_tab</tab>
+            <resource>Plenty_Stock::config_plenty_stock</resource>
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>General</label>
+                <field id="version" type="note" translate="label" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Version</label>
+                    <frontend_model>Plenty\Stock\Block\Adminhtml\System\Config\Form\Field\Version</frontend_model>
+                    <comment>Current connector version</comment>
+                </field>
+                <field id="update_on_addtocart" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Update stock item on add to cart</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enables stock update of item after it's added to cart in frontend.</comment>
+                </field>
+                <field id="update_on_save" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Update stock item on save action</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Updates item qty when item is saved in magento backend.</comment>
+                </field>
+            </group>
+            <group id="dev" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Enable Debugging</label>
+                <field id="debug_enabled" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable debugging</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enables logging response data to a file.</comment>
+                </field>
+                <field id="debug_directory" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Debug directory name (e.g stock)</label>
+                </field>
+                <field id="debug_level" translate="label" type="multiselect" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Debug level</label>
+                    <source_model>Plenty\Core\Model\Profile\Config\Source\DebugLevel</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

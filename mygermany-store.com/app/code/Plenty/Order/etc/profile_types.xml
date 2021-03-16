@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Plenty_Core:etc/profile_types.xsd">
+    <type name="order"
+          label="Order"
+          sortOrder="30">
+        <adapter>
+            <item name="export"
+                  label="Order Export"
+                  modelInstance="Plenty\Order\Profile\Export\Entity\Order"
+                  modelRouter="plenty_order/export_order" />
+            <item name="import"
+                  label="Order Import"
+                  modelInstance="Plenty\Order\Profile\Import\Entity\Order"
+                  modelRouter="plenty_order/import_order" />
+        </adapter>
+    </type>
+</config>

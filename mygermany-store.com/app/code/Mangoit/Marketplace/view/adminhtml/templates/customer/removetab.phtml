@@ -1,0 +1,26 @@
+<?php
+?>
+<script type="text/javascript">
+	var tabArray = [];
+    require([
+            "jquery"
+        ], function($){
+            console.log('.....');
+            setTimeout(function(){ 
+            	// alert("Hello");
+            	$('.admin__page-nav-link').each(function(){
+            		// console.log($(this).children().not('.admin__page-nav-item-messages').text());
+            		// console.log( jQuery.inArray( $(this).children().not('.admin__page-nav-item-messages').text(), tabArray)); 
+            		if ( jQuery.inArray( $(this).children().not('.admin__page-nav-item-messages').text(), tabArray) < 0 ) {
+            			tabArray.push($(this).children().not('.admin__page-nav-item-messages').text());            			
+            		} else {
+            			// console.log('Repeating : '+
+            			// 	$(this).children().not('.admin__page-nav-item-messages').text());
+            			$(this).parent().css({"display": "none"});            			
+            		}
+            	});
+            	console.log('Not Repeating Tab Js');
+
+             }, 10000);
+    });
+</script>

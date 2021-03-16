@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="adminhtml_catalog_product_edit_prepare_form">
+        <observer name="custom_product_fields" instance="Mangoit\VendorField\Observer\CatalogProductEditPrepareForm" />
+        <!-- CatalogProductEditPrepareForm is name of class in which we'll add custom fields in form-->
+    </event>
+</config>

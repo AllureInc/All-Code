@@ -1,0 +1,18 @@
+<?php
+/**
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+?>
+<?php /** @var \Plenty\Core\Block\Adminhtml\Profile\Config\Api\Data\Modal $block */ ?>
+
+<?php if (empty($block->getData('modal_messages'))) return; ?>
+<div class="entry-edit">
+    <p><?= __('The following data must be collected:') ?></p>
+    <ul style="padding-left: 2rem;">
+        <?php foreach ($block->getData('modal_messages') as $message) : ?>
+            <li><?= $message ?></li>
+        <?php endforeach; ?>
+    </ul>
+    <p><?= __('This should not take long. Press bellow button to proceed.'); ?></p>
+</div>

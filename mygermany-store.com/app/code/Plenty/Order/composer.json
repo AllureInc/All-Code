@@ -1,0 +1,45 @@
+{
+    "name": "plenty/order",
+    "description": "",
+    "require": {
+        "php": "~7.1.3||~7.2.0",
+        "magento/framework": "102.0.*",
+        "magento/module-backend": "101.0.*",
+        "magento/module-store": "101.0.*",
+        "magento/module-ui": "101.1.*",
+        "plenty/core": "0.1.0",
+        "magento/module-catalog": "103.0.*",
+        "magento/module-customer": "102.0.*",
+        "magento/module-catalog-inventory": "100.3.*",
+        "magento/module-checkout": "100.3.*",
+        "magento/module-payment": "100.3.*",
+        "magento/module-quote": "101.1.*",
+        "magento/module-sales": "102.0.*",
+        "magento/module-shipping": "100.3.*",
+        "magento/magento-composer-installer": "*"
+    },
+    "suggest": {
+
+    },
+    "type": "magento2-module",
+    "version": "0.1.0",
+    "license": [
+
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Plenty\\Order\\": ""
+        }
+    },
+    "extra": {
+        "map": [
+            [
+                "*",
+                "Plenty/Order"
+            ]
+        ]
+    }
+}

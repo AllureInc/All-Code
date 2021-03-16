@@ -1,0 +1,56 @@
+<style type="text/css">
+.table-order-items tr th {
+    border: 1px solid #ccc !important;
+    padding: 10px !important;
+}
+</style>
+<?php
+/**
+ * @var $block \Magento\Sales\Block\Order\Totals
+ * @see \Magento\Sales\Block\Order\Totals
+ */
+
+$urlPara = $block->getRequest()->getUriString();
+$urlArray = explode('/', $urlPara);
+$colspan = false;
+if(in_array('creditmemo', $urlArray))
+{
+    $colspan = 6;
+}
+?>
+<?php
+    if ($block->getOrder()->getShippingAddress()) {
+        $countryId = $block->getOrder()->getShippingAddress()->getCountryId();
+    } else {
+        $countryId = 'DE';
+    }
+    $misMrketplaceHelper = $this->helper('Mangoit\Marketplace\Helper\Data');
+    $euCountry = $misMrketplaceHelper->isEuCountry($countryId);
+?>
+<?php foreach ($block->getTotals() as $_code => $_total): ?>
+    <?php if ($_total->getBlockName()): ?>
+        <?= $block->getChildHtml($_total->getBlockName(), false) ?>
+    <?php else:?>
+    <tr class="<?= /* @escapeNotVerified */ $_code ?>">
+        <th colspan="<?php if($colspan){ echo $colspan;} else { echo(4); } ?>" 
+            <?= /* @escapeNotVerified */ $block->getLabelProperties(); ?> scope="row">
+            <?php if ($_total->getStrong()):?>
+            <strong><?php echo __($_total->getLabel()); ?></strong>
+            <?php if($_code ==  'grand_total' && ($euCountry)):?>
+                <span class="mis_inclusive_label"><?php echo __(' incl. VAT');?></span>
+            <?php endif;?>
+            <?php else:?>
+            <?php echo __($_total->getLabel()); ?>
+            <?php endif?>
+        </th>
+        <td <?= /* @escapeNotVerified */ $block->getValueProperties() ?> 
+            data-th="<?= $block->escapeHtml($_total->getLabel()) ?>">
+            <?php if ($_total->getStrong()):?>
+            <strong><?= /* @escapeNotVerified */ $block->formatValue($_total) ?></strong>
+            <?php else:?>
+            <?= /* @escapeNotVerified */ $block->formatValue($_total) ?>
+            <?php endif?>
+        </td>
+    </tr>
+    <?php endif?>
+<?php endforeach?>

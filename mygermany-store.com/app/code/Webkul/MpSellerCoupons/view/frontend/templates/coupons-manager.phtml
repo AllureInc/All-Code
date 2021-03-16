@@ -1,0 +1,260 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpSellerCoupons
+ * @author    Webkul Software Private Limited
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+$couponsCollection = $block->getCollection();
+$filters = $block->getParams();
+?>
+<div class="wk-mp-design" style="overflow-x:scroll">
+	<fieldset class="fieldset info wk-mp-fieldset">
+		<legend class="legend">
+			<span><?php /* @escapeNotVerified */ echo __('Generate Coupons') ?></span>
+		</legend>
+		<div class="grid">
+			<div class="hor-scroll">
+				<form class = "wk-overflow-scroll" action="<?php /* @escapeNotVerified */ echo $block->getUrl('mpsellercoupons/coupon/generatecoupon', ['_secure' => $this->getRequest()->isSecure()])?>" method="post" id="form-generatecoupon-filter"  name="formGenerateCouponFilter" data-mage-init='{"validation":{}}'>
+				<?php
+				$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+				$FormKey = $objectManager->get('Magento\Framework\Data\Form\FormKey');
+				$formKey = $FormKey->getFormKey();
+				?>
+					<input type = "hidden" value = "<?php echo $formKey; ?>" name = "form_key">
+					<table cellspacing="0" class="border wk-mp-list-table wk-mp-coupon-generator">
+					    <thead>
+					        <tr id="wk-mp-tr-heading">
+					            <th><span><?php /* @escapeNotVerified */ echo __('Code Prefix') ?></span></th>
+					            <th><span><?php /* @escapeNotVerified */ echo __('Coupon Value')."( ".$block->getCurrentCurrencySymbol()." )" ?></span></th>
+					            <th><span><?php /* @escapeNotVerified */ echo __('Quantity') ?></span></th>
+					            <th><span><?php /* @escapeNotVerified */ echo __('Expire Date') ?></span></th>
+					            <th><span>&nbsp;&nbsp;</span></th>
+					        </tr>
+					    </thead>
+					    <tbody class="wk-mp-body">
+					    	<tr>
+					    		<td>
+					    			<input type="text" class="input-text required-entry" name="coupon_prefix" id="couponCodeToCreate"/>
+					    		</td>
+					    		<td>
+					    			<span class="wk-mp-td-span">
+					    				<input type="text" name="coupon_value" id="coupon_value " class="input-text required-entry validate-zero-or-greater" />
+					    			</span>
+					    		</td>
+					    		<td>
+					    			<span class="wk-mp-td-span">
+					    				<input type="text" name="coupon_quantity" id="coupon_quantity" class="input-text required-entry validate-zero-or-greater" />
+					    			</span>
+					    		</td>
+					    		<td>
+					    			<span class="wk-mp-td-span">
+					    				<input type="text" name="coupon_expiry" id="coupon_expiry" class="input-text required-entry"/>
+					    			</span>
+					    		</td>
+					    		<td>
+					    			<button class="button" title="<?php /* @escapeNotVerified */ echo __('Generate') ?>" type="submit">
+										<span><span><span><?php /* @escapeNotVerified */ echo __('Generate') ?></span></span></span>
+									</button>
+					    		</td>
+					    	</tr>
+					    </tbody>
+					</table>
+				</form>
+				<legend class="legend" style="margin-left:0; padding:0">
+					<span><?php /* @escapeNotVerified */ echo __('Coupon List') ?></span>
+				</legend>
+				<form action="<?php /* @escapeNotVerified */ echo $block->getCurrentSiteUrl() ?>" method="post" id="form-coupons-filter"  name="formcouponsFilter" data-mage-init='{"validation":{}}'>
+					<?php /* @escapeNotVerified */ echo $block->getBlockHtml('formkey')?>
+					<table cellspacing="0" class="border wk-mp-list-table">
+					    <thead>
+					        <tr id="wk-mp-tr-heading">
+					            <th><span><?php /* @escapeNotVerified */ echo __('Coupon Code') ?></span></th>
+					            <th><span><?php /* @escapeNotVerified */ echo __('Coupons Status') ?></span></th>
+					            <th><span>&nbsp;&nbsp;</span></th>
+					        </tr>
+					    </thead>
+					    <tbody class="wk-mp-body">
+					    	<tr>
+					    		<td>
+					    			<input type="text" id="couponCodeToSearch" class="input-text" name="code" placeholder='<?php echo __('Search by coupon code') ?>' value="<?php if(isset($filters['code'])){ /* @escapeNotVerified */ echo $filters['code'];}?>"/>
+					    		</td>
+					    		<td style="width: 40%;">
+					    				<select name="couponstatus" class="input-text" style="width: 100%;">
+					    					<option value=""><?php echo __('All') ?></option>
+						    				<option value="active" <?php if(isset($filters['couponstatus']) && $filters['couponstatus'] == 'active'){ /* @escapeNotVerified */ echo 'selected="selected"';} ?> >
+						    					<?php /* @escapeNotVerified */ echo __('Active') ?>
+						    				</option>
+						    				<option value="used" <?php if(isset($filters['couponstatus']) && $filters['couponstatus'] == 'used'){ /* @escapeNotVerified */ echo 'selected="selected"';} ?>>
+						    					<?php /* @escapeNotVerified */ echo __('Used') ?>
+						    				</option>
+						    				<option value="expired" <?php if(isset($filters['couponstatus']) && $filters['couponstatus'] == 'expired'){ /* @escapeNotVerified */ echo 'selected="selected"';} ?> >
+						    					<?php /* @escapeNotVerified */ echo __('Expired') ?>
+						    				</option>
+						    			</select>
+						    		</td>
+					    		<td>
+					    			<button class="button" title="Save" type="submit">
+										<span><span><span><?php /* @escapeNotVerified */ echo __('Submit') ?></span></span></span>
+									</button>
+					    		</td>
+					    	</tr>
+					    </tbody>
+					</table>
+				</form>
+				<?php if ($couponsCollection && count($couponsCollection)): ?>
+					<form action="<?php /* @escapeNotVerified */ echo $block->getUrl('mpsellercoupons/coupon/massdelete', ['_secure' => $this->getRequest()->isSecure()]) ?>" method="post" id="form-couponmanager-massdelete" name="formCouponManagerMassdelete" data-mage-init='{"validation":{}}'>
+						<?php /* @escapeNotVerified */ echo $block->getBlockHtml('formkey')?>
+						<button class="button" title="<?php echo __('Delete Coupons') ?>" type="submit" style="float: left;padding: 5px 5px 5px 0;"  id="mass-delete-butn">
+							<span><span><?php /* @escapeNotVerified */ echo __('Delete Coupons') ?></span></span>
+						</button>
+						<div class="wk-table-scroll">
+							<table cellspacing="0" class="border wk-mp-list-table wk-mp-list-container-table">
+								<thead>
+									<tr class="wk-content wk-head-color">
+										<th class="wk-check-first-td">
+											<span>
+												<input type="checkbox" name="mpselecctall" value="all" id="mpselecctall"/>
+											</span>
+										</th>
+										<th class="wk-first-td">
+											<span class="label name">
+												<?php /* @escapeNotVerified */ echo __('Coupon Code')?>
+											</span>
+										</th>
+										<th>
+											<span class="label pro-status">
+												<?php /* @escapeNotVerified */ echo __('Coupon Value')?>
+											</span>
+										</th>
+										<th>
+											<span class="label pro-status">
+												<?php /* @escapeNotVerified */ echo __('Status')?>
+											</span>
+										</th>
+										<th>
+											<span class="label qty">
+												<?php /* @escapeNotVerified */ echo __('Used Description')?>
+											</span>
+										</th>
+										<th>
+											<span class="label qty">
+												<?php /* @escapeNotVerified */ echo __('Created At')?>
+											</span>
+										</th>
+										<th>
+											<span class="label qty">
+												<?php /* @escapeNotVerified */ echo __('Expire At')?>
+											</span>
+										</th>
+										<th>
+											<span class="label">
+												<?php /* @escapeNotVerified */ echo __('Used At')?>
+											</span>
+										</th>
+										<th>
+											<span class="label">
+												<?php /* @escapeNotVerified */ echo __('Action')?>
+											</span>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php
+									$i = 0;
+									foreach($couponsCollection as $coupon){
+										$i++;
+										?>
+										<tr class="wk-row-view wk-row-color <?php /* @escapeNotVerified */ echo $class = ($i == count($couponsCollection))? 'wk-last_tr':''?>">
+											<td class="wk-check-first-td">
+												<span>
+													<input type="checkbox" name="coupon_mass_delete[]" class="mpcheckbox" value="<?php /* @escapeNotVerified */ echo $coupon->getEntityId(); ?>"/>
+												</span>
+											</td>
+											<td>
+												<span class="label pro-status">
+													<?php /* @escapeNotVerified */ echo $coupon->getCouponCode()?>
+												</span>
+											</td>
+											<td>
+												<span class="label pro-status">
+													<?php /* @escapeNotVerified */ echo $coupon->getCouponValue()?>
+												</span>
+											</td>
+											<td>
+												<span class="label pro-status">
+													<?php
+														$couponStatusData = $block->checkCouponStatus($coupon->getCreatedAt(), $coupon->getExpireAt());
+														$couponStatus = $coupon->getStatus();
+														if($couponStatus!='used'){
+															if (!empty($couponStatusData)) {
+																$couponStatus = $couponStatusData;
+															}
+														}
+
+													/* @escapeNotVerified */ echo $couponStatus;?>
+												</span>
+											</td>
+											<td>
+												<span class="label pro-status">
+													<?php /* @escapeNotVerified */ echo $coupon->getUsedDescription()?>
+												</span>
+											</td>
+											<td>
+												<span class="label pro-status">
+													<?php /* @escapeNotVerified */ echo $coupon->getCreatedAt()?>
+												</span>
+											</td>
+											<td>
+												<span class="label pro-status">
+													<?php /* @escapeNotVerified */ echo $coupon->getExpireAt()?>
+												</span>
+											</td>
+											<td>
+												<span class="label pro-status">
+													<?php /* @escapeNotVerified */ echo $coupon->getUsedAt()?>
+												</span>
+											</td>
+											<td>
+												<span class="label wk-action">
+													<img src="<?php /* @escapeNotVerified */ echo $this->getViewFileUrl('Webkul_Marketplace::images/icon-trash.png'); ?>" alt="<?php /* @escapeNotVerified */ echo __('Delete')?>" title="<?php echo __('Delete')?>" class="mp-delete" data-url="<?php /* @escapeNotVerified */ echo $block->getUrl('mpsellercoupons/coupon/delete/', ['id'=>$coupon->getEntityId(), '_secure' => $this->getRequest()->isSecure()]) ?>"/>
+												</span>
+											</td>
+										</tr>
+										<?php
+									}?>
+								</tbody>
+							</table>
+						</div>
+					</form>
+				<?php else: ?>
+					<div class="wk-emptymsg">
+						<?php /* @escapeNotVerified */ echo __('No Coupons Available') ?>
+					</div>
+				<?php endif ?>
+			</div>
+		</div>
+	</fieldset>
+</div>
+<?php if ($block->getPagerHtml()): ?>
+	<div class="order-coupon-toolbar toolbar bottom"><?php /* @escapeNotVerified */ echo $block->getPagerHtml(); ?></div>
+<?php endif ?>
+<div class="buttons-set">
+	<p class="back-link">
+		<a href="javascript:;" onclick="javascript: window.history.back();" class="left">&laquo; <?php /* @escapeNotVerified */ echo __('Back') ?></a>
+	</p>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "sellerCouponManager": {}
+        }
+    }
+</script>
+<style>
+.limiter{float:right;}
+</style>

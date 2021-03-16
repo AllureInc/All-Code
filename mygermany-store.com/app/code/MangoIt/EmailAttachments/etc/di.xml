@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<!--
+    /**
+    * @author     MangoIt
+    * @package    MangoIt_EmailAttachments
+    * @copyright  Copyright (c) 2015 MangoIt Solutions (http://www.mangoitsolutions.com/)
+    *
+    * For the full copyright and license information, please view the LICENSE
+    * file that was distributed with this source code.
+    */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- replacing core preferences -->
+    <!-- <preference for="\Magento\Framework\Mail\Template\TransportBuilder"
+                type="MangoIt\EmailAttachments\Model\MailTransportBuilder"/> -->
+
+    <!-- <preference for="\Magento\Framework\Mail\Template\TransportBuilder"
+                type="MangoIt\EmailAttachments\Mail\Template\TransportBuilder"/> -->
+    <!-- <preference for="\Magento\Framework\Mail\Message" type="MangoIt\EmailAttachments\Mail\Message"/> -->
+
+    <preference for="\Magento\Sales\Model\Order\Email\SenderBuilder"
+                type="MangoIt\EmailAttachments\Model\SenderBuilder"/>
+
+    <preference for="\Magento\Sales\Model\Order\Email\Sender\OrderSender"
+                type="MangoIt\EmailAttachments\Model\Email\Sender\OrderSender"/>
+    <preference for="\Magento\Sales\Model\Order\Email\Sender\OrderCommentSender"
+                type="MangoIt\EmailAttachments\Model\Email\Sender\OrderCommentSender"/>
+
+    <preference for="\Magento\Sales\Model\Order\Email\Sender\InvoiceSender"
+                type="MangoIt\EmailAttachments\Model\Email\Sender\InvoiceSender"/>
+    <preference for="\Magento\Sales\Model\Order\Email\Sender\InvoiceCommentSender"
+                type="MangoIt\EmailAttachments\Model\Email\Sender\InvoiceCommentSender"/>
+
+    <preference for="\Magento\Sales\Model\Order\Email\Sender\ShipmentSender"
+                type="MangoIt\EmailAttachments\Model\Email\Sender\ShipmentSender"/>
+    <preference for="\Magento\Sales\Model\Order\Email\Sender\ShipmentCommentSender"
+                type="MangoIt\EmailAttachments\Model\Email\Sender\ShipmentCommentSender"/>
+
+    <preference for="\Magento\Sales\Model\Order\Email\Sender\CreditmemoSender"
+                type="MangoIt\EmailAttachments\Model\Email\Sender\CreditmemoSender"/>
+    <preference for="\Magento\Sales\Model\Order\Email\Sender\CreditmemoCommentSender"
+                type="MangoIt\EmailAttachments\Model\Email\Sender\CreditmemoCommentSender"/>
+
+    <!-- module introduced preferences -->
+    <preference for="MangoIt\EmailAttachments\Model\Api\AttachmentContainerInterface"
+                type="MangoIt\EmailAttachments\Model\AttachmentContainer"/>
+
+    <type name="\MangoIt\EmailAttachments\Observer\AbstractSendOrderObserver">
+        <arguments>
+            <argument name="pdfRenderer" xsi:type="object">\MangoIt\EmailAttachments\Model\NoneRenderer</argument>
+        </arguments>
+    </type>
+
+
+    <virtualType name="mangoit_emailattachments_invoice_pdf_renderer" type="\MangoIt\EmailAttachments\Model\PdfRenderer">
+        <arguments>
+            <argument name="pdfRenderer" xsi:type="object">\Magento\Sales\Model\Order\Pdf\Invoice</argument>
+        </arguments>
+    </virtualType>
+    <type name="\MangoIt\EmailAttachments\Observer\AbstractSendInvoiceObserver">
+        <arguments>
+            <argument name="pdfRenderer" xsi:type="object">mangoit_emailattachments_invoice_pdf_renderer</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="mangoit_emailattachments_shipment_pdf_renderer" type="\MangoIt\EmailAttachments\Model\PdfRenderer">
+        <arguments>
+            <argument name="pdfRenderer" xsi:type="object">\Magento\Sales\Model\Order\Pdf\Shipment</argument>
+        </arguments>
+    </virtualType>
+    <type name="\MangoIt\EmailAttachments\Observer\AbstractSendShipmentObserver">
+        <arguments>
+            <argument name="pdfRenderer" xsi:type="object">mangoit_emailattachments_shipment_pdf_renderer</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="mangoit_emailattachments_creditmemo_pdf_renderer" type="\MangoIt\EmailAttachments\Model\PdfRenderer">
+        <arguments>
+            <argument name="pdfRenderer" xsi:type="object">\Magento\Sales\Model\Order\Pdf\Creditmemo</argument>
+        </arguments>
+    </virtualType>
+    <type name="\MangoIt\EmailAttachments\Observer\AbstractSendCreditmemoObserver">
+        <arguments>
+            <argument name="pdfRenderer" xsi:type="object">mangoit_emailattachments_creditmemo_pdf_renderer</argument>
+        </arguments>
+    </type>
+</config>

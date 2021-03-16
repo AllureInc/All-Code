@@ -1,0 +1,200 @@
+<?php
+/**
+ * @category   Webkul
+ * @package    Webkul_MpPushNotification
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+
+
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$paramData = $this->getRequest()->getParams();
+$templatesCollection = $block->getCollection();
+$isPartner = $this->helper('Webkul\Marketplace\Helper\Data')->isSeller();
+
+?>    
+<?php if ($isPartner == 1) : ?>
+<div class="wk-mp-design">
+    <fieldset class="fieldset info wk-mp-fieldset">
+        <legend class="legend">
+                <span><?php /* @noEscape */ echo __('Create Template') ?></span>
+                <a href="<?php /* @noEscape */ echo $block->getUrl('mppushnotification/templates/create'); ?>">
+                    <button class="button wk-mp-btn" title="<?php /* @noEscape */ echo __('Create Template') ?>" type="submit" id="save-btn">
+                        <span><span><?php /* @noEscape */ echo __('Create Template') ?></span></span>
+                    </button>
+                </a>
+        </legend>    
+        <div class="grid">
+            <div class="hor-scroll">
+                <form action="<?php /* @noEscape */ echo $block->getUrl('mppushnotification/templates/index', ['_secure' => $this->getRequest()->isSecure()])?>" method="get" id="form-userslist-filter"  name="formUserslistFilter" data-mage-init='{"validation":{}}'>
+                    <table cellspacing="0" class="border wk-mp-list-table">
+                        <thead>
+                            <tr id="wk-mp-tr-heading">
+                                <th><span><?php /* @noEscape */ echo __('Title/Message') ?></span></th>
+                                <th><span><?php /* @noEscape */ echo __('Date') ?></span></th>
+                                <th><span>&nbsp;</span></th>
+                            </tr>
+                        </thead>
+                        <tbody class="wk-mp-body">
+                            <tr>
+                                <td>
+                                    <span class="wk-mp-td-span">
+                                    <input name="title" id="template-title" class="input-text" value="<?php if (isset($paramData['title'])) { /* @noEscape */ echo $paramData['title']; } ?>" />
+                                </span>
+                                </td>
+                                <td>
+                                    <span class="wk-mp-td-span">
+                                        <?php /* @noEscape */ echo __('From: ') ?>
+                                        <input name="from_date" id="templates-from-date" class="input-text" value="<?php if (isset($paramData['from_date'])) { /* @noEscape */ echo $paramData['from_date']; } ?>" />
+                                    </span>                                
+                                    <span class="wk-mp-td-span">
+                                        <?php /* @noEscape */ echo __('To: ') ?>
+                                        <input name="to_date" id="templates-to-date" class="input-text" value="<?php if (isset($paramData['to_date'])) { /* @noEscape */ echo $paramData['to_date']; } ?>" />
+                                    </span>
+                                </td>
+                                <td>
+                                    <button class="button" title="Save" type="submit">
+                                        <span><span><span><?php /* @noEscape */ echo __('Submit') ?></span></span></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+                <?php if ($templatesCollection && count($templatesCollection)) : ?>
+                    <form action="<?php /* @noEscape */ echo $block->getUrl('mppushnotification/templates/massdelete', ['_secure' => $this->getRequest()->isSecure()]) ?>" method="post" id="form-templates-massdelete" name="formTemplateslistMassdelete" data-mage-init='{"validation":{}}'>
+                        <?php /* @noEscape */ echo $block->getBlockHtml('formkey')?>
+                        <button class="button" title="<?php /* @noEscape */ echo __('Delete Template') ?>" type="submit" style="float: left;padding: 5px 5px 5px 0;"  id="mass-delete-butn">
+                            <span><span><?php /* @noEscape */ echo __('Delete Template') ?></span></span>
+                        </button>
+                        <table cellspacing="0" class="border wk-mp-list-table wk-mp-list-container-table">
+                            <thead>
+                                <tr class="wk-content">
+                                    <th class="wk-check-first-td">
+                                        <span>
+                                            <input type="checkbox" name="mpselecctall" value="all" id="mpselecctall"/>
+                                        </span>
+                                    </th>
+                                    <th>
+                                        <span class="label name">
+                                            <?php /* @noEscape */ echo __('Title')?>
+                                        </span>
+                                    </th>
+                                    <th>
+                                        <span class="label pro-status">
+                                            <?php /* @noEscape */ echo __('Message')?>
+                                        </span>
+                                    </th>
+                                    <th class="wk-list-th-display">
+                                        <span class="label">
+                                            <?php /* @noEscape */ echo __('Redirect Url')?>
+                                        </span>
+                                    </th>
+                                    <th class="wk-list-th-display">
+                                        <span class="label">
+                                            <?php /* @noEscape */ echo __('Logo')?>
+                                        </span>
+                                    </th>
+                                    <th class="wk-list-th-display">
+                                        <span class="label">
+                                            <?php /* @noEscape */ echo __('Tags')?>
+                                        </span>
+                                    </th>
+                                    <th>
+                                        <span class="label">
+                                            <?php /* @noEscape */ echo __('Created At')?>
+                                        </span>
+                                    </th>
+                                    <th>
+                                        <span class="label">
+                                            <?php /* @noEscape */ echo __('Action')?>
+                                        </span>
+                                    </th>                        
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $i = 0;
+                                foreach ($templatesCollection as $template) {
+                                    $i++;
+                                    ?>
+                                    <tr class="wk-row-view <?php /* @noEscape */ echo $class = ($i == count($templatesCollection))? 'wk-last_tr':''?>">
+                                        <td class="wk-check-first-td">
+                                            <span>
+                                                <input type="checkbox" name="user_mass_delete[]" class="mpcheckbox" value="<?php /* @noEscape */ echo $template->getId(); ?>"/>
+                                            </span>
+                                        </td>
+                                        <td>        
+                                            <span class="label">
+                                                <?php /* @noEscape */ echo $template->getTitle()?>
+                                            </span>
+                                        </td>
+                                        <td>        
+                                            <span class="label">
+                                                <?php /* @noEscape */ echo substr($template->getMessage(), 0, 50).' ...';?>
+                                            </span>
+                                        </td>
+                                        <td>        
+                                            <span class="label">
+                                                <?php /* @noEscape */ echo $template->getUrl()?>
+                                            </span>
+                                        </td>
+                                        <td>        
+                                            <span class="label">
+                                                <img src= <?php /* @noEscape */ echo $block->getImageView($template->getLogo()); ?> heigth="50px" width="50px"/>
+                                            </span>
+                                        </td>
+                                        <td>        
+                                            <span class="label">
+                                                <?php /* @noEscape */ echo $template->getTags()?>
+                                            </span>
+                                        </td>
+                                        <td>        
+                                            <span class="label">
+                                                <?php /* @noEscape */ echo $template->getCreatedAt()?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="label wk-action">
+                                                <img src="<?php /* @noEscape */ echo $this->getViewFileUrl('Webkul_Marketplace::images/icon-edit.png'); ?>" data-url="<?php /* @noEscape */ echo $block->getUrl('mppushnotification/templates/edit', ['id'=>$template->getId(), '_secure' => $this->getRequest()->isSecure()])?>" alt="<?php /* @noEscape */ echo __('Edit')?>" title="<?php /* @noEscape */ echo __('Edit')?>" class="mp-edit"/>
+                                                <img src="<?php /* @noEscape */ echo $this->getViewFileUrl('Webkul_Marketplace::images/icon-trash.png'); ?>" alt="<?php /* @noEscape */ echo __('Delete')?>" title="<?php /* @noEscape */ echo __('Delete')?>" class="mp-delete" data-url="<?php /* @noEscape */ echo $block->getUrl('mppushnotification/templates/delete/', ['id'=>$template->getId(), '_secure' => $this->getRequest()->isSecure()]) ?>"/>
+                                                <a href="<?php /* @noEscape */ echo $block->getUrl('mppushnotification/templates/view/', ['id'=>$template->getId(), '_secure' => $this->getRequest()->isSecure()]) ?>" target="_blank">
+                                                <?php /* @noEscape */ echo __('View'); ?></a>
+                                            </span>    
+                                        </td>                        
+                                    </tr>
+                                    <?php
+                                }?>
+                            </tbody>
+                        </table>
+                    </form>                        
+                <?php else : ?>
+                    <div class="wk-emptymsg">
+                        <?php /* @noEscape */ echo __('No Template(s) Available') ?>
+                    </div>
+                <?php endif ?>                    
+            </div>
+        </div>
+        <?php if ($block->getPagerHtml()) : ?>
+            <div class="pushnotification-templates-toolbar toolbar bottom"><?php /* @noEscape */ echo $block->getPagerHtml(); ?></div>
+        <?php endif ?>    
+    </fieldset>    
+    <div class="buttons-set">
+        <p class="back-link">
+            <a href="javascript:;" onclick="javascript: window.history.back();" class="left">&laquo; <?php /* @noEscape */ echo __('Back') ?></a>
+        </p>
+    </div>
+</div>    
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "templatesList": {}
+        }
+    }
+</script>
+<?php else : ?>
+    <h2 class="wk-mp-error-msg">
+        <?php /* @noEscape */ echo __("To Become Seller Please Contact to Admin."); ?>
+    </h2>
+<?php endif; ?>

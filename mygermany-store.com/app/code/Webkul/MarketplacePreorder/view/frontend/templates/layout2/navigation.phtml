@@ -1,0 +1,65 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpSellerGroup
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+// @codingStandardsIgnoreFile
+// updated file to add notification for seller.
+$_helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$isPartner= $_helper->isSeller();
+$magentoCurrentUrl = $block->getCurrentUrl();
+$isSellerGroup = $_helper->isSellerGroupModuleInstalled();
+
+?>
+<?php
+if ($isPartner) { ?>
+  <?php if(($isSellerGroup && $_helper->isAllowedAction('mppreorder/seller/configuration')) || !$isSellerGroup) { ?>
+    <li id="wk-mp-preorder-link" class="wk-mp-preorder-link level-0 <?php echo strpos($magentoCurrentUrl,'mppreorder/seller/configuration')? "current active":"";?>">
+        <!-- <a href="<?php echo $block->getUrl('mppreorder/seller/configuration', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+            <?php /* @escapeNotVerified */ echo __('Preorder Management') ?>
+        </a> -->
+        <a href="#" onclick="return false;" class="">
+            <span><?php echo __('Preorder Management')?></span>
+        </a>
+        <div class="wk-mp-submenu">
+            <strong class="wk-mp-submenu-title"><?php echo __('Products')?></strong>
+            <a href="#" class="action-close _close" data-role="wk-mp-close-submenu"></a>
+            <ul>
+                <li data-ui-id="menu-webkul-marketplace-menu" class="item-menu  parent  level-1">
+                    <strong class="wk-mp-submenu-group-title">
+                        <span><?php echo __('Menu')?></span>
+                    </strong>
+                    <div class="wk-mp-submenu">
+                        <ul>
+
+                            <li class="level-2">                    
+                                    <a id="mppreorder_config" title="<?php echo __('Preorder Configuration') ?>" href="<?php echo $this->getUrl('mppreorder/seller/configuration', ['_secure' => $this->getRequest()->isSecure()]); ?>"><?php echo __('Configuration') ?>
+                                    </a>
+                            </li>
+                            <li class="level-2">                    
+                                    <a id="mppreorder_order" title="<?php echo __('Preorder Orders') ?>" href="<?php echo $this->getUrl('mppreorder/seller/orders', ['_secure' => $this->getRequest()->isSecure()]); ?>"><?php echo __('Orders') ?>
+                                    </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </li>
+<?php }
+?>
+<script type="text/x-magento-init">
+{
+    "*" : {
+            "preorderLink": ""
+    }
+}
+</script>
+<?php }
+?>

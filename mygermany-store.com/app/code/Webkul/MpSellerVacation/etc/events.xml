@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Webkul Software
+*
+* @category  Webkul
+* @package   Webkul_MpSellervacation
+* @author    Webkul
+* @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+* @license   https://store.webkul.com/license.html
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="catalog_controller_product_view">
+        <observer name="catalog_controller_product_view" instance="Webkul\MpSellerVacation\Observer\OnProductView" />
+    </event>
+    <event name="checkout_cart_product_add_after">
+        <observer name="checkout_cart_product_add_after" instance="Webkul\MpSellerVacation\Observer\CartAddAfter" />
+    </event>
+    <event name="controller_action_predispatch_checkout_cart_index">
+      <observer name="controller_action_predispatch_checkout_cart_index" instance="Webkul\MpSellerVacation\Observer\CartProductCheck"/>
+    </event>
+    <event name="controller_action_predispatch_checkout_index_index">
+        <observer name="controller_action_predispatch_checkout_index_index" instance="Webkul\MpSellerVacation\Observer\BeforeViewCart" />
+    </event>
+</config>

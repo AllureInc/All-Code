@@ -1,0 +1,82 @@
+<style type="text/css">
+    #checkout-step-shipping_method{ display: none !important; }
+</style>
+<?php 
+$working_days_title = __(" Working days");
+$shippingMethodTitles['dhlPr'] = 'DHL Premium';
+$shippingMethodTitles['dhlEx'] = 'DHL Express';
+$shippingMethodTitles['fedexPr'] = 'FedEx Economy';
+$shippingMethodTitles['fedexEx'] = 'FedEx Express';
+$allMethods = $this->getAllShippingMethods();
+$isEuCountry = $this->getShippingCountry();
+$misHelper = $this->helper('Mangoit\Marketplace\Helper\Data');
+?>
+<?php if (is_array($allMethods)): ?>
+    <ul class="scc_shipping_ul">
+        <li class="scc_shipping_methods">
+            <form id="mis_shipping_form" class="form">
+                <input name="form_key" type="hidden" value="<?php echo $block->getFormKey();?>">
+                <div class="mis_shipping_list">
+                    <b><?php //print_r($this->getAllShippingMethods()); die('died'); ?></b>
+
+                    <table class="table-checkout-shipping-method">
+                        <thead>
+                            <tr class="row">
+                                <th class="col col-method" data-bind="i18n: 'Select Method'"><?php echo __("Select Method"); ?></th>
+                                <th class="col col-price" data-bind="i18n: 'Price'"><?php echo __("Price"); ?></th>
+                                <th class="col col-method" data-bind="i18n: 'Method Title'"><?php echo __("Method Title"); ?></th>
+                                <th class="col col-carrier" data-bind="i18n: 'Carrier Title'"><?php echo __("Carrier Title"); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($allMethods as $allKey => $allValue): ?>
+                                <?php if (!empty($allValue[$allKey.'Shipping'])): ?>
+                                    <tr class="row">
+                                        <?php 
+                                            $shipping = $allValue[$allKey.'Shipping'];
+                                            $shippingInsurance = $allValue[$allKey.'Insurance'];
+                                            if (!empty($shipping)) {
+                                                $shipping  = $shipping*0.01;
+                                            }
+
+                                            if (!empty($shippingInsurance)) {
+                                                $shippingInsurance =  $shippingInsurance*0.01;
+                                                // $arr = str_split($finalPrice, strlen($finalPrice)/2);
+                                                // $price =  $arr[0].'.'.$arr[1];
+                                                $shipping = $shipping + $shippingInsurance;
+
+                                            }
+                                            // if ($shipping > 0 && ($isEuCountry)) {
+                                            //     $shipping = $shipping + (($shipping*19)/100);
+                                            // }
+                                            $warehouseCharge = $misHelper->getWarehouseCharge();
+                                            if ($warehouseCharge > 0) {
+                                                $shipping = $shipping + $warehouseCharge;
+                                            }
+                                            $workdays = $allValue[$allKey.'Workdays'];
+                                            if(!empty($workdays) && ($workdays != 'N/A')){
+                                                $workdaysLabel = $workdays.$working_days_title;
+                                            } else {
+                                                $workdaysLabel = '-';
+                                            }
+                                        ?>
+                                        <td class="col col-method">
+                                            <input type="radio" class="radio" data-attr="<?php echo $warehouseCharge?>" value="<?php echo $shippingMethodTitles[$allKey].'_'.$shipping.'_'.$workdaysLabel ?>" name="mis_shippings_radio" data-validate="{required:true}">
+                                        </td>
+                                        <td class="col col-price">
+                                            <span class="price"><span class="price"><?php echo $this->getCurrentCurrency($shipping);?></span></span>
+                                        </td>
+                                        <td class="col col-method" id="label_method_dropship_dropship"><?php print_r($workdaysLabel); ?></td>
+                                        <td class="col col-carrier" id="label_carrier_dropship_dropship"><?php print_r($shippingMethodTitles[$allKey]) ?></td>
+                                    </tr>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </li>
+    </ul>
+<?php else:?>
+    <span><?php echo __('No shipping method required'); ?></span>
+<?php endif;?>

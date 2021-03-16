@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="cataloginventory_item_options_custom_email_template" label="Mangoit Low stock notification" file="custom_emailtemplate.html" type="html" module="Mangoit_Customobserver" area="frontend"/>
+</config>

@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpAdvertisementManager
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="page.top">
+             <block class="Webkul\MpAdvertisementManager\Block\Ads" name="catalog_search_seller_ads_page_top" template="Webkul_MpAdvertisementManager::block.phtml" cacheable="false" before="-">
+                <arguments>
+                    <argument name="position" xsi:type="number">12</argument>
+                </arguments>
+             </block>
+        </referenceContainer>
+
+        <referenceContainer name="page.bottom.container">
+             <block class="Webkul\MpAdvertisementManager\Block\Ads" name="catalog_search_seller_ads_page_bottom_container" template="Webkul_MpAdvertisementManager::block.phtml" cacheable="false" after="-">
+                <arguments>
+                    <argument name="position" xsi:type="number">13</argument>
+                </arguments>
+             </block>
+        </referenceContainer>
+
+        <referenceContainer name="main">
+             <block class="Webkul\MpAdvertisementManager\Block\Ads" name="catalog_search_seller_ads_main" template="Webkul_MpAdvertisementManager::block.phtml" cacheable="false" before="-">
+                <arguments>
+                    <argument name="position" xsi:type="number">14</argument>
+                </arguments>
+             </block>
+        </referenceContainer>
+
+        <referenceContainer name="div.sidebar.main">
+             <block class="Webkul\MpAdvertisementManager\Block\Ads" name="catalog_search_seller_ads_div_sidebar_main_before" template="Webkul_MpAdvertisementManager::sidebar.phtml" cacheable="false" before="-">
+                <arguments>
+                    <argument name="position" xsi:type="number">15</argument>
+                </arguments>
+             </block>
+        </referenceContainer>
+
+        <referenceContainer name="div.sidebar.main">
+            <block class="Webkul\MpAdvertisementManager\Block\Ads" name="catalog_search_seller_ads_div_sidebar_main_after" template="Webkul_MpAdvertisementManager::sidebar.phtml" cacheable="false" after="-">
+                <arguments>
+                    <argument name="position" xsi:type="number">16</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

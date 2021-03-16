@@ -1,0 +1,311 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Mpreportsystem
+ * @author    Webkul
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+?>
+<?php
+    $helper = $this->helper('Webkul\Mpreportsystem\Helper\Data');
+    $data = $block->getParamValues();
+    $data['filter'] = 'year';
+    $returnArray = $block->getsalesAmount($data);
+    $returnArray1 = $block->getCountrySales($data);
+    $returnArray2 = $block->getProductSales($data);
+    $salesCollection = $block->getSalesCollection($data);
+    $categoriesCollection = $helper->getCategoriesCollection(0);
+    $orderStatusArray = $helper->getOrderStatus();
+    $selectedCategories = $this->getSelectedCategories();
+    $selectedOrderStatus = $this->getSelectedOrderStatus();
+?>
+<div class="wk-category-dropdown wk-category-dropdown--open" dir="ltr" style="display:none;">
+    <div class="wk-category-results">
+        <select multiple="multiple" class="wk-select-box-multi-select" name='categories[]' id="wk-category-multi-select">
+            <?php foreach ($categoriesCollection as $key => $category): ?>
+                <?php if (in_array($key, $selectedCategories)): ?>
+                    <option class="wk-category-results-option" selected value="<?php /* @escapeNotVerified */echo $key; ?>" role="treeitem" aria-selected="false"><?php /* @escapeNotVerified */echo $category?></option>
+                <?php else: ?>
+                    <option class="wk-category-results-option" value="<?php /* @escapeNotVerified */echo $key; ?>" role="treeitem" aria-selected="false"><?php /* @escapeNotVerified */echo $category?></option>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </select>
+    </div>
+</div>
+<div class="wk-orderstatus-dropdown wk-orderstatus-dropdown--open" dir="ltr" style="display:none;">
+    <div class="wk-category-results">
+        <select multiple="multiple" class="wk-select-box-multi-select" name='orderstatus[]' id="wk-order-multi-select">
+            <?php foreach ($orderStatusArray as $orderKey => $orderStatus): ?>
+                <?php if (in_array($orderKey, $selectedOrderStatus)): ?>
+                    <option class="wk-orderStatus-results-option" selected value="<?php /* @escapeNotVerified */echo __($orderKey);?>" role="treeitem" aria-selected="false"><?php /* @escapeNotVerified */echo __($orderStatus);?></option>
+                <?php else: ?>
+                    <option class="wk-orderStatus-results-option" value="<?php /* @escapeNotVerified */echo __($orderKey);?>" role="treeitem" aria-selected="false"><?php /* @escapeNotVerified */echo __($orderStatus);?></option>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </select>
+    </div>
+</div>
+<div class="wk-mp-design">
+    <fieldset class="fieldset info wk-mp-fieldset">
+        <legend class="legend">
+            <span><?php /* @escapeNotVerified */echo __('Sales and Orders') ?></span>
+        </legend>
+        <div class="wkreport_header wk_sales_graph_outer">
+            <form 
+                action="<?php /* @escapeNotVerified */echo $block->getUrl(
+                    'mpreportsystem/report/index',
+                    [
+                        '_secure' => $block->getIsSecure()
+                    ]
+                ) ?>"
+                method="get"
+                id="generate-report">
+                <div class="wk-report-select-box-head">
+                    <div class="wk-categories-wrapper wk-display-ib wk-col-3 wk-float-left">
+                        <div class="wk-categories wk-display-ib wk-col-1">
+                            <div class="wk-select-box">
+                                <?php $categoryCount = count($selectedCategories); ?>
+                                <label class="wk-categories-label"><?php /* @escapeNotVerified */echo __('Choose categories (%1)', $categoryCount)?></label>
+                                <label class="wk-select-arrow-up"></label>
+                            </div>
+                            <span class="wk_categories-options wk-search-result-dropdown"></span>
+                        </div>
+                    </div>
+                    <div class="wk-order-status-wrapper wk-display-ib wk-col-3 wk-float-left">
+                        <div class="wk-order-status wk-display-ib wk-col-1">
+                            <div class="wk-select-box">
+                                <?php 
+                                $orderStatusCount = 0;
+                                if (array_key_exists('orderstatus', $data) && is_array($data['orderstatus'])) {
+                                    $orderStatusCount = count($data['orderstatus']);
+                                } ?>
+                                <label class="wk-order-label"><?php /* @escapeNotVerified */echo __('Choose Order Status (%1)',$orderStatusCount)?></label>
+                                <label class="wk-select-arrow-up"></label>
+                            </div>
+                            <span class="wk_orders-options wk-search-result-dropdown"></span>
+                        </div>
+                    </div>
+                    <div class="wk-filter-button-wrapper wk-display-ib wk-col-3 wk-float-left">
+                        <button class="action primary"><span><?php /* @escapeNotVerified */echo __('Generate Reports')?></span></button>
+                    </div>
+                </div>
+                <div class="wk-filter-selected-data">
+                    <?php foreach ($selectedCategories as $key => $value): ?>
+                        <div class="wk-filter-data-div wk-border-blue">
+                            <span><?php /* @escapeNotVerified */ echo $block->getCategoryName($value); ?></span>
+                            <div class="wk-filter-cross wk-bg-blue-color" value='<?php /* @escapeNotVerified */echo $value?>'>X</div>
+                        </div>
+                    <?php endforeach; ?>
+                    <?php
+                    if(array_key_exists('orderstatus', $data) && is_array($data['orderstatus'])){
+                        foreach ($data['orderstatus'] as $key => $value) {
+                            $orderStatusName = $orderStatusArray[$value] ?>
+                            <div class="wk-filter-data-div wk-border-green">
+                                <span><?php /* @escapeNotVerified */echo __($orderStatusName);?></span>
+                                <div class="wk-filter-cross wk-bg-green-color" value='<?php /* @escapeNotVerified */echo __($value);?>'>X</div>
+                            </div>
+                    <?php }
+                    }
+                    ?>
+                </div>
+                <div class="legend"></div>
+                
+                <div class="wk_sales_graph wk_graph_border">
+                    <span class="wkreport_heading"><?php /* @escapeNotVerified */echo __('Sales and orders')?></span>
+                    <div class="wk-filter-buttons">
+                        <div class="wk-filter-button" value='day'><?php /* @escapeNotVerified */echo __('Day')?></div>
+                        <div class="wk-filter-button" value='week'><?php /* @escapeNotVerified */echo __('Week')?></div>
+                        <div class="wk-filter-button" value='month'><?php /* @escapeNotVerified */echo __('Month')?></div>
+                        <div class="wk-filter-button wk-selected-filter-button" value='year'><?php /* @escapeNotVerified */echo __('Year')?></div>
+                    </div>
+                    <div>
+                        <img src="<?php /* @escapeNotVerified */echo $returnArray ?>" alt="Sales Chart" title="Sales Chart" id="wk-sales-chart"/>
+                    </div>
+                </div>
+                <div class="wk_graph_border">
+                    <div class="wk-date-filter-div">
+                        <div class="wk-date-subdiv">
+                            <input type="text" placeholder="<?php /* @escapeNotVerified */echo __('Start On Date')?>" id="wk_report_date_start" class="wk_date_filter_text required-entry" name="wk_report_date_start" value='<?php /* @escapeNotVerified */echo (array_key_exists("wk_report_date_start", $data))?$data["wk_report_date_start"]:""?>'>
+                            <label class="wk-filter-date" for='wk_report_date_start'></label>
+                        </div>
+                        <div class="wk-date-subdiv">
+                            <input type="text" placeholder="<?php /* @escapeNotVerified */echo __('End On Date')?>" id="wk_report_date_end" class="required-entry wk_date_filter_text" name="wk_report_date_end" value="<?php /* @escapeNotVerified */echo (array_key_exists("wk_report_date_end", $data))?$data['wk_report_date_end']:''?>">
+                            <label class="wk-filter-date" for='wk_report_date_end'></label>
+                        </div>
+                        <button class="action primary wk_reportfilter_btn"><span><?php /* @escapeNotVerified */echo __('Filter Result')?></span></button>
+                    </div>
+                    <table class="wk-mpreport-sales-table">
+                        <thead>
+                            <tr>
+                                <th class="wk_first_td">
+                                    <span class="label name">
+                                        <?php /* @escapeNotVerified */echo __('Date')?>
+                                    </span>
+                                </th>
+                                <th>
+                                    <span class="label name">
+                                        <?php /* @escapeNotVerified */echo __('Total Orders')?>
+                                    </span>
+                                </th>
+                                <th>
+                                    <span class="label qty">
+                                        <?php /* @escapeNotVerified */echo __('Total Items Sold')?>
+                                    </span>
+                                </th>
+                                <th>
+                                    <span class="label qty">
+                                        <?php /* @escapeNotVerified */echo __('Revenues')?>
+                                    </span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                $salesCollection = $block->getSalesCollection($data);
+                                foreach ($salesCollection as $salesData) {
+                                    ?>
+                                    <tr class="">
+                                        <td><?php /* @escapeNotVerified */echo $block->formatDate($salesData->getOrderDate())?></td>
+                                        <td><?php /* @escapeNotVerified */echo $salesData->getTotalOrderId()?></td>
+                                        <td><?php /* @escapeNotVerified */echo $salesData->getTotalItemQty()?></td>
+                                        <td><?php /* @escapeNotVerified */echo $block->getFormatedPrice(
+                                            $salesData->getTotalSellerAmount(),
+                                            $helper->getCurrencySymbol()
+                                        )?></td>
+                                    </tr>
+                                <?php 
+                                } ?>
+                        </tbody>
+                    </table>
+                    <?php if ($block->getPagerHtml()): ?>
+                        <div class="wk-toolbar order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+                    <?php endif ?>
+                </div>
+            </form>
+        </div>
+    </fieldset>
+    <fieldset class="fieldset info wk-mp-fieldset">
+        <legend class="legend">
+            <span><?php /* @escapeNotVerified */echo __('Top On Charts') ?></span>
+        </legend>
+        <div class="wk_report-body">
+            <div class="wk_location_graph wk_graph_border">
+                <span class="wkreport_heading"><?php /* @escapeNotVerified */echo __('Sales By GeoLocation')?></span>
+                <select class="wk-filter-buttons">
+                    <option value='day'><?php /* @escapeNotVerified */echo __('Day')?></option>
+                    <option value='week'><?php /* @escapeNotVerified */echo __('Week')?></option>
+                    <option value='month'><?php /* @escapeNotVerified */echo __('Month')?></option>
+                    <option value='year' selected="selected"><?php /* @escapeNotVerified */echo __('Year')?></option>
+                </select>
+                <div>
+                    <img src="<?php /* @escapeNotVerified */echo $returnArray1 ?>" alt="Top Selling Country" title="Top Selling Country" id="wk-location-chart"/>
+                </div>
+            </div>
+
+            <div class="wk_selling_graph wk_graph_border">
+                <span class="wkreport_heading"><?php /* @escapeNotVerified */echo __('Top Selling Products')?></span>
+                <select class="wk-filter-buttons">
+                    <option value='day'><?php /* @escapeNotVerified */echo __('Day')?></option>
+                    <option value='week'><?php /* @escapeNotVerified */echo __('Week')?></option>
+                    <option value='month'><?php /* @escapeNotVerified */echo __('Month')?></option>
+                    <option value='year' selected="selected"><?php /* @escapeNotVerified */echo __('Year')?></option>
+                </select>
+                <div>
+                    <img src="<?php /* @escapeNotVerified */echo $returnArray2 ?>" alt="Top Selling Products" title="Top Selling Products" id="wk-product-pie-chart"/>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset class="fieldset info wk-mp-fieldset">
+        <legend class="legend">
+            <span><?php /* @escapeNotVerified */echo __('Best Customers') ?></span>
+        </legend>
+        <div class="table-wrapper">
+            <table cellspacing="0" class="data table wk-mpreport-best-customer">
+                <thead>
+                    <tr>
+                        <th class="wk_first_td">
+                            <span class="label name">
+                                <?php /* @escapeNotVerified */echo __('Id')?>
+                            </span>
+                        </th>
+                        <th>
+                            <span class="label name">
+                                <?php /* @escapeNotVerified */echo __('Customer')?>
+                            </span>
+                        </th>
+                        <th>
+                            <span class="label qty">
+                                <?php /* @escapeNotVerified */echo __('Date Of Registration')?>
+                            </span>
+                        </th>
+                        <th>
+                            <span class="label qty">
+                                <?php /* @escapeNotVerified */echo __('Last Purchase Date')?>
+                            </span>
+                        </th>
+                        <th>
+                            <span class="label">
+                                <?php /* @escapeNotVerified */echo __('Total Orders')?>
+                            </span>
+                        </th>
+                        <th>
+                            <span class="label">
+                                <?php /* @escapeNotVerified */echo __('Total Spendings')?>
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+                        $i = 0;
+                        $customerData = $block->getBestCustomerCollection($data);
+                        foreach ($customerData as $customerId => $sales) { ?>
+                            <tr class=" <?php /* @escapeNotVerified */echo $class = ($i == count(
+                                $customerData)
+                            )? 'wk_last_tr':''?>">
+                                <td data-th="<?php echo __('Id')?>" scope="col" class="col"><?php /* @escapeNotVerified */echo $customerId?></td>
+                                <td data-th="<?php echo __('Customer')?>" scope="col" class="col"><?php /* @escapeNotVerified */echo $sales['customer_name']?></td>
+                                <td data-th="<?php echo __('Date Of Registration')?>" scope="col" class="col"><?php /* @escapeNotVerified */echo $block->getFormattedDate($sales['registration_date'])?></td>
+                                <td data-th="<?php echo __('Last Purchase Date')?>" scope="col" class="col"><?php /* @escapeNotVerified */echo $block->getFormattedDate($sales['lastpurchase'])?></td>
+                                <td data-th="<?php echo __('Total Orders')?>" scope="col" class="col"><?php if ($sales['refused']) {/* @escapeNotVerified */echo $sales['refused'].'/'; }?><?php /* @escapeNotVerified */echo $sales['totalcount']?></td>
+                                <td data-th="<?php echo __('Total Spendings')?>" scope="col" class="col"><?php /* @escapeNotVerified */echo $block->getFormatedPrice($sales['totalSale'], $helper->getCurrencySymbol())?></td>
+                            </tr>
+                        <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+</div>
+<?php
+$formData = [
+    'wkSelectBox'	=>	'.wk-select-box',
+    'loaderimage'	=> $this->getViewFileUrl('images/loader-1.gif'),
+    'topsellingproductajax'	=>	'.wk_selling_graph .wk-filter-buttons',
+    'topsellingfilterurl'	=>	$block->getUrl('mpreportsystem/report/productfilter', ['_secure' => $block->getIsSecure()]),
+    'geolocationfilterajax'	=>	'.wk_location_graph .wk-filter-buttons',
+    'geolocationfilterurl'	=>	$block->getUrl('mpreportsystem/report/geolocationfilter', ['_secure' => $block->getIsSecure()]),
+    'categorymultiselect'	=>	'#wk-category-multi-select',
+    'ordermultiselect'	=>	'#wk-order-multi-select',
+    'productpiChart'	=>	'#wk-product-pie-chart',
+    'geolocationChart'	=>	'#wk-location-chart',
+    'salesfilterajax'	=>	'.wk_sales_graph_outer .wk-filter-button',
+    'saleschart'		=>	'#wk-sales-chart',
+    'salesfilterurl'	=>	$block->getUrl('mpreportsystem/report/salesfilter', ['_secure' => $block->getIsSecure()]),
+    'crossfilterajax'	=>	'.wk-filter-cross',
+    'wk_filter_btn'		=>	'.wk_reportfilter_btn',
+    'indexurl'	=>	$block->getUrl('mpreportsystem/report/index', ['_secure' => $block->getIsSecure()]),
+    'loginurl'	=>	$block->getUrl('customer/account/login', ['_secure' => $block->getIsSecure()])
+];
+$serializedFormData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($formData);
+?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "WKreportsystem": <?php /* @noEscape */ echo $serializedFormData; ?>
+        }
+    }
+</script>

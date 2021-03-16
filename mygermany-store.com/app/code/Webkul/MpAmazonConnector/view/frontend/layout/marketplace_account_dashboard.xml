@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Webkul
+ * @package    Webkul_MpAmazonConnector
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c)  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance dc" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="dashboard_additional_content_block">
+            <block class="Webkul\MpAmazonConnector\Block\Account\Dashboard" name="amazon_dashboard_additional_total_block" template="Webkul_MpAmazonConnector::account/dashboard.phtml" cacheable="false"/>
+        </referenceBlock>
+    </body>
+</page>

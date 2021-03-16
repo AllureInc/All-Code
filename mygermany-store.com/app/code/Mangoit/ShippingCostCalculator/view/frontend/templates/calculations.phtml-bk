@@ -1,0 +1,852 @@
+<?php 
+$calculations = $this->getCalculations();
+if (isset($calculations['error'])) {
+   echo $calculations['error'];
+}
+?>
+
+<?php if (!empty($calculations) && (!isset($calculations['error']))): ?>
+    <?php if (isset($calculations['dhlPremium']) && ($calculations['dhlPremium']['totalShippingSum'] > 0)): ?>
+        <div class="panel_part" id="dhlPremium" style="display: block;">
+            <div class="panel_top_pat">
+                <div class="col-xs-1 working_block">
+                    <div class="working_days"><?php echo $calculations['dhlPremium']['workdays'] ?></div>
+                    <div class="working_info"><?php echo __('working days');?></div>
+                </div>
+                <div class="col-xs-3 logo_block">
+                    <img class="logo_ico" src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/dhl_logo.jpg'); ?>" />
+                    <div class="brand_title"><?php echo __('DHL Premium'); ?> 
+                        <a href="https://mygermany.com/mygermany-collaboration-dhl-and-fedex-and-others/#DHL" target="_blank">»</a>
+                    </div>
+                    <div class="brand_info">
+                        <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/inclusive.jpg'); ?>" />
+                        <?php echo __('* inclusive free myGermany Standard Services'); ?>
+                        <a href="https://mygermany.com/ufaqs/free-standard-services-provided-mygermany-default-services/" target="_blank">»</a>
+                    </div>
+                </div>
+                <div class="col-xs-4 list_block">
+                    <ul>
+                        <li>
+                            <?php echo __('Collaboration with trustworthy local partners, check here if delivery is done directly by DHL or local post'); ?>
+                            <a href="https://mygermany.com/mygermany-collaboration-dhl-and-fedex-and-others/#dhldhl" target="_blank" rel="noopener">»</a></li>
+                        <li><?php echo __('Traceable'); ?></li>
+                    </ul>
+                </div>
+                <div class="col-xs-1 per_client">
+                    <div class="per_client_on" style="display: none;">
+                        <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/coub.png'); ?>" />
+                        <div><?php echo __('Best &amp; reliable method: 80% of our clients have selected this method'); ?></div>
+                    </div>
+                </div>
+                <div class="col-xs-2 button_block">
+                    <span>
+                        <div class="button_ttl"><?php echo __('Grand Total Sum'); ?></div>
+                        <div class="button_price"><?php echo $this->getFormatedPrice($calculations['dhlPremium']['totalShippingSum']); ?></div>
+                    </span>
+                    <div class="after_button_info"><?php echo __('incl. myGermany &amp; DHL services / excl. Customs-Tax &amp; Duty'); ?></div>
+                </div>
+            </div>
+        <div class="col-xs-12 panel_bottom_pat">
+            <div class="col-xs-1 bottom_first"></div>
+            <div class="col-xs-10 bottom_content">
+                <ul>
+                    <?php if ($calculations['dhlPremium']['insurance']): ?>
+                        <li class="bottom_info_list insurance_item">
+                            <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/foo1.jpg'); ?>" />
+                            <?php echo __('incl. Insurance'); ?> 
+                            <span class="insurance_value"><?php echo $this->getFormatedPrice($calculations['dhlPremium']['insurance']); ?></span>
+                        </li>
+                    <?php endif; ?>
+                    
+                    <?php if ($calculations['dhlPremium']['customsDeclaration'] > 0): ?>
+                        <li class="bottom_info_list declaration_item " >
+                            <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/foo2.jpg'); ?>" />
+                            <?php echo __('incl. Declaration'); ?>  <a href="https://mygermany.com/ufaqs/do-you-do-export-declarations-for-shipping-values-≥-1-000-eur" target="_blank">»</a>
+                        </li>
+                    <?php endif; ?>
+
+                    <li class="bottom_info_list business_item" style="display: none;" >
+                        <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/foo3.jpg'); ?>" />
+                        <?php echo __('Business Address required'); ?>  <a href="https://mygermany.com/ufaqs/can-mygermany-ship-russia/" target="_blank">»</a>
+                    </li>
+
+                    <?php if ($calculations['dhlPremium']['riskCharge'] > 0): ?>
+                        <li class="bottom_info_list risk_item" >
+                            <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/foo4.jpg'); ?>" />
+                            <?php echo __('incl. Risky Area fee'); ?>
+                        </li>
+                    <?php endif; ?>
+
+                </ul>
+            </div>
+            <div class="col-xs-1 bottom_datails">
+                <div class="open_more"><?php echo __('Details')?> <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+            </div>
+            <div class="col-xs-12 more_part" style="display: none;">
+                <div class="col-xs-6">
+                    <img class="logo_ico" src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/dhl_exprs.png'); ?>" />
+                    <div class="more_ttl"><?php echo ('DHL Premium'); ?></div>
+                    <div class="more_info">
+                        <p><?php echo ('DHL Premium service is based on DHL WELTPAKET International and ensures particularly short and calculable delivery times, including transport insurance, always transported to the destination country by the fastest means possible. Priority shipping via the fastest means possible, Colaboration with local providers, and Shipment tracking via the Internet or by telephone through customer services. Additional costs for unwieldy/non-stackable items can occur.'); ?></p>
+                        <p><a href="https://mygermany.com/mygermany-collaboration-dhl-and-fedex-and-others/#dhldhl" target="_blank" rel="noopener"><strong>
+                            <?php echo __('Does DHL Premium deliver directly door-to-door or hands over to a local partner? Check for your country here »') ?></strong></a></p>
+                    </div>
+                </div>
+                <div class="col-xs-6 right_more_info_conteiner">
+                    <div class="more_info_right_part">
+                        <?php if ($calculations['dhlPremium']['totalShippingSum'] > 0): ?>
+                            <div class="info_table_block shipping_line" style="display: block;">
+                                <div class="col-xs-9"><?php echo ('Shipment DHL incl. myGermany services'); ?></div>
+                                <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['dhlPremium']['totalShippingSum']); ?></div>
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($calculations['dhlPremium']['insurance'] > 0): ?>
+                            <div class="info_table_block insurance_line">
+                                <div class="col-xs-9"><?php echo ('Insurance'); ?></div>
+                                <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['dhlPremium']['insurance']); ?></div>
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($calculations['dhlPremium']['customsDeclaration'] > 0): ?>
+                            <div class="info_table_block customsDeclaration_line">
+                                <div class="col-xs-9"><?php echo ('Customs Declaration'); ?></div>
+                                <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['dhlPremium']['customsDeclaration']); ?></div>
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($calculations['dhlPremium']['riskCharge'] > 0): ?>
+                            <div class="info_table_block riskCharge_line">
+                                <div class="col-xs-9"><?php echo ('DHL Fee Risky, Embargo or ODA area'); ?></div>
+                                <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['dhlPremium']['riskCharge']); ?></div>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <?php if (isset($calculations['dhlExpress']) && ($calculations['dhlExpress']['totalShippingSum'] > 0)): ?>
+        <div class="panel_part pair_block top_plan" id="dhlExpress" style="display: block;">
+            <div class="panel_top_pat">
+                <div class="col-xs-1 working_block">
+                    <div class="working_days"><?php echo $calculations['dhlExpress']['workdays']; ?></div>
+                    <div class="working_info"><?php echo __('working days'); ?></div>
+                </div>
+                <div class="col-xs-3 logo_block">
+                    <img class="logo_ico" src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/dhl_exprs.png'); ?>" />
+                    <div class="brand_title"><?php echo __('DHL Express'); ?> 
+                        <a href="https://mygermany.com/mygermany-collaboration-dhl-and-fedex-and-others/#DHL" target="_blank">»</a>
+                    </div>
+                    <div class="brand_info">
+                        <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/inclusive.jpg'); ?>" />
+                        <?php echo __('* inclusive free myGermany Standard Services'); ?>
+                        <a href="https://mygermany.com/ufaqs/free-standard-services-provided-mygermany-default-services/" target="_blank">»</a>
+                    </div>
+                </div>
+                <div class="col-xs-4 list_block">
+                    <ul>
+                        <li><span style="color: #0da652;"><?php echo __('Door-to-Door Delivery, directly by DHL Express'); ?> </span></li>
+                        <li><?php echo __('Incl. Customs Clearance'); ?></li>
+                        <li><?php echo __('Traceable & Proof of Delivery'); ?></li>
+                        <li><?php echo __('Shipment Lithium-Ion-Batteries possible'); ?></li>
+                    </ul>
+                </div>
+                <div class="col-xs-1 per_client">
+                    <div class="per_client_on" style="display: block;">
+                        <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/coub.png'); ?>" />
+                        <div><?php echo __('Best &amp; reliable method: 80% of our clients have selected this method'); ?></div>
+                    </div>
+                </div>
+                <div class="col-xs-2 button_block">
+                    <span>
+                        <div class="button_ttl"><?php echo __('Grand Total Sum') ?></div>
+                        <div class="button_price"><?php echo $this->getFormatedPrice($calculations['dhlExpress']['totalShippingSum']); ?></div>
+                    </span>
+                    <div class="after_button_info"><?php echo __('incl. myGermany &amp; DHL services / excl. Customs-Tax &amp; Duty') ?> </div>
+                </div>
+            </div>
+            <div class="col-xs-12 panel_bottom_pat">
+                <div class="col-xs-1 bottom_first"></div>
+                <div class="col-xs-10 bottom_content">
+                    <ul>
+                        <?php if($calculations['dhlExpress']['insurance'] > 0): ?>
+                            <li class="bottom_info_list insurance_item">
+                                <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/foo1.jpg'); ?>" />
+                                <?php echo __('incl. Insurance');?> 
+                                <span class="insurance_value"><?php echo $this->getFormatedPrice($calculations['dhlExpress']['insurance']); ?></span>
+                            </li>
+                        <?php endif; ?>
+                        <?php if ($calculations['dhlExpress']['customsDeclaration'] > 0): ?>
+                            <li class="bottom_info_list declaration_item "><img src="https://mygermany.com/wp-content/themes/myGermany/images/foo2.jpg">
+                                <?php echo ('incl. Declaration'); ?>
+                                <a href="https://mygermany.com/ufaqs/do-you-do-export-declarations-for-shipping-values-≥-1-000-eur" target="_blank">»</a>
+                            </li>
+                        <?php endif; ?>
+                        <li class="bottom_info_list business_item" style="display: none;"><img src="https://mygermany.com/wp-content/themes/myGermany/images/foo3.jpg">
+                            <?php echo ('Business Address required'); ?>
+                            <a href="https://mygermany.com/ufaqs/can-mygermany-ship-russia/" target="_blank">»</a>
+                        </li>
+                        <?php if ($calculations['dhlExpress']['riskCharge'] > 0): ?>
+                            <li class="bottom_info_list risk_item"><img src="https://mygermany.com/wp-content/themes/myGermany/images/foo4.jpg">
+                                <?php echo ('incl. Risky Area fee'); ?>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+                <div class="col-xs-1 bottom_datails">
+                    <div class="open_more"><?php echo __('Details'); ?><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                </div>
+                <div class="col-xs-12 more_part" style="display: none;">
+                    <div class="col-xs-6">
+                        <img class="logo_ico" src="https://mygermany.com/wp-content/uploads/2017/04/Рисунок1.png">
+                        <div class="more_ttl"><?php echo ('DHL Express'); ?></div>
+                        <div class="more_info">
+                            <p><?php echo ('DHL Express&nbsp;is an express transportation service that provides time-definite, customs-cleared, direct door-to-door delivery (no handover to local post partners), typically next business days. Priority shipping via the fastest means possible, Shipment tracking via the Internet or by telephone through customer services.'); ?></p>
+                            <p><?php echo ('Additional costs for unwieldy/non-stackable items can occur. In case your item is not stack-able DHL Express reserves the right to increase costs up to 200,00€.'); ?></p>
+                            <p><strong><?php echo ('DHL Express does always deliver directly door-to-door, it will not be handed over to any local partner.'); ?><br>
+                                </strong>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 right_more_info_conteiner">
+                        <div class="more_info_right_part">
+                            <?php if ($calculations['dhlExpress']['totalShippingSum'] > 0): ?>
+                                <div class="info_table_block shipping_line" style="display: block;">
+                                    <div class="col-xs-9"><?php echo ('Shipment DHL incl. myGermany services'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['dhlExpress']['totalShippingSum']); ?></div>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($calculations['dhlExpress']['insurance'] > 0): ?>
+                                <div class="info_table_block insurance_line">
+                                    <div class="col-xs-9"><?php echo ('Insurance'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['dhlExpress']['insurance']); ?></div>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($calculations['dhlExpress']['customsDeclaration'] > 0): ?>
+                                <div class="info_table_block customsDeclaration_line">
+                                    <div class="col-xs-9"><?php echo ('Customs Declaration'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['dhlExpress']['customsDeclaration']); ?></div>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($calculations['dhlExpress']['riskCharge'] > 0): ?>
+                                <div class="info_table_block riskCharge_line">
+                                    <div class="col-xs-9"><?php echo ('DHL Fee Risky, Embargo or ODA area'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['dhlExpress']['riskCharge']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($calculations['fedexEconomy']) && ($calculations['fedexEconomy']['totalShippingSum'] > 0)): ?>
+        <div class="panel_part" id="fedexEconomy" style="display: block;">
+            <div class="panel_top_pat">
+                <div class="col-xs-1 working_block">
+                    <div class="working_days"><?php echo $calculations['fedexEconomy']['workdays']; ?></div>
+                    <div class="working_info"><?php echo __('working days'); ?></div>
+                </div>
+                <div class="col-xs-3 logo_block">
+                    <img class="logo_ico" src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/fedex.png'); ?>" />
+                    <div class="brand_title"><?php echo __('FedEx Economy'); ?> 
+                        <a href="https://mygermany.com/mygermany-collaboration-dhl-and-fedex-and-others/#FEDEX" target="_blank">»</a>
+                    </div>
+                    <div class="brand_info">
+                        <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/inclusive.jpg'); ?>" />
+                        <?php echo __('* inclusive free myGermany Standard Services'); ?>
+                        <a href="https://mygermany.com/ufaqs/free-standard-services-provided-mygermany-default-services/" target="_blank">»</a>
+                    </div>
+                </div>
+                <div class="col-xs-4 list_block">
+                    <ul>
+                        <li><?php echo __('Shipment Lithium-Ion-Batteries possible'); ?></li>
+                        <li><?php echo __('Collaboration with trustworthy local partners, check here if delivery is done directly by FedEx or local post'); ?>
+                            <a href="https://mygermany.com/mygermany-collaboration-dhl-and-fedex-and-others/#fedexfedex" target="_blank" rel="noopener">»</a>
+                        </li>
+                        <li><?php echo __('Incl. Customs Clearance'); ?></li>
+                        <li><?php echo __('Traceable'); ?></li>
+                    </ul>
+                </div>
+                <div class="col-xs-1 per_client">
+                    <div class="per_client_on" style="display: none;">
+                        <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/coub.png'); ?>" />
+                        <div><?php echo __('Best & reliable method: 80% of our clients have selected this method'); ?></div>
+                    </div>
+                </div>
+                <div class="col-xs-2 button_block">
+                    <span>
+                        <div class="button_ttl"><?php echo __('Grand Total Sum') ?></div>
+                        <div class="button_price"><?php echo $this->getFormatedPrice($calculations['fedexEconomy']['totalShippingSum']); ?></div>
+                    </span>
+                    <div class="after_button_info"><?php echo __('incl. myGermany & FedEx services / excl. Customs-Tax &amp; Duty') ?> </div>
+                </div>
+            </div>
+            <div class="col-xs-12 panel_bottom_pat">
+                <div class="col-xs-1 bottom_first"></div>
+                <div class="col-xs-10 bottom_content">
+                    <ul>
+                        <?php if($calculations['fedexEconomy']['insurance'] > 0): ?>
+                            <li class="bottom_info_list insurance_item">
+                                <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/foo1.jpg'); ?>" />
+                                <?php echo __('incl. Insurance');?> 
+                                <span class="insurance_value"><?php echo $this->getFormatedPrice($calculations['fedexEconomy']['insurance']); ?></span>
+                            </li>
+                        <?php endif; ?>
+                        <?php if ($calculations['fedexEconomy']['customsDeclaration'] > 0): ?>
+                            <li class="bottom_info_list declaration_item ">
+                                <img src="https://mygermany.com/wp-content/themes/myGermany/images/foo2.jpg">
+                                <?php echo ('incl. Declaration'); ?>
+                                <a href="https://mygermany.com/ufaqs/do-you-do-export-declarations-for-shipping-values-≥-1-000-eur" target="_blank">»</a>
+                            </li>
+                        <?php endif; ?>
+                        <li class="bottom_info_list business_item" style="display: none;"><img src="https://mygermany.com/wp-content/themes/myGermany/images/foo3.jpg">
+                            <?php echo ('Business Address required'); ?>
+                            <a href="https://mygermany.com/ufaqs/can-mygermany-ship-russia/" target="_blank">»</a>
+                        </li>
+                        <?php if ($calculations['fedexEconomy']['riskCharge'] > 0): ?>
+                            <li class="bottom_info_list risk_item"><img src="https://mygermany.com/wp-content/themes/myGermany/images/foo4.jpg">
+                                <?php echo ('incl. Risky Area fee'); ?>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+                <div class="col-xs-1 bottom_datails">
+                    <div class="open_more"><?php echo __('Details')?> <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                </div>
+                <div class="col-xs-12 more_part" style="display: none;">
+                    <div class="col-xs-6">
+                        <img class="logo_ico" src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/fedex.png'); ?>" />
+                        <div class="more_ttl"><?php echo ('FedEx Economy'); ?></div>
+                        <div class="more_info">
+                            <p><span><?php echo ('FedEx Economy is a day-definite, customs-cleared, door-to-door economy service for shipments up to 68kg per package. Transit time is typically 2 to 5 working days.'); ?>&nbsp;</span>
+                                <span><?php echo ('It’s an economical alternative to express shipping, with outstanding customer experience, reliability and full visibility from start to finish.'); ?>
+                                </span>
+                            </p>
+                            <p><?php echo ('Additional costs for unwieldy/non-stackable items can occur, e.g. in case your item is not stack-able FedEx Economy reserves the right to increase costs up to 200,00€.'); ?>
+                            </p>
+                            <p>
+                                <a href="https://mygermany.com/mygermany-collaboration-dhl-and-fedex-and-others/#fedexfedex" target="_blank" rel="noopener">
+                                    <strong>
+                                    <?php echo ('Does FedEx Economy deliver directly door-to-door or hands over to a local partner? Check for your country here'); ?>»
+                                    </strong>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 right_more_info_conteiner">
+                        <div class="more_info_right_part">
+                            <?php if ($calculations['fedexEconomy']['totalShippingSum'] > 0): ?>
+                                <div class="info_table_block shipping_line" style="display: block;">
+                                    <div class="col-xs-9"><?php echo ('Shipment FedEx incl. myGermany services'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['fedexEconomy']['totalShippingSum']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($calculations['fedexEconomy']['insurance'] > 0): ?>
+                                <div class="info_table_block insurance_line">
+                                    <div class="col-xs-9"><?php echo ('Insurance'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['fedexEconomy']['insurance']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($calculations['fedexEconomy']['customsDeclaration'] > 0): ?>
+                                <div class="info_table_block customsDeclaration_line">
+                                    <div class="col-xs-9"><?php echo ('Customs Declaration'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['fedexEconomy']['customsDeclaration']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($calculations['fedexEconomy']['riskCharge'] > 0): ?>
+                                <div class="info_table_block riskCharge_line">
+                                    <div class="col-xs-9"><?php echo ('FedEx Fee Risky, Embargo or ODA area'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['fedexEconomy']['riskCharge']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($calculations['fedexExpress']) && ($calculations['fedexExpress']['totalShippingSum'] > 0)): ?>
+        <div class="panel_part pair_block" id="fedexExpress" style="display: block;">
+            <div class="panel_top_pat">
+                <div class="col-xs-1 working_block">
+                    <div class="working_days"><?php echo $calculations['fedexExpress']['workdays']; ?></div>
+                    <div class="working_info"><?php echo __('working days'); ?></div>
+                </div>
+                <div class="col-xs-3 logo_block">
+                    <img class="logo_ico" src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/fedex_exprs.png'); ?>" />
+                    <div class="brand_title">
+                        <?php echo __('FedEx Express'); ?> 
+                        <a href="https://mygermany.com/mygermany-collaboration-dhl-and-fedex-and-others/#DHL" target="_blank">»</a>
+                    </div>
+                    <div class="brand_info">
+                        <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/inclusive.jpg'); ?>" />
+                        <?php echo __('* inclusive free myGermany Standard Services'); ?>
+                        <a href="https://mygermany.com/ufaqs/free-standard-services-provided-mygermany-default-services/" target="_blank">»</a>
+                    </div>
+                </div>
+                <div class="col-xs-4 list_block">
+                    <ul>
+                        <li style="color: #0da652;"><?php echo __('Guaranteed Door-to-Door Delivery, directly by FedEx Express'); ?></li>
+                        <li><?php echo __('Incl. Customs Clearance'); ?></li>
+                        <li><?php echo __('Shipment Lithium-Ion-Batteries possible'); ?></li>
+                        <li><?php echo __('Traceable & Proof of Delivery'); ?></li>
+                    </ul>
+                </div>
+                <div class="col-xs-1 per_client">
+                    <div class="per_client_on" style="display: none;">
+                        <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/coub.png'); ?>" />
+                        <div><?php echo __('Best & reliable method: 80% of our clients have selected this method'); ?></div>
+                    </div>
+                </div>
+                <div class="col-xs-2 button_block">
+                    <span>
+                        <div class="button_ttl"><?php echo __('Grand Total Sum') ?></div>
+                        <div class="button_price"><?php echo $this->getFormatedPrice($calculations['fedexExpress']['totalShippingSum']); ?></div>
+                    </span>
+                    <div class="after_button_info"><?php echo __('incl. myGermany & FedEx services / excl. Customs-Tax &amp; Duty') ?> </div>
+                </div>
+            </div>
+            <div class="col-xs-12 panel_bottom_pat">
+                <div class="col-xs-1 bottom_first"></div>
+                <div class="col-xs-10 bottom_content">
+                    <ul>
+                        <?php if($calculations['fedexExpress']['insurance'] > 0): ?>
+                            <li class="bottom_info_list insurance_item">
+                                <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/foo1.jpg'); ?>" />
+                                <?php echo __('incl. Insurance');?> 
+                                <span class="insurance_value"><?php echo $this->getFormatedPrice($calculations['fedexExpress']['insurance']); ?></span>
+                            </li>
+                        <?php endif; ?>
+                        <?php if ($calculations['fedexExpress']['customsDeclaration'] > 0): ?>
+                            <li class="bottom_info_list declaration_item ">
+                                <img src="https://mygermany.com/wp-content/themes/myGermany/images/foo2.jpg">
+                                <?php echo ('incl. Declaration'); ?>
+                                <a href="https://mygermany.com/ufaqs/do-you-do-export-declarations-for-shipping-values-≥-1-000-eur" target="_blank">»</a>
+                            </li>
+                        <?php endif; ?>
+                        <li class="bottom_info_list business_item" style="display: none;"><img src="https://mygermany.com/wp-content/themes/myGermany/images/foo3.jpg">
+                            <?php echo ('Business Address required'); ?>
+                            <a href="https://mygermany.com/ufaqs/can-mygermany-ship-russia/" target="_blank">»</a></li>
+                        <?php if ($calculations['fedexExpress']['riskCharge'] > 0): ?>
+                            <li class="bottom_info_list risk_item">
+                                <img src="https://mygermany.com/wp-content/themes/myGermany/images/foo4.jpg">
+                                <?php echo ('incl. Risky Area fee'); ?>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+                <div class="col-xs-1 bottom_datails">
+                    <div class="open_more"><?php echo __('Details')?> <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                </div>
+                <div class="col-xs-12 more_part" style="display: none;">
+                    <div class="col-xs-6">
+                        <img class="logo_ico" src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/fedex_exprs.png'); ?>" />
+                        <div class="more_ttl"><?php echo ('FedEx Express'); ?></div>
+                        <div class="more_info">
+                            <p><span>
+                                <?php echo ('FedEx Priority is Express, it is an express transportation service that provides time-definite, customs-cleared, door-to-door delivery, typically next business day.'); ?><br>
+                                </span>
+                            </p>
+                            <p><?php echo ('Additional costs for unwieldy/non-stackable items can occur, e.g. in case your item is not stack-able FedEx Express reserves the right to increase costs up to 200,00€.'); ?>
+                            </p>
+                            <p>
+                                <strong>
+                                    <?php echo ('FedEx Express does always deliver directly door-to-door, it will not be handed over to any local partner.'); ?>
+                                </strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 right_more_info_conteiner">
+                        <div class="more_info_right_part">
+                            <?php if ($calculations['fedexExpress']['totalShippingSum'] > 0): ?>
+                                <div class="info_table_block shipping_line" style="display: block;" >
+                                    <div class="col-xs-9"><?php echo ('Shipment FedEx incl. myGermany services'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['fedexExpress']['totalShippingSum']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($calculations['fedexExpress']['insurance'] > 0): ?>
+                                <div class="info_table_block insurance_line" >
+                                    <div class="col-xs-9"><?php echo ('Insurance'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['fedexExpress']['insurance']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($calculations['fedexExpress']['customsDeclaration'] > 0): ?>
+                                <div class="info_table_block customsDeclaration_line" >
+                                    <div class="col-xs-9"><?php echo ('Customs Declaration'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['fedexExpress']['customsDeclaration']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($calculations['fedexExpress']['riskCharge'] > 0): ?>
+                                <div class="info_table_block riskCharge_line">
+                                    <div class="col-xs-9"><?php echo ('FedEx Fee Risky, Embargo or ODA area'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['fedexExpress']['riskCharge']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php /*if (isset($calculations['dhlEconom']) && ($calculations['dhlEconom']['totalShippingSum'] > 0)): ?>
+        <div class="panel_part" id="dhlEconom" style="display: block;">
+            <div class="panel_top_pat">
+                <div class="col-xs-1 working_block">
+                    <div class="working_days"><?php echo $calculations['dhlEconom']['workdays']; ?></div>
+                    <div class="working_info"><?php echo __('working days'); ?></div>
+                </div>
+                <div class="col-xs-3 logo_block">
+                    <img class="logo_ico" src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/dhl_logo.jpg'); ?>" />
+                    <div class="brand_title">
+                        <?php echo __('DHL Economy'); ?> 
+                        <a href="https://mygermany.com/mygermany-collaboration-dhl-and-fedex-and-others/#DHL" target="_blank">»</a>
+                    </div>
+                    <div class="brand_info">
+                        <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/inclusive.jpg'); ?>" />
+                        <?php echo __('* inclusive free myGermany Standard Services'); ?>
+                        <a href="https://mygermany.com/ufaqs/free-standard-services-provided-mygermany-default-services/" target="_blank">»</a>
+                    </div>
+                </div>
+                <div class="col-xs-4 list_block">
+                    <ul>
+                        <li>
+                            <?php echo __('Collaboration with trustworthy local partners, check here if delivery is done directly by DHL or local post'); ?>
+                            <a href="https://mygermany.com/mygermany-collaboration-dhl-and-fedex-and-others/#dhldhl" target="_blank" rel="noopener">»</a></li>
+                        <li><?php echo __('Traceable'); ?></li>
+                    </ul>
+                </div>
+                <div class="col-xs-1 per_client">
+                    <div class="per_client_on" style="display: none;">
+                        <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/coub.png'); ?>" />
+                        <div><?php echo __('Best & reliable method: 80% of our clients have selected this method'); ?></div>
+                    </div>
+                </div>
+                <div class="col-xs-2 button_block">
+                    <span>
+                        <div class="button_ttl"><?php echo __('Grand Total Sum') ?></div>
+                        <div class="button_price"><?php echo $this->getFormatedPrice($calculations['dhlEconom']['totalShippingSum']); ?></div>
+                    </span>
+                    <div class="after_button_info"><?php echo __('incl. myGermany & DHL services / excl. Customs-Tax &amp; Duty') ?> </div>
+                </div>
+            </div>
+            <div class="col-xs-12 panel_bottom_pat">
+                <div class="col-xs-1 bottom_first"></div>
+                <div class="col-xs-10 bottom_content">
+                    <ul>
+                        <?php if($calculations['dhlEconom']['insurance'] > 0): ?>
+                            <li class="bottom_info_list insurance_item">
+                                <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/foo1.jpg'); ?>" />
+                                <?php echo __('incl. Insurance');?> 
+                                <span class="insurance_value"><?php echo $this->getFormatedPrice($calculations['dhlEconom']['insurance']); ?></span>
+                            </li>
+                        <?php endif; ?>
+                        <?php if ($calculations['dhlEconom']['customsDeclaration'] > 0): ?>
+                            <li class="bottom_info_list declaration_item ">
+                                <img src="https://mygermany.com/wp-content/themes/myGermany/images/foo2.jpg">
+                                <?php echo ('incl. Declaration'); ?>
+                                <a href="https://mygermany.com/ufaqs/do-you-do-export-declarations-for-shipping-values-≥-1-000-eur" target="_blank">»</a>
+                            </li>
+                        <?php endif; ?>
+                        <li class="bottom_info_list business_item" style="display: none;"><img src="https://mygermany.com/wp-content/themes/myGermany/images/foo3.jpg">
+                            <?php echo ('Business Address required'); ?>
+                            <a href="https://mygermany.com/ufaqs/can-mygermany-ship-russia/" target="_blank">»</a></li>
+                        <?php if ($calculations['dhlEconom']['riskCharge'] > 0): ?>
+                            <li class="bottom_info_list risk_item">
+                                <img src="https://mygermany.com/wp-content/themes/myGermany/images/foo4.jpg">
+                                <?php echo ('incl. Risky Area fee'); ?>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+                <div class="col-xs-1 bottom_datails">
+                    <div class="open_more"><?php echo __('Details')?> <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                </div>
+                <div class="col-xs-12 more_part" style="display: none;">
+                    <div class="col-xs-6">
+                        <img class="logo_ico" src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/dhl_logo.jpg'); ?>" />
+                        <div class="more_ttl"><?php echo ('DHL Economy'); ?></div>
+                        <div class="more_info">
+                            <p><span>
+                                <?php echo ('DHL Economy Service is the most economical method, it is based on DHL WELTPAKET International and ensures particularly short and calculable delivery times, including transport insurance, always transported to the destination country. Collaboration with local providers, and Shipment Tracking via the Internet or by telephone through customer services. Additional costs for unwieldy/non-stackable items can occur.'); ?><br>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 right_more_info_conteiner">
+                        <div class="more_info_right_part">
+                            <?php if ($calculations['dhlEconom']['totalShippingSum'] > 0): ?>
+                                <div class="info_table_block shipping_line" style="display: block;" >
+                                    <div class="col-xs-9"><?php echo ('Shipment DHL incl. myGermany services'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['dhlEconom']['totalShippingSum']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($calculations['dhlEconom']['insurance'] > 0): ?>
+                                <div class="info_table_block insurance_line" >
+                                    <div class="col-xs-9"><?php echo ('Insurance'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['dhlEconom']['insurance']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($calculations['dhlEconom']['customsDeclaration'] > 0): ?>
+                                <div class="info_table_block customsDeclaration_line" >
+                                    <div class="col-xs-9"><?php echo ('Customs Declaration'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['dhlEconom']['customsDeclaration']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($calculations['dhlEconom']['riskCharge'] > 0): ?>
+                                <div class="info_table_block riskCharge_line">
+                                    <div class="col-xs-9"><?php echo ('DHL Fee Risky, Embargo or ODA area'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['dhlEconom']['riskCharge']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif;*/ ?>
+
+    <?php if (isset($calculations['upsExpressSaver']) && ($calculations['upsExpressSaver']['totalShippingSum'] > 0)): ?>
+        <div class="panel_part" id="upsExpressSaver" style="display: block;">
+            <div class="panel_top_pat">
+                <div class="col-xs-1 working_block">
+                    <div class="working_days"><?php echo $calculations['upsExpressSaver']['workdays']; ?></div>
+                    <div class="working_info"><?php echo __('working days'); ?></div>
+                </div>
+                <div class="col-xs-3 logo_block">
+                    <img class="logo_ico" src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/ups_ exprs.jpg'); ?>" />
+                    <div class="brand_title">
+                        <?php echo __('UPS Express Saver'); ?> 
+                        <a href="https://mygermany.com/mygermany-collaboration-dhl-and-fedex-and-others/#ups" target="_blank">»</a>
+                    </div>
+                    <div class="brand_info">
+                        <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/inclusive.jpg'); ?>" />
+                        <?php echo __('* inclusive free myGermany Standard Services'); ?>
+                        <a href="https://mygermany.com/ufaqs/free-standard-services-provided-mygermany-default-services/" target="_blank">»</a>
+                    </div>
+                </div>
+                <div class="col-xs-4 list_block">
+                    <ul>
+                        <li style="color: #0da652;"><?php echo __('Door-to-Door Delivery, directly by UPS Express'); ?></li>
+                        <li><?php echo __('Incl. Customs Clearance'); ?></li>
+                        <li><?php echo __('Traceable & Proof of Delivery'); ?></li>
+                        <li><?php echo __('Shipment Lithium-Ion-Batteries possible'); ?></li>
+                    </ul>
+                </div>
+                <div class="col-xs-1 per_client">
+                    <div class="per_client_on" style="display: none;">
+                        <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/coub.png'); ?>" />
+                        <div><?php echo __('Best & reliable method: 80% of our clients have selected this method'); ?></div>
+                    </div>
+                </div>
+                <div class="col-xs-2 button_block">
+                    <span>
+                        <div class="button_ttl"><?php echo __('Grand Total Sum') ?></div>
+                        <div class="button_price"><?php echo $this->getFormatedPrice($calculations['upsExpressSaver']['totalShippingSum']); ?></div>
+                    </span>
+                    <div class="after_button_info"><?php echo __('incl. myGermany & UPS services / excl. Customs-Tax &amp; Duty') ?> </div>
+                </div>
+            </div>
+            <div class="col-xs-12 panel_bottom_pat">
+                <div class="col-xs-1 bottom_first"></div>
+                <div class="col-xs-10 bottom_content">
+                    <ul>
+                        <?php if($calculations['upsExpressSaver']['insurance'] > 0): ?>
+                            <li class="bottom_info_list insurance_item">
+                                <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/foo1.jpg'); ?>" />
+                                <?php echo __('incl. Insurance');?> 
+                                <span class="insurance_value"><?php echo $this->getFormatedPrice($calculations['upsExpressSaver']['insurance']); ?></span>
+                            </li>
+                        <?php endif; ?>
+                        <?php if ($calculations['upsExpressSaver']['customsDeclaration'] > 0): ?>
+                            <li class="bottom_info_list declaration_item ">
+                                <img src="https://mygermany.com/wp-content/themes/myGermany/images/foo2.jpg">
+                                <?php echo ('incl. Declaration'); ?>
+                                <a href="https://mygermany.com/ufaqs/do-you-do-export-declarations-for-shipping-values-≥-1-000-eur" target="_blank">»</a>
+                            </li>
+                        <?php endif; ?>
+                        <li class="bottom_info_list business_item" style="display: none;"><img src="https://mygermany.com/wp-content/themes/myGermany/images/foo3.jpg">
+                            <?php echo ('Business Address required'); ?>
+                            <a href="https://mygermany.com/ufaqs/can-mygermany-ship-russia/" target="_blank">»</a></li>
+                        <?php if ($calculations['upsExpressSaver']['riskCharge'] > 0): ?>
+                            <li class="bottom_info_list risk_item">
+                                <img src="https://mygermany.com/wp-content/themes/myGermany/images/foo4.jpg">
+                                <?php echo ('incl. Risky Area fee'); ?>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+                <div class="col-xs-1 bottom_datails">
+                    <div class="open_more"><?php echo __('Details')?> <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                </div>
+                <div class="col-xs-12 more_part" style="display: none;">
+                    <div class="col-xs-6">
+                        <img class="logo_ico" src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/ups_ exprs.jpg'); ?>" />
+                        <div class="more_ttl"><?php echo ('FedEx Express'); ?></div>
+                        <div class="more_info">
+                            <p><?php echo __('With UPS Express Saver you rely on guaranteed delivery during the next business day across Europe and fast delivery worldwide.'); ?>
+                            <br>
+                            <?php echo __('Next business day delivery during the day to almost all European business centers. End of second business day delivery to most business addresses in the United States and all major business centers in Canada.'); ?>
+                            <br>
+                            <span><?php echo __('Delivery during the day within two to three business days to countries or territories in Asia.'); ?></span>
+                            <?php echo __('Day-definite delivery during the day to other countries worldwide. Additional costs for unwieldy/non-stackable items can occur.'); ?></p>
+                            <p><strong><?php echo __('UPS Express Saver does always deliver directly door-to-door, it will not be handed over to any local partner.'); ?></strong></p></div>
+                    </div>
+
+                    <div class="col-xs-6 right_more_info_conteiner">
+                        <div class="more_info_right_part">
+                            <?php if ($calculations['upsExpressSaver']['totalShippingSum'] > 0): ?>
+                                <div class="info_table_block shipping_line" style="display: block;" >
+                                    <div class="col-xs-9"><?php echo ('Shipment UPS incl. myGermany services'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['upsExpressSaver']['totalShippingSum']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($calculations['upsExpressSaver']['insurance'] > 0): ?>
+                                <div class="info_table_block insurance_line" >
+                                    <div class="col-xs-9"><?php echo ('Insurance'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['fedexExpress']['insurance']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($calculations['upsExpressSaver']['customsDeclaration'] > 0): ?>
+                                <div class="info_table_block customsDeclaration_line" >
+                                    <div class="col-xs-9"><?php echo ('Customs Declaration'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['upsExpressSaver']['customsDeclaration']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($calculations['upsExpressSaver']['riskCharge'] > 0): ?>
+                                <div class="info_table_block riskCharge_line">
+                                    <div class="col-xs-9"><?php echo ('UPS Fee Risky, Embargo or ODA area'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['upsExpressSaver']['riskCharge']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($calculations['dpdExpressIntern']) && ($calculations['dpdExpressIntern']['totalShippingSum'] > 0)): ?>
+        <div class="panel_part pair_block" id="dpdExpressIntern" style="display: block;">
+            <div class="panel_top_pat">
+                <div class="col-xs-1 working_block">
+                    <div class="working_days"><?php echo $calculations['dpdExpressIntern']['workdays']; ?></div>
+                    <div class="working_info"><?php echo __('working days'); ?></div>
+                </div>
+                <div class="col-xs-3 logo_block">
+                    <img class="logo_ico" src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/dpd_exprs.png'); ?>" />
+                    <div class="brand_title">
+                        <?php echo __('DPD Express'); ?> 
+                        <a href="https://mygermany.com/mygermany-collaboration-dhl-and-fedex-and-others/#dpd" target="_blank">»</a>
+                    </div>
+                    <div class="brand_info">
+                        <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/inclusive.jpg'); ?>" />
+                        <?php echo __('* inclusive free myGermany Standard Services'); ?>
+                        <a href="https://mygermany.com/ufaqs/free-standard-services-provided-mygermany-default-services/" target="_blank">»</a>
+                    </div>
+                </div>
+                <div class="col-xs-4 list_block">
+                    <ul>
+                        <li style="color: #0da652;"><?php echo __('Door-to-Door Delivery, directly by UPS Express'); ?></li>
+                        <li><?php echo __('Incl. Customs Clearance'); ?></li>
+                        <li><?php echo __('Traceable & Proof of Delivery'); ?></li>
+                        <li><?php echo __('Shipment Lithium-Ion-Batteries possible'); ?></li>
+                    </ul>
+                </div>
+                <div class="col-xs-1 per_client">
+                    <div class="per_client_on" style="display: none;">
+                        <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/coub.png'); ?>" />
+                        <div><?php echo __('Best & reliable method: 80% of our clients have selected this method'); ?></div>
+                    </div>
+                </div>
+                <div class="col-xs-2 button_block">
+                    <span>
+                        <div class="button_ttl"><?php echo __('Grand Total Sum') ?></div>
+                        <div class="button_price"><?php echo $this->getFormatedPrice($calculations['dpdExpressIntern']['totalShippingSum']); ?></div>
+                    </span>
+                    <div class="after_button_info"><?php echo __('incl. myGermany & DPD services / excl. Customs-Tax & Duty') ?> </div>
+                </div>
+            </div>
+            <div class="col-xs-12 panel_bottom_pat">
+                <div class="col-xs-1 bottom_first"></div>
+                <div class="col-xs-10 bottom_content">
+                    <ul>
+                        <?php if($calculations['dpdExpressIntern']['insurance'] > 0): ?>
+                            <li class="bottom_info_list insurance_item">
+                                <img src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/foo1.jpg'); ?>" />
+                                <?php echo __('incl. Insurance');?> 
+                                <span class="insurance_value"><?php echo $this->getFormatedPrice($calculations['dpdExpressIntern']['insurance']); ?></span>
+                            </li>
+                        <?php endif; ?>
+                        <?php if ($calculations['dpdExpressIntern']['customsDeclaration'] > 0): ?>
+                            <li class="bottom_info_list declaration_item ">
+                                <img src="https://mygermany.com/wp-content/themes/myGermany/images/foo2.jpg">
+                                <?php echo ('incl. Declaration'); ?>
+                                <a href="https://mygermany.com/ufaqs/do-you-do-export-declarations-for-shipping-values-≥-1-000-eur" target="_blank">»</a>
+                            </li>
+                        <?php endif; ?>
+                        <li class="bottom_info_list business_item" style="display: none;"><img src="https://mygermany.com/wp-content/themes/myGermany/images/foo3.jpg">
+                            <?php echo ('Business Address required'); ?>
+                            <a href="https://mygermany.com/ufaqs/can-mygermany-ship-russia/" target="_blank">»</a></li>
+                        <?php if ($calculations['dpdExpressIntern']['riskCharge'] > 0): ?>
+                            <li class="bottom_info_list risk_item">
+                                <img src="https://mygermany.com/wp-content/themes/myGermany/images/foo4.jpg">
+                                <?php echo ('incl. Risky Area fee'); ?>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+                <div class="col-xs-1 bottom_datails">
+                    <div class="open_more"><?php echo __('Details')?> <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                </div>
+                <div class="col-xs-12 more_part" style="display: none;">
+                    <div class="col-xs-6">
+                        <img class="logo_ico" src="<?php echo $this->getViewFileUrl('Mangoit_ShippingCostCalculator::images/dpd_exprs.png'); ?>" />
+                        <div class="more_ttl"><?php echo ('DPD Express'); ?></div>
+                        <div class="more_info">
+                            <p><?php echo __('DPD Express allows you to ake advantage of Express-Service within Europe and worldwide. Delivery in Europe normally in the course of the next working day, and delivery to international business centres as a rule within 1 to 3 days. Online shipping status, with current shipping information available in DPD online system, Lithium Battery shipment is possible, you can ship DAP or DDP delivery terms, up to 31.5 kg and 1.75 m max. length (airfreight 1.20 m) per parcel, up to 10 parcels per shipment. Additional costs for unwieldy/non-stackable items can occur.'); ?>
+                            </p>
+                            <p><strong><?php echo __('DPD delivers always directly door-to-door.'); ?></strong></p></div>
+                    </div>
+
+                    <div class="col-xs-6 right_more_info_conteiner">
+                        <div class="more_info_right_part">
+                            <?php if ($calculations['dpdExpressIntern']['totalShippingSum'] > 0): ?>
+                                <div class="info_table_block shipping_line" style="display: block;" >
+                                    <div class="col-xs-9"><?php echo ('Shipment DPD incl. myGermany services'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['dpdExpressIntern']['totalShippingSum']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($calculations['dpdExpressIntern']['insurance'] > 0): ?>
+                                <div class="info_table_block insurance_line" >
+                                    <div class="col-xs-9"><?php echo ('Insurance'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['fedexExpress']['insurance']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($calculations['dpdExpressIntern']['customsDeclaration'] > 0): ?>
+                                <div class="info_table_block customsDeclaration_line" >
+                                    <div class="col-xs-9"><?php echo ('Customs Declaration'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['dpdExpressIntern']['customsDeclaration']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($calculations['dpdExpressIntern']['riskCharge'] > 0): ?>
+                                <div class="info_table_block riskCharge_line">
+                                    <div class="col-xs-9"><?php echo ('DPD Fee Risky, Embargo or ODA area'); ?></div>
+                                    <div class="col-xs-3"><?php echo $this->getFormatedPrice($calculations['dpdExpressIntern']['riskCharge']); ?></div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>

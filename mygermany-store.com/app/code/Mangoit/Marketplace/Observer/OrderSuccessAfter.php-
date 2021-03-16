@@ -1,0 +1,145 @@
+<?php
+/**
+ * Mangoit Software.
+ *
+ * @category  Mangoit
+ * @package   Mangoit_Marketplace
+ * @author    Mangoit
+ */
+
+namespace Mangoit\Marketplace\Observer;
+
+use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Session\SessionManager;
+use Magento\Quote\Model\QuoteRepository;
+use Magento\Sales\Api\OrderRepositoryInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Catalog\Api\ProductRepositoryInterface;
+use Webkul\Marketplace\Helper\Data as MarketplaceHelper;
+use Webkul\Marketplace\Helper\Notification as NotificationHelper;
+
+/**
+ * Webkul Marketplace SalesOrderSuccessObserver Observer Model.
+ */
+class OrderSuccessAfter implements ObserverInterface
+{
+    /**
+     * @var eventManager
+     */
+    protected $_eventManager;
+
+    /**
+     * @var ObjectManagerInterface
+     */
+    protected $_objectManager;
+
+    /**
+     * @var Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * [$_coreSession description].
+     *
+     * @var SessionManager
+     */
+    protected $_coreSession;
+
+    /**
+     * @var QuoteRepository
+     */
+    protected $_quoteRepository;
+
+    /**
+     * @var OrderRepositoryInterface
+     */
+    protected $_orderRepository;
+
+    /**
+     * @var CustomerRepositoryInterface
+     */
+    protected $_customerRepository;
+
+    /**
+     * @var ProductRepositoryInterface
+     */
+    protected $_productRepository;
+
+    /**
+     * @var MarketplaceHelper
+     */
+    protected $_marketplaceHelper;
+
+    /**
+     * @var NotificationHelper
+     */
+    protected $notificationHelper;
+
+    /**
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
+     */
+    protected $_date;
+
+
+    /**
+     * @param \Magento\Framework\Event\Manager            $eventManager
+     * @param \Magento\Framework\ObjectManagerInterface   $objectManager
+     * @param \Magento\Customer\Model\Session             $customerSession
+     * @param \Magento\Checkout\Model\Session             $checkoutSession
+     * @param SessionManager                              $coreSession
+     * @param QuoteRepository                             $quoteRepository
+     * @param OrderRepositoryInterface                    $orderRepository
+     * @param CustomerRepositoryInterface                 $customerRepository
+     * @param ProductRepositoryInterface                  $productRepository
+     * @param MarketplaceHelper                           $marketplaceHelper
+     * @param NotificationHelper                          $notificationHelper
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
+     */
+    public function __construct(
+        \Magento\Framework\Event\Manager $eventManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        SessionManager $coreSession,
+        QuoteRepository $quoteRepository,
+        OrderRepositoryInterface $orderRepository,
+        CustomerRepositoryInterface $customerRepository,
+        ProductRepositoryInterface $productRepository,
+        MarketplaceHelper $marketplaceHelper,
+        NotificationHelper $notificationHelper,
+        \Magento\Framework\Stdlib\DateTime\DateTime $date,
+        \Magento\Checkout\Model\Session $checkoutSession
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_objectManager = $objectManager;
+        $this->_customerSession = $customerSession;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_coreSession = $coreSession;
+        $this->_quoteRepository = $quoteRepository;
+        $this->_orderRepository = $orderRepository;
+        $this->_customerRepository = $customerRepository;
+        $this->_productRepository = $productRepository;
+        $this->_marketplaceHelper = $marketplaceHelper;
+        $this->notificationHelper = $notificationHelper;
+        $this->_date = $date;
+    }
+
+    /**
+     * Sales Order Place After event handler.
+     *
+     * @param \Magento\Framework\Event\Observer $observer
+     */
+    public function execute(\Magento\Framework\Event\Observer $observer)
+    {
+        $orderIds = $observer->getOrderIds();
+
+       
+    }
+
+
+}

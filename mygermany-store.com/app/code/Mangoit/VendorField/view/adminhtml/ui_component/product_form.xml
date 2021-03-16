@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <fieldset name="testingproduct">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string" translate="true">Custom Fields</item>
+            <item name="collapsible" xsi:type="boolean">true</item>
+            <item name="sortOrder" xsi:type="number">2</item>
+            </item>
+        </argument>
+        <container name="stock_on_hand_container" >
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                   <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+            <htmlContent name="html_content">
+               <argument name="block" xsi:type="object">Mangoit\VendorField\Block\Adminhtml\Customfield</argument>
+            </htmlContent>
+        </container>
+   <!--      <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Custom Fields</item>
+                <item name="provider" xsi:type="string">product</item>
+                <item name="dataScope" xsi:type="string">data.product</item>
+                <item name="sortOrder" xsi:type="number">2</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">false</item>
+                <item name="ns" xsi:type="string">product_form</item>
+            </item>
+        </argument>
+        <container name="testing_group">
+            <argument name="data" xsi:type="array">
+                <item name="type" xsi:type="string">group</item>
+                <item name="config" xsi:type="array">
+                    <item name="formElement" xsi:type="string">container</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/form/components/group</item>
+                    <item name="label" xsi:type="string" translate="true">Testing Group</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="sortOrder" xsi:type="number">220</item>
+                    <item name="breakLine" xsi:type="boolean">false</item>
+                    <item name="scopeLabel" xsi:type="string">[STORE VIEW]</item>
+                </item>
+            </argument>
+            <field name="testone">
+                <argument name="data" xsi:type="array">
+                    <item name="options" xsi:type="object">Mangoit\VendorField\Model\Config\Source\TimeSetup</item>
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Field Name</item>
+                        <item name="sortOrder" xsi:type="number">230</item>
+                        <item name="dataType" xsi:type="string">string</item>
+                        <item name="formElement" xsi:type="string">input</item>
+                    </item>
+                </argument>
+            </field>
+             <field name="testtwo">
+                <argument name="data" xsi:type="array">
+                    <item name="options" xsi:type="object">Mangoit\VendorField\Model\Config\Source\TimeSetup</item>
+                    <item name="config" xsi:type="array">
+                        <item name="sortOrder" xsi:type="number">240</item>
+                        <item name="dataType" xsi:type="string">string</item>
+                        <item name="formElement" xsi:type="string">select</item>
+                    </item>
+                </argument>
+            </field>
+            <field name="addMoreButton">
+                <argument name="data" xsi:type="array">
+                    <item name="options" xsi:type="object">Mangoit\VendorField\Model\Config\Source\TimeSetup</item>
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Add More</item>
+                        <item name="sortOrder" xsi:type="number">240</item>
+                        <item name="dataType" xsi:type="string">button</item>
+                        <item name="formElement" xsi:type="string">button</item>
+                    </item>
+                </argument>
+            </field>
+        </container> -->
+    </fieldset>
+</form>
+

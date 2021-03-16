@@ -1,0 +1,60 @@
+"Seller Coupons Manager","Seller Coupons Manager"
+"seller(s) coupon deleted successfully.","seller(s) coupon deleted successfully."
+"Coupon code has been applied successfully","Coupon code has been applied successfully"
+"Coupon code has been expired","Coupon code has been expired"
+"Invalid coupon Code.","Invalid coupon Code."
+"Coupon removed successfully","Coupon removed successfully"
+"Something Went Wrong","Something Went Wrong"
+"Successfully coupon removed","Successfully coupon removed"
+"Expire Date should have a valid value","Expire Date should have a valid value"
+"Your Coupons was successfully generated","Your Coupons was successfully generated"
+"Coupons Deleted Successfully","Coupons Deleted Successfully"
+"Seller Coupons","Seller Coupons"
+Enable,Enable
+Disable,Disable
+"Coupon Discount","Coupon Discount"
+Discount,Discount
+"Coupon code has been removed successfully","Coupon code has been removed successfully"
+"Seller Discount Codes","Seller Discount Codes"
+"Select Shop","Select Shop"
+"Select seller","Select seller"
+Shop,Shop
+"Enter your coupon code","Enter your coupon code"
+"Apply Coupon","Apply Coupon"
+"Applied Coupons","Applied Coupons"
+"Coupon Code","Coupon Code"
+"Cancel Credits","Cancel Credits"
+"Generate Coupons","Generate Coupons"
+"Code Prefix","Code Prefix"
+"Coupon Value","Coupon Value"
+Quantity,Quantity
+"Expire Date","Expire Date"
+Generate,Generate
+"Coupon List","Coupon List"
+"Coupons Status","Coupons Status"
+"Search by coupon code","Search by coupon code"
+All,All
+Active,Active
+Used,Used
+Expired,Expired
+Submit,Submit
+"Delete Coupons","Delete Coupons"
+Status,Status
+"Used Description","Used Description"
+"Created At","Created At"
+"Expire At","Expire At"
+"Used At","Used At"
+Action,Action
+Delete,Delete
+"No Coupons Available","No Coupons Available"
+Back,Back
+" No Checkbox is checked "," No Checkbox is checked "
+" Are you sure you want to delete these coupons ? "," Are you sure you want to delete these coupons ? "
+" Are you sure you want to delete this coupon ? "," Are you sure you want to delete this coupon ? "
+"Do you want to delete the coupon ?","Do you want to delete the coupon ?"
+ID,ID
+"Order Id","Order Id"
+"Seller Name","Seller Name"
+Price,Price
+"Used Date","Used Date"
+"Credit Deduction Status","Credit Deduction Status"

@@ -1,0 +1,39 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\Customer\Block\Widget\Telephone $block */
+?>
+<style type="text/css">
+  small, .small {
+      font-size: 89%;
+      font-weight: 400;
+  }
+</style>
+<div class="field telephone <?= $block->isRequired() ? 'required' : '' ?>">
+    <label for="telephone" class="label">
+        <span>
+            <?= $block->escapeHtml(__('Phone Number')) ?>
+        </span>
+    </label>
+    <div class="control">
+        <?php
+            $_validationClass = $block->escapeHtmlAttr(
+                $this->helper('Magento\Customer\Helper\Address')
+                     ->getAttributeValidationClass('telephone')
+            );
+        ?>
+        <input type="text" placeholder="<?php echo __('0123456789');?>"
+               name="telephone"
+               id="telephone"
+               value="<?= $block->escapeHtmlAttr($block->getTelephone()) ?>"
+               title="<?= $block->escapeHtmlAttr(__('Phone Number')) ?>"
+               class="input-text validate-number <?= $_validationClass ?: '' ?>"
+        >
+        <small><?php echo __("Please do not use any special character +-(). Enter your phone number like this: 0123456789")?></small>
+    </div>
+</div>

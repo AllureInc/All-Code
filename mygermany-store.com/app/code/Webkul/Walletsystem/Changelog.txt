@@ -1,0 +1,43 @@
+Legend
+
++ Features
+- Bugs
+
+-------------------------------- Version 2.0.4 --------------------------------------
+	
+	+ Customer can add payee in his account to transfer amount in his wallet.
+	+ Admin will recieve notification to approve payee and to approve amount transfer to account.
+	+ Admin can restrict to approval required for payees.
+	+ Admin can restrict for customer to use discount codes when adding amount in his wallet.
+	+ Customer can request to transfer their amount in his bank account.
+	+ Admin can export wallet system details in CSV and XML format.
+	- Issues solved.
+
+-------------------------------- Version 2.0.3 --------------------------------------
+	
+	+ Saperate email template for all emails.
+	+ Cashback amount is managed in refund of an order.
+	+ Composer.json updated for 2.2.x
+
+-------------------------------- Version 2.0.2 --------------------------------------
+
+    + Customer can transfer amount to other customer.
+    + Customer will get a monthly statement mail for the wallet amount.
+
+-------------------------------- Version 2.0.1 --------------------------------------
+
+	+ Admin can create cash back rules for the customer.
+	+ Cash back rules are based on product or on cart.
+	+ Admin can deduct wallet amount from customer's wallet.
+
+-------------------------------- Version 2.0.0 --------------------------------------
+
+	+ The customer can use Wallet Cash during the checkout.
+	+ The customer can easily add credit to their wallet system.
+	+ Admin can set the credit limit for the Wallet System.
+	+ Admin can also do the online refund by the help of Magento Wallet System and credit the amount into the customer’s Wallet System.
+	+ Admin can view the customer details who are using Wallet System for making the online payment.
+	+ Email notification is sent to customer on each transaction.
+	+ Admin can configure the Magento Wallet System to set the limit (maximum and minimum) for Wallet amount.
+	+ Admin and Customer/User can view credit and debit details.
+	+ Admin can add custom wallet amount to customer's wallet.

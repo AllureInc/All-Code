@@ -1,0 +1,92 @@
+<?php
+$buttonDisabled = $this->canShowInvoiceButton();
+print_r(get_class($this));die('sdfsdf');
+?>
+<?php /*
+<div class="wk-mp-design">
+	<form method="post" enctype="multipart/form-data" id="generateInvoice" action="<?php echo $block->getUrl('vendorpayments/index/generateinvoice', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+	    <fieldset class="fieldset info wk-mp-fieldset">
+	        <div class="actionsContainer buttons-set">
+	            <button type="submit" title="<?php echo __('Generate Invoice') ?>" class="action" <?php echo (!$buttonDisabled['status'])?'disabled="disabled"':'';  ?>>
+	                <span><?php echo __('Generate Invoice') ?></span>
+	            </button>
+	        </div>
+	        <?php if(isset($buttonDisabled['last']) && $buttonDisabled['last'] != '') { ?>
+		        <div>
+		        	<span><?php echo __('Last Invoice Generated, %1',$buttonDisabled['last']) ?></span>
+		        </div>
+	        <?php } else { ?>
+	        	<div>
+		        	<span><?php echo __('There are no invoices generated yet.') ?></span>
+		        </div>
+	        <?php } ?>
+	    </fieldset>
+    </form>
+</div>
+*/ ?>
+<div class="wk-mp-design amazon-sync-products">
+	<fieldset class="fieldset info wk-mp-fieldset">
+		<legend class="legend">
+			<span><?php /* @escapeNotVerified */ echo __('Invoices') ?></span>
+		</legend>
+		<div class="grid">
+			<div class="hor-scroll">
+					<div class="wk-msg-box wk-info <?php // echo $class ?>"><?php // echo $note ?>
+						<?php if(isset($buttonDisabled['last']) && $buttonDisabled['last'] != '') { ?>
+					        <div>
+					        	<span><?php echo __('Last Invoice Generated, %1',$buttonDisabled['last']) ?></span>
+					        </div>
+				        <?php } else { ?>
+				        	<div>
+					        	<span><?php echo __('There are no invoices generated yet.') ?></span>
+					        </div>
+				        <?php } ?>
+					</div>
+					<table cellspacing="0" class="border wk-mp-list-table">
+					    <thead>
+					        <tr id="wk-mp-tr-heading">
+					            <th><span><?php /* @escapeNotVerified */ //echo __('Product Name') ?></span></th>
+					            <th><span>&nbsp;</span></th>
+					        </tr>
+					    </thead>
+					    <tbody class="wk-mp-body">
+					    	<tr>
+					    		<td>
+						    		<!-- <form action="<?php // /* @escapeNotVerified */ echo $block->getUrl('mpamazonconnect/product/index/', ['_secure' => $this->getRequest()->isSecure()])?>" method="get" id="form-productlist-filter"  
+						    			name="formProductlistFilter" data-mage-init='{"validation":{}}'>
+						    			<input type="text" class="input-text" name="s" placeholder='<?php // /* @escapeNotVerified */ echo __('Search by product name') ?>' value="<?php // /* @escapeNotVerified */ echo $filter?>"/>
+						    			<button class="button" title="Save" type="submit">
+											<span><span><span><?php // /* @escapeNotVerified */ echo __('Search') ?></span></span></span>
+										</button>
+									</form> -->
+					    		</td>
+					    		<td>
+                                    <form method="post" enctype="multipart/form-data" id="generateInvoice" action="<?php echo $block->getUrl('vendorpayments/index/generateinvoice', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+									    <button type="submit" title="<?php echo __('Generate Invoice') ?>" class="action" <?php echo (!$buttonDisabled['status'])?'disabled="disabled"':'';  ?>>
+									        <span><?php echo __('Generate Invoice') ?></span>
+									    </button>
+									</form>
+					    		</td>
+					    	</tr>
+					    </tbody>
+					</table>
+
+			</div>
+		</div>
+
+	</fieldset>	
+	<div class="buttons-set">
+		<p class="back-link">
+			<a href="javascript:;" onclick="javascript: window.history.back();" class="left">&laquo; <?php /* @escapeNotVerified */ echo __('Back') ?></a>
+		</p>
+	</div>
+</div>
+
+
+<?php if($this->getRequest()->getParam('makeDownload') == 1){ ?>
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		window.location.href = '<?php echo $block->getUrl('vendorpayments/index/generateinvoice', ['makeDownload' => 1]); ?>'
+	});
+</script>
+<?php } ?>

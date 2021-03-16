@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpAdvertisementManager
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>      
+        <add id="Webkul_MpAdvertisementManager::advertmanager" title="Advertisment Manager" module="Webkul_MpAdvertisementManager" sortOrder="20" parent="Webkul_Marketplace::marketplace" resource="Webkul_MpAdvertisementManager::advertmanager"/>
+        
+        <add id="Webkul_MpAdvertisementManager::pricing" title="Create Ads Block Pricing" module="Webkul_MpAdvertisementManager" sortOrder="21" parent="Webkul_MpAdvertisementManager::advertmanager" action="mpadvertisementmanager/pricing/index" resource="Webkul_MpAdvertisementManager::pricing"/>
+        <add id="Webkul_MpAdvertisementManager::selleradspurchasedetail" title="Seller(s) Ads Purchase Details" module="Webkul_MpAdvertisementManager" sortOrder="22" parent="Webkul_MpAdvertisementManager::advertmanager" action="mpadvertisementmanager/pricing/selleradspurchasedetail" resource="Webkul_MpAdvertisementManager::selleradspurchasedetail"/>
+
+        <!-- <add id="Webkul_MpAdvertisementManager::position" title="Ads Position" module="Webkul_MpAdvertisementManager" sortOrder="21" parent="Webkul_MpAdvertisementManager::advertmanager" action="mpadvertisementmanager/ads_block/position" resource="Webkul_MpAdvertisementManager::position"/> -->
+    </menu>
+</config>

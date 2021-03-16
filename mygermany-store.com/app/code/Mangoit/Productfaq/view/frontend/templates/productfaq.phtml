@@ -1,0 +1,206 @@
+<?php
+    $tooltipHelper = $this->helper('Mangoit\MisTooltip\Helper\Data');
+    $imgHelper = $this->helper('Webkul\Marketplace\Helper\Data');
+    $section_id = 'product_faq';
+    $product_faq_block = 'product_faq_block';
+    $store_id = $tooltipHelper->getStoreId();
+    $faqBlock = $tooltipHelper->getToolTipData($store_id, $section_id, $product_faq_block);
+
+
+    $faqCollection = $block->getVendorFaqs();
+    $pname = '';
+    $ptitle = '';
+    $pstatus = 3;
+    $paramData = $this->getRequest()->getParams();
+    if (isset($paramData['id'])) {
+        $id = $paramData['id'] != '' ? $paramData['id'] : '';
+    }
+    if (isset($paramData['pname'])) {
+        $pname = $paramData['pname'] != '' ? $paramData['pname'] : '';
+    }
+    if (isset($paramData['ptitle'])) {
+        $ptitle = $paramData['ptitle'] != '' ? $paramData['ptitle'] : '';
+    }
+
+    if (isset($paramData['pstatus'])) {
+        $pstatus = $paramData['pstatus'] != '' ? $paramData['pstatus'] : '';
+    }
+ ?>
+
+<div class="mis_faq_list">
+    <h2 class="block-title"><?php echo __('Faq list')?></h2>
+    <div>
+        <?php echo ( (count($faqBlock) > 0) ? $faqBlock[0]['tooltip_text'] : '');?>
+    </div>
+    <form action="<?php echo $block->getUrl('faqs/product/faq', ['_secure' => $this->getRequest()->isSecure()])?>" method="get" id="form-productlist-filter"  name="formProductlistFilter" data-mage-init='{"validation":{}}'>
+        <table cellspacing="0" class="border wk-mp-list-table">
+            <thead>
+                <tr id="wk-mp-tr-heading">
+                    <th><span><?php echo __('Product') ?></span></th>
+                    <th><span><?php echo __('Title') ?></span></th>
+                    <th><span><?php echo __('Status') ?></span></th>
+                    <th><span><?php echo __('Action') ?></span></th>
+                </tr>
+            </thead>
+            <tbody class="wk-mp-body" id="colender-check">
+                <tr>
+                    <td>
+                        <input type="text" class="input-text" name="pname" placeholder='<?php echo __('Product') ?>' value="<?php echo $pname ?>"/>
+                    </td>
+                    <td>
+                        <input type="text" class="input-text" name="ptitle" placeholder='<?php echo __('Title') ?>' value="<?php echo $ptitle ?>"/>
+                    </td>
+                    <td>
+                        <select name="pstatus" >
+                            <option value=""><?php echo __('Select'); ?></option>
+                            <option value="<?php echo 1; ?>" <?php echo (($pstatus == 1) ? 'selected': '') ?>><?php echo __('Approved'); ?></option>
+                            <option value="<?php echo 2; ?>" <?php echo (($pstatus == 2) ? 'selected': '') ?>><?php echo __('Disapproved'); ?></option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="button" title="<?php echo __('Submit') ?>" type="submit">
+                            <span><span><span><?php echo __('Submit') ?></span></span></span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="reset_filter" title="<?php echo __('Reset Filter') ?>"  id="reset-filter-Removed">
+            <a href="<?php echo $this->getUrl('faqs/product/faq/');?>" class="yellow-button"><span><?php echo __('Reset Filters') ?></span></a>
+        </div>
+    </form>
+    <form action="<?php echo $this->getUrl('faqs/product/delete'); ?>" method="get" id="form-productlist-filter" name="formProductlistFilter" novalidate="novalidate" class="__web-inspector-hide-shortcut__" style="margin-top: 5px;">
+        <button style="display: none;" class="yellow-button" title="Delete FAQs" type="submit" id="mass-delete-butnnn">
+            <span><span><?php echo __('Delete FAQs'); ?></span></span>
+        </button>
+        <button class="yellow-button" title="Delete FAQs" type="button" id="mass-delete-btn">
+            <span><span><?php echo __('Delete FAQs'); ?></span></span>
+        </button>
+        <div class="mis_faqs yellow-button-float-right" >
+            <a href="<?php echo $this->getUrl('faqs/product/newfaq'); ?>" class="yellow-button" title="<?php echo __('Add New FAQ') ?>"><span><?php echo __('Add New Faq');?></span></a>
+        </div>
+        <table cellspacing="0" class="border wk-mp-list-table wk-mp-list-container-table">
+            <thead>
+                <tr class="wk-content">
+                    <th class="wk-check-first-td">
+                        <span>
+                            <input type="checkbox" name="mpselecctall" value="all" id="mpselecctall"/>
+                        </span>
+                    </th>
+                    <th class="wk-first-td">
+                        <span class="label name">
+                            <?php echo __('Product')?>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="label faq-title">
+                            <?php echo __('Title')?>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="label faq-desc">
+                            <?php echo __('Description')?>
+                        </span>
+                    </th>
+                    <th class="wk-list-th-display">
+                        <span class="label status">
+                            <?php echo __('Status')?>
+                        </span>
+                    </th>
+                    <th class="wk-list-th-display">
+                        <span class="label faq-edit">
+                            <?php echo __('Edit')?>
+                        </span>
+                    </th>			    		
+                </tr>
+            </thead>
+            <tbody>
+                <?php 
+                	if (!empty($faqCollection)): ?>
+                		<?php foreach ($faqCollection as $faqValue): 
+                            $productDetail = $block->getLoadProduct($faqValue->getProductId());
+
+                        ?>
+                			 <tr class="wk-row-view">
+    		                    <td class="wk-check-first-td">
+    		                        <span>
+    		                            <input type="checkbox" name="faq_mass_delete[]" class="checkbox mpcheckbox" value="<?php echo $faqValue->getId(); ?>"/>
+    		                        </span>
+    		                    </td>
+    		                    <td class="wk-first_td">
+    		                        <input type="hidden" class="hidden-id" value="<?php echo $faqValue->getId(); ?>" />
+    		                        <div class="label name">
+    		                            <div class="wk-pro-divide2">
+    		                                <div style="width:100%;">
+                                                <a href="<?php echo $this->getUrl('marketplace/product/edit/',['id' => $faqValue->getProductId()]) ?>">
+    		                                	    <?php echo $productDetail->getName() ?>
+                                                </a>
+    		                                </div>
+    		                            </div>
+    		                        </div>
+    		                    </td>
+    		                    <td>		
+    		                        <span class="label faq-status">
+    		                            <?php echo $faqValue->getTitle() ?>
+    		                        </span>
+    		                    </td>
+    		                    <td>		
+    	                            <span class="label faq-description">
+    	                                <?php echo $faqValue->getDescription() ?>
+    	                            </span>
+    	                        </td>
+    		                    <td>		
+    	                            <span class="label faq-is-active">
+    	                                <?php echo ($faqValue->getIsActive() == 1 ? __('Approved'): __('Disapproved')) ?>
+    	                            </span>
+    	                        </td>
+    		                    <td>		
+    	                            <span class="label faq-edit-individual">
+    	                            	<a href="<?php echo $this->getUrl('faqs/product/edit',['id' => $faqValue->getId()]); ?>" target="_blank"><?php echo __('Edit'); ?></a>
+    	                            </span>
+    	                        </td>
+    		                    <?php /*<td>
+    		                        <span class="label wk-action">
+    		                            <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/icon-edit.png'); ?>" data-url="<?php echo $block->getUrl('marketplace/product/edit', ['id'=>$product->getId(), '_secure' => $this->getRequest()->isSecure()])?>" alt="<?php echo __('Edit')?>" title="<?php echo __('Edit')?>" class="mp-edit"/>
+    		                        </span>	
+    		                    </td> */?>			    		
+    		                </tr>
+                	<?php  endforeach; ?>
+                		
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </form>
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+    <?php else: ?>
+        <div><?php echo __('There are no FAQ for this product.');?></div>
+    <?php endif ?>    
+</div>
+<script type="text/javascript">
+    require(["jquery"], function ($) {
+        jQuery(document).on('click','#mpselecctall', function (event) {
+            if (this.checked) {
+                jQuery('.mpcheckbox').each(function () {
+                    this.checked = true;
+                });
+            } else {
+                jQuery('.mpcheckbox').each(function () {
+                    this.checked = false;
+                });
+            }
+        });
+        jQuery(document).on('click','.reset_filter', function() {
+                var url = "<?php echo $this->getUrl('marketplace/product/productlist/') ?>"
+                window.location = url; // redirect
+          });
+        $('#mass-delete-btn').on('click', function(){
+            if (!$('.checkbox:checked').length > 0) {
+                var msg =  "<?php echo __("Please select atleast one checkbox.");?>";
+                alert(msg);                
+            } else {
+                $('#mass-delete-butnnn').trigger('click');
+            }
+        });
+    });
+</script>

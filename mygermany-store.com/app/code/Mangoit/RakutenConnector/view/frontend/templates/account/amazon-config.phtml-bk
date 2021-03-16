@@ -1,0 +1,145 @@
+<!-- last edited 29-Jan-2019 -->
+<?php 
+$tooltipHelper = $this->helper('Mangoit\MisTooltip\Helper\Data');
+$imgHelper = $this->helper('Webkul\Marketplace\Helper\Data');
+$section_id = 'rakuten';
+$amazon_manage_account_tooltip_id = 'rakuten_manage_account';
+$store_id = $tooltipHelper->getStoreId();
+$manageAccountTooltip = $tooltipHelper->getToolTipData($store_id, $section_id, $amazon_manage_account_tooltip_id);
+$sellerAmzDetail = $block->getSellerAmzDetail();
+$attributeSets = $block->getAttributeSets();
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+if ($helper->isSeller()){ ?>
+    <form action="<?php echo $block->getConfigSaveAction() ?>" method="POST"  id="form-seller-config" data-mage-init='{"validation":{}}'>
+        <div class="wk-mp-design">
+            <fieldset class="info wk-mp-fieldset fieldset" id="rakuten-config">
+                <legend class="legend">
+                    <span><?php echo __('Rakuten Configuration') ?></span>
+                    <button class="button wk-mp-btn" title="<?php /* @escapeNotVerified */ echo __('Save') ?>" type="submit" id="save-btn">
+                        <span><span><?php echo __('Save'); ?></span></span>
+                    </button>
+                </legend>
+                <span class="rakuten_manage_account_tooltip">
+                    <?php if(count($manageAccountTooltip) > 0): ?>
+                        <?php echo ( (count($manageAccountTooltip) > 0) ? $manageAccountTooltip[0]['tooltip_text'] : '');?>
+                    <?php endif; ?>
+                </span>                 
+                <?php echo $block->getBlockHtml('formkey'); ?>
+                <div class="fieldset form-list" id="cust">
+                    <div class="field required">
+                        <label class="label"><?php echo __('Attribute Set') ?>:</label>
+                        <div class="control">
+                            <select class="required-entry input-text" name="attribute_set" id="attribute_set">
+                                <option value=""><?php echo __('Select Attribute Set')?></option>
+                                <?php
+                                foreach ($attributeSets as $attributeSet) { 
+                                    $selected = $attributeSet['value'] == $sellerAmzDetail->getAttributeSet() ? 'selected="selected"' : '';
+                                    ?>
+                                    <option <?php echo $selected ?> value="<?php echo $attributeSet['value'] ?>"><?php echo $attributeSet['label'] ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field required">
+                        <label class="label"><?php /* @escapeNotVerified */ echo __('Rakuten Secret Key') ?>:</label>
+                        <div class="control">
+                            <input type="text" value="<?php /* @escapeNotVerified */ echo $sellerAmzDetail->getSecretKey()?>" class="required-entry input-text" name="secret_key" id="secret_key" />
+                        </div>
+                    </div>
+                    <div class="field required">
+                        <label class="label"><?php /* @escapeNotVerified */ echo __('Revise Rakuten Product') ?>:</label>
+                        <div class="control">
+                            <select name="revise_item">
+                                <option value="0"><?php echo __('Yes') ?></option>
+                                <option value="1" <?php if($sellerAmzDetail->getReviseItem()) { echo 'selected=selected';} ?>><?php echo __('No') ?></option>
+                            </select>
+                        </div>
+                        <small><?php echo __('Revise rakuten product on product update.') ?></small>
+                    </div>
+                    <div class="field required">
+                        <label class="label"><?php echo __('Default Category') ?>:</label>
+                        <div class="control">
+                            <select class="required-entry input-text" name="default_cate" id="default_cate">
+                                <option value=""><?php echo __('Select Default Category')?></option>
+                                <?php
+                                foreach ($block->getCategoryList() as $cate) { 
+                                    $selected = $cate['value'] == $sellerAmzDetail->getDefaultCate() ? 'selected="selected"' : '';
+                                    ?>
+                                    <option <?php echo $selected ?> value="<?php echo $cate['value'] ?>"><?php echo $cate['label'] ?></option>
+                                <?php } ?>
+                            </select>
+                            <small><?php echo __('Rakuten product will be assigned on default category.') ?></small>
+                        </div>
+                    </div>
+                    <div class="field required">
+                        <label class="label"><?php echo __('Product Create') ?>:</label>
+                        <div class="control">
+                            <select class="required-entry input-text" name="product_create" id="product_create">
+                                <option value=""><?php echo __('Select')?></option>
+                                <?php
+                                foreach ($block->getProductOpeation() as $opt) { 
+                                    $selected = $opt['value'] == $sellerAmzDetail->getProductCreate() ? 'selected="selected"' : '';
+                                    ?>
+                                    <option <?php echo $selected ?> value="<?php echo $opt['value'] ?>"><?php echo $opt['label'] ?></option>
+                                <?php } ?>
+                            </select>
+                            <small><?php echo __('Opted option will be used for product create at magento.') ?></small>
+                        </div>
+                    </div>
+                    <div class="field required">
+                        <label class="label"><?php echo __('Default Tax Class') ?>:</label>
+                        <div class="control">
+                            <select id="default_tax_class_id" class=" required-entry required-entry select" name="default_tax_class_id">
+                                <option value="0"><?php echo __('None')?></option>
+                                <?php
+                                $taxid=$sellerAmzDetail->getDefaultTaxClassId();
+                                $taxes=$helper->getTaxClassModel();
+                                foreach($taxes as $tax){
+                                    ?>
+                                    <option <?php echo $taxid==$tax->getId()? 'selected':''; ?> value="<?php echo $tax->getId() ?>"><?php echo $tax->getClassName()?></option>
+                                    <?php 
+                                } ?>
+                            </select>
+                            <small><?php echo __('Default tax class will be used for all imported products from Rakuten.') ?></small>
+                        </div>
+                    </div>
+                    <div class="field required">
+                        <label class="label"><?php echo __('Default Product Qty') ?>:</label>
+                        <div class="control">
+                            <input type="text" value="<?php echo $sellerAmzDetail->getDefaultProQty()?>" class="required-entry input-text" name="default_pro_qty" id="default_pro_qty" />
+                            <small><?php echo __('Default qty will be used, when api response does not return item qty.') ?></small>
+                        </div>
+                    </div>
+                    <div class="field required">
+                        <label class="label"><?php echo __('Default Product Weight') ?>:</label>
+                        <div class="control">
+                            <input type="text" value="<?php echo $sellerAmzDetail->getDefaultProWeight()?>" class="required-entry input-text" name="default_pro_weight" id="default_pro_weight" />
+                            <small><?php echo __('Default weight will be used, when api response does not return item weight.') ?></small>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </form>
+    <br>
+    <div class="buttons-set">
+        <p class="back-link">
+            <a href="javascript:;" onclick="javascript: window.history.back();" class="left">&laquo; <?php echo __('Back') ?></a>
+        </p>
+    </div>
+<?php } else { ?>
+    <h3><?php echo __('Not a Seller.')?></h3>
+<?php } ?>
+<script type="text/javascript">
+    require(['jquery'],function(jQuery){
+        jQuery(window).on('scroll', function(){
+            var offsettop = jQuery('#form-seller-config').offset().top;
+            var isActive = (jQuery(window).scrollTop() > offsettop);
+            if (isActive) {
+                jQuery('#form-seller-config legend.legend').addClass('wk-mp-fixed');
+            } else {
+                jQuery('#form-seller-config legend.legend').removeClass('wk-mp-fixed');
+            }
+        });
+    });
+</script>

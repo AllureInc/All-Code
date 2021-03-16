@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="plenty_tab" translate="label" sortOrder="200" class="plenty_core_tab">
+            <label>Plenty Markets</label>
+        </tab>
+        <section id="plenty_core" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Plenty Core</label>
+            <tab>plenty_tab</tab>
+            <resource>Plenty_Core::config_plenty_core</resource>
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="version" type="note" translate="label" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Version</label>
+                    <frontend_model>Plenty\Core\Block\Adminhtml\System\Config\Form\Field\Version</frontend_model>
+                    <comment>Current connector version</comment>
+                </field>
+                <field id="license" translate="label comment" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>License</label>
+                    <config_path>plenty_core/general/license</config_path>
+                    <comment>This is provided with your invoice.</comment>
+                </field>
+            </group>
+            <group id="auth" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Authentication Settings</label>
+                <field id="app_name" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>App Name</label>
+                    <config_path>plenty_core/auth/app_name</config_path>
+                </field>
+                <field id="app_url" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>App Url</label>
+                    <config_path>plenty_core/auth/app_url</config_path>
+                </field>
+                <field id="app_username" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>App Username</label>
+                    <config_path>plenty_core/auth/app_username</config_path>
+                </field>
+                <field id="app_password" translate="label" type="obscure" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>App Password</label>
+                    <config_path>plenty_core/auth/app_password</config_path>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="plenty_id" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Plenty ID</label>
+                    <config_path>plenty_core/auth/plenty_id</config_path>
+                </field>
+                <field id="owner_id" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Owner ID</label>
+                    <config_path>plenty_core/auth/owner_id</config_path>
+                </field>
+                <field id="store_id" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Store ID</label>
+                    <config_path>plenty_core/auth/store_id</config_path>
+                </field>
+            </group>
+            <group id="api_config" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Rest API Settings</label>
+                <field id="api_retry" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Number of tries in case of error</label>
+                    <config_path>plenty_core/api_config/api_retry</config_path>
+                </field>
+                <field id="api_connection_timeout" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Connection time out</label>
+                    <config_path>plenty_core/api_config/api_connection_timeout</config_path>
+                </field>
+                <field id="api_timeout" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Request time out</label>
+                    <config_path>plenty_core/api_config/api_timeout</config_path>
+                </field>
+            </group>
+            <group id="dev" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Enable Debugging</label>
+                <field id="debug_enabled" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable debugging</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enables logging response data to a file.</comment>
+                </field>
+                <field id="debug_directory" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Debug directory name (e.g stock)</label>
+                </field>
+                <field id="debug_level" translate="label" type="multiselect" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Debug level</label>
+                    <source_model>Plenty\Core\Model\Profile\Config\Source\DebugLevel</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,72 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpMassUpload
+ * @author    Webkul
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+?>
+<?php
+    $helper = $this->helper("Webkul\MpMassUpload\Helper\Data");
+    $productCount = $helper->getTotalCount();
+    $profileId = $helper->getProfileId();
+    $sellerId = $this->getRequest()->getParam('seller_id');
+    $postData = $helper->getProductPostData($profileId, 1);
+    $postData['seller_id'] = $sellerId;
+    $postData['profile_id'] = $profileId;
+    $postData['row'] = 1;
+    $postData['total_row_count'] = $productCount;
+    $sellerGroupUrl = $this->getUrl('mpmassupload/run/index');
+    $data = [
+            "importUrl" => $this->getUrl('mpmassupload/product/run'),
+            "finishUrl" => $this->getUrl('mpmassupload/product/finish'),
+            "productCount" => $productCount,
+            "profileId" => $helper->getProfileId(),
+            "sellerId" => $helper->getSellerId(),
+            "completeLabel" => __("Completed"),
+            "deleteLabel" => __("Deleting Profile"),
+            "noProductImportLabel" => __("No Product Imported"),
+            "postData" => $postData,
+            'sellerGroupUrl' => $sellerGroupUrl
+        ];
+    $data = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($data);
+?>
+<fieldset class="fieldset">
+    <div class="wk-mu-note wk-mu-box">
+        <?php echo __("Starting Execution..."); ?>
+    </div>
+    <div class="wk-mu-notice wk-mu-box">
+        <?php echo __("Please don't close or refresh the window while importing products."); ?>
+    </div>
+    <div class="wk-mu-success wk-mu-box">
+        <?php echo __("Total %1 Product(s) to import.", $productCount); ?>
+    </div>
+    <?php if($productCount > 0): ?>
+        <div class="wk-mu-info-bar">
+            <div class="wk-mu-importing-loader"></div>
+            <div class="wk-mu-info-bar-content">
+                <?php echo __("Importing"); ?> <span class="wk-current">1</span> of <?php echo $productCount;?>
+            </div>
+        </div>
+        <div class="wk-mu-progress-bar">
+            <div class="wk-mu-progress-bar-current"></div>
+        </div>
+    <?php else: ?>
+        <div class="wk-mu-note wk-mu-box">
+            <?php echo __("No Product to import."); ?>
+        </div>
+        <div class="wk-mu-note wk-mu-box">
+            <?php echo __("Finsihed Execution."); ?>
+        </div>
+    <?php endif; ?>
+</fieldset>
+<script type="text/x-magento-init">
+    {
+        "body": {
+            "Webkul_MpMassUpload/js/profile": <?php echo $data ?>
+        }
+    }
+</script>

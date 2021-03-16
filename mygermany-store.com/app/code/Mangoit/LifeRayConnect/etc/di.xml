@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Mangoit\LifeRayConnect\Api\OrderInterface"
+                type="Mangoit\LifeRayConnect\Model\Order" />
+                
+    <preference for="Mangoit\LifeRayConnect\Api\CustomerComplianceInterface"
+                type="Mangoit\LifeRayConnect\Model\CustomerComplianceStatus" />
+
+    <preference for="Mangoit\LifeRayConnect\Api\OrderInvoiceInterface"
+                type="Mangoit\LifeRayConnect\Model\OrderInvoice" />
+
+    <preference for="Mangoit\LifeRayConnect\Api\NewsLetterInterface"
+                type="Mangoit\LifeRayConnect\Model\NewsLetter" />
+
+    <preference for="Mangoit\LifeRayConnect\Api\CustomerCreateInterface"
+                type="Mangoit\LifeRayConnect\Model\CustomerCreate" />
+
+    <preference for="Mangoit\LifeRayConnect\Api\SlidersProductInterface"
+                type="Mangoit\LifeRayConnect\Model\SliderProducts" />
+</config>

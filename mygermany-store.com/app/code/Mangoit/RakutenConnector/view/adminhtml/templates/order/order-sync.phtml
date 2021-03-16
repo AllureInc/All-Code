@@ -1,0 +1,39 @@
+<?php 
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */
+?>
+<?php
+	$tempTableStatus = $block->getTempCount() ? '' :'disabled=disabled';
+?>
+<?php if(empty($block->checkCurrencyRate())) : ?>
+<div class = "wk-warning-msg">
+	<div class="message message-warning warning">
+		<div data-ui-id="messages-message-warning">
+			<?php echo __('Please configure currency options and currency rate as per your Rakuten Marketplace currency' ) ?>
+		</div>
+	</div>
+</div>
+<?php endif; ?>
+<div class="page-main-actions">
+	<div class="wk-order-button-container">
+		<button id="rakutenconnect-accounts-order-import" title="<?php echo __('Import Order From Rakuten')?>" type="button" class="action-default scalable save primary"><span class="ui-button-text">
+		    <span><?php echo __('Import Order From Rakuten')?></span>
+		</span></button>
+
+		<button id="rakutenconnect-import-order-create" title="<?php echo __('Run Profiler For Create Imported Orders')?>" type="button" class="action-default scalable save primary" <?php echo $tempTableStatus ?>><span class="ui-button-text">
+		    <span><?php echo __('Create Imported Order In Store')?></span>
+		</span></button>
+	</div>
+</div>
+<script type="text/x-magento-init">
+    {
+        "body": {
+			"rktnorderimportscript": {"importUrl":"<?php echo $block->getImportUrl()?>", "profilerUrl":"<?php echo $block->getProfilerUrl()?>"}
+        }
+    }
+</script>

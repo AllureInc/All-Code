@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Scommerce_CookiePopup::cookiechoice"
+             title="Cookie Popup"
+             module="Scommerce_CookiePopup"
+             sortOrder="200"
+             resource="Scommerce_CookiePopup::config"
+             parent="Magento_Customer::customer"/>
+
+        <add id="Scommerce_CookiePopup::manage"
+             title="Manage Cookie Choices"
+             module="Scommerce_CookiePopup"
+             sortOrder="10"
+             action="scommerce_cookie_popup/manage"
+             resource="Scommerce_CookiePopup::manage"
+             parent="Scommerce_CookiePopup::cookiechoice"/>
+
+    </menu>
+</config>

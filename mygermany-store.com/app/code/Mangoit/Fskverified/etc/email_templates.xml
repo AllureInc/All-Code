@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Mangento_Email:etc/email_templates.xsd">
+	<template id="marketplace_email_fsk_email" label="FSK Request" file="fsk_request.html" type="html" module="Mangoit_Fskverified" area="frontend"/>
+	<template id="marketplace_email_mis_order_comment" label="Order Comment" file="order_comment.html" type="html" module="Mangoit_Fskverified" area="frontend"/>
+</config>

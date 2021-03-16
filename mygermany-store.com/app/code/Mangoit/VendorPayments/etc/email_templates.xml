@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="marketplace_general_settings_vendor_invoice_email_template" label="Email Templates" file="new_invoice_generated.html" type="html" module="Mangoit_VendorPayments" area="frontend"/>
+    <template id="marketplace_general_settings_vendor_invoice_email_template_vendor_copy" label="Email Templates" file="new_invoice_generated_vendor_copy.html" type="html" module="Mangoit_VendorPayments" area="frontend"/>
+
+    <template id="marketplace_general_settings_cancel_order_invoice_email_vendor_paypal" label="Email Templates" file="cancel_invoice_vendor_paypal.html" type="html" module="Mangoit_VendorPayments" area="frontend"/>
+    <template id="marketplace_general_settings_cancel_order_invoice_email_admin_paypal" label="Email Templates" file="cancel_invoice_admin_paypal.html" type="html" module="Mangoit_VendorPayments" area="frontend"/>
+
+    <template id="marketplace_general_settings_cancel_order_invoice_email_vendor_bank" label="Email Templates" file="cancel_invoice_vendor_bank.html" type="html" module="Mangoit_VendorPayments" area="frontend"/>
+    <template id="marketplace_general_settings_cancel_order_invoice_email_admin_bank" label="Email Templates" file="cancel_invoice_admin_bank.html" type="html" module="Mangoit_VendorPayments" area="frontend"/>
+
+    <template id="marketplace_general_settings_cancel_order_invoice_email_approval_vendor" label="Email Templates" file="cancel_invoice_req_approval.html" type="html" module="Mangoit_VendorPayments" area="frontend"/>
+
+    <template id="marketplace_cancel_order_settings_cancel_order_admin_notify" label="Cancel Order Admin Notification (Bank)" file="cancel_order_admin_notify.html" type="html" module="Mangoit_VendorPayments" area="frontend"/>
+</config>

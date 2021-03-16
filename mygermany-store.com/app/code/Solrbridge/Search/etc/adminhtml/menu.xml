@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Solrbridge. All rights reserved.
+ * See LICENSE.txt for more details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Solrbridge_Search::solrbridge" title="Solr Bridge" module="Solrbridge_Search" sortOrder="60" resource="Solrbridge_Search::solrbridge"/>
+        <add id="Solrbridge_Search::solrbridge_general_setting" action="adminhtml/system_config/edit/section/solrbridge_general" title="Settings" module="Solrbridge_Search" parent="Solrbridge_Search::solrbridge" sortOrder="1" resource="Solrbridge_Search::solrbridge_general_setting"/>
+        <add id="Solrbridge_Search::solrbridge_stopword_synonym" action="solrbridge/stopwordsynonym/index" title="Stopwords and Synonyms" module="Solrbridge_Search" parent="Solrbridge_Search::solrbridge" sortOrder="2" resource="Solrbridge_Search::solrbridge_index_management"/>
+        <add id="Solrbridge_Search::solrbridge_index_management" action="solrbridge/index/index" title="Index Management" module="Solrbridge_Search" parent="Solrbridge_Search::solrbridge" sortOrder="3" resource="Solrbridge_Search::solrbridge_index_management"/>
+        <add id="Solrbridge_Search::solrbridge_log" action="solrbridge/index/log" title="Logs" module="Solrbridge_Search" parent="Solrbridge_Search::solrbridge" sortOrder="4" resource="Solrbridge_Search::solrbridge_log"/>
+    </menu>
+</config>

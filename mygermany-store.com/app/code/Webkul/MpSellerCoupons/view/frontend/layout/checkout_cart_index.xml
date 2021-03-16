@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpSellerCoupons
+ * @author    Webkul Software Private Limited 
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Webkul_MpSellerCoupons::css/seller-coupon.css"/>
+    </head>
+    <body>
+		<referenceBlock name="checkout.cart.totals">
+		   <arguments>
+		       <argument name="jsLayout" xsi:type="array">
+		           <item name="components" xsi:type="array">
+		               <item name="block-totals" xsi:type="array">
+		                   <item name="children" xsi:type="array">
+		                       <item name="coupondiscount_total" xsi:type="array">
+		                           <item name="component"  xsi:type="string">Webkul_MpSellerCoupons/js/view/checkout/summary/coupon-discount</item>
+		                           <item name="sortOrder" xsi:type="string">20</item>
+		                           <item name="config" xsi:type="array">
+		                               <item name="coupondiscount_total" xsi:type="string" translate="true">Coupon Discount</item>
+		                           </item>
+		                       </item>
+		                   </item>
+		               </item>
+		           </item>
+		       </argument>
+		   </arguments>
+		</referenceBlock>
+		<referenceBlock name="content">
+             <block class="Webkul\MpSellerCoupons\Block\Coupons" name="seller-coupon-cart-index" as="seller-coupon-cart-indexxx" template="Webkul_MpSellerCoupons::coupons-cart-form.phtml" after="-"/>
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://cedcommerce.com/license-agreement.txt
+ *
+ * @category Ced
+ * @package Ced_Productfaq
+ * @author CedCommerce Core Team
+ * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license http://cedcommerce.com/license-agreement.txt
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+     <add id="Ced_Productfaq::view" title="Product Faq" module="Ced_Productfaq" sortOrder="60" resource="Ced_Productfaq::view"/>
+     <add id="Ced_Productfaq::management" title="FAQ Management" module="Ced_Productfaq" sortOrder="10" parent="Ced_Productfaq::view" action="faq/productfaq" resource="Ced_Productfaq::management"/>
+     <add id="Ced_Productfaq::configuration" title="FAQ Setting" module="Ced_Productfaq" sortOrder="20" parent="Ced_Productfaq::view" action="adminhtml/system_config/edit/section/faq" resource="Ced_Productfaq::configuration"/>
+    </menu>
+</config>

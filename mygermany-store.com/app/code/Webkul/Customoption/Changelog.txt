@@ -1,0 +1,16 @@
+Legend
+
++ Features
+- Bugs
+
+-------------------------------- Version 2.0.2 --------------------------------------
+	+ compatible with Magento 2.2.*
+	- Fixed Issues
+	
+-------------------------------- Version 2.0.1 --------------------------------------
+	+ Compatible with Magento 2.1.*
+
+-------------------------------- Version 2.0.0 --------------------------------------
+	+ Allow to add product with custom options at seller dashboard .
+	+ Support all input type e.g drop-down, multiselect, text, e.t.c.
+	+ Seller can manage his custom product options by own.

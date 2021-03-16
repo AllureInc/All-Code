@@ -1,0 +1,153 @@
+<?php $isEnable = $block->getConfig('faqtab/general/enable') ?>
+<?php $showGroup = $block->getConfig('faqtab/general/showgroup') ?>
+<?php $showGroupTitle = $block->getConfig('faqtab/general/showgrouptitle') ?>
+<?php $faqGroupCollection = $block->getFaqGroupCollection() ?>
+<?php $questionTitles = []; ?>
+<?php $autocompleteQuestion = 'No'; ?>
+<?php if ($faqGroupCollection->getSize()) : ?>
+    <?php if ($isEnable) : ?>
+    <div class="faq-search-container">
+        <div class="et_pb_row et_pb_row_0">
+            <div class="et_pb_text_inner">
+                <h2 align="center"><?php /* @noEscape */ echo __('Frequently Asked Questions'); ?></h2>
+            </div>
+        </div>
+        <div class="et_pb_row et_pb_row_1">
+            <div class="faq_search_form">
+                <p><?php /* @noEscape */ echo __('Search through our FAQs to find the answer to your question or browse the categories below.'); ?></p>
+                <form action="#" method="post" id="ufaq-ajax-form" class="pure-form pure-form-aligned">
+                    <div id="ewd-ufaq-jquery-ajax-search" class="pure-control-group ui-front" style="position:relative;">
+                        <label class="ewd-otp-field-label ewd-otp-bold"><?php /* @noEscape */ echo __('Enter your question:'); ?></label>
+                        <input type="text" id="ufaq-ajax-text-input" class="ufaq-text-input" name="Question " placeholder="<?php echo __('Enter your question...'); ?>">
+                    </div>
+                </form>
+                <div class="searched_faq_container"></div>
+            </div>
+        </div>
+    </div>
+    <div class="faq-collection">
+        <?php if ($showGroup) : ?>
+            <div class="faq-groups">
+                <?php foreach ($faqGroupCollection as $group) : ?>
+                    <div class="faq-group">
+                        <div class="faq-group-image">
+                            <a href="#group<?php /* @noEscape */ echo $group->getFaqgroupId(); ?>" class="group-link">
+                            <?php if ($group->getIcon()) : ?>
+                                <img class="group-image"
+                                     src="<?php /* @noEscape */ echo $block->getImageUrl($group->getIcon()); ?>" />
+                            <?php else : ?>
+                                <img class="group-image" 
+                                     src="<?php /* @noEscape */ echo $block->getViewFileUrl('Prince_Faq::images/faq.png'); ?>" />
+                            <?php endif; ?>
+                            </a>
+                        </div>
+                        <div class="faq-groupname">
+                        <a href="#group<?php /* @noEscape */ echo $group->getFaqgroupId(); ?>" class="group-link">
+                            <?php /* @noEscape */ echo $group->getGroupName(); ?>
+                        </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+        <div class="faq-content">
+            <?php if($this->getRequest()->getPost('q')){ ?>
+                <div class="faq-accordion searched_faq">
+                    <?php $faqCollection = $block->getFaqCollection(''); ?>
+                    <?php if ($faqCollection->getSize()) : ?>
+                        <?php foreach ($faqCollection as $faq) : ?> 
+                            <h3><?php /* @noEscape */ echo $faq->getTitle(); ?></h3>
+                            <div>
+                                <p><?php /* @noEscape */ echo $block->filterOutputHtml($faq->getContent()); ?></p>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <div><?php /* @noEscape */ echo __('No FAQ available'); ?></div>
+                    <?php endif; ?>
+                </div>
+            <?php } else { ?>
+                <?php foreach ($faqGroupCollection as $group) : ?>
+                    <?php if ($showGroupTitle) : ?>
+                        <div class="group-title" id="group<?php /* @noEscape */ echo $group->getFaqgroupId(); ?>">
+                            <i></i><?php /* @noEscape */ echo $group->getGroupName(); ?>
+                        </div>
+                    <?php endif; ?>
+                    <div class="faq-accordion">
+                    <?php $faqCollection = $block->getFaqCollection($group->getId()); ?>
+                        <?php if ($faqCollection->getSize()) : ?>
+                            <?php foreach ($faqCollection as $faq) : ?>
+                                <?php
+                                    $questionTitles[] = $faq->getTitle();
+                                    $autocompleteQuestion = 'Yes';
+                                ?>
+                                <h3><?php /* @noEscape */ echo $faq->getTitle(); ?></h3>
+                                <div>
+                                    <p><?php /* @noEscape */ echo $block->filterOutputHtml($faq->getContent()); ?></p>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <div><?php /* @noEscape */ echo __('No FAQ available'); ?></div>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            <?php } ?>
+        </div>
+    </div>
+    <?php endif; ?>
+<?php else : ?>
+    <div>
+        <h1><?php /* @noEscape */ echo __('No FAQ has been posted yet.'); ?></h1>
+    </div>
+<?php endif; ?>
+<script type="text/javascript">
+    require([
+        "jquery",
+        'jquery/ui',
+        'Magento_Ui/js/modal/modal'
+    ], function(jQuery, modal){
+        autocompleteQuestion = '<?php echo $autocompleteQuestion;?>';
+        questionTitles = <?php echo json_encode($questionTitles ? $questionTitles : []);?>;
+
+        jQuery('#ufaq-ajax-text-input').on('keyup', function() {
+            if (typeof autocompleteQuestion === 'undefined' || autocompleteQuestion === null) {autocompleteQuestion = "No";}
+            if (autocompleteQuestion == "Yes") {
+                jQuery('#ufaq-ajax-text-input').autocomplete({
+                    source: questionTitles,
+                    minLength: 3,
+                    appendTo: "#ewd-ufaq-jquery-ajax-search",
+                    select: function(event, ui) {
+                        jQuery(this).val(ui.item.value);
+                        jQuery('#ufaq-ajax-text-input').trigger('keyup');
+                    }
+                });
+                jQuery('#ufaq-ajax-text-input').autocomplete( "enable" );
+            }
+        });
+
+        jQuery(document).on('keyup', '#ufaq-ajax-text-input', function() {
+            jQuery('.searched_faq_container').html('<span><?php echo __('Searching...'); ?></span>');
+            jQuery.ajax({
+                url: '',
+                method: 'POST',
+                async: true,
+                data:{
+                    q: (jQuery(this).val()) ? jQuery(this).val() : ' '
+                },
+                dataType:'html',
+                success: function(result) {
+                    var content = jQuery(result).find('.faq-content').html();
+                    jQuery('.searched_faq_container').html(content);
+                    jQuery(".faq-accordion").accordion({
+                        collapsible: true,
+                        heightStyle: "content",
+                        active: '',
+                        animate: 500
+                    });
+                },
+                error: function() {
+                    
+                }
+            });
+        });
+    });
+</script>

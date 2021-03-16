@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Webkul
+ * @package    Webkul_MpPushNotification
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <virtualType name="Webkul\MpPushNotification\Model\ResourceModel\Templates\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">mp_pushnotification_templates</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\MpPushNotification\Model\ResourceModel\Templates</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="mppushnotification_templates_listing_data_source" xsi:type="string">Webkul\MpPushNotification\Model\ResourceModel\Templates\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Webkul\MpPushNotification\Model\ResourceModel\UsersToken\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">mp_pushnotification_users_token</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\MpPushNotification\Model\ResourceModel\UsersToken</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="mppushnotification_users_listing_data_source" xsi:type="string">Webkul\MpPushNotification\Model\ResourceModel\UsersToken\Grid\Collection</item>
+                <item name="mppushnotification_templates_listing_data_source" xsi:type="string">Webkul\MpPushNotification\Model\ResourceModel\Templates\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference for="Webkul\MpPushNotification\Api\Data\TemplatesInterface" type="Webkul\MpPushNotification\Model\Templates" />
+    <preference for="Webkul\MpPushNotification\Api\TemplatesRepositoryInterface" type="Webkul\MpPushNotification\Model\TemplatesRepository" />
+
+    <preference for="Webkul\MpPushNotification\Api\Data\UsersTokenInterface" type="Webkul\MpPushNotification\Model\UsersToken" />
+    <preference for="Webkul\MpPushNotification\Api\UsersTokenRepositoryInterface" type="Webkul\MpPushNotification\Model\UsersTokenRepository" />
+</config>

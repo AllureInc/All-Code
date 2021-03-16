@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Marketplace
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name='step1'>
+            <action method="setTemplate">
+                <argument name='template' xsi:type='string'>Mangoit_Marketplace::product/edit/attribute/steps/select_attributes.phtml</argument>
+            </action>
+            <!-- <block class="Magento\Framework\View\Element\Template" name="mis_new_attribute" template="Mangoit_Marketplace::product/edit/attribute/steps/newAttribute.phtml"/> -->
+        </referenceBlock>
+    </body>
+</page>

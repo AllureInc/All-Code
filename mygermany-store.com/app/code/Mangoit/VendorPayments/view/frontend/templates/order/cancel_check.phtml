@@ -1,0 +1,303 @@
+<?php
+$cancel_order = __("Cancel Order");
+$pay_via_bank = __("Pay via Bank");
+// echo "<pre>";
+// print_r(get_class_methods($block->getOrder()));
+// print_r($block->getConfigValue('marketplace/cancel_order_settings/is_sand'));
+// die();
+// print_r($block->getOrderCancellationCharge());
+$order = $block->getOrder();
+$totalAmount = number_format($block->getOrderCancellationCharge(), 2, '.', '');
+?>
+<!-- <script src="https://www.paypalobjects.com/api/checkout.js" data-version-4 data-log-level="info"></script> -->
+
+<!-- <div>
+    <a href="#" id="click-me">Click Me</a>
+</div> -->
+<div id="popup-mpdal" >
+	<div class="mis_order_cancel_notice">
+		<p><?php echo __('Please note that order cancellation is subject to charge and you have to pay €%1 to myGermany for canceling the order.', $totalAmount); ?></p>
+		<div>
+			<p><?php echo __('You can either pay using PayPal or via Bank Transfer (Bank details given below).'); ?></p>
+			<p><?php echo $block->getConfigValue('payment/banktransfer/instructions'); ?></p>
+		</div>
+
+	</div>
+	<!-- <div id="bank-trans">
+		<button class="button wk-mp-btn" title="<?php echo __('Pay via Bank'); ?>" type="button">
+			<span><span><?php echo __('Pay via Bank'); ?></span></span>
+		</button>
+	</div> -->
+	<div id="paypal-button"></div>
+</div>
+<style type="text/css">
+	.modal-footer > .paypal-custom-btn > span:first-child { display: none; }
+	.modal-footer > .paypal-custom-btn {
+	    background-color: white !important;
+	    border: none;
+	}
+</style>
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal',
+            'Magento_Paypal/js/in-context/express-checkout'
+        ],
+        function(
+            $,
+            modal,
+            paypal1
+        ) {
+
+        	var cancel_order = "<?php echo __($cancel_order);?>";
+        	var pay_via_bank = "<?php echo __($pay_via_bank);?>";
+        	console.log('cancel_order: '+cancel_order+' pay_via_bank: '+pay_via_bank);
+
+
+
+	// paypal.Button.render({
+ //        // Pass the client ids to use to create your transaction on sandbox and production environments
+ //        client: {
+ //            sandbox:    'AcCnld0oScJ7b5Lj8fXNZNFpM8R54BNqxU8NW-LBjr_JznBwg6taiOz6hhLdkEAECzH6XZ0ZO-K-gNu4', // from https://developer.paypal.com/developer/applications/
+ //            production: 'AQTGet58C8hGtr4TZAMOV1ik6sldx7VDXPnRBIN2Fdhh-QXCgWzxYitthYEQIIRGVlZCH27m-52PuwOZ'  // from https://developer.paypal.com/developer/applications/
+ //        },
+ //        // Pass the payment details for your transaction
+ //        // See https://developer.paypal.com/docs/api/payments/#payment_create for the expected json parameters
+
+ //        env: 'sandbox',
+ //        payment: function() {
+ //            console.log('payment');
+ //            //console.log(this.props.env);
+ //            //console.log(this.props.client);
+
+            
+ //            return paypal.rest.payment.create(this.props.env, this.props.client, {
+ //                transactions: [
+ //                    {
+ //                        amount: {
+ //                            total:    '1.00',
+ //                            currency: 'USD'
+ //                        }
+ //                    }
+ //                ]
+ //            });
+            
+ //        },
+ //        // Display a "Pay Now" button rather than a "Continue" button
+ //        commit: true,
+ //        // Pass a function to be called when the customer completes the payment
+ //        onAuthorize: function(data, actions) {
+ //            console.log('authorize');
+ //            console.log(data);
+ //            console.log(actions);
+ //           // return actions.payment.execute().then(function(res) {
+ //             //   console.log(res);
+ //              //  console.log('The payment was completed!');
+ //            //});
+ //        },
+ //        // Pass a function to be called when the customer cancels the payment
+ //        onCancel: function(data) {
+ //            console.log('cancel');
+ //            console.log(data);
+ //            console.log('The payment was cancelled!');
+ //        },
+ //        style : {
+ //            shape:'rect',
+ //            size: 'small',
+ //            color: 'blue'
+ //        }
+
+ //    }, '#paypal-button');
+            var options = {
+                type: 'popup',
+                title: cancel_order,
+                /*title: $.mage.__('Cancel Order'),*/
+                responsive: true,
+                innerScroll: true,
+                buttons: [{
+                    text: pay_via_bank,
+                    /*text: $.mage.__('Pay via Bank'),*/
+                    class: 'bank-trans',
+                    click: function () {
+                        // this.closeModal();
+                        var _self = this;
+                        $.ajax({
+			                url: url,
+			                type: 'POST',
+			                dataType: 'json',
+			                showLoader: true,
+			                data: {
+			                    charge_total: '<?php echo $totalAmount; ?>',
+			                    pay_method: 'bank_trans',
+			                    order_id: '<?php echo $order->getId(); ?>',
+			                },
+			            	complete: function(response) {
+			            		_self.closeModal();
+			            		window.location.reload();
+			            	},
+			                error: function (xhr, status, errorThrown) {
+			                }
+			            });
+                    }
+                },
+                {
+                    text: $.mage.__('paypal'),
+                    class: 'paypal-custom-btn'
+                }]
+            };
+
+            var flag = false;
+            var popup = modal(options, $('#popup-mpdal'));
+            var chargeTotal = '<?php echo $totalAmount; ?>';
+			var url = "<?php echo $this->getUrl('vendorpayments/index/chargeordercancellation')?>";
+
+            $("#cancel_order").on('click',function(e){
+            	e.preventDefault();
+                $("#popup-mpdal").modal("openModal");
+
+                if(!flag) {
+	                paypal.Button.render({
+	                <?php if($block->getConfigValue('marketplace/cancel_order_settings/is_sand')) { ?>
+				        env: 'sandbox', // Optional: specify 'sandbox' environment
+	                <?php } ?>
+				        locale: 'en_US',
+				        commit: true, // Optional: show a 'Pay Now' button in the checkout flow
+				        // style: {
+				        //     branding: true, // optional
+				        //     layout: 'vertical',
+				        //     size:  'large', // small | medium | large | responsive
+				        //     shape: 'rect',   // pill | rect
+				        //     color: 'gold'   // gold | blue | silve | black
+				        // },
+				        style: {
+				            label: 'pay',
+				            size:  'small', // small | medium | large | responsive
+				            shape: 'rect',   // pill | rect
+				            color: 'gold'   // gold | blue | silver | black
+				        },
+				        client: {
+				            // sandbox: 'AcCnld0oScJ7b5Lj8fXNZNFpM8R54BNqxU8NW-LBjr_JznBwg6taiOz6hhLdkEAECzH6XZ0ZO-K-gNu4',
+				            // production: 'AQTGet58C8hGtr4TZAMOV1ik6sldx7VDXPnRBIN2Fdhh-QXCgWzxYitthYEQIIRGVlZCH27m-52PuwOZ',
+				            sandbox: '<?php echo $block->getConfigValue('marketplace/cancel_order_settings/client_id_sand') ?>',
+				            production: '<?php echo $block->getConfigValue('marketplace/cancel_order_settings/client_id_prod') ?>',
+				            stage: 'alc_client1',
+				            local: 'alc_client1'
+				        },
+				        payment(data, actions) { 
+				            // const transactions = [
+				            //     {
+				            //         amount: {
+				            //             total: '3.00',
+				            //             currency: 'USD'
+				            //         },
+				            //         item_list: {
+				            //             items: [
+				            //                 {
+				            //                     name: 'Hat',
+				            //                     description: 'A stylish brown hat.',
+				            //                     quantity: '1',
+				            //                     price: '3.00',
+				            //                     sku: '12345',
+				            //                     currency: 'USD'
+				            //                 },
+				            //             ]
+				            //         }
+				            //     }
+				            // ];
+				            const transactions = [
+				                {
+				                    amount: { total: chargeTotal, currency: 'EUR' }
+				                }
+				            ];
+				            return actions.payment.create({
+				                payment: { transactions }
+				            });
+				        },
+				        onAuthorize(data, actions) { 
+				            actions.payment.execute().then(data => {
+				                console.log(data);
+				                $.ajax({
+					                url: url,
+					                type: 'POST',
+					                dataType: 'json',
+					                showLoader: true,
+					                data: {
+					                    charge_total: '<?php echo $totalAmount; ?>',
+					                    pay_method: 'paypal',
+					                    pay_data: data,
+					                    order_id: '<?php echo $order->getId(); ?>',
+					                },
+					            	complete: function(response) {
+					            		window.location.reload();
+					                },
+					                error: function (xhr, status, errorThrown) {
+					                }
+					            });
+							});
+				            // return actions.payment.get().then(function(data) {
+
+				            //     // Display the payment details and a confirmation button
+
+				            //     var shipping = data.payer.payer_info.shipping_address;
+
+				            //     document.querySelector('#recipient').innerText = shipping.recipient_name;
+				            //     document.querySelector('#line1').innerText     = shipping.line1;
+				            //     document.querySelector('#city').innerText      = shipping.city;
+				            //     document.querySelector('#state').innerText     = shipping.state;
+				            //     document.querySelector('#zip').innerText       = shipping.postal_code;
+				            //     document.querySelector('#country').innerText   = shipping.country_code;
+
+				            //     document.querySelector('#paypal-button-container').style.display = 'none';
+				            //     document.querySelector('#confirm').style.display = 'block';
+
+				            //     // Listen for click on confirm button
+
+				            //     document.querySelector('#confirmButton').addEventListener('click', function() {
+
+				            //         // Disable the button and show a loading message
+
+				            //         document.querySelector('#confirm').innerText = 'Loading...';
+				            //         document.querySelector('#confirm').disabled = true;
+
+				            //         // Execute the payment
+
+				            //         return actions.payment.execute().then(function() {
+
+				            //             // Show a thank-you note
+
+				            //             document.querySelector('#thanksname').innerText = shipping.recipient_name;
+
+				            //             document.querySelector('#confirm').style.display = 'none';
+				            //             document.querySelector('#thanks').style.display = 'block';
+				            //         });
+				            //     });
+				            // });
+				        }
+				    // }, '#paypal-button');
+				    }, '.paypal-custom-btn');
+					flag = true;
+                }
+            });
+
+			// $("button.bank-trans").on('click',function(){
+	  //           $.ajax({
+	  //               url: url,
+	  //               type: 'POST',
+	  //               dataType: 'json',
+	  //               showLoader: true,
+	  //               data: {
+	  //                   charge_total: '<?php echo $totalAmount; ?>',
+	  //                   pay_method: 'bank_trans',
+	  //                   order_id: '<?php echo $order->getId(); ?>',
+	  //               },
+	  //           	complete: function(response) {
+	  //           		window.location.reload();
+	  //           	},
+	  //               error: function (xhr, status, errorThrown) {
+	  //               }
+	  //           });
+			// });
+        }
+    );
+</script>

@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Mangento_Email:etc/email_templates.xsd">
+	
+	<template id="mis_attribute_email" label="Attribute Email" file="attribute_email.html" type="html" module="Mangoit_VendorAttribute" area="adminhtml"/>
+</config>

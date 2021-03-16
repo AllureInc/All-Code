@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	
+	<!-- <preference for="Webkul\MpAdvertisementManager\Block\Adminhtml\Pricing" type="Mangoit\Advertisement\Block\Adminhtml\Pricing" /> -->
+	<preference for="Webkul\MpAdvertisementManager\Controller\Block\Save" type="Mangoit\Advertisement\Controller\Block\Save" />
+	<preference for="Webkul\MpAdvertisementManager\Block\Advertise" type="Mangoit\Advertisement\Block\Advertise" />
+	<preference for="Webkul\MpAdvertisementManager\Block\Ads" type="Mangoit\Advertisement\Block\Ads" />
+	<preference for="Webkul\MpAdvertisementManager\Block\PopupAds" type="Mangoit\Advertisement\Block\PopupAds" />
+
+</config>

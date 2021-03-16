@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- /**
+/**
+ * @category   Webkul
+ * @package    Webkul_MpAmazonConnector
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c)  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+<!-- Use to add quote attributes in marketplace product add page -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <body>
+        <referenceContainer name="marketplace_product_add">
+            <block class="Webkul\MpAmazonConnector\Block\ProductCreate" name="mpamazonconnector_add" template="Webkul_MpAmazonConnector::product/product.phtml" cacheable="false">
+            </block>
+        </referenceContainer>
+    </body>
+</page>
+

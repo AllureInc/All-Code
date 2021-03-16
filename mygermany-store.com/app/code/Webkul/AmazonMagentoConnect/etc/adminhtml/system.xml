@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Webkul
+ * @package    Webkul_AmazonMagentoConnect
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+    <system>
+        <tab id="webkul" translate="label" sortOrder="10">
+            <label>Webkul</label>
+        </tab>
+        <section id="amazonmagentoconnect" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Amazon Magento Connect</label>
+            <tab>webkul</tab>
+            <resource>Webkul_AmazonMagentoConnect::config_amazonmagentoconnect</resource>
+            <group id="category_options" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Options</label>
+                <field id="default_qty" translate="label comment" sortOrder="3" type="text" showInDefault="1" >
+                    <label>Amazon Default Product Qty</label>
+                    <validate>required-entry</validate>
+                    <comment>This value will be used when you will sync directly the amazon orders without importing product first.</comment>
+                </field>
+                <field id="default_weight" translate="label comment" sortOrder="3" type="text" showInDefault="1" >
+                    <label>Amazon Default Product Weight</label>
+                    <validate>required-entry</validate>
+                    <comment>This value will be used when amazon product doesn't contain the weight. </comment>
+                </field>
+                <field id="price_rule" translate="label comment" type="select" sortOrder="9" showInDefault="1" >
+                    <label>Amazon Price Rule Applicable For</label>
+                    <source_model>Webkul\AmazonMagentoConnect\Model\Config\Source\PriceRuleOption</source_model>
+                    <validate>required-entry</validate>
+                    <comment>Product rule will be applicable to the selected option and inversely applicable for the unselected option.</comment>
+                </field>
+            </group>
+            <group id="default_website_option" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Product Options</label>
+                <field id="get_all_img" translate="label comment" type="select" sortOrder="7" showInDefault="1" >
+                        <label>Get All Images Of Product</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>Using Mws api only one image we can get. So if you want to get all images of product then we need  to use Product Advertising API. For that you need to sign up as an Amazon Associate(http://docs.aws.amazon.com/AWSECommerceService/latest/DG/becomingAssociate.html) and get the keys. </comment>
+                </field>
+            </group>
+            <group id="features_status" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Extended Features</label>
+                   <field id="revise_amazon_item" translate="label comment" type="select" sortOrder="7" showInDefault="1" >
+                        <label>Auto Revise Amazon Products From Store</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>revise amazon products, when imported product updated on magento store.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

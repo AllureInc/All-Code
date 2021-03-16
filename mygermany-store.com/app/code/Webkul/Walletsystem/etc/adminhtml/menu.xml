@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Webkul Software
+ *
+ * @category Webkul
+ * @package Webkul_Walletsystem
+ * @author Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license https://store.webkul.com/license.html
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+       	<add id="Webkul_Walletsystem::walletsystem" title="Wallet System" module="Webkul_Walletsystem" sortOrder="10" resource="Webkul_Walletsystem::walletsystem"/>
+       	<add id="Webkul_Walletsystem::wallet" title="Wallet System Details" module="Webkul_Walletsystem" sortOrder="1" parent="Webkul_Walletsystem::walletsystem" action="walletsystem/wallet" resource="Webkul_Walletsystem::wallet"/>
+		<add id="Webkul_Walletsystem::banktransfer" title="Wallet System Bank Transfer Details" module="Webkul_Walletsystem" sortOrder="2" parent="Webkul_Walletsystem::walletsystem" action="walletsystem/wallet/bankdetails/sender_type/5" resource="Webkul_Walletsystem::banktransfer"/>
+       	<add id="Webkul_Walletsystem::walletamount" title="Adjust Amount to Wallet" module="Webkul_Walletsystem" sortOrder="3" parent="Webkul_Walletsystem::walletsystem" action="walletsystem/wallet/addamount" resource="Webkul_Walletsystem::walletamount"/>
+       	<add id="Webkul_Walletsystem::walletcreditrules" title="Wallet System Credit Rules" module="Webkul_Walletsystem" sortOrder="4" parent="Webkul_Walletsystem::walletsystem" action="walletsystem/creditrules/creditrules" resource="Webkul_Walletsystem::walletcreditrules"/>
+       	<add id="Webkul_Walletsystem::walletpayee" title="Wallet System Payee List" module="Webkul_Walletsystem" sortOrder="5" parent="Webkul_Walletsystem::walletsystem" action="walletsystem/transfer/payeelist" resource="Webkul_Walletsystem::walletpayee"/>
+		<add id="Webkul_Walletsystem::accountdetails" title="Bank Account Details List" module="Webkul_Walletsystem" sortOrder="5" parent="Webkul_Walletsystem::walletsystem" action="walletsystem/transfer/accountcustomerlist" resource="Webkul_Walletsystem::accountist"/>
+    </menu>
+</config>

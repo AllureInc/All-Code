@@ -1,0 +1,20 @@
+<?php
+	$helper = $this->helper('Webkul\MpSellerVacation\Helper\Data');
+  $wishlistHelper = $this->helper('Magento\Wishlist\Helper\Data');
+  $wishlist = $wishlistHelper->getWishlist();
+	$productsData = $helper->getProductInfo($wishlist->getItemCollection());
+?>
+<?php
+$formData = [
+	'vacationProductData'	=>	$productsData,
+	'productitems'		=> '.product-items li'
+];
+$serializedFormData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($formData);
+?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Webkul_MpSellerVacation/js/wkvacation": <?php /* @noEscape */ echo $serializedFormData; ?>
+        }
+    }
+</script>

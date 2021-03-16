@@ -1,0 +1,29 @@
+<?php
+/**
+* Webkul Software
+*
+* @category  Webkul
+* @package   Webkul_MpSellervacation
+* @author    Webkul
+* @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+* @license   https://store.webkul.com/license.html
+*/
+$_helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$isPartner= $_helper->isSeller();
+$magentoCurrentUrl = $block->getCurrentUrl();
+$isSellerGroup = $_helper->isSellerGroupModuleInstalled();
+?>
+<nav class="wk-mp-menu wk-mp-main">
+    <ul id="wk-mp-nav">
+        <?php
+        if($isPartner){ ?>
+          <?php if(($isSellerGroup && $_helper->isAllowedAction('mpsellervacation/setting')) || !$isSellerGroup) { ?>
+            <li class="nav item notification-link level-0 <?php echo strpos($magentoCurrentUrl,'mpsellervacation/setting')? "current active":"";?>">
+                <a href="<?php echo $block->getUrl('mpsellervacation/setting', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                    <?php /* @escapeNotVerified */ echo __('Vacation Settings') ?>
+                </a>
+            </li>
+          <?php } ?>
+        <?php } ?>
+    </ul>
+</nav>

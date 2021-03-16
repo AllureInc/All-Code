@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="Solrbridge\Search\Block\Result" type="Mangoit\SolrSearchCustom\Block\Result" />
+	<preference for="Solrbridge\Solr\Library\Client\Query" type="Mangoit\SolrSearchCustom\Library\Solr\Client\Query" />
+	<preference for="Solrbridge\Search\Block\Catalog\Category\View" type="Mangoit\SolrSearchCustom\Block\Catalog\Category\View" />
+	<preference for="Solrbridge\Search\Model\Doctype\Product\Handler" type="Mangoit\SolrSearchCustom\Model\Doctype\Product\Handler" />
+	<preference for="Solrbridge\Search\Controller\Result\Loadproductdata" type="Mangoit\SolrSearchCustom\Controller\Result\Loadproductdata" />
+</config>

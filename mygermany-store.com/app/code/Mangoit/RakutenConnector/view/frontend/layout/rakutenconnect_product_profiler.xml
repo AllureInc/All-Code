@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */ 
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd" layout="empty">
+    <head>
+        <css src="Mangoit_RakutenConnector::css/style.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Mangoit\RakutenConnector\Block\Product\Profiler" name="rakutenconnect-product-profiler" template="product/profiler.phtml" cacheable="false">
+            </block>
+        </referenceContainer>
+    </body>
+</page>

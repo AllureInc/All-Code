@@ -1,0 +1,31 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpMassUpload
+ * @author    Webkul
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+?>
+<?php
+    $btnHtml = "<button style='display:block; margin-top:15px;' type='button' class='button' id='export-product'><span><span>";
+    $btnHtml .= __("Export Products");
+    $btnHtml .= "</span></span></button>";
+
+    $data = [
+        "defaultUrl" => $this->getUrl('mpmassupload/export/sellerproducts'),
+        "btnHtml" => $btnHtml,
+        "sellerWarning" => __('Please Select Seller'),
+        "productTypeWarning" => __('Please Select Product Type.')
+    ];
+    $data = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($data);
+?>
+<script type="text/x-magento-init">
+    {
+        "body": {
+            "Webkul_MpMassUpload/js/export": <?php echo $data ?>
+        }
+    }
+</script>

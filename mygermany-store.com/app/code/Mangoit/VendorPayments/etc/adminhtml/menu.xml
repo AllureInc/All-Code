@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Mangoit_VendorPayments::parent" title="Vendor Payments" module="Mangoit_VendorPayments" sortOrder="100" resource="Mangoit_VendorPayments::parent"/>
+        <add id="Mangoit_VendorPayments::index" title="Vendor Payment Fee Settings" module="Mangoit_VendorPayments" sortOrder="10" action="vendorpayments/index" resource="Mangoit_VendorPayments::index" parent="Mangoit_VendorPayments::parent"/>
+        <add id="Mangoit_VendorPayments::exchangerates" title="Exchange Rate Settings" module="Mangoit_VendorPayments" sortOrder="10" action="vendorpayments/index/exchangerates" resource="Mangoit_VendorPayments::exchangerates" parent="Mangoit_VendorPayments::parent"/>
+        <add id="Mangoit_VendorPayments::vendorinvoices" title="Vendor Invoices" module="Mangoit_VendorPayments" sortOrder="10" action="vendorpayments/invoicegrid/index" resource="Mangoit_VendorPayments::vendorinvoices" parent="Mangoit_VendorPayments::parent"/>
+
+        <add id="Mangoit_VendorPayments::invoicesreports" title="Invoices Reports" translate="title" module="Mangoit_VendorPayments" sortOrder="40" parent="Magento_Reports::report" resource="Magento_Reports::invoicesreports"/>
+        <add id="Mangoit_VendorPayments::vendorinvoices_customer_allinvoices" title="Invoices Report" translate="title" module="Mangoit_VendorPayments" sortOrder="10" parent="Mangoit_VendorPayments::invoicesreports" action="vendorpayments/customerinvoices/index" resource="Mangoit_VendorPayments::vendorinvoices_customer_allinvoices"/>
+    </menu>
+</config>

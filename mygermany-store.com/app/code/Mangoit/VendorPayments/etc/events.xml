@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+   <!-- <event name="sales_order_save_commit_after">
+       <observer name="mangoit_vendorpayments_observer_salesordersavecommitafterobserver" instance="Mangoit\VendorPayments\Observer\Salesordersavecommitafterobserver" />
+   </event> -->
+    <event name="mp_pay_seller">
+       <observer name="mangoit_vendorpayments_observer_mp_pay_seller" instance="Mangoit\VendorPayments\Observer\Payseller" />
+    </event>
+    <event name="adminhtml_customer_save_after">
+        <observer name="mis_adminhtml_customer_save_after_observer" instance="Mangoit\VendorPayments\Observer\AdminCustomerSaveAfterObserver" />
+    </event>
+    <event name="checkout_onepage_controller_success_action">
+        <observer name="mis_checkout_onepage_controller_success_action_observer" instance="Mangoit\VendorPayments\Observer\CheckoutOnepageControllerSuccessObserver" />
+    </event>
+</config>

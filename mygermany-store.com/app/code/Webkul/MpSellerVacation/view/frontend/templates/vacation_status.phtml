@@ -1,0 +1,27 @@
+<?php 
+/**
+* Webkul Software
+*
+* @category  Webkul
+* @package   Webkul_MpSellervacation
+* @author    Webkul
+* @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+* @license   https://store.webkul.com/license.html
+*/
+	$vacation = $block->getSellerVacationStatus();
+	if($vacation)
+	{
+		$isOnVacation = $block->getVacationStatus($vacation);
+		if($isOnVacation){
+			if($vacation->getVacationStatus() && $vacation->getVacationMsg()){ ?>
+
+				<marquee>
+					<h3 style="color:#FF0000;">
+						<?php echo __($vacation->getVacationMsg());  ?>
+					</h3>
+				</marquee>
+		<?php
+			}
+		}
+	}
+ ?>

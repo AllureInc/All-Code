@@ -1,0 +1,22 @@
+<script>
+/**
+* Webkul Software
+*
+* @category  Webkul
+* @package   Webkul_MpSellervacation
+* @author    Webkul
+* @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+* @license   https://store.webkul.com/license.html
+*/
+	var label = '<?php echo $block->getAddToCartButtonLabel(); ?>';
+     require([
+          "jquery",
+     ], function($){
+      var closeTags = $('.remove-add-to-cart');
+      $.each(closeTags,function(index,value){
+        var closeButton = '<div class="actions"><button id="product-addtocart-button" class="action primary tocart" title="Add to Cart" type="submit" disabled="disabled">'+label+'</button></div>';
+        $(this).parent().find('.product-item-actions .actions-primary').html(closeButton);
+      });
+
+       });
+</script>

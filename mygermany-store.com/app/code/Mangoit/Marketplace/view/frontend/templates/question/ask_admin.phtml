@@ -1,0 +1,130 @@
+<style type="text/css">
+    #modal-title-1
+    {
+        border-bottom: none;
+        color: black;
+    }
+    .mis-modal-footer {
+        text-align: right;
+        padding-top: 11px;
+        border-top: 1px solid #e9ecef;
+    }
+    body .resetbtn, body .mis_askbtn {
+        background-color: #FEC10D;
+        border-color: #FEC10D;
+        color: #FFFFFF;
+        border-radius: 0;
+    }
+    .model-footer {
+        display: none !important;
+    }
+    .text_err, .textarea_err
+    {
+        display: none;
+        color: red;
+    }
+    .modal-popup.modal-slide._inner-scroll._show {
+        -webkit-overflow-scrolling: touch;
+        overflow-y: auto;
+        z-index: 9999 !important
+    }
+    .loading-mask{
+        display: none;
+    }
+</style>
+<?php
+$_objectmanager = \Magento\Framework\App\ObjectManager::getInstance();
+$_session = $_objectmanager->create('Magento\Customer\Model\Session');
+$seller_id = $_session->getCustomer()->getId();
+?>
+<form id="mis-ask-form" method="post"  class="fieldset" data-role="ask-form" data-mage-init='{"validation":{}}'>
+    <div class="modal-body form-list field required">
+        <label class="label"><?php echo __('Subject') ?>:</label>
+        <input type="text" name="subject" class="wk-contact_input_fields subject required-entry"/>
+        <span class="text_err"><?php echo __('This field is required.');?></span>
+        <label class="label"><?php echo __('Your Query') ?>:</label>
+        <textarea  name="ask" class="queryquestion wk-contact_input_fields ask required-entry" style="width:100%;"></textarea>
+        <span class="textarea_err"><?php echo __('This field is required.');?></span>
+        <?php 
+        if(isset($captchaEnableStatus)){?>
+            <div>
+                <span>
+                    <label for="wk-mp-captcha"><span id="wk-mp-captchalable1"><?php echo rand(1,20)?></span> + <span id="wk-mp-captchalable2"><?php echo rand(1,20)?></span> =</label>
+                </span>
+                <input type="text" class="required-entry wk-contact_input_fields" name="wk-mp-captcha" id="wk-mp-captcha" />
+            </div>
+        <?php
+        }?>
+    </div>
+    <!-- <div class="mis-modal-footer">
+        <span class="error"></span>
+        <span class="errormail"></span>
+        <input type="reset" value="<?php /*echo __('Reset')*/ ?>" id="resetbtn" class="wk-btn wk-btn_default"/>
+        <input type="submit" value="<?php /*echo __('Submit')*/ ?>" id="mis_askbtn" class="wk-btn wk-btn-primary clickask" onclick="onClickAction();"/>
+        <span class="wk-clear"></span>
+    </div> -->
+</form>
+<div class="loading-mask" data-role="loader"><div class="loader"><img alt="Loading..." src="https://mygermany-store.com/pub/static/frontend/Smartwave/porto_child/de_DE/images/loader-2.gif"><p>Please wait...</p></div></div>
+<script type="text/javascript">
+    var ajaxurl = "<?php echo $this->getUrl("marketplace/account/askquestion", ["_secure" => $this->getRequest()->isSecure()]);?>";
+    function onClickAction()
+    {
+        var subject = jQuery('.subject').val();
+        var ask = jQuery('.ask').val();
+        if ((subject.length > 0) && (ask.length > 0)) {
+            jQuery('.subject').css('border-color', '#ccc');
+            jQuery('.ask').css('border-color', '#ccc');
+            var seller_id = "<?php echo $seller_id;?>";
+             jQuery('.loading-mask').css('display','block');
+            jQuery.ajax({
+                type: "POST",
+                url: ajaxurl,
+                showLoader: true,
+                data : {'subject': subject, 'ask': ask, 'seller-id': seller_id},
+                async : true,
+                success: function (response) {
+                    if (response) {
+                        console.log('mangoit');
+
+                        jQuery('#popup-modal').modal('closeModal');
+                        jQuery('#mail-send').modal('openModal');   
+                        // location.reload();    
+                        setTimeout(
+                            function(){ 
+                                window.location = window.location;                
+                            }, 
+                        3000); 
+                    } else {
+                        jQuery('#popup-modal').modal('closeModal');
+                        jQuery('#mail-err').modal('openModal');
+                    }
+                    jQuery('.loading-mask').css('display','none');
+                },
+                error: function (response) {
+                    console.log(response);
+                }
+            });
+        } else {
+            if ((subject.length > 1) && (ask.length > 1)) {
+                jQuery('.text_err').css('display', 'none');
+                jQuery('.textarea_err').css('display', 'none');
+                jQuery('.subject').css('border-color', '#ccc');
+                jQuery('.ask').css('border-color', '#ccc');
+            }
+            if (subject.length < 1) {
+                jQuery('.subject').css('border-color', 'red');     
+                jQuery('.text_err').css('display', 'block');
+            } else {
+                jQuery('.text_err').css('display', 'none');
+                jQuery('.subject').css('border-color', '#ccc'); 
+            }
+            if (ask.length < 1) {
+                jQuery('.ask').css('border-color', 'red'); 
+                jQuery('.textarea_err').css('display', 'block');                                         
+            } else {
+                jQuery('.textarea_err').css('display', 'none');
+                jQuery('.ask').css('border-color', '#ccc'); 
+            }
+        }   
+    }
+</script>

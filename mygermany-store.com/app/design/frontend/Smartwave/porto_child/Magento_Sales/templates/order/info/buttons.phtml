@@ -1,0 +1,174 @@
+<?php ?>
+<style type="text/css">
+.sales-order-view .page-main .page-title-wrapper {
+    display: block;
+}
+</style>
+
+<div class="actions">
+    <?php  $_order = $block->getOrder() ?>
+    <?php 
+        $orderStatusArray = ['canceled_by_vendor','received', 'processing','pending_paypal', 'pending_payment', 'canceled_by_customer', 'canceled', 'sent_to_mygermany', 'pending', 'paypal_reversed', 'paypal_canceled_reversal', 'payment_review', 'order_verified', 'order_processed', 'holded', 'fraud', 'compliance_check', 'canceled'];
+    ?>    
+    <?php 
+        if ($this->helper('Magento\Sales\Helper\Reorder')->canReorder($_order->getEntityId())) : 
+    ?>
+        <a href="#" data-post='<?php /* @escapeNotVerified */ echo
+        $this->helper(\Magento\Framework\Data\Helper\PostHelper::class)
+            ->getPostData($block->getReorderUrl($_order))
+        ?>' class="action order">
+            <button class="button wk-mp-btn" title="<?php echo __('Reorder') ?>" type="button">
+                <span><?= /* @escapeNotVerified */ __('Reorder') ?></span>
+            </button>
+        </a>
+    <?php endif ?>
+    <a class="action print"
+       href="<?= /* @escapeNotVerified */ $block->getPrintUrl($_order) ?>"
+       onclick="this.target='_blank';">
+        <button class="button wk-mp-btn" title="<?php echo __('Print Order') ?>" type="button">
+            <span><?= /* @escapeNotVerified */ __('Print Order') ?></span>
+        </button>
+    </a>
+    <?php
+        $orderHelper = $this->helper('Webkul\Marketplace\Helper\Orders');
+        $order_id = $this->getRequest()->getParam('order_id');
+    ?>
+    <?php if( $_order->canCancel() ){ ?>
+        <a href="<?php echo $block->getUrl('marketplace/order/cancel', ['id'=>$order_id, 'customer'=>1, '_secure' => $this->getRequest()->isSecure()])?>" id="cancel_order" class="action">
+            <button class="button wk-mp-btn" title="<?php echo __('Cancel Order') ?>" type="button">
+                <span><span><?php echo __('Cancel Order') ?></span></span>
+            </button>
+        </a>
+    <?php } ?>
+    <?php 
+        $isReturnRequestExist = false;
+        $marketplaceHelper = $this->helper('Mangoit\Marketplace\Helper\Data');
+        $isReturnRequestExist = $marketplaceHelper->isReturnRequestAlreadyExist($_order->getIncrementId());
+        $showReturnProcessMsg = true;
+        if (!in_array($_order->getStatus(), $orderStatusArray)) {
+            $showReturnProcessMsg = false;
+        }
+    ?>
+    <?php if($_order->getStatus() == "processing" || $_order->getStatus() == "sent_to_mygermany"){?>
+        <?php if($isReturnRequestExist == false):?>
+       
+            <a href="#" id="return_order" class="action">
+                <button class="button wk-mp-btn return_order" title="<?php echo __('Cancel Order') ?>" type="button">
+                    <span><span><?php echo __('Return') ?></span></span>
+                </button>
+            </a>
+        <?php else: ?>
+            <div class="return_exist_div" id="return_exist_div_id" style="display: none;">
+                <p class="return_exist_div_p"><?php echo __('This order is in the return process.');?></p>
+            </div>
+        <?php endif; ?>
+        <div id="popup-mpdal" >
+            <form class="form" id="uploadForm" action="<?php echo $this->getUrl('marketplce/rma/email') ?>" method="post" enctype="multipart/form-data" >
+                <fieldset class="fieldset">
+                    <legend class="legend">
+                        <span><?php /* @escapeNotVerified */  ?></span>
+                    </legend>
+                    <input name="orderId" type="hidden" value="<?php echo $_order->getIncrementId(); ?>">
+                    <input name="entity_id" type="hidden" value="<?php echo $_order->getEntityId(); ?>"> 
+                    <br>
+                    <div class="field required">
+                        <label for="number" class="label">
+                            <span><?php /* @escapeNotVerified */ echo __('Reason') ?></span>
+                        </label>
+
+                        <div class="control">
+                            <textarea class="textarea input-text" id="reason" name="reason"></textarea>
+                            <small class="com-err" style="display: none; color: red;">Field should not be empty.</small>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <button type="submit" class="action submit primary" id="return">
+                            <span><?php /* @escapeNotVerified */ echo __('Return') ?></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <script>
+            require(
+                [
+                    'jquery',
+                    'Magento_Ui/js/modal/modal'
+                ],
+                function(
+                    $,
+                    modal
+                ) {
+                    var options = {
+                        type: 'popup',
+                        title: 'Return Form',
+                        responsive: true,
+                        innerScroll: true
+                    };
+                    var flag = false;
+                    var popup = modal(options, $('#popup-mpdal'));
+                    var url = "<?php echo $this->getUrl('vendorpayments/index/chargeordercancellation')?>";
+
+                    $("#return_order").on('click',function(e){
+                        e.preventDefault();
+                        $("#popup-mpdal").modal("openModal");
+                        $('.modal-footer').css('display', 'none');
+                    });
+
+                    jQuery("#return").click(function(){
+                        var commentData =  jQuery("#reason").val();
+                        if ( ((commentData == '') || (typeof commentData == 'undefined')) ) {
+                            jQuery(".com-err").css('display', 'block');
+                            event.preventDefault();
+                        } else {
+                            jQuery(".com-err").css('display', 'none');
+                            console.log(commentData);
+                        }
+                    });
+                }
+            );
+        </script>
+    <?php } ?>
+    <?= $block->getChildHtml() ?>
+</div>
+<script type="text/javascript">
+var isReturnRequestExist = "<?php echo $isReturnRequestExist; ?>";
+var showReturnProcessMsg = "<?php echo $showReturnProcessMsg; ?>";
+    require([
+            "jquery",
+            "vesallFancybox",
+        ], function($){
+            console.log('fancybox');
+            console.log(isReturnRequestExist == true);
+            console.log(showReturnProcessMsg == true);
+            console.log(isReturnRequestExist == true && showReturnProcessMsg == true);
+            if (isReturnRequestExist == true && showReturnProcessMsg == true) {
+                setTimeout(
+                    function(){ 
+                        $.fancybox({
+                            'padding': '5px',
+                            'autoScale': true,
+                            'closeBtn' : true,
+                            'transitionIn': 'fade',
+                            'transitionOut': 'fade',
+                            'type': 'inline',
+                            'href': '#return_exist_div_id',
+                            'onComplete': function() {
+
+                                $.cookie('fskPopUp', 'shown');
+                            },
+                            'helpers': {
+                                overlay: {
+                                    closeClick: false,
+                                    locked: false
+                                }
+                            }
+                        });                 
+                        
+                    }, 5000);
+            }
+    });
+</script>

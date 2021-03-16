@@ -1,0 +1,71 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
+<?php 
+$misHelper = $this->helper('Mangoit\Marketplace\Helper\Data');
+$orderDetails = $misHelper->getOrderByIncrementId($block->getOrderId());
+$emailToAdminHelper = $this->helper('Mangoit\SortMenu\Helper\EmailToAdmin');
+$emailToAdminHelper->sendOrderNotification($orderDetails);
+/*$orderDetails = $misHelper->getOrderByIncrementId($order_id);*/
+$shippingMethod = $orderDetails->getShippingMethod();
+?>
+<div class="checkout-success">
+    <?php if (!$shippingMethod): ?>
+        <?php if ($block->getOrderId()):?>
+            <?php if ($block->getCanViewOrder()) :?>
+                <p><?= __('Your order number is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></p>
+            <?php  else :?>
+                <p><?= __('Your order # is: <span>%1</span>.', $block->escapeHtml($block->getOrderId())) ?></p>
+            <?php endif;?>
+                <p><?= /* @escapeNotVerified */ __('We\'ll email you an order confirmation with details and tracking info.') ?></p>
+        <?php endif;?>
+        <?= $block->getAdditionalInfoHtml() ?>
+    <?php endif; ?>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
+        </div>
+        <?php if ($shippingMethod ==  'warehouse_warehouse'): ?>
+            <div class="primary">
+                <a class="action primary continue" href="https://account.mygermany.com/en/web/content/data"><span class="big"><?= /* @escapeNotVerified */ __('Warehouse Account') ?></span>
+                <span class="small"><?=('your own Storage Shelf in Germany') ?></span></a>
+            </div>
+        <?php endif; ?>
+    </div>
+    <?php if ($shippingMethod ==  'dropship_dropship'): ?>
+        <div class="shipping_info">
+            <div class="shipping_desc">
+                <p><?= __('Thanks for your Drop Shipment Order %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?><br> <?php echo __('You will be notified via eMail when merchant has shipped your items. Your item(s) will be shipped directly to you.'); ?></p>
+               
+                <p><b><?php echo __('Status ') ?></b><?php echo __('of your order you can '); ?><a href="https://account.mygermany.com/en/web/content/orders" target="_blank"><?php echo __('check here');?></a><br> <b><?php echo __('Invoice ') ?></b><?php echo __('for your order you can '); ?><a href="https://account.mygermany.com/en/web/content/invoice" target="_blank"><?php echo __('check here');?></a></p>
+                <p></p>
+            </div>
+            <div class="additional_shipping_info">
+                <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('checkout_success_dropshipment_block')->toHtml();?>
+            </div>
+        </div>
+    <?php endif; ?>
+    <?php if ($shippingMethod ==  'warehouse_warehouse'): ?>
+        <div class="shipping_info">
+            <div class="shipping_desc">
+                <p><?= __('Thanks for your Warehouse Shipment Order %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?>
+                </br>
+                    <?php echo __('Your item will be shipped into our German warehouse. You will be notified via eMail as soon as it arrives in your Inbox.'); ?>
+                </p>
+                
+                <p><b><?php echo __('Status ') ?></b><?php echo __('of your order  you can '); ?><a href="https://account.mygermany.com/en/web/content/orders" target="_blank"><?php echo __('check here');?></a><br><b><?php echo __('Invoice ') ?></b><?php echo __('for your order you can '); ?><a href="https://account.mygermany.com/en/web/content/invoice" target="_blank"><?php echo __('check here');?></a></p>
+                
+            </div>
+            <div class="additional_shipping_info">
+                <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('checkout_success_warehouse_block')->toHtml();?>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>

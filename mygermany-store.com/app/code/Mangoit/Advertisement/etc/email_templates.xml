@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="marketplace_ads_settings_approval_template" label="Advertisement Approval Template" file="ad_approval_template.html" type="html" module="Mangoit_Advertisement" area="adminhtml"/>
+    <template id="marketplace_ads_settings_decline_template" label="Advertisement Declined Template" file="ad_decline_template.html" type="html" module="Mangoit_Advertisement" area="adminhtml"/>
+    <template id="marketplace_ads_settings_admin_notif_template" label="Advertisement Perches Admin Notification" file="ad_admin_notif_template.html" type="html" module="Mangoit_Advertisement" area="adminhtml"/>
+</config>

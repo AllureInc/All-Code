@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+	<route method="GET" url="/V1/sellers-categories/seller_id/:seller_id">
+		<service class="Mangoit\Sellerapi\Api\SellerCategoriesInterface" method="getData"/>
+		<resources>
+			<resource ref="Magento_Catalog::catalog"/>
+		</resources>
+	</route>
+	<route method="POST" url="/V1/sellers-product/seller_id/:seller_id/product/">
+		<service class="Mangoit\Sellerapi\Api\SellerProductInterface" method="addSellerProduct"/>
+		<resources>
+			<resource ref="Magento_Catalog::catalog"/>
+		</resources>
+	</route>
+	<route method="GET" url="/V1/sellers-attributes/seller_id/:seller_id">
+		<service class="Mangoit\Sellerapi\Api\SellersAttributesInterface" method="getSellerAttributes"/>
+		<resources>
+			<resource ref="Magento_Catalog::catalog"/>
+		</resources>
+	</route>
+</routes>

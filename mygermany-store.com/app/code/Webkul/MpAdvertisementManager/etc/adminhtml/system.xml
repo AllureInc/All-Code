@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpAdvertisementManager
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="marketplace" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="ads_settings" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Marketplace Ads Positions</label>
+                <field id="mpadvertisementmanager_account" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Select status of MpAdvertisementManager module]]></comment>
+                </field> 
+                <field id="ads_slider_time" translate="label comment" type="text" sortOrder="1"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ads auto play time</label>
+                    <validate>validate-number</validate>
+                    <comment><![CDATA[the auto play  time should be in milliseconds. E.g 1000]]></comment>
+                </field>                
+                <field id="ads_height" translate="label comment" type="text" sortOrder="2"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Global Height of all Ads</label>
+                    <comment><![CDATA[the global height should be in pixel. E.g 150]]></comment>
+                    <!-- <source_model>\Webkul\MpAdvertisementManager\Model\Config\Source\Custom</source_model> -->
+                </field>
+                <!--<field id="ads_width_pixels" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <comment><![CDATA[For width add suffix width px(eg. 10px)]]></comment>
+                    <depends>
+                        <field id="ads_width">1</field>
+                    </depends>
+                </field>--> 
+                <field id="ads_config" translate="label comment"  sortOrder="5"  showInDefault="1" showInWebsite="1" showInStore="1" type="button">
+                     <label>Configure Ads</label>
+                    <frontend_model>\Webkul\MpAdvertisementManager\Block\Adminhtml\System\Config\Form\Button</frontend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

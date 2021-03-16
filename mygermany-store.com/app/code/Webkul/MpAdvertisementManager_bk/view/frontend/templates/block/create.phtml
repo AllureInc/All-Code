@@ -1,0 +1,133 @@
+<?php 
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpAdvertisementManager
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+?>
+<?php
+	$blockData = $block->getCurrentBlock();
+	$blockId = $blockData->getId() == null?null:$blockData->getId();
+	$requiredClassForFileUploadInput = "required-entry input-text required-entry _required";
+	$mediaUrl = "";
+	if ($blockId) {
+		$requiredClassForFileUploadInput = "";
+		$mediaUrl = $block->getMediaUrl().'webkul/MpAdvertisementManager/'.$blockData['seller_id'].'/'.$blockData['id'].'/'.trim(str_replace(" ","_", $blockData['image_name']));
+	}
+
+	$height = $block->getHeightConfig()==""?'300px':$block->getHeightConfig();
+?>
+<form 
+	action="<?php 
+		echo $block->getUrl(
+			'mpads/block/save', 
+			['_secure' => $this->getRequest()->isSecure()]
+		) ?>" 
+	enctype="multipart/form-data" 
+	method="post" 
+	id="block-form" 
+	data-mage-init='{"validation":{}}'
+>
+	<div>
+		<input
+			type="hidden"
+			name="id"
+			value="<?php echo $blockId; ?>"
+		>
+	</div>
+	<div class="wk-mp-design">
+		<fieldset class="fieldset info wk-mp-fieldset">
+			<legend class="legend">
+				<span><?php echo __('Block Form') ?></span>
+				<button 
+					class="button primary action wk-mp-btn" 
+					title="Save" 
+					type="submit"
+				>
+				<span><span><?php echo __('Save') ?></span></span>
+				</button>
+				<?php if ($blockId) { ?>
+				<a 
+					class="button primary action wk-mp-btn" 
+					title="Delete"
+					href="<?php 
+						echo $block->getUrl(
+							'mpads/block/delete', 
+							[
+							'blockId' => $blockData->getId(),
+							'_secure' => $this->getRequest()->isSecure()
+							]
+						); 
+						?>" 
+				>
+					<span><span><?php echo __('Delete') ?></span></span>
+				</a>
+				<?php } ?>
+			</legend>
+			<?php echo $block->getBlockHtml('seller.formkey')?>
+			<?php echo $block->getBlockHtml('formkey')?>
+			<div class="field required">
+				<label class="label"><?php echo __('Title') ?>:</label>
+				<div class="control">
+					<input 
+						name="title" 
+						id="title" 
+						class="required-entry input-text required-entry _required" 
+						type="text"
+					    value="<?php echo $blockData->getTitle() == null?'':$blockData->getTitle(); ?>" />
+				</div>
+			</div>
+<!-- 			<div class="field required">
+				<label class="label"><?php //echo __('Content') ?>:</label>
+				<div class="control">
+				<input type="">
+					<textarea 
+						name="content" 
+						id="content" 
+						class="required-entry input-text required-entry _required"
+					><?php //echo $blockData->getContent() == null?'':$blockData->getContent(); ?>
+					</textarea>	
+				</div>
+			</div>			 -->
+			<div class="field required">
+				<label class="label"><?php echo __('Image') ?>:</label>
+				<div class="control" >
+
+				<div style="border: 2px dotted #ccc;clear: both;display: table;margin-bottom: 2px;padding: 5px 0 0;position: relative;">
+					<div id="wk_mpads_imageupload" style="background: #fff none repeat scroll 0 0;border: 1px solid #ccc;box-sizing: border-box;display: inline-block;float: left;height: 125px;margin: 0 0.8rem 6px;overflow: hidden;position: relative;width: 125px;background-image:url(<?php echo $mediaUrl ;?>) ;background-size:cover;cursor: pointer;">
+						<p id="wk_mpads_imageupload_default_message" style="bottom: 0;color: #008bdb;font-size: 1.1rem;left: 0;line-height: 1.333;margin-bottom: 30%;padding: 0 1rem;position: absolute;right: 0;text-align: center;">
+		                Click here to add images.
+						</p>			    
+					</div>
+				</div>
+				<input type="file" name="content" id="content" accept="image/*" class="<?php echo $requiredClassForFileUploadInput ; ?>" style="visibility:hidden;"/>	
+				<div class="admin__field-note">
+            		<span><?php echo __("For better appearance please upload image of width $height") ?></span>
+        		</div>
+				</div>
+			</div>			
+			<div class="field required">
+				<label class="label"><?php echo __('Url') ?>:</label>
+				<div class="control">
+				<input type="text" name="url" id="ads_url" class="required-entry input-text required-entry _required" value="<?php echo $blockData->getUrl() == null?'':$blockData->getUrl(); ?>" data-validate="{required:true, 'validate-url':true}"/>
+				</div>
+			</div>
+		</fieldset>
+	</div>
+</form>
+
+<script type="text/x-magento-init">
+    {
+        "*":{
+            "adsManager":{
+                "blockEditData": {
+                	"wysywygConfig":<?php echo $block->getWysiwygConfig(); ?>
+                }
+            }
+        }
+    }
+</script>

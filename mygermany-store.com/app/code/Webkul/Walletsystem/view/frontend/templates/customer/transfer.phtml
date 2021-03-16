@@ -1,0 +1,204 @@
+<?php
+/**
+* Webkul Software
+*
+* @category Webkul
+* @package Webkul_Walletsystem
+* @author Webkul
+* @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+* @license https://store.webkul.com/license.html
+*/
+?>
+<head>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<?php
+$helper = $this->helper('Webkul\Walletsystem\Helper\Data');
+if ($helper->getWalletenabled()) {
+    $status = 0;
+    $customerId = $helper->getCustomerId();
+    $currency_code = $helper->getCurrentCurrencyCode();
+    $transferPayee = $block->getEnabledPayeeCollection();
+    ?>
+    <div class="wk_ws_main">
+        <div class='wk_ws_main_head'>
+            <div class="wk_ws_sub_head1">
+                <img src='<?php /* @escapeNotVerified */echo $block->getViewFileUrl('Webkul_Walletsystem::images/wallet.png');?>' width="70px" height="55px">
+            </div>
+            <div class="wk_ws_sub_head2">
+                <div class="wk_ws_sub_head_details">
+                    <h2><?php /* @escapeNotVerified */echo __('Wallet Details');?></h2>
+                    <h3><span class="wk_ws_price"><?php echo $block->getWalletRemainingTotal($customerId)?></span>
+                        <?php /* @escapeNotVerified */echo "(".$currency_code.")"?>
+                    </h3>
+                    <span><?php /* @escapeNotVerified */echo __("Your Wallet Balance")?></span>
+                </div>
+                <div class="wk_ws_sub_add_payee button action primary">
+                    <span><?php echo __("Add Payee")?></span>
+                </div>
+            </div>
+        </div>
+        <div class='wk_ws_body'>
+            <?php if ($transferPayee->getSize()) { ?>
+                <form action="<?php /* @escapeNotVerified */echo $block->getUrl('walletsystem/transfer/sendCode/')?>" enctype="multipart/form-data" method="post" id="transfer-form-data" class="form">
+                    <input type="hidden" name="sender_id" value="<?php echo $customerId?>"/>
+                    <fieldset class='wk_ws_fieldset fieldset'>
+                        <label class="error"></label>
+                        <?php /* @escapeNotVerified */echo $block->getBlockHtml('formkey')?>
+                        <div class='field required'>
+                            <label class="label" for="reciever_id"><span><?php echo __('Select Payee To Whom You want to transfer Amount'); ?></span></label>
+                            <select name="reciever_id" class="required">
+                                <option value=""><?php /* @escapeNotVerified */echo __("Please Select a payee")?></option>
+                                <?php foreach ($transferPayee as $payee) { 
+                                    $customerData = $block->getCustomerDataById($payee->getPayeeCustomerId());
+                                ?>
+                                    <option value="<?php /* @escapeNotVerified */echo $payee->getPayeeCustomerId()?>"><?php /* @escapeNotVerified */echo $payee->getNickName()." (".$customerData->getEmail().")"?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="field required">
+                            <label class="label" for="amount"><span><?php /* @escapeNotVerified */echo __("Amount")?> <?php /* @escapeNotVerified */echo "(".$currency_code.")"?></span></label>
+                            <div class="control">
+                                <input type="text" name="amount" class="required validate-greater-than-zero">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="amount"><span><?php /* @escapeNotVerified */echo __("Note")?></span></label>
+                            <div class="control">
+                                <textarea name="walletnote"></textarea>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="submit" title="Add to Cart" class="button wk_ws_add_payment action primary">
+                                <span><span><?php /* @escapeNotVerified */echo __("Transfer Money to Customer")?></span></span>
+                            </button>
+                        </div>
+                    </fieldset>
+                </form>
+            <?php } else { ?>
+                <span><?php echo __("No Payee is available")?></span>
+                <?php }?>
+        </div>
+        <div class='wk_ws_table'>
+            <h3><?php /* @escapeNotVerified */echo __('Added Payees')?></h3>
+            <?php $walletPayeeCollection = $block->getWalletPayeeCollection();
+            if (count($walletPayeeCollection)) : ?>
+                <div class='table-wrapper'>
+                    <table class="data table walletorder data table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="col nickname">
+                                    <?php /* @escapeNotVerified */echo __('Nick name')?>
+                                </th>
+                                <th scope="col" class="col email"><?php /* @escapeNotVerified */echo __('Email address')?></th>
+                                <th scope="col" class="col status"><?php /* @escapeNotVerified */echo __('Status')?></th>
+                                <th scope="col" class="col action"><?php /* @escapeNotVerified */echo __('Action')?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($walletPayeeCollection as $payee) :
+                                $customerEmail = $block->getCustomerDataById($payee->getPayeeCustomerId())->getEmail();
+                                ?>
+                                <tr>
+                                    <td data-th="<?php /* @escapeNotVerified */echo __("Nick name")?>" class="col nickname">
+                                        <?php /* @escapeNotVerified */echo $payee->getNickName()?>
+                                    </td>
+                                    <td data-th="<?php /* @escapeNotVerified */echo __("Email")?>" class="col email">
+                                        <?php /* @escapeNotVerified */echo $customerEmail?>
+                                    </td>
+                                    <td data-th="<?php /* @escapeNotVerified */echo __("Status")?>" class="col status">
+                                        <?php /* @escapeNotVerified */echo $payee->getStatus()?__('Applied'):__('Pending')?>
+                                    </td>
+                                    <td data-th="Action" class="col action">
+                                        <span class="label wk_action">
+                                            <span>
+                                                <i class="fa fa-pencil-square-o payee_edit" aria-hidden="true"
+                                                data-id="<?php /* @escapeNotVerified */echo $payee->getEntityId();?>"
+                                                data-url = "<?php /* @escapeNotVerified */echo $block->getUrl(
+                                                    'walletsystem/transfer/payeeedit/',
+                                                    [
+                                                        'id'=>$payee->getEntityId(),
+                                                        '_secure' => $block->getIsSecure()
+                                                    ]
+                                                ) ?>"
+                                                title="<?php /* @escapeNotVerified */echo __('Edit')?>"></i>
+                                                <i class="fa fa-check payee_update" aria-hidden="true" style="display:none"
+                                                data-id="<?php /* @escapeNotVerified */echo $payee->getEntityId();?>"
+                                                data-url = "<?php /* @escapeNotVerified */echo $block->getUrl(
+                                                    'walletsystem/transfer/payeeupdate/',
+                                                    [
+                                                        'id'=>$payee->getEntityId(),
+                                                        '_secure' => $block->getIsSecure()
+                                                    ]
+                                                ) ?>"
+                                                title="<?php /* @escapeNotVerified */echo __('Update')?>"></i>
+                                            </span>
+                                            <span>
+                                                <i class="fa fa-trash payee_delete"
+                                                    aria-hidden="true"
+                                                    title="<?php /* @escapeNotVerified */echo __('Delete')?>"
+                                                    data-url = "<?php /* @escapeNotVerified */echo                                                          $block->getUrl(
+                                                        'walletsystem/transfer/payeedelete/',
+                                                        [
+                                                            'id'=>$payee->getEntityId(),
+                                                            '_secure' => $block->getIsSecure()
+                                                        ]
+                                                    ) ?>"
+                                                    login-url = "<?php /* @escapeNotVerified */echo $block->getUrl('customer/account/login'); ?>"
+                                                    data-id="<?php /* @escapeNotVerified */echo $payee->getEntityId();?>"></i>    
+                                                <i class="fa fa-remove payee_cancel"
+                                                    aria-hidden="true" style="display:none"
+                                                    title="<?php /* @escapeNotVerified */echo __('Cancel')?>">
+                                                    </i>
+                                            </span>
+                                        </span>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <?php if ($block->getPagerHtml()): ?>
+                    <div class="order-transaction-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+                <?php endif ?>
+            <?php else: ?>
+                <h5><?php /* @escapeNotVerified */echo __('No records found!');?></h5>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="wk_ws_add_payee_modal" style="display:none">
+        <form id="walletsystem_add_payee" method="post" action="<?php echo $block->getUrl(
+            'walletsystem/transfer/addpayee',
+            ['_secure' => $block->getIsSecure()]
+            )?>">
+            <input type="hidden" name="customer_id" value="<?php echo $customerId?>" />
+            <div class="fieldset" >
+                <div class="wk_msg_notification">
+                    <h4></h4>
+                </div>
+                <div>
+                    <label for="nickname"><?php /* @escapeNotVerified */echo __("Nick name"); ?></label>
+                    <input type="text" id="nickname" name="nickname" class="nickname" data-validate="{required:true}"/>
+                </div>
+                <div>
+                    <label for="customer_email"><?php /* @escapeNotVerified */echo __("Email Address"); ?></label>
+                    <input type="text" id="customer_email" name="customer_email" class="customer_email" data-validate="{required:true, 'validate-email':true}"/>
+                </div>
+                <div>
+                    <label for="confirm-email"><?php /* @escapeNotVerified */echo __("Confirm Email Address"); ?></label>
+                    <input type="text" id="confirm-email" name="confirm-email" class="confirm-email" data-validate="{required:true, 'validate-email':true, equalTo:'#customer_email'}"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <?php }?>
+    <script>
+	    require([
+	        "jquery",
+	        "mage/mage"
+	    ], function($){
+	        var dataForm = $('#transfer-form-data');
+	        dataForm.mage('validation', {});
+	    });
+	</script>

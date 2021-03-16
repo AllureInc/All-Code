@@ -1,0 +1,41 @@
+{
+  "name": "wirecard/magento2-ee",
+  "description": "Magento2 plugin for Wirecard Payment Processing Gateway",
+  "license": "GPL-3.0-only",
+  "minimum-stability": "beta",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=5.6",
+    "magento/module-payment": ">=100.1.0",
+    "magento/module-checkout": ">=100.1.0",
+    "magento/module-sales": ">=100.0.0",
+    "magento/module-vault": ">=100.0.0",
+    "wirecard/payment-sdk-php": ">=1.1.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.3.5",
+    "magento/community-edition": ">=2.1.0",
+    "friendsofphp/php-cs-fixer": "^2.2"
+  },
+  "type": "magento2-module",
+  "scripts": {
+    "upload-coverage": "coveralls -v",
+    "cs-check": "php-cs-fixer fix -v --dry-run --using-cache=no .",
+    "cs-fix": "php-cs-fixer fix .",
+    "test": "phpunit --colors=always",
+    "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+  },
+  "autoload": {
+    "psr-4": {
+      "Wirecard\\ElasticEngine\\": ""
+    },
+    "files": [
+      "registration.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "WirecardTest\\ElasticEngine\\": "Test"
+    }
+  }
+}

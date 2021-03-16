@@ -1,0 +1,76 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php /** @var $block \Magento\Sales\Block\Order\Info */ ?>
+
+<?php 
+
+// $statusLabel = $block->getOrder()->getStatusLabel();
+// $status = $block->getOrder()->getStatus();
+//     if ($statusLabel == 'Canceled' || ($statusLabel == 'Return')) {
+//         $status = $statusLabel;
+//     } else {
+//         if ($block->getOrder()->getShippingMethod() == 'dropship_dropship') {
+//             if ($statusLabel == 'Pending' || ($statusLabel == 'Order Processed') || ($statusLabel == 'Sent to myGermany') || ($statusLabel == 'Received') || ($statusLabel == 'Processing')) {
+//                 $status = "In Process";
+//             } elseif ($statusLabel == 'Order Processed' || ($statusLabel == 'Order Verified')) {
+//                 $status = "Shipped";
+//             }
+
+//         } elseif ($block->getOrder()->getShippingMethod() == 'warehouse_warehouse') {
+//             if ($statusLabel == 'Pending' || ($statusLabel == 'Order Processed') || ($statusLabel == 'Compliance Check') || ($statusLabel == 'Sent to myGermany') || ($statusLabel == 'Processing')) {
+//                 $status = "Expected";
+//             } elseif ($statusLabel == 'Received' || ($statusLabel == 'Order Verified') || ($statusLabel == 'Closed')) {
+//                 $status = "Received";
+//             }
+//         } else {
+//             if ($statusLabel == 'Pending' || ($statusLabel == 'Order Processed') || ($statusLabel == 'Compliance Check') || ($statusLabel == 'Sent to myGermany') || ($statusLabel == 'Processing')) {
+//                 $status = "Expected";
+//             } elseif ($statusLabel == 'Received' || ($statusLabel == 'Order Verified') || ($statusLabel == 'Closed')) {
+//                 $status = "Received";
+//             }
+//         }
+//     }
+
+    $statusLabel = $block->getOrder()->getStatusLabel();
+    $status = $block->getOrder()->getStatus();
+    if ($status == 'canceled' || ($status == 'return')) {
+        $statusLabel = $statusLabel;
+    } else {
+        if ($block->getOrder()->getShippingMethod() == 'dropship_dropship') {
+            if ($status == 'pending' || ($status == 'order_processed') || ($status == 'sent_to_mygermany') || ($status == 'received') || ($status == 'processing')) {
+                $statusLabel = __("In Process");
+            } elseif ($status == 'order_verified') {
+                $statusLabel = __("Shipped");
+            }
+
+        } elseif ($block->getOrder()->getShippingMethod() == 'warehouse_warehouse') {
+            if ($status == 'pending' || ($status == 'order_processed') || ($status == 'compliance_check') || ($status == 'sent_to_mygermany') || ($status == 'processing')) {
+                if ($status == 'pending' || $status == 'sent_to_mygermany') {
+                    $statusLabel = __("In Process");
+                } else {
+                    $statusLabel = __("Expected");
+                }
+            } elseif ($status == 'received' || ($status == 'order_verified') || ($status == 'closed')) {
+                if ($status == 'order_verified') {
+                    $statusLabel = __("Shipped");
+                } elseif ($status == 'closed') {
+                    $statusLabel = __("Closed");
+                } else {
+                    $statusLabel = __("Received");
+                }
+            }
+        } else {
+            if ($status == 'pending' || ($status == 'order_processed') || ($status == 'compliance_check') || ($status == 'sent_to_mygermany') || ($status == 'processing')) {
+                $statusLabel = __("Expected");
+            } elseif ($status == 'received' || ($status == 'order_verified') || ($status == 'closed')) {
+                $statusLabel = __("Received");
+            }
+        } 
+    }
+?>
+
+<span class="order-status"><?php echo __($statusLabel); ?></span>

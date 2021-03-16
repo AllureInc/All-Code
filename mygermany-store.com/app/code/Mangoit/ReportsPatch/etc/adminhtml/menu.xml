@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Mangoit_ReportsPatch::reportpatch_shopcart_wishlist" title="Products in Wishlist" translate="title" module="Mangoit_ReportsPatch" sortOrder="10" parent="Magento_Reports::report_marketing" action="reportspatch/shopcart/wishlist" resource="Mangoit_ReportsPatch::wishlist"/>
+    </menu>
+</config>

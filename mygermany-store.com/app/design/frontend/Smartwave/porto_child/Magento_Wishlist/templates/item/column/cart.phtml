@@ -1,0 +1,113 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Cart $block */
+
+/** @var \Magento\Wishlist\Model\Item $item */
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $objectManager->get('Magento\Customer\Model\Session');
+$loggin = 0;
+if($customerSession->isLoggedIn()) {
+   $customerId = $customerSession->getCustomer()->getId();
+   $customerRepository = $objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
+   $loggin = 1;
+    $fskUser = $customerRepository->getFskCustomer();
+    if ($fskUser != 1) {
+        $fskUser = 0;
+    }
+}
+$item = $block->getItem();
+$product = $item->getProduct();
+$listBlock = $objectManager->get('\Magento\Catalog\Block\Product\ListProduct');
+$addToCartUrl =  $listBlock->getAddToCartUrl($product);
+$fskType = 0;
+if ($product->getCustomAttribute('fsk_product_type')) {
+    $fskType = $product->getCustomAttribute('fsk_product_type')->getValue();
+}
+?>
+<?php foreach ($block->getChildNames() as $childName): ?>
+    <?= /* @noEscape */ $block->getLayout()->renderElement($childName, false) ?>
+<?php endforeach;?>
+<div class="box-tocart">
+    <fieldset class="fieldset">
+    <?php if ($item->canHaveQty() && $product->isVisibleInSiteVisibility()): ?>
+        <div class="field qty">
+            <label class="label" for="qty[<?= $block->escapeHtmlAttr($item->getId()) ?>]"><span><?= $block->escapeHtml(__('Qty')) ?></span></label>
+            <div class="control">
+                <input type="number" data-role="qty" id="qty[<?= $block->escapeHtmlAttr($item->getId()) ?>]" class="input-text qty qty_<?php echo $item->getId(); ?>" data-validate="{'required-number':true,'validate-greater-than-zero':true}"
+               name="qty[<?= $block->escapeHtmlAttr($item->getId()) ?>]" value="<?= /* @noEscape */ (int)($block->getAddToCartQty($item) * 1) ?>">
+            </div>
+        </div>
+    <?php endif; ?>
+    <?php if ($product->isSaleable()): ?>
+        <?php if (($loggin == 1) && ($fskUser == 1) && ($fskType == 1)): ?>
+            <div class="product-item-actions">
+                <div class="actions-primary">
+                    <button type="button" data-role="tocart" data-post='<?= /* @noEscape */ $block->getItemAddToCartParams($item) ?>' title="<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>" data-item-id="<?= $block->escapeHtmlAttr($item->getId()) ?>" class="action tocart primary">
+                        <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
+                    </button>
+                </div>
+            </div>
+        <?php elseif(($loggin == 1) && ($fskUser == 0) && ($fskType == 1)): ?>
+            <?php /*
+                <div class="product-item-actions">
+                    <div class="actions-primary">
+                        <form data-role="tocart-form" action="<?php echo $addToCartUrl; ?>" method="post" class="add_to_cart_<?= $block->escapeHtmlAttr($item->getId()) ?>"> 
+                            <?php echo $block->getBlockHtml('formkey')?>
+                            <div class="btn">
+                                <button type="submit" id="fskButton" title="<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>" class="action tocart primary" data-item-id="<?= $block->escapeHtmlAttr($item->getId()) ?>">
+                                    <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
+                                </button>
+                            </div>   
+                         </form>
+                    </div>
+            </div> */ ?>
+            <div class="product-item-actions">
+                <div class="actions-primary" id="add_to_cart_<?php echo $item->getId() ?>">
+                    <button type="button"  id="fskButton" title="<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>" data-item-id="<?= $block->escapeHtmlAttr($item->getId()) ?>" class="action tocart primary">
+                        <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
+                    </button>
+                </div>
+                <div class="actions-primary hidden_<?php echo $item->getId() ?>" style="display: none;">
+                    <button type="button" data-role="tocart" data-post='<?= /* @noEscape */ $block->getItemAddToCartParams($item) ?>' title="<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>" data-item-id="<?= $block->escapeHtmlAttr($item->getId()) ?>" class="action tocart primary trigger_<?php echo $item->getId() ?>">
+                        <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
+                    </button>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="product-item-actions">
+                <div class="actions-primary">
+                    <button type="button" data-role="tocart" data-post='<?= /* @noEscape */ $block->getItemAddToCartParams($item) ?>' title="<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>" data-item-id="<?= $block->escapeHtmlAttr($item->getId()) ?>" class="action tocart primary">
+                        <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
+                    </button>
+                </div>
+            </div>
+        <?php endif; ?>
+    <?php else: ?>
+        <?php if ($product->getIsSalable()): ?>
+            <p class="available stock" title="<?= $block->escapeHtmlAttr(__('Availability')) ?>">
+                <span><?= $block->escapeHtml(__('In stock')) ?></span>
+            </p>
+        <?php else: ?>
+            <p class="unavailable stock" title="<?= $block->escapeHtmlAttr(__('Availability')) ?>">
+                <span><?= $block->escapeHtml(__('Out of stock')) ?></span>
+            </p>
+        <?php endif; ?>
+    <?php endif; ?>
+    </fieldset>
+</div>
+<input type="hidden" class="product-to-cart">
+<div id="fskMessage" style="display: none;">
+    <p><?php echo __('You are going to order a product, which can be purchased from legal age only (mind. 18 years old) as per merchant.')?></p>
+    <p><?php echo __('You can order only if you are 18 years an older!')?></p>
+    <p><?php echo __('The delivery will happen against an age verification check only. This will happen while the logistic company hands over the item personally to an adult only..')?></p> 
+    </p>
+    <input type="button" id="btn-verify" value="<?php echo __('Verify Now');?>">
+    <input type="button" id="btn-continue" value="<?php echo __('Continue');?>">
+    <input type="button" id="btn-cancel" value="<?php echo __('Cancel');?>">
+</div>

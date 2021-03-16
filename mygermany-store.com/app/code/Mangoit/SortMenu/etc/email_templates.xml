@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="contact_email_email_template_customer" label="Contact - Response email to customer" file="response_email_to_customer.html" type="html" module="Mangoit_SortMenu" area="frontend"/>
+    <template id="contact_email_email_footer_template_customer" label="Email footer for customer" file="email_footer_customer.html" type="html" module="Mangoit_SortMenu" area="frontend"/>
+    <template id="contact_email_email_footer_template_seller" label="Email footer for seller" file="email_footer_seller.html" type="html" module="Mangoit_SortMenu" area="frontend"/>
+    <template id="contact_email_order_notification_to_admin" label="Order Notification To Admin" file="order_notification_to_admin.html" type="html" module="Mangoit_SortMenu" area="frontend"/>
+</config>

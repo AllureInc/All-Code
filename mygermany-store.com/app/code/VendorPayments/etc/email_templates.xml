@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="marketplace_general_settings_vendor_invoice_email_template" label="Email Templates" file="new_invoice_generated.html" type="html" module="Mangoit_VendorPayments" area="frontend"/>
+    <template id="marketplace_general_settings_vendor_invoice_email_template_vendor_copy" label="Email Templates" file="new_invoice_generated_vendor_copy.html" type="html" module="Mangoit_VendorPayments" area="frontend"/>
+</config>

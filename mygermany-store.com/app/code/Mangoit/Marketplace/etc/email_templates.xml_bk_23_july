@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Mangento_Email:etc/email_templates.xsd">
+	<template id="marketplace_email_seller_profile_approval" label="Seller Profile Approval" file="seller_profile_approval.html" type="html" module="Mangoit_Marketplace" area="frontend"/>
+</config>

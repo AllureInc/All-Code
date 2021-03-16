@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MarketplacePreorder
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+    	 <tab id="webkul" translate="label" sortOrder="10">
+            <label>Webkul</label>
+        </tab>
+        <section id="mppreorder" translate="label" type="text" sortOrder="305" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Marketplace Preorder</label>
+            <tab>webkul</tab>
+            <resource>Webkul_MarketplacePreorder::config_preorder</resource>
+            <group id="general_setting" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            	<label>Marketplace Preorder General Settings</label>
+                <field id="preorder_type" translate="label comment" sortOrder="1" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Preorder Type</label>
+                    <source_model>Webkul\MarketplacePreorder\Model\Source\PreorderType</source_model>
+                </field>
+                <field id="percent" translate="label comment" sortOrder="10" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Percent Payment Accept for Preorder</label>
+                    <validate>validate-number validate-number-range digits-range-1-99.99</validate>
+                    <comment>Enter Numeric value between 1 to 100 Only.</comment>
+                    <depends>
+                    	<field id="preorder_type">1</field>
+                    </depends>
+                </field>
+                <field id="preorder_action" translate="label comment" sortOrder="20" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Preorder for</label>
+                    <source_model>Webkul\MarketplacePreorder\Model\Source\PreorderAction</source_model>
+                    <comment>if you choose 'per product' option you have to enable preorder on every product by selecting preorder status</comment>
+                </field>
+                <field id="few_products" translate="label comment" sortOrder="25" type="textarea" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Preorder for these Products</label>
+                    <depends>
+                    	<field id="preorder_action">2</field>
+                    </depends>
+                    <comment>Enter ',' seperated product SKUs for those you want to enable Preorder</comment>
+                </field>
+                <field id="disable_products" translate="label comment" sortOrder="25" type="textarea" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disable Preorder for these Products</label>
+                    <depends>
+                    	<field id="preorder_action">3</field>
+                    </depends>
+                    <comment>Enter ',' seperated product SKUs for those you don't want to enable Preorder</comment>
+                </field>
+                <field id="custom_message" translate="label comment" sortOrder="30" type="textarea" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom Message to display on preorder product</label>
+                </field>
+                <field id="preorder_mail" translate="label comment" sortOrder="40" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Send email to customer when product is in stock</label>
+                    <source_model>Webkul\MarketplacePreorder\Model\Source\PreorderEamil</source_model>
+                    <comment>if you choose 'manual' option. you will have to manually send mail to customer from admin</comment>
+                </field>
+                <field id="mppreorder_qty" translate="label comment" sortOrder="50" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Preorder Quantity</label>
+                    <source_model>Webkul\MarketplacePreorder\Model\Source\PreorderQty</source_model>
+                    <comment>if you choose 'enable' option then a "text" field is shown to enter preorder quantity for product</comment>
+                </field>
+                 <field id="mppreorder_specific" translate="label comment" sortOrder="60" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Buyer Specification</label>
+                    <source_model>Webkul\MarketplacePreorder\Model\Source\PreorderSpecification</source_model>
+                    <comment>if you choose 'preorder buyers' then only those buyers will be allowed to complete preorder who has done a preorder on that product</comment>
+                </field>
+        	</group>
+            <group id="configurable_cron" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Cron Settings</label>
+                <field id="frequency" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Frequency</label>
+                    <source_model>Magento\Cron\Model\Config\Source\Frequency</source_model>
+                    <backend_model>Webkul\MarketplacePreorder\Model\Config\Frequency</backend_model>
+                </field>
+                <field id="time" translate="label comment" sortOrder="2" type="time" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Start Time</label>
+                </field>
+            </group>
+    	</section>
+	</system>
+</config>

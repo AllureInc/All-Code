@@ -1,0 +1,129 @@
+<?php 
+
+$misHelper = $this->helper('Mangoit\Marketplace\Helper\Data');
+$id = $this->getRequest()->getParam('id');
+$productSensitiveAttrs = $misHelper->getProductSensitiveAttributes($id);
+$customFieldsData = $misHelper->getCustomFields($id);
+if ($productSensitiveAttrs->getSensitiveAttributes()) {
+    $unserAttrs = unserialize($productSensitiveAttrs->getSensitiveAttributes());
+}
+
+?>
+<style type="text/css">
+    #mis_error{
+        margin-top : 7px;
+        color: #e02b27;
+        font-size: 1.2rem;
+        background: #fae5e5;
+        padding: 20px;
+    }
+</style>
+<?php if (!empty($unserAttrs)): ?>
+    <?php 
+        $attributesArray = [];
+        foreach ($unserAttrs as $sensiKey => $sensiValue) {
+            if (strpos($sensiKey, 'mis_2_41_35_comment') != true) {
+                $explodedKey = explode('mis_2_41_35_sensitive_', $sensiKey);
+                $attributesArray[$explodedKey[1]] = $sensiValue;
+            }
+        }
+
+        // echo "<pre>";
+        // print_r($attributesArray);
+        // print_r($customFieldsData->getData());
+        // die('died');
+    ?>
+    <table cellspacing="0" border="1" class="border mis_faq_admin_list" width="100%">
+            <thead>
+                <tr class="wk-content">
+                    <th>
+                        <span class="label faq-title">
+                            <?php echo __('Label')?>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="label faq-desc">
+                            <?php echo __('Value')?>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="label faq-desc">
+                            <?php echo __('Comment')?>
+                        </span>
+                    </th>
+                                  
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($attributesArray as $attrsKey => $attrsValue): ?>
+                    <tr class="wk-row-view">
+                        <td class="wk-check-first-td" style="padding: 10px;">
+                            <span class="label">
+                            <?php echo $attrLabel = $misHelper->getProductAttrLabel($attrsKey); ?>
+                            </span>
+                        </td>
+                        <td>        
+                            <span class="label">
+                                <?php if ($attrsValue) {
+                                    echo __('Yes');
+                                    //$imgSrc = $this->getViewFileUrl('Mangoit_Marketplace::images/right.png');
+                                }else {
+                                    echo __('No');
+                                    //$imgSrc = $this->getViewFileUrl('Mangoit_Marketplace::images/wrong.png');
+                                } ?>
+                                <!-- <img src="<?php //echo $imgSrc; ?>" alt="<?php //echo __('Attribute Ans Images')?>" title="<?php //echo __('Attribute Ans Images')?>"/> -->
+                            </span>
+                        </td>       
+                        <td>        
+                            <span class="label">
+                                <?php if (isset($unserAttrs['mis_2_41_35_sensitive_'.$attrsKey.'_mis_2_41_35_comment'])) {
+                                    echo $unserAttrs['mis_2_41_35_sensitive_'.$attrsKey.'_mis_2_41_35_comment'];
+                                } else {
+                                    echo __('NA');
+                                } ?>
+                            </span>
+                        </td>                   
+                    </tr>   
+                <?php  endforeach; ?>
+                <?php if ($customFieldsData->count() > 0): ?>
+                    <?php foreach ($customFieldsData as $customKey => $customValue): 
+
+                    // echo "<pre>";
+                    // print_r($customValue->getVendorComments());
+                    // die('died');
+                    ?>
+                        <tr class="wk-row-view">
+                            <td class="wk-check-first-td" style="padding: 10px;">
+                                <span class="label">
+                                <?php echo $customValue->getCustomFields(); ?>
+                                </span>
+                            </td>
+                            <td>        
+                                <span class="label">
+                                    <?php if ($customValue->getVendorInput()) {
+                                        echo __('Yes');
+                                        //$imgSrc = $this->getViewFileUrl('Mangoit_Marketplace::images/right.png');
+                                    }else {
+                                        echo __('No');
+                                        //$imgSrc = $this->getViewFileUrl('Mangoit_Marketplace::images/wrong.png');
+                                    } ?>
+                                    <!-- <img src="<?php //echo $imgSrc; ?>" alt="<?php //echo __('Attribute Ans Images')?>" title="<?php //echo __('Attribute Ans Images')?>"/> -->
+                                </span>
+                            </td>       
+                            <td>        
+                                <span class="label">
+                                    <?php if (!empty($customValue->getVendorComments())) {
+                                        echo $customValue->getVendorComments();
+                                    } else {
+                                        echo __('NA');
+                                    } ?>
+                                </span>
+                            </td>                   
+                        </tr>   
+                    <?php  endforeach; ?>
+                <?php endif; ?>
+            </tbody>
+    </table>
+<?php else: ?>
+    <span> <p id='mis_error'><?php echo __('No Attributes assigned by vendor for this product!'); ?></p></span>
+<?php endif; ?>

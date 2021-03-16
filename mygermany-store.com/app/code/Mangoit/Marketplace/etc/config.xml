@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <marketplace>
+            <general_settings>
+                <approval_waiting_msg>Please wait for the approval by the myGermany store administrator. This usually takes a maximum of 24 hours.</approval_waiting_msg>
+                <add_address_message>Please enter your company address data.</add_address_message>
+                <profile_saved_message>Profile information was successfully saved.</profile_saved_message>
+            </general_settings>
+        </marketplace>
+        <carriers>
+            <dropship>
+                <active>1</active>
+                <sallowspecific>0</sallowspecific>
+                <model>Mangoit\Marketplace\Model\Carrier\Shipping</model>
+                <name>Dropship</name>
+                <price>5</price>
+                <title>Dropship</title>
+                <type>I</type>
+                <specific_error_msg>This shipping method is not available. To use this shipping method, please contact us.</specific_error_msg>
+            </dropship>
+            <warehouse>
+                <active>1</active>
+                <sallowspecific>0</sallowspecific>
+                <model>Mangoit\Marketplace\Model\Carrier\Warehouse</model>
+                <name>Warehouse</name>
+                <price>5</price>
+                <title>Warehouse</title>
+                <type>I</type>
+                <specific_error_msg>This shipping method is not available. To use this shipping method, please contact us.</specific_error_msg>
+            </warehouse>
+        </carriers>
+    </default>
+</config>

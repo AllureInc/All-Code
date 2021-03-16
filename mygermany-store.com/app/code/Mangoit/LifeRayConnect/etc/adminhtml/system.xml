@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<tab id="mangoitliferay" sortOrder="999" translate="label">
+			<label>Mangoit Liferay</label>
+		</tab>
+		<section id="liferayconnect" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+			<label>LifeRay Connect</label>
+			<tab>mangoitliferay</tab>
+			<resource>Mangoit_LifeRayConnect::config_mangoit_liferayconnect</resource>
+			<group id="liferaycredentials" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+				<label>LifeRay Credentials</label>
+				<field id="email" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>Email</label>
+					<validate>validate-email</validate>
+					<comment>Enter email in this field that will be used for liferay API authorization.</comment>
+				</field>
+				<field id="password" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="obscure">
+					<label>LifeRay Password</label>
+					<comment>Please enter LifeRay API password.</comment>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>

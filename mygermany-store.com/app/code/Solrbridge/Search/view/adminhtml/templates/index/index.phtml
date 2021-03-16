@@ -1,0 +1,170 @@
+<?php $websites = $block->getWebsites() ?>
+<?php $solrCores = $block->getSolrCoreCollection() ?>
+<?php $docTypes = $block->getDoctypes() ?>
+<div class="admin__data-grid-wrap">
+    <form id="solrbridge-index-mapping" method="post" action="<?php echo $this->getUrl('solrbridge/index/save') ?>">
+        <?php echo $block->getBlockHtml('formkey')?>
+        <table class="data-grid">
+            <thead>
+                <tr>
+                    <th class="data-grid-th"><label><?php echo __('1. Select Doctype') ?></label></th>
+                    <th class="data-grid-th"><label><?php echo __('2. Select Store') ?></label></th>
+                    <th class="data-grid-th"><label><?php echo __('3. Select Solr Core') ?></label></th>
+                    <th class="data-grid-th"><label><?php echo  __('4. Put a title') ?></label></th>
+                    <th class="data-grid-th"><?php echo  __('5. Action') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="admin__field-control">
+                            <select id="doctype" name="index[doctype]" class="required-entry _required select admin__control-select" data-ui-id="smartmenu-edit-form-fieldset-element-select-doctype" aria-required="true">
+                                <?php foreach($docTypes as $doctype => $doctypeLabel): ?>
+                                    <option value="<?php echo $doctype ?>">
+                                        <?php echo __($doctypeLabel) ?>
+                                    </option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="admin__field-control">
+                            <select id="store_id" name="index[store_id]" class="required-entry _required select admin__control-select" data-ui-id="smartmenu-edit-form-fieldset-element-select-store-id" aria-required="true">
+                                <?php foreach($websites as $website): ?>
+                                    <optgroup label="-<?php echo $website->getName()?>"></optgroup>
+                                    <?php $groups = $block->getGroupCollection($website) ?>
+                                    <?php foreach ($groups as $group):?>
+                                        <optgroup label="--<?php echo $group->getName() ?>">
+                                            <?php $stores = $block->getStoreCollection($group) ?>
+                                            <?php foreach ($stores as $store): ?>
+                                                <option value="<?php echo $store->getId() ?>">---<?php echo $store->getName() ?></option>
+                                            <?php endforeach; ?>
+                                        </optgroup>
+                                    <?php endforeach; ?>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="admin__field-control">
+                            <select name="index[solr_core]" class=" required-entry _required select admin__control-select">
+                                <?php foreach($solrCores as $core => $info): ?>
+                                <option value="<?php echo $core ?>"><?php echo $core ?></option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="admin__field _required field-title">
+                            <div class="admin__field-control">
+                                <input type="text" id="index-title"
+                                        name="index[title]" 
+                                        class="admin__control-text required-entry" 
+                                        autocomplete="off"
+                                        />
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <button id="add-index-mapping" title="Add New Index Mapping" type="submit" class="action-add scalable primary" data-ui-id="add-index-mapping-button">
+                            <span><?php echo __('Add Mapping') ?></span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <br />
+    <?php $indexCollection = $this->getIndexCollection()?>
+    <h3><?php echo __('Index Mapped List') ?></h3>
+    <?php if($indexCollection->getSize()):?>
+        <table class="data-grid" data-mage-init='{"solrbridgeIndexManagement":{}}'>
+            <thead>
+                <tr>
+                    <th class="data-grid-th">
+                        <label><?php echo __('ID')?></label>
+                    </th>
+                    <th class="data-grid-th">
+                        <label><?php echo __('Title')?></label>
+                    </th>
+                    <th class="data-grid-th">
+                        <label><?php echo __('Store')?></label>
+                    </th>
+                    <th class="data-grid-th">
+                        <label><?php echo __('Solr Core')?></label>
+                    </th>
+                    <th class="data-grid-th">
+                        <label><?php echo __('Doctype')?></label>
+                    </th>
+                    <th class="data-grid-th">
+                        <label><?php echo __('Total Products')?></label>
+                    </th>
+                    <th class="data-grid-th">
+                        <label><?php echo __('Solr Documents')?></label>
+                    </th>
+                    <th class="data-grid-th">
+                        <label><?php echo __('Status')?></label>
+                    </th>
+                    <th class="data-grid-th">
+                        <label><?php echo __('Actions')?></label>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($indexCollection as $index): ?>
+                    <tr>
+                        <td>
+                            <?php echo $index->getId() ?>
+                        </td>
+                        <td>
+                            <?php echo $index->getTitle() ?>
+                        </td>
+                        <td>
+                            <?php echo $index->getStore()->getName() ?>
+                        </td>
+                        <td>
+                            <?php echo $index->getSolrCore() ?>
+                        </td>
+                        <td>
+                            <?php echo $index->getDoctypeLabel() ?>
+                        </td>
+                        <td>
+                            <?php echo $index->getRecordCount() ?>
+                        </td>
+                        <td>
+                            <?php echo $block->getDocumentCount($index) ?>
+                        </td>
+                        <td>
+                            <?php echo $block->getPercentStatus($index) ?>%
+                        </td>
+                        <td>
+                            <button id="reindex-<?php echo $index->getId() ?>" 
+                                title="Re-Index" type="button" class="action- scalable primary" 
+                                data-ui-id="re-index-button"
+                                data-ui-url="<?php echo $this->getReindexUrl($index) ?>"
+                                >
+                                <span><?php echo __('Reindex')?></span>
+                            </button>
+                            <button style="display:none" id="reindex-<?php echo $index->getId() ?>" 
+                                title="Re-Index" type="button" class="action- scalable primary" 
+                                data-ui-id="update-index-button"
+                                data-ui-url="<?php echo $this->getUpdateIndexUrl($index) ?>"
+                                >
+                                <span><?php echo __('Update')?></span>
+                            </button>
+                            <button id="delete-<?php echo $index->getId() ?>" 
+                                title="Delete Index" type="button" class="action- scalable primary" 
+                                data-ui-id="delete-index-button"
+                                data-ui-url="<?php echo $this->getDeleteIndexUrl($index) ?>"
+                                >
+                                <span><?php echo __('Delete')?></span>
+                            </button>
+                        </td>
+                    </tr>
+                <?php endforeach;?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <?php echo __('There is no any index available yet. Please follow steps above to create index.')?>
+    <?php endif;?>
+</div>

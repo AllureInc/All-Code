@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Webkul
+ * @package    Webkul_MpPushNotification
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Webkul_Marketplace::marketplace" title="Marketplace Management" sortOrder="10" >
+                    <resource id="Webkul_Marketplace::menu" title="Menu" sortOrder="10">
+                        <resource id="Webkul_MpPushNotification::manager" title="Menu" sortOrder="50">
+                             <resource id="Webkul_MpPushNotification::template_setting" title="Notification Templates" sortOrder="10" >
+                                <resource id="Webkul_MpPushNotification::Templates" title="Templates" sortOrder="30"/>
+                            </resource>
+                            <resource id="Webkul_MpPushNotification::register_customer" title="Send Notification" sortOrder="10" >
+                                <resource id="Webkul_MpPushNotification::ManageUsers" title="Users" sortOrder="30"/>
+                            </resource>
+                        </resource>
+                    </resource>
+                </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Webkul_MpPushNotification::config_mppushnotfication" title="Marketplace Push Notification Configuration" sortOrder="50" >
+                            </resource>
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>   
+        </resources>
+    </acl>
+</config>
+

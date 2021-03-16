@@ -1,0 +1,30 @@
+{
+  "name": "mangoit/emailattachments-m2",
+  "license": "OSL-3.0",
+  "description": "Automatically attach pdf and terms and conditions documents to outgoing sales emails.",
+  "type": "magento2-module",
+  "version": "2.0.7",
+  "autoload": {
+    "psr-4": {
+      "MangoIt\\EmailAttachments\\": ""
+    },
+    "files": [
+      "registration.php"
+    ]
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://repo.magento.com/"
+    }
+  ],
+  "require": {
+    "magento/module-backend": "^100.0.2",
+    "magento/module-sales": "^100.0.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.5"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

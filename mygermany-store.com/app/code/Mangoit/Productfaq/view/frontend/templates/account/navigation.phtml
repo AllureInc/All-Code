@@ -1,0 +1,22 @@
+<?php
+/**
+ * Mangoit Marketplace.
+ *
+ * @category  Mangoit
+ * @package   Mangoit_Marketplace
+ * @author    Mangoit
+ */
+
+// @codingStandardsIgnoreFile
+$_helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$isPartner= $_helper->isSeller();
+$magentoCurrentUrl = $block->getCurrentUrl();
+?>
+<?php /*
+if($isPartner){ ?>
+    <li class="nav item <?php echo strpos($magentoCurrentUrl,'faqs/product/faq')? "current":"";?>">
+        <a href="<?php echo $block->getUrl('faqs/product/faq', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+            <?php  echo __('Product faqs') ?>
+        </a>
+    </li>
+<?php } */?>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Plenty_Core::plenty_core" title="Plenty Core" translate="title" sortOrder="100">
+                    <resource id="Plenty_Core::plenty_sync" title="Synchronisation" translate="title" sortOrder="10">
+                        <resource id="Plenty_Core::plenty_core_profile" title="Profiles" translate="title" sortOrder="10"/>
+                    </resource>
+                </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Plenty_Core::config_plenty_core" title="Plenty Core Section" translate="title" sortOrder="10"/>
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

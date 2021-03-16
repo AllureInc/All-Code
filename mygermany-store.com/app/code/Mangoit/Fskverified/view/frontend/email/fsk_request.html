@@ -1,0 +1,18 @@
+<!--@subject New FSK request @-->
+<!--@vars {
+"var data.comment":"Comment",
+"var data.email":"Sender Email",
+"var data.name":"Sender Name"
+} @-->
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">Hi Admin,</p>
+
+<table style="width:60%; padding: 10px;">
+	<tr>
+		<td style="padding: 10px 10px 10px 0px; width: 100%;">
+		“{{trans "%name" name=$data.name}}” want to purchase FSK product. He/She submmitted there document or ID proof regarding this request.
+		</td><br/>
+	</tr>
+</table>
+{{template config_path="design/email/footer_template"}}

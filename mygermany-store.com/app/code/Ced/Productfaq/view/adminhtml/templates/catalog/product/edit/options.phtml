@@ -1,0 +1,63 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://cedcommerce.com/license-agreement.txt
+ *
+ * @category Ced
+ * @package Ced_Productfaq
+ * @author CedCommerce Core Team
+ * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license http://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options */ ?>
+<form id="faq_form">
+	<div class="fieldset-wrapper" id="product-custom-options-wrapper"
+		data-block="product-custom-options">
+		<div class="fieldset-wrapper-title">
+			<strong class="title"> <span><?php /* @escapeNotVerified */ echo __('Frequently Asked Question') ?></span>
+			</strong>
+		</div>
+		<div class="fieldset-wrapper-content"
+			id="product-custom-options-content"
+			data-role="product-custom-options-content">
+			<fieldset class="fieldset">
+				<div class="messages">
+					<div class="message message-error" id="dynamic-price-warning"
+						style="display: none;">
+						<div class="message-inner">
+							<div class="message-content"><?php /* @escapeNotVerified */ echo __('We can\'t save custom-defined options for bundles with dynamic pricing.') ?></div>
+						</div>
+					</div>
+				</div>
+
+				<div id="product_options_container" class="sortable-wrapper">
+					<div id="product_options_container_top"></div>
+                <?php echo $block->getOptionsBoxHtml() ?>
+            </div>
+			</fieldset>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+
+var uri = "<?php echo $this->getUrl("faq/productfaq/submit")?>";
+require(["jquery"], function ($) {
+$( "#save-button, #save_and_new, #save_and_duplicate, #save_and_close" ).click(function() {
+           $.ajax({
+            type: 'post',
+            url: uri,
+            data: $('#faq_form').serialize(),
+            success: function () {
+             // alert('form was submitted');
+            }
+          });
+      });
+});
+</script>

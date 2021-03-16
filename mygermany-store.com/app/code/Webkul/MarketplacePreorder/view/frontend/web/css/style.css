@@ -1,0 +1,114 @@
+.wk_mppreorder_block {
+    border-left: 1px solid #ccc;
+    display: inline-block;
+    margin-left: 8px;
+    padding-left: 10px;
+    position: relative;
+    width: 30%;
+    left: 25px;
+}
+.wk_mppreorder_block:after, .wk_mppreorder_block:before {
+    border: 1px solid transparent;
+    content: " ";
+    height: 0;
+    left: -1px;
+    margin-top: -25px;
+    position: absolute;
+    width: 0;
+}
+.wk_mppreorder_block:after {
+    border-left-color: #ffffff;
+    border-width: 7px;
+    top: 36px;
+}
+.wk_mppreorder_block {
+    width: 44% !important;
+}
+.wk_mppreorder_block:before {
+    border-left-color: #cccccc;
+    border-width: 9px;
+    top: 34px;
+}
+.wk_mppreorder_title_css {
+    font-weight: normal;
+    margin: 0 5px 0 0;
+}
+.wk_mppreorder_title_css a {
+    text-decoration: underline;
+}
+.wk_mppreorder_block{
+    display: none;
+}
+
+.mppreorder_percent,.mppreorder_few,.mppreorder_allproducts{
+    display: none;
+}
+
+.wk-loading-mask {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.62);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+}
+
+.wk-loader {
+    background: url("../images/ajax-loader.gif") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 32px;
+    left: 50%;
+    margin-left: -16px;
+    margin-top: -16px;
+    position: absolute;
+    top: 50%;
+    width: 32px;
+}
+
+.wk-display-none {
+    display: none !important;
+}
+.wk-preorder-complete.action.primary {
+    font-size: 12px;
+    margin-top: 15px;
+}
+
+.wk-pay-preorer-amount {
+    color: #3c763d;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.wk-msg-box {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.wk-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+.wk-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    clear: both;
+}
+
+.wk-availability-block {
+    font-size: 20px;
+}
+
+.wk-date-title {
+    font-weight: bold;
+    margin-right: 5px;
+}
+.wk-config-msg-box{
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}

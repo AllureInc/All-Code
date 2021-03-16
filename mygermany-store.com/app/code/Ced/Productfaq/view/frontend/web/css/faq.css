@@ -1,0 +1,173 @@
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://cedcommerce.com/license-agreement.txt
+ *
+ * @category Ced
+ * @package Ced_Productfaq
+ * @author CedCommerce Core Team
+ * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license http://cedcommerce.com/license-agreement.txt
+ */
+.product_faqs li {
+  background: #e5e5e5 url("../images/pluss-sign.png") no-repeat scroll 7px 12px / 18px auto;
+  cursor: pointer;
+  margin: 2px 0;
+  padding: 7px 35px;
+}
+.product_faqs li.current {
+  background: #e5e5e5 url("../images/minus-sign.png") no-repeat scroll 6px 16px / 20px 7px;
+}
+.product_faqs .faq_title {
+  float: left;
+  font-family: sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+}
+.product_faqs .faq_date {
+  float: right;
+  font-family: sans-serif;
+  font-size: 14px;
+  font-style: italic;
+}
+.product_faqs .posted_by_img {
+  background-image: url("../images/profle.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 85% auto;
+  float: left;
+  height: 98px;
+  width: 94px;
+}
+.product_faqs .posted_by_text {
+  float: right;
+  font-family: sans-serif;
+  font-size: 15px;
+  font-style: italic;
+  font-weight: bold;
+  margin-left: 13px;
+  margin-top: 45px;
+}
+.product_faqs .pane p {
+  font-size: 15px;
+  line-height: 26px;
+  margin-bottom: 15px;
+  margin-top: 16px;
+  padding-left: 15px;
+    padding-right: 15px;
+}
+.product_faqs .pane {
+  background: #f5f5f5 none repeat scroll 0 0;
+  
+}
+.product_faqs .grid .button_like {
+  background: #006bb4 none repeat scroll 0 0;
+  border: 1px solid #006bb4;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 16px;
+  padding: 1px 20px;
+  width: 92px;
+  display: inline-block;
+}
+.product_faqs .grid{
+  text-align: right;
+   padding: 10px 15px;
+}
+.product_faqs .grid > span {
+  background: #333 none repeat scroll 0 0;
+  border-radius: 2px;
+  color: #ffffff;
+  display: inline-block;
+  margin-left: 5px;
+  padding: 0px 10px;
+  position: relative;
+}
+.product_faqs .grid > span::after {
+  background-image: url("node.png");
+  content: "";
+  height: 12px;
+  left: -1px;
+  position: absolute;
+  top: 3px;
+  transform: rotate(127deg);
+  width: 12px;
+}
+.product_faqs .grid > span.has_value::after {
+  background-image: none !important;
+}
+.product_faqs .posted_by {
+  background: #ededed none repeat scroll 0 0;
+  padding: 15px 10px;
+}
+.ask_us_popup {
+  background: #ffffff none repeat scroll 0 0;
+  border-radius: 3px;
+  box-shadow: 0 2px 15px 3px #000;
+  left: 24%;
+  padding: 10px;
+  position: fixed;
+  top: 26px;
+  width: 50%;
+  z-index: 999999;
+}
+.ask_us_popup .close_askus{
+  text-align: right;
+  position: relative;
+}
+.ask_us_popup .close_askus .various {
+  background: #000000 none repeat scroll 0 0;
+  border: 1px solid #000000;
+  border-radius: 50%;
+  box-shadow: 1px 1px 5px 3px #000000;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: bold;
+  height: 19px;
+  line-height: 14px;
+  padding-top: 1px;
+  position: absolute;
+  right: -17px;
+  text-align: center;
+  top: -19px;
+  width: 22px;
+}
+.ask_us_popup .close_askus .various:hover{
+  text-decoration: none;
+}
+.ask_us_popup .ask_question label {
+  font-weight: bold;
+}
+.ask_us_popup .ask_question .input-text {
+  margin-bottom: 15px;
+  margin-top: 5px;
+}
+.ask_us_popup_overlay {
+  background: #000000 none repeat scroll 0 0;
+  height: 100%;
+  left: 0;
+  opacity: 0.7;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 99999;
+}
+.nav-sections-item-content nav.navigation,.header.content .logo,.header.content .block.block-search{
+  position: static !important;
+}
+.header.content .block.block-search .form.minisearch {
+  position: relative;
+}
+.ask_us_popup .response {
+  padding: 25px 15px;
+  text-align: center;
+}
+.clear{
+    clear: both;
+}
+

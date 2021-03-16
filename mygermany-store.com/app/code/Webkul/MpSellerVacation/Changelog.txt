@@ -1,0 +1,23 @@
+Legend
+
++ Features
+- Bugs
+
+-------------------------------- Version 2.0.2 --------------------------------------
+
+	+ Added date and time for vacation start and end
+	+ now working with marketplace seller comparison module
+	- fixed wrong time in admin grid
+	- removed product disable status from frontend vacation setting if admin choose to disable seller products. 
+
+-------------------------------- Version 2.0.1 --------------------------------------
+
+	+ Fully compatible with magento version 2.1.*
+
+-------------------------------- Version 2.0.0 --------------------------------------
+	+ Seller’s vacation setting for seller dashboard.
+	+ Sellers can set vacation for a date interval.
+	+ Sellers can set their product display status.
+	+ Sellers can set vacation message that will be displayed on all the seller pages that customer views
+	+ Admin can view seller’s vacation settings from admin panel.
+	+ Admin can set wheather to show the seller products on vacation or hide it.

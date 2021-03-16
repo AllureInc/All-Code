@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="plenty_stock_import_inventory" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="EntityId"/>
+        <column xsi:type="int" name="profile_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Profile ID"/>
+        <column xsi:type="int" name="item_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Item ID"/>
+        <column xsi:type="int" name="variation_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Variation ID"/>
+        <column xsi:type="int" name="product_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Product ID"/>
+        <column xsi:type="varchar" name="sku" nullable="true" length="64" comment="SKU"/>
+        <column xsi:type="int" name="warehouse_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Warehouse ID"/>
+        <column xsi:type="varchar" name="status" nullable="true" length="16" comment="Status"/>
+        <column xsi:type="decimal" name="stock_physical" scale="4" precision="12" unsigned="false" nullable="true" comment="Stock Physical"/>
+        <column xsi:type="decimal" name="reserved_stock" scale="4" precision="12" unsigned="false" nullable="true" comment="Reserved Stock"/>
+        <column xsi:type="decimal" name="reversed_ebay" scale="4" precision="12" unsigned="false" nullable="true" comment="Reserved eBay"/>
+        <column xsi:type="decimal" name="reorder_delta" scale="4" precision="12" unsigned="false" nullable="true" comment="Reorder Delta"/>
+        <column xsi:type="decimal" name="stock_net" scale="4" precision="12" unsigned="false" nullable="true" comment="Stock Net"/>
+        <column xsi:type="decimal" name="reordered" scale="4" precision="12" unsigned="false" nullable="true" comment="Reordered"/>
+        <column xsi:type="decimal" name="reserve_bundle" scale="4" precision="12" unsigned="false" nullable="true" comment="Average Purchase Price"/>
+        <column xsi:type="decimal" name="average_purchase_price" scale="4" precision="12" unsigned="false" nullable="true" comment="Average Purchase Price"/>
+        <column xsi:type="text" name="message" nullable="true" comment="Messages"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Collected At"/>
+        <column xsi:type="timestamp" name="processed_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Processed At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PLENTY_STOCK_IMPORT_INV_PROFILE_ID_PLENTY_CORE_PROFILE_ENTT_ID"
+                    table="plenty_stock_import_inventory" column="profile_id" referenceTable="plenty_core_profile" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_STOCK_IMPORT_INVENTORY_PROFILE_ID_VARIATION_ID">
+            <column name="profile_id"/>
+            <column name="variation_id"/>
+        </constraint>
+    </table>
+</schema>

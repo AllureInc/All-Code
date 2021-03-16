@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mangoit Software.
+ *
+ * @category  Mangoit
+ * @package   Mangoit_ShopConfigIE
+ * @author    Mangoit
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="seller_account_navigation">
+            <block class="Mangoit\ShopConfigIE\Block\Link"  name="vendorpayments_fee_nav" before="-" template="Mangoit_VendorPayments::account/navigation.phtml" />
+        </referenceBlock>
+    </body>
+</page>

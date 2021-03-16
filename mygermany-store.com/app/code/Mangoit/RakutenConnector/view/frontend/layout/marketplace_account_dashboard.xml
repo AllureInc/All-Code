@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */  -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance dc" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="dashboard_additional_content_block">
+            <block class="Mangoit\RakutenConnector\Block\Account\Dashboard" name="amazon_dashboard_additional_total_block" template="Mangoit_RakutenConnector::account/dashboard.phtml" cacheable="false"/>
+        </referenceBlock>
+    </body>
+</page>

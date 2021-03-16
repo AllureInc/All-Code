@@ -1,0 +1,43 @@
+<!--
+/*
+ * File is used for Email Template module in Magento 2
+ * Mangoit Customobserver
+ */
+-->
+<!--@subject {{trans "New Ad Block Purchased"}} @-->
+<!--@vars {
+"var data.id":"Product Id",
+"var data.name":"Product Name",
+"var data.url":"Product Url"} 
+@-->
+
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">{{trans "Hello Admin,"}}</p>
+<p>{{trans "%sellername has purchased a new ad block please review and approve it." sellername=$data.sellername}}</p>
+<p>{{trans "Purchase Details:"}}</p>
+<p>
+	<table class="query-details">
+	    <tr>
+	        <td class="product-details">
+	            <p>{{trans "Block Name: %block_name" block_name=$data.block_name}}</p>
+	        </td>
+	    </tr>
+	    <tr>
+	        <td class="query-details">
+	            <p>{{trans "Order Id: #%order_id" order_id=$data.order_id}}</p>
+	        </td>
+	    </tr>
+	    <tr>
+	        <td class="query-details">
+	            <p>{{trans "Days: %valid_for" valid_for=$data.valid_for}}</p>
+	        </td>
+	    </tr>
+	    <tr>
+	        <td class="query-details">
+	            <p>{{trans "Price: %price" price=$data.price}}</p>
+	        </td>
+	    </tr>
+	</table>
+</p>
+{{template config_path="design/email/footer_template"}}

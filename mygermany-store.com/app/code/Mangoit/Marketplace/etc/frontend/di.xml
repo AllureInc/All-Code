@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mangoit Software.
+ *
+ * @category  Mangoit
+ * @package   Mangoit_Marketplace
+ * @author    Mangoit
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- MarketPlace Email Helper -->
+    <!-- <preference for="Webkul\Marketplace\Helper\Email" type="Mangoit\Marketplace\Helper\MarketplaceEmail" /> -->
+    <!-- Preorder Observer  -->
+    <preference for="Webkul\MarketplacePreorder\Observer\AfterPlaceOrder" type="Mangoit\Marketplace\Observer\AfterPlacePreOrder" />
+    <!--  -->
+    <!-- <preference for="Webkul\Marketplace\Block\Marketplace" type="Mangoit\Marketplace\Block\Marketplace" /> -->
+    <preference for="Webkul\MarketplacePreorder\Helper\Email" type="Mangoit\Marketplace\Helper\Email" />
+    
+    <!-- To seller profile shop layout -->
+    <preference for="Webkul\Marketplace\Controller\Seller\Profile" type="Mangoit\Marketplace\Controller\Seller\Profile" />
+    <preference for="Magento\Catalog\Helper\Image" type="Mangoit\Marketplace\Helper\Image" />
+    <preference for="Webkul\Marketplace\Controller\Product\Save" type="Mangoit\Marketplace\Controller\Product\Save" />
+    <preference for="Webkul\Marketplace\Observer\CustomerRegisterSuccessObserver" type="Mangoit\Marketplace\Observer\CustomerRegisterSuccessObserver" />
+    <preference for="Magento\Framework\Encryption\Encryptor" type="Mangoit\Marketplace\Rewirte\Encryption\Encryptor" />
+    <preference for="Webkul\Marketplace\Controller\Account\BecomesellerPost" type="Mangoit\Marketplace\Controller\Account\BecomesellerPost" />
+    <preference for="Webkul\Marketplace\Controller\Account\DeleteSellerBanner" type="Mangoit\Marketplace\Controller\Account\DeleteSellerBanner" />
+    <preference for="Webkul\Marketplace\Controller\Account\DeleteSellerLogo" type="Mangoit\Marketplace\Controller\Account\DeleteSellerLogo" />
+
+    <preference for="Webkul\Marketplace\Controller\Product\SaveProduct" type="Mangoit\Marketplace\Controller\Product\SaveProduct" />
+    <preference for="Webkul\MpAmazonConnector\Controller\Product\AssignToCate" type="Mangoit\Marketplace\Controller\Product\AssignToCate" />
+    <preference for="Webkul\Marketplace\Block\Product\Productlist" type="Mangoit\Marketplace\Block\Product\Productlist" />
+
+    <!-- To send an email to vendor after successfully coingate order -->
+    <preference for="CoinGate\Merchant\Controller\Payment\Callback" type="Mangoit\Marketplace\Controller\Payment\Callback" />
+
+
+    <!-- To update success message of payemtn to internal note for myGermany -->
+    <preference for="Webkul\Marketplace\Controller\Account\SavePaymentInfo" type="Mangoit\Marketplace\Controller\Account\SavePaymentInfo" />
+    
+    <!-- To add pagination for vendor created attribute -->
+    <preference for="Webkul\Marketplace\Block\Product\Configurableattribute" type="Mangoit\Marketplace\Block\Product\Configurableattribute" />
+    
+    <type name="\Magento\Customer\Controller\Account\LoginPost">
+        <plugin name="mangoit_marketplace_loginpostplugin" type="\Mangoit\Marketplace\Plugin\LoginPostPlugin" sortOrder="1" />
+    </type>
+
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="cms_block_config_provider" xsi:type="object">Mangoit\Marketplace\Model\ConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference for="Webkul\Mpreportsystem\Helper\Data" type="Mangoit\Marketplace\Helper\Reportsystemdata" />
+
+    <!-- To change page title of logout page -->
+    <preference for="Magento\Customer\Controller\Account\LogoutSuccess" type="Mangoit\Marketplace\Controller\Account\LogoutSuccess" />
+
+    <preference for="Webkul\Marketplace\Controller\Catalog\View" type="Mangoit\Marketplace\Controller\Catalog\View" />
+
+    <!-- To update amazon imported product status -->
+    <preference for="Webkul\MpAmazonConnector\Helper\ManageProductRawData" type="Mangoit\Marketplace\Helper\ManageProductRawData" />
+
+    <!-- To update newsletter subscriber status -->
+    <preference for="Onestepcheckout\Iosc\Block\Frontend\LayoutProcessors\SubscribeProcessor" type="Mangoit\Marketplace\Block\Frontend\LayoutProcessors\SubscribeProcessor" />
+
+    <preference for="Mangoit\Marketplace\Block\Order\History" type="Webkul\Marketplace\Block\Order\History"/>
+
+</config>

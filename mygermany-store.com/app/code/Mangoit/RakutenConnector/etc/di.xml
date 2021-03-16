@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <virtualType name="Mangoit\RakutenConnector\Model\ResourceModel\Accounts\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">marketplace_rakuten_accounts</argument>
+            <argument name="resourceModel" xsi:type="string">Mangoit\RakutenConnector\Model\ResourceModel\Accounts</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Mangoit\RakutenConnector\Model\ResourceModel\ProductMap\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">marketplace_rakuten_mapped_product</argument>
+            <argument name="resourceModel" xsi:type="string">Mangoit\RakutenConnector\Model\ResourceModel\ProductMap</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Mangoit\RakutenConnector\Model\ResourceModel\OrderMap\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">marketplace_rakuten_mapped_order</argument>
+            <argument name="resourceModel" xsi:type="string">Mangoit\RakutenConnector\Model\ResourceModel\OrderMap</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="rakutenconnect_accounts_list_data_source" xsi:type="string">Mangoit\RakutenConnector\Model\ResourceModel\Accounts\Grid\Collection</item>
+
+                <item name="rakutenconnect_product_map_list_data_source" xsi:type="string">Mangoit\RakutenConnector\Model\ResourceModel\ProductMap\Grid\Collection</item>
+
+                <item name="rakutenconnect_order_map_list_data_source" xsi:type="string">Mangoit\RakutenConnector\Model\ResourceModel\OrderMap\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Mangoit\RakutenConnector\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Mangoit\RakutenConnector\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">customLogHandler</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Mangoit\RakutenConnector\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference for="Mangoit\RakutenConnector\Api\Data\ProductMapInterface" type="Mangoit\RakutenConnector\Model\ProductMap" />
+    <preference for="Mangoit\RakutenConnector\Api\ProductMapRepositoryInterface" type="Mangoit\RakutenConnector\Model\ProductMapRepository" />
+
+    <preference for="Mangoit\RakutenConnector\Api\Data\OrderMapInterface" type="Mangoit\RakutenConnector\Model\OrderMap" />
+    <preference for="Mangoit\RakutenConnector\Api\OrderMapRepositoryInterface" type="Mangoit\RakutenConnector\Model\OrderMapRepository" />
+
+    <preference for="Mangoit\RakutenConnector\Api\Data\AccountsInterface" type="Mangoit\RakutenConnector\Model\Accounts" />
+    <preference for="Mangoit\RakutenConnector\Api\AccountsRepositoryInterface" type="Mangoit\RakutenConnector\Model\AccountsRepository" />
+
+    <preference for="Mangoit\RakutenConnector\Api\Data\AmazonTempDataInterface" type="Mangoit\RakutenConnector\Model\AmazonTempData" />
+    <preference for="Mangoit\RakutenConnector\Api\AmazonTempDataRepositoryInterface" type="Mangoit\RakutenConnector\Model\AmazonTempDataRepository" />
+
+    <type name="\Webkul\Marketplace\Block\Order\History">
+        <plugin name="Mangoit_RakutenConnector::mpOrderHistory"
+                type="Mangoit\RakutenConnector\Plugin\Marketplace\Block\Order\History"
+                sortOrder="0" />
+    </type>
+
+</config>

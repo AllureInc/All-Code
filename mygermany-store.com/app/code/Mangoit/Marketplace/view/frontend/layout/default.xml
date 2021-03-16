@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+	    <!-- <css src="Mangoit_Marketplace::css/mangoit_custom_styles.css"/> -->
+	    <css src="Mangoit_Marketplace::css/mangoit_custom_styles_t.css"/>
+	    <link src="Mangoit_Marketplace::js/remove_back_slash.js"/>
+	</head>
+</page>

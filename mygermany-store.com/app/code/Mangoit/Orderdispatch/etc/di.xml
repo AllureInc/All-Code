@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mangoit Software.
+ *
+ * @category  Mangoit
+ * @package   Mangoit_Orderdispatch
+ * @author    Mangoit
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- To seller profile shop layout -->
+    <preference for="Webkul\Marketplace\Helper\Orders" type="Mangoit\Orderdispatch\Helper\Orders" />
+    <preference for="Magento\Sales\Controller\Adminhtml\Order\AddComment" type="Mangoit\Orderdispatch\Controller\Adminhtml\Order\AddComment" />
+    <preference for="Webkul\Marketplace\Controller\Order\View" type="Mangoit\Orderdispatch\Controller\Order\View" />
+</config>

@@ -1,0 +1,239 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Webkul Software
+ *
+ * @category Webkul
+ * @package Webkul_Walletsystem
+ * @author Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license https://store.webkul.com/license.html
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="webkul" translate="label" sortOrder="10">
+            <label>Webkul</label>
+        </tab>
+        <section id="walletsystem" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Wallet System</label>
+            <tab>webkul</tab>
+            <resource>Webkul_Walletsystem::config_walletsystem</resource>
+            <group id="general_settings" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Wallet System Cash Back</label>
+                <field id="priority" translate="label comment" sortOrder="1" type="select" showInDefault="1" >
+                    <label>Cash Back Calculation Based On</label>
+                    <source_model>Webkul\Walletsystem\Model\Config\Source\Priority</source_model>
+                    <comment>Cash back calculation should be based on cart value or on product value.</comment>
+                </field>
+                <field id="price_type" translate="label comment" sortOrder="2" type="select" showInDefault="1" >
+                    <label>Price Calculation Based on</label>
+                    <source_model>Webkul\Walletsystem\Model\Config\Source\PriceType</source_model>
+                    <comment>In percent type calculation, if in a rule having cashback amount more then 100%, then cashback amount is calculated to 100%.</comment>
+                </field>
+            </group>
+            <group id="transfer_settings" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Transfer Amount Settings</label>
+                <field id="enable" translate="label comment" sortOrder="1" type="select" showInDefault="1" >
+                    <label>Enable validation while transfer</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If set yes then a verification code sent to email id.</comment>
+                </field>
+                <field id="duration" translate="label comment" sortOrder="2" type="text" showInDefault="1" >
+                    <label>Duration of code usage</label>
+                    <comment>Enter duration in seconds, eg(30)</comment>
+                    <validate>required-entry validate-number</validate>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="prefixfortransaction" translate="label" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Prefix for transactions</label>
+                <field id="prefix_admin_credit" translate="label comment" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Prefix for credited amount by admin</label>
+                    <validate>required-entry validate-alphanum-with-spaces</validate>
+                </field>
+                <field id="prefix_admin_debit" translate="label comment" sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Prefix for debited amount by admin</label>
+                    <validate>required-entry validate-alphanum-with-spaces</validate>
+                </field>
+                <field id="prefix_customer_credit" translate="label comment" sortOrder="3" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Prefix for amount transferred by customer</label>
+                    <validate>required-entry validate-alphanum-with-spaces</validate>
+                </field>
+                <field id="prefix_customer_debit" translate="label comment" sortOrder="4" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Prefix for amount transferred to customer</label>
+                    <validate>required-entry validate-alphanum-with-spaces</validate>
+                </field>
+                <field id="prefix_order_credit" translate="label comment" sortOrder="5" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Prefix for wallet recharge</label>
+                    <validate>required-entry validate-alphanum-with-spaces</validate>
+                </field>
+                <field id="prefix_order_debit" translate="label comment" sortOrder="6" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Prefix for used wallet amount</label>
+                    <validate>required-entry validate-alphanum-with-spaces</validate>
+                </field>
+                <field id="cashback_prefix" translate="label comment" sortOrder="7" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Prefix for cashback amount</label>
+                    <validate>required-entry validate-alphanum-with-spaces</validate>
+                </field>
+                <field id="refund_order_amount" translate="label comment" sortOrder="8" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Prefix for refund of an order</label>
+                    <validate>required-entry validate-alphanum-with-spaces</validate>
+                </field>
+                <field id="refund_wallet_order" translate="label comment" sortOrder="9" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Prefix for refund of wallet recharge order</label>
+                    <validate>required-entry validate-alphanum-with-spaces</validate>
+                </field>
+            </group>
+            <group id="cron_jobs" translate="label" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Cron Job Settings</label>
+                <field id="enable" translate="label comment" sortOrder="1" type="select" showInDefault="1" >
+                    <label>Enable cron job for monthly statement</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If set yes then every customer will get monthly statement of wallet transaction on date 1 of each month.</comment>
+                </field>
+            </group>
+            <group id="email_template" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Wallet System Transactional Emails</label>
+                <field id="recharge_wallet_customer" translate="label comment" sortOrder="1" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Wallet Recharge Email Template For Customer</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="recharge_wallet_admin" translate="label comment" sortOrder="2" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Wallet Recharge Email Template For Admin</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="used_wallet_customer" translate="label comment" sortOrder="3" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Wallet Amount Used Email Template For Customer</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="used_wallet_admin" translate="label comment" sortOrder="4" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Wallet amount Used Email Template For Admin</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="cashback_wallet_customer" translate="label comment" sortOrder="5" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Wallet Cashback Amount Email Template For Customer</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="cashback_wallet_admin" translate="label comment" sortOrder="6" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Wallet Cashback Amount Email Template For Admin</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="refund_wallet_amount_customer" translate="label comment" sortOrder="7" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Wallet Amount Refund Email Template For Customer</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="refund_wallet_amount_admin" translate="label comment" sortOrder="8" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Wallet Amount Refund Email Template For Admin</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="refund_order_customer" translate="label comment" sortOrder="9" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Order Refund Email Template For Customer</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="refund_order_admin" translate="label comment" sortOrder="10" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Order Refund Email Template For Admin</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="admin_credit_amount_customer" translate="label comment" sortOrder="11" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Admin Credit Amount Email Template For Customer</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="admin_credit_amount_admin" translate="label comment" sortOrder="12" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Admin Credit Amount Email Template For Admin</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="admin_debit_amount_customer" translate="label comment" sortOrder="13" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Admin Debit Amount Email Template For Customer</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="admin_debit_amount_admin" translate="label comment" sortOrder="14" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Admin Debit Amount Email Template For Admin</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="customer_credit_amount_customer" translate="label comment" sortOrder="15" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Customer Credit Amount Email Template For Customer</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="customer_credit_amount_admin" translate="label comment" sortOrder="16" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Customer Credit Amount Email Template For Admin</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="customer_debit_amount_customer" translate="label comment" sortOrder="17" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Customer Debit Amount Email Template For Customer</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="customer_debit_amount_admin" translate="label comment" sortOrder="18" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Customer Debit Amount Email Template For Admin</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="sendcode" translate="label comment" sortOrder="19" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>OTP Email For Transfer Amount To Customer</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="monthlystatement" translate="label comment" sortOrder="20" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Monthly Statement Email Template</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+            </group>
+        </section>
+        <section id="payment">
+            <group id="walletsystem" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label><![CDATA[Webkul Wallet System]]></label>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable this Payment Method</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Payment Method Title</label>
+                </field>
+                <field id="minimumamounttoadd" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Minimum Amount To add In wallet</label>
+                    <validate>validate-number required-entry validate-digits-range digits-range-1-1000000</validate>
+                </field>
+                 <field id="maximumamounttoadd" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Maximum Amount To add In wallet</label>
+                    <validate>validate-number required-entry validate-digits-range digits-range-1-1000000</validate>
+                </field>
+                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment from Applicable Countries</label>
+                    <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                </field>
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment from Specific Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="allowpaymentmethod" translate="label" type="multiselect" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Allow Payment methods to add amount in wallet</label>
+                    <source_model>Webkul\Walletsystem\Model\Config\Source\Paymentmethod</source_model>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="sort_order" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Sort Order</label>
+                    <frontend_class>validate-number</frontend_class>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

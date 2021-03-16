@@ -1,0 +1,12 @@
+When search result page rendering...
+
+Layout load block Solrbridge\Search\Block\Navigation\Search (virtual type)
+Solrbridge\Search\Block\Navigation extends \Magento\LayeredNavigation\Block\Navigation
+
+In Navigation block, there is a model $this->filterList
+Solrbridge\Search\Model\Layer\FilterList extends \Magento\Catalog\Model\Layer\FilterList
+in the function _prepareLayout call all filters and apply
+
+The main place is in Solrbridge\Search\Model\Layer\FilterList which has a function getFilters
+public function getFilters(\Magento\Catalog\Model\Layer $layer)
+This function will get all filters (attributes, categories, price) from \Magento\Catalog\Model\Layer

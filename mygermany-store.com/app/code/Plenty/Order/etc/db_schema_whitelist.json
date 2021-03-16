@@ -1,0 +1,62 @@
+{
+    "plenty_order_export_order": {
+        "column": {
+            "entity_id": true,
+            "profile_id": true,
+            "order_id": true,
+            "status": true,
+            "plenty_order_id": true,
+            "plenty_status_id": true,
+            "plenty_contact_id": true,
+            "plenty_billing_address_id": true,
+            "plenty_shipping_address_id": true,
+            "plenty_payment_id": true,
+            "plenty_payment_method_id": true,
+            "plenty_payment_status_id": true,
+            "plenty_payment_order_assignment_id": true,
+            "plenty_payment_contact_assignment_id": true,
+            "message": true,
+            "created_at": true,
+            "updated_at": true,
+            "processed_at": true,
+            "order_increment_id": true,
+            "customer_id": true,
+            "plenty_status_name": true,
+            "plenty_status_lock": true,
+            "plenty_referrer_id": true,
+            "plenty_location_id": true
+        },
+        "index": {
+            "PLENTY_ORDER_EXPORT_ORDER_PROFILE_ID": true,
+            "PLENTY_ORDER_EXPORT_ORDER_ORDER_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "PLENTY_ORDER_EXPORT_ORDER_PROFILE_ID_PLENTY_CORE_PROFILE_ENTT_ID": true,
+            "PLENTY_ORDER_EXPORT_ORDER_ORDER_ID_SALES_ORDER_ENTITY_ID": true,
+            "PLENTY_ORDER_EXPORT_ORDER_PROFILE_ID_ORDER_ID": true
+        }
+    },
+    "sales_order": {
+        "column": {
+            "plenty_order_id": true,
+            "plenty_order_status": true
+        }
+    },
+    "sales_order_grid": {
+        "column": {
+            "plenty_order_id": true,
+            "plenty_order_status": true
+        }
+    },
+    "quote_item": {
+        "column": {
+            "plenty_variation_id": true
+        }
+    },
+    "sales_order_item": {
+        "column": {
+            "plenty_variation_id": true
+        }
+    }
+}

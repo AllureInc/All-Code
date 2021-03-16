@@ -1,0 +1,73 @@
+<!--
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */ 
+-->
+<?php 
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+if ($helper->isSeller()){ ?>
+	<li class="mp-rakuten-connect nav item <?php /* @escapeNotVerified */ echo $block->getCurrentNavClass('rakutenconnect/account')?>">  
+		<?php if($block->getCurrentNavClass('rakutenconnect/account')){ ?>   
+		    <strong><?php /* @escapeNotVerified */ echo __('Rakuten Connect') ?></strong>        
+		<?php 
+		} else { ?>    
+		    <a href="#"><?php /* @escapeNotVerified */ echo __('Rakuten Connect') ?></a>                
+		<?php } ?>
+		<ul class="nav items">
+			<li class="nav item <?php /* @escapeNotVerified */ echo $block->getCurrentNavClass('rakutenconnect/account/index');?>">
+				<?php if ($block->getCurrentNavClass('rakutenconnect/account/index')) { ?>   
+				    <strong><?php /* @escapeNotVerified */ echo __('Manage Account') ?></strong>        
+				<?php 
+				} else { ?>    
+				    <a href="<?php /* @escapeNotVerified */ echo $block->getDealUrl('rakutenconnect/account/index')?>">
+				        <?php /* @escapeNotVerified */ echo __('Manage Account') ?>
+				    </a>                
+				<?php } ?>
+			</li>
+			<li class="nav item <?php /* @escapeNotVerified */ echo $block->getCurrentNavClass('rakutenconnect/product/index');?>">
+				<?php if($block->getCurrentNavClass('rakutenconnect/account/syncproduct')){ ?>   
+				    <strong><?php /* @escapeNotVerified */ echo __('Mapped Product') ?></strong>        
+				<?php 
+				} else { ?>    
+				    <a href="<?php /* @escapeNotVerified */ echo $block->getDealUrl('rakutenconnect/product/index')?>">
+				        <?php /* @escapeNotVerified */ echo __('Mapped Product') ?>
+				    </a>                
+				<?php } ?>
+			</li>
+			<li class="nav item <?php /* @escapeNotVerified */ echo $block->getCurrentNavClass('rakutenconnect/account/unassigned');?>">
+				<?php if($block->getCurrentNavClass('rakutenconnect/product/unassigned')){ ?>   
+				    <strong><?php /* @escapeNotVerified */ echo __('Unassigned Product') ?></strong>
+				<?php 
+				} else { ?>    
+				    <a href="<?php /* @escapeNotVerified */ echo $block->getDealUrl('rakutenconnect/product/unassigned')?>">
+				        <?php /* @escapeNotVerified */ echo __('Unassigned Product') ?>
+				    </a>                
+				<?php } ?>
+			</li>
+			<li class="nav item <?php /* @escapeNotVerified */ echo $block->getCurrentNavClass('rakutenconnect/producttorakuten/index');?>">
+				<?php if($block->getCurrentNavClass('rakutenconnect/producttorakuten/index')){ ?>   
+				    <strong><?php /* @escapeNotVerified */ echo __('Export Product') ?></strong>
+				<?php 
+				} else { ?>    
+				    <a href="<?php /* @escapeNotVerified */ echo $block->getDealUrl('rakutenconnect/producttorakuten/index')?>">
+				        <?php /* @escapeNotVerified */ echo __('Export Product') ?>
+				    </a>                
+				<?php } ?>
+			</li>
+			<li class="nav item <?php /* @escapeNotVerified */ echo $block->getCurrentNavClass('rakutenconnect/order/index');?>">
+				<?php if($block->getCurrentNavClass('rakutenconnect/order/index')){ ?>   
+				    <strong><?php /* @escapeNotVerified */ echo __('Mapped Order') ?></strong>
+				<?php 
+				} else { ?>    
+				    <a href="<?php /* @escapeNotVerified */ echo $block->getDealUrl('rakutenconnect/order/index')?>">
+				        <?php /* @escapeNotVerified */ echo __('Mapped Order') ?>
+				    </a>                
+				<?php } ?>
+			</li>
+		</ul>   
+	</li>
+<?php } ?>

@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    
+    <!-- Order APIs start -->
+    <route url="/V1/orderstatus/orderid/:id/status/:orderstatus" method="POST">
+        <service class="Mangoit\LifeRayConnect\Api\OrderInterface" method="updatestatus"/>
+        <resources>
+            <resource ref="Magento_Sales::Sales"/>
+        </resources>
+    </route>
+
+    <route url="/V1/orderinvoice/orderid/:orderid" method="POST">
+        <service class="Mangoit\LifeRayConnect\Api\OrderInvoiceInterface" method="orderinvoice"/>
+        <resources>
+            <resource ref="Magento_Sales::Sales"/>
+        </resources>
+    </route>
+    <!-- Order APIs End -->
+
+    <!-- Customer APis  start-->
+    <route url="/V1/customernewsletter/email/:email/issubscribe/:issubscribed" method="POST">
+        <service class="Mangoit\LifeRayConnect\Api\NewsLetterInterface" method="issubscribeuser"/>
+        <resources>
+            <resource ref="Magento_Sales::Sales"/>
+        </resources>
+    </route>
+
+    <route url="/V1/customercompliance/email/:email/status/:compliancestatus" method="POST">
+        <service class="Mangoit\LifeRayConnect\Api\CustomerComplianceInterface" method="customerupdate"/>
+        <resources>
+            <resource ref="Magento_Customer::customer"/>
+        </resources>
+    </route>
+
+
+    <route url="/V1/newcustomer/firstname/:firstname/lastname/:lastname/email/:email/password/:password" method="POST">
+        <service class="Mangoit\LifeRayConnect\Api\CustomerCreateInterface" method="createcustomer"/>
+        <resources>
+            <resource ref="Magento_Customer::customer"/>
+        </resources>
+    </route>
+    <!-- Customer APis  End-->
+
+    <!-- Catalog product APIs Start -->
+    <route url="/V1/sliderproducts/type/:type" method="POST">
+        <service class="Mangoit\LifeRayConnect\Api\SlidersProductInterface" method="slidersproduct"/>
+        <resources>
+            <resource ref="Magento_Catalog::catalog"/>
+        </resources>
+    </route>
+    <!-- Catalog product APIs End -->
+
+</routes>

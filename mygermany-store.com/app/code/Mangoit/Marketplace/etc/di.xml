@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+     <!-- quote_item to sales_order_item mapping -->
+    <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
+        <plugin name="mangoit_quote_item_to_order_item" type="Mangoit\Marketplace\Model\Plugin\Quote\QuoteToOrderItem" sortOrder="0"/>
+    </type>
+    <preference for="Magento\Tax\Model\Calculation" type="Mangoit\Marketplace\Model\Calculation" />
+    <preference for="Webkul\MarketplacePreorder\Cron\InStock" type="Mangoit\Marketplace\Model\InStock" />
+    <!-- MarketPlace Email Helper -->
+    <preference for="Webkul\Marketplace\Helper\Email" type="Mangoit\Marketplace\Helper\MarketplaceEmail"/>
+    <!-- Marketplace Withdrawal  -->
+    <preference for="Webkul\Marketplace\Controller\Withdrawal\Request" type="Mangoit\Marketplace\Controller\Withdrawal\Request"/> 
+    <preference for="Webkul\Marketplace\Controller\Account\Askquestion" type="Mangoit\Marketplace\Controller\Account\Askquestion"/> 
+    <preference for="Webkul\Marketplace\Observer\SalesOrderInvoiceSaveAfterObserver" type="Mangoit\Marketplace\Observer\SalesOrderInvoiceSaveAfterObserver"/> 
+    <preference for="Webkul\Marketplace\Controller\Seller\Sendmail" type="Mangoit\Marketplace\Controller\Seller\Sendmail"/>
+    <preference for="Magento\Newsletter\Model\Subscriber" type="Mangoit\Marketplace\Model\Subscriber"/>
+    <preference for="Webkul\MpAmazonConnector\Plugin\Marketplace\Block\Order\History" 
+        type="Mangoit\Marketplace\Plugin\MpAmazonConnector\Marketplace\Block\Order\History"/>
+    <preference for="Webkul\Marketplace\Block\Account\Navigation" type="Mangoit\Marketplace\Block\Account\Navigation"/>
+        
+    <preference for="Magento\Framework\Serialize\Serializer\Json" type="Mangoit\Marketplace\Model\Framework\Serialize\Serializer\Json"/>
+    <preference for="Magento\Customer\Controller\Address\NewAction" type="Mangoit\Marketplace\Controller\Address\NewAction"/>
+
+    <preference for="Mangoit\Marketplace\Block\Order\History" type="Webkul\Marketplace\Block\Order\History"/>
+    <preference for="\Magento\Customer\Controller\Address\FormPost" type="Mangoit\Marketplace\Controller\Address\FormPost" />
+    <preference for="Webkul\Marketplace\Controller\Account\EditProfilePost" type="Mangoit\Marketplace\Controller\Account\EditprofilePost" />
+    
+</config>

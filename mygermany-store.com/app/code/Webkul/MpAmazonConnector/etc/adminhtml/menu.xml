@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Webkul
+ * @package    Webkul_MpAmazonConnector
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c)  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Webkul_MpAmazonConnector::mp_amazon_menu" title="Amazon Menu" module="Webkul_MpAmazonConnector"
+            sortOrder="10" resource="Webkul_MpAmazonConnector::mp_amazon_menu" parent="Webkul_Marketplace::marketplace"/>
+        <add id="Webkul_MpAmazonConnector::manage_amazon_account" title="Manage Amazon Account" module="Webkul_MpAmazonConnector"
+            sortOrder="1" parent="Webkul_MpAmazonConnector::mp_amazon_menu" action="mpamazonconnect/accounts/"
+            resource="Webkul_MpAmazonConnector::manage_amazon_account"/>
+    </menu>
+</config>
+

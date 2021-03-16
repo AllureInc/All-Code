@@ -1,0 +1,29 @@
+<!--@subject Seller has processed the order | {{trans "%order_id" order_id=$data.order_id}} @-->
+<!--@vars {
+"var data.order_id":"Order Id",
+"var data.admin_name":"Admin Name",
+"var data.shipment_name":"Shipment Name",
+"var data.tracking_id":"Tracking Id",
+"var data.name":"Sender Name"
+} @-->
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">Hello {{trans "%admin_name" admin_name=$data.admin_name}},</p>
+
+<table style="width:100%; padding: 10px;">
+    <tr>
+        <td style="padding: 10px 10px 10px 0px; width: 100%;">
+            The order #{{trans "%order_id" order_id=$data.order_id}} has been processed by the vendor.
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 10px 10px 10px 0px; width: 100%;">
+            <p>Seller Name: {{trans "%name" name=$data.name}}</p>
+            <p>Order ID: {{trans "%order_id" order_id=$data.order_id}}</p>
+            <p>Shipment Type: {{trans "%shipment_name" shipment_name=$data.shipment_name}}</p>
+            <p>Tracking ID: {{trans "%tracking_id" tracking_id=$data.tracking_id}}</p>
+        </td>
+    </tr>
+</table>
+
+{{template config_path="contact/email/email_footer_template_seller"}}

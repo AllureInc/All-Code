@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Scommerce_CookiePopup::css/modal.css"/>
+    </head>
+    <body>
+        <referenceBlock name="header.links">
+            <block class="Scommerce\CookiePopup\Block\Link" name="scommerce.cookiepopup.link">
+                <arguments>
+                    <argument name="id" xsi:type="string">js-cookiepopup-preference-link</argument>
+                    <argument name="path" xsi:type="string">no-route</argument>
+                    <argument name="class" xsi:type="string">js-cookie-settings</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Scommerce\CookiePopup\Block\Preference"
+                   name="scommerce.cookiepopup.preference"
+                   template="Scommerce_CookiePopup::preference.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

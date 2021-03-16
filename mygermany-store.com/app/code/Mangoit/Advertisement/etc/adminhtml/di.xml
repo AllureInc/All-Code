@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="Webkul\MpAdvertisementManager\Controller\Adminhtml\Pricing\Save" type="Mangoit\Advertisement\Controller\Adminhtml\Pricing\Save" />
+	<preference for="Webkul\MpAdvertisementManager\Ui\Component\Listing\Columns\Expire" type="Mangoit\Advertisement\Ui\Component\Listing\Columns\Expire" />
+	<preference for="Webkul\MpAdvertisementManager\Model\Pricing\DataProvider" type="Mangoit\Advertisement\Model\Pricing\DataProvider" />
+  <!-- <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="advertisement_adminads_index_data_source" xsi:type="string">Mangoit\Advertisement\Model\ResourceModel\Adsadmin\Collection</item>
+            </argument>
+        </arguments>
+    </type> -->
+</config>

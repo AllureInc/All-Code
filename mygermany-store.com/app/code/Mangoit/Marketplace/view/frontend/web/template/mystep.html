@@ -1,0 +1,31 @@
+<!--The 'step_code' value from the .js file should be used-->
+<!-- ko if: $data.isVisible -->
+    <li id="mis_shippings" data-bind="fadeVisible: isVisible">
+        <div class="step-title" data-bind="i18n: 'Ship to Warehouse or Drop Shipment'" data-role="title">
+        </div>
+        <a class="shippingmethods_page" data-bind="attr: { href: shippingPageUrl(),target:'_blank', title: $t('Shipping methods') }, text: $t('Shipping methods')">Shipping Methods</a>
+        <div id="checkout-step-title"
+             class="step-content"
+             data-role="content">
+            <form data-bind="submit: navigateToNextStep" novalidate="novalidate">
+                <div class="mis-actions-toolbar">
+                    <div class="primary">
+                        <select class="mis_shippings_select" data-bind="options: $data.shippingMethods(),
+                           optionsText: 'Title',
+                           optionsValue: 'value',
+                           value: $data.selectedMethod,
+                           event:{ change: $data.changeMethod}" data-validate="{'required-entry':true}" ></select>
+                           <!-- <a data-bind="href: myUrl, text: myText"></a> -->
+                        <!-- <a data-bind="attr: { href: $data.shippingPageUrl, title: $t('Shipping Methods') },  text: $t('FILTERS')"></a> -->
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- ko if: $data.dropship -->
+            <div data-bind="html: window.checkoutConfig.dropship"></div>
+        <!-- /ko -->
+        <!-- ko ifnot: $data.dropship -->
+            <div data-bind="html: window.checkoutConfig.warehouse"></div>
+        <!-- /ko -->
+    </li>
+<!-- /ko -->

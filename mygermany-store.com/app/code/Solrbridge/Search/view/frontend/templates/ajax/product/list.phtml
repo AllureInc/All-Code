@@ -1,0 +1,37 @@
+<div id="solrbridge-search-result-product-list" 
+data-mage-init='{"SolrBridgeSearchAjaxResult":<?php echo $block->getJsonConfig() ?>}'>
+    <?php
+        $pos = $block->getPositioned();
+        $viewMode = 'grid';
+    ?>
+    <div class="search results">
+        <div class="toolbar toolbar-products">
+            <div class="modes placeholder-content"><span>&nbsp;</span></div>
+            <p class="toolbar-amount placeholder-content" id="toolbar-amount"><span>&nbsp;</span></p>
+            <div class="pages placeholder-content"><span>&nbsp;</span></div>
+            <div class="field limiter placeholder-content"><span>&nbsp;</span></div>
+            <div class="toolbar-sorter sorter placeholder-content"><span>&nbsp;</span></div>
+        </div>
+        <div class="products wrapper <?= /* @escapeNotVerified */ $viewMode ?> products-<?= /* @escapeNotVerified */ $viewMode ?>">
+            <ol class="products list items product-items">
+                <?php for ($i = 0; $i <= 9; $i++): ?>
+                <li class="item product product-item placeholder-content">
+                    <div class="product-item-info" data-container="product-<?= /* @escapeNotVerified */ $viewMode ?>">
+                        <div class="product details product-item-details">
+                            <div class="placeholder-content_item"></div>
+                            <div class="placeholder-content_item"></div>
+                            <div class="placeholder-content_item"></div>
+                            <div class="placeholder-content_item"></div>
+                            <div class="placeholder-content_item"></div>
+                            <div class="placeholder-content_item"></div>
+                            <div class="placeholder-content_item"></div>
+                            <div class="placeholder-content_item"></div>
+                            <div class="placeholder-content_item"></div>
+                        </div>
+                    </div>
+                </li>
+                <?php endfor; ?>
+            </ol>
+        </div>
+    </div>
+</div>

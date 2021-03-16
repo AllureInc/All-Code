@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */  -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+		<css src="Mangoit_RakutenConnector::css/style.css"/>
+	</head>
+    <body>
+        <referenceContainer name="content">
+        	<uiComponent name="rakutenconnect_accounts_list"/>
+        </referenceContainer>
+    </body>
+</page>

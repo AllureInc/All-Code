@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">  
+    <event name="checkout_submit_all_after">
+        <observer name="mis_advertisement_AfterPlaceOrder" instance="Mangoit\Advertisement\Observer\AfterPlaceOrder"/>
+    </event>
+	<event name="controller_action_predispatch">
+	    <observer name="mis_advertisement_on_currency_change" instance="Mangoit\Advertisement\Observer\PreDispatchObserver" />
+	</event>
+	<event name="checkout_onepage_controller_success_action">
+        <observer name="mis_advertisement_adv_order_success_obs" instance="Mangoit\Advertisement\Observer\SalesOrderSuccessObserver" />
+    </event>
+    <event name="sales_order_invoice_pay">
+    	<observer name="webkul_mpadvertisementmanager_AfterInvoiceGeneration" disabled="true"/>
+        <observer name="mis_mpadvertisementmanager_AfterInvoiceGeneration" instance="Webkul\MpAdvertisementManager\Observer\AfterInvoiceGeneration" shared="false" />
+    </event>
+</config>

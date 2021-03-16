@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="config">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element name="type" type="typeDeclaration" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:choice>
+        </xs:complexType>
+        <xs:unique name="uniqueTypeName">
+            <xs:annotation>
+                <xs:documentation>Profile type name must be unique.</xs:documentation>
+            </xs:annotation>
+            <xs:selector xpath="type" />
+            <xs:field xpath="@name" />
+        </xs:unique>
+    </xs:element>
+
+    <xs:complexType name="typeDeclaration">
+        <xs:annotation>
+            <xs:documentation>Profile type declaration.</xs:documentation>
+        </xs:annotation>
+        <xs:all minOccurs="0">
+            <xs:element name="adapter" type="entitiesDeclaration" minOccurs="0">
+                <xs:unique name="uniqueAdapterName">
+                    <xs:annotation>
+                        <xs:documentation>Adapter type name should be unique.</xs:documentation>
+                    </xs:annotation>
+                    <xs:selector xpath="item" />
+                    <xs:field xpath="@name" />
+                </xs:unique>
+            </xs:element>
+        </xs:all>
+        <xs:attribute name="name" type="xs:string" use="required" />
+        <xs:attribute name="label" type="xs:string" use="optional" />
+        <xs:attribute name="modelInstance" type="modelName" use="optional" />
+        <xs:attribute name="sortOrder" type="xs:integer" use="optional" />
+    </xs:complexType>
+
+    <xs:complexType name="entitiesDeclaration">
+        <xs:sequence>
+            <xs:element name="item" type="adapterDeclaration" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="adapterDeclaration">
+        <xs:annotation>
+            <xs:documentation>Adapter type definition</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="label" type="xs:string" use="required"/>
+        <xs:attribute name="modelInstance" type="modelName" use="required" />
+        <xs:attribute name="modelRouter" type="routerName" use="required" />
+    </xs:complexType>
+
+    <xs:simpleType name="modelName">
+        <xs:annotation>
+            <xs:documentation>Model name can contain only [a-zA-Z_\\].</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-zA-Z_\\]+" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="routerName">
+        <xs:annotation>
+            <xs:documentation>Model route name can contain only [a-zA-Z_/].</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-zA-Z_/]+" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

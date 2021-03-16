@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="translation_translationsettings_email_template" label="Email Templates" file="custom_emailtemplate.html" type="html" module="Mangoit_TranslationSystem" area="frontend"/>
+</config>

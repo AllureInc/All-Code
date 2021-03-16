@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Solrbridge. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="reindexall" xsi:type="object">Solrbridge\Search\Console\Command\ReindexallCommand</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Solrbridge\Search\Model\Layer\Search">
+        <arguments>
+            <argument name="context" xsi:type="object">Magento\Catalog\Model\Layer\Search\Context</argument>
+        </arguments>
+    </type>
+    <type name="Solrbridge\Search\Model\Layer\Resolver">
+        <arguments>
+            <argument name="layersPool" xsi:type="array">
+                <item name="category" xsi:type="string">Solrbridge\Search\Model\Layer\Category</item>
+                <item name="search" xsi:type="string">Solrbridge\Search\Model\Layer\Search</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="solrbridgeSearchFilterList" type="Solrbridge\Search\Model\Layer\FilterList">
+        <arguments>
+            <argument name="filterableAttributes" xsi:type="object">Magento\Catalog\Model\Layer\Search\FilterableAttributeList</argument>
+            <argument name="filters" xsi:type="array">
+                <item name="attribute" xsi:type="string">Solrbridge\Search\Model\Layer\Filter\Attribute</item>
+                <item name="price" xsi:type="string">Solrbridge\Search\Model\Layer\Filter\Price</item>
+                <item name="decimal" xsi:type="string">Magento\CatalogSearch\Model\Layer\Filter\Decimal</item>
+                <item name="category" xsi:type="string">Solrbridge\Search\Model\Layer\Filter\Category</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="solrbridgeCatalogLayerNavFilterList" type="Solrbridge\Search\Model\Layer\FilterList">
+        <arguments>
+            <argument name="filterableAttributes" xsi:type="object">Magento\Catalog\Model\Layer\Category\FilterableAttributeList</argument>
+            <argument name="filters" xsi:type="array">
+                <item name="attribute" xsi:type="string">Solrbridge\Search\Model\Layer\Filter\Attribute</item>
+                <item name="price" xsi:type="string">Solrbridge\Search\Model\Layer\Filter\Price</item>
+                <item name="decimal" xsi:type="string">Magento\CatalogSearch\Model\Layer\Filter\Decimal</item>
+                <item name="category" xsi:type="string">Solrbridge\Search\Model\Layer\Filter\Category</item>
+            </argument>
+        </arguments>
+    </virtualType>
+</config>

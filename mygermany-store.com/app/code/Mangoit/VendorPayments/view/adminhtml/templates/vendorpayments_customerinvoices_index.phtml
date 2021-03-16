@@ -1,0 +1,70 @@
+<div class="reports-content">
+    <div class="entry-edit form-inline">
+        <form id="customer_invoices_download_form" action="<?php echo $this->getUrl('*/*/download') ?>" method="post" novalidate="novalidate">
+            <fieldset class="fieldset admin__fieldset " id="customer_invoice_date_range">
+                <legend class="admin__legend legend">
+                    <span><?php echo __('Select Dates') ?></span>
+                </legend>
+                <br>
+                <div class="messages">
+                </div>
+                <input name="form_key" type="hidden" value="<?php echo $block->getFormKey();?>">
+                <div class="admin__field field field-from admin__field-small required _required">
+                    <label class="label admin__field-label" for="customer_invoice_from">
+                    	<span><?php echo __('From') ?></span>
+                    </label>
+                    <div class="admin__field-control control">
+                        <input name="from" id="customer_invoice_from" value="" title="From" class="admin__control-text required-entry _required admin__control-text  input-text" type="text" aria-required="true">                            
+                    </div>
+                </div>
+                <div class="admin__field field field-to admin__field-small required _required">
+                    <label class="label admin__field-label" for="customer_invoice_to">
+                    	<span><?php echo __('To') ?></span>
+                    </label>
+                    <div class="admin__field-control control">
+                        <input name="to" id="customer_invoice_to" value="" title="To" class="admin__control-text required-entry _required admin__control-text  input-text" type="text" aria-required="true">                            
+                    </div>
+                </div>
+                <div class="admin__field field field-to admin__field-small required _required">
+                    <label for="download_type" class="label admin__field-label">
+                        <span><?php echo __('Download invoices of') ?></span>
+                    </label>
+                    <div class="admin__field-control">
+                        <select name="download_type" id="download_type" class="admin__control-select mis-class">
+                            <option value="customer"><?php echo __('Customer') ?></option>
+                            <option value="vendor"><?php echo __('Vendor') ?></option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    require([
+        "jquery",
+        "mage/calendar",
+        'mage/backend/validation',
+    	"prototype"
+    ], function(jQuery){
+    	jQuery("#customer_invoice_date_range").dateRange({
+	        buttonText:"<?php echo __('Select Date') ?>",
+            from:{
+                id:"customer_invoice_from"
+            },
+            to:{
+                id:"customer_invoice_to"
+            }
+	    });
+
+	    //<![CDATA[
+		    jQuery('#customer_invoices_download_form').mage('validation', {errorClass: 'mage-error'});
+		    function reportDownloadFormSubmit() {
+		        if (jQuery('#customer_invoices_download_form').valid()) {
+		        	jQuery('#customer_invoices_download_form').submit();
+		        }
+		    }
+		//]]>
+    window.reportDownloadFormSubmit = reportDownloadFormSubmit;
+    });
+</script>

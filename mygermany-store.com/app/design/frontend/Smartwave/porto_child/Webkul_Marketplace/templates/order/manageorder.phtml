@@ -1,0 +1,1765 @@
+<style>
+/*.notetext{
+    display: none;
+    padding: 10px;
+    border: 1px solid red;
+    width:150px;
+    word-break:break-all;
+}*/
+body a.wk-mp-btn span {
+    font-size: medium !important;
+    font-weight: 100;
+}
+
+    #save_butn{
+        display: none;
+    }
+
+    #tracking_error{
+        color:red; font-size: 13px; font-weight: 600;
+    }
+    
+    .imp-red {
+        color: red;
+        text-align: center;
+        margin-left: 5px;
+    }
+    .mis-box {
+        width: 100%;
+    }
+    .error_tracking{display: none;}
+
+    .mis-order-comment {
+        width: 100%;
+    }
+
+    .mis-label {
+       font-weight: 600;
+    }
+
+    .vendor_total{
+        display: none!important;
+    }
+    .intr_note{
+        display: inline;
+        font-size: 10px;
+        font-family: 'open_sansregular' !important;
+    }
+    /*.transaction_div
+    {
+        display: none;
+    }*/
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        opacity: inherit !important;
+    /*border-bottom: 1px dotted black;*/
+    }
+    .weight_msg{
+        display: none;
+    }
+    .address_msg{
+        display: none;
+    }
+    .dhl_fees_msg{
+        display: none;
+    }
+
+    /*.dhl_status_btn
+    {
+        display: none;
+    }*/
+    .tooltip .tooltiptext {
+        text-decoration: none;
+        visibility: hidden;
+        width: 150px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 1;
+    }
+
+    .marketplace-order-view .fancybox-wrap.fancybox-desktop.fancybox-type-inline.fancybox-opened {
+        width: 100% !important;
+        max-width: 880px;
+    }
+
+    .marketplace-order-view .fancybox-inner {
+        width: 100% !important;
+    }
+
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+    }
+
+.notetext{
+         display: none; 
+    padding: 10px;
+    /*border: 1px solid red;*/
+    width: 150px;
+    font-size: 10px;
+    /* word-wrap: break-word; */
+    text-align: center;
+    display: inline-block;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+
+}
+
+.toolimg .notetext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tablink {
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  font-size: 17px;
+  width: 25%;
+}
+
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  /*background-color: #f1f1f1;*/
+}
+
+.gsr_class.dhl_class {
+  /*display: none !important; */
+  padding: 50px;
+  text-align: center;
+}
+
+.main-tab-content{
+    display: inline-block;
+
+}
+.tabcontent {
+  /*display: none;*/
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+.account-nav .nav > li > a {
+   display: block;
+}
+.dhl_label_msg_tooltip{ font-weight: 500; }
+.mis-order-status .mis-fields{
+    margin-bottom: 5px;
+        font-size: medium;
+        color: #212529;
+        font-weight: 500;
+}
+body button.wk-mp-btn span {
+    font-size: medium !important;
+    font-weight: 100;
+}
+.mis-order-status{ margin: 0 0 0 0 !important; width: 85%; padding: unset !important; }
+.extra_tab
+{
+    width:50%; 
+    border-top:none; 
+    border-right:none; 
+    padding:27px;
+}
+</style>
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Marketplace
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+// @codingStandardsIgnoreFile
+// die("........");
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$dhlHelper = $this->helper('Mangoit\Dhlshipment\Helper\Data');
+$myHelper = $this->helper('Mangoit\Vendorcommission\Helper\Data');
+$orderHelper = $this->helper('Webkul\Marketplace\Helper\Orders');
+$misHelper = $this->helper('Mangoit\Orderdispatch\Helper\Data');
+$misMrketplaceHelper = $this->helper('Mangoit\Marketplace\Helper\Data');
+$order_id = $this->getRequest()->getParam('id');
+$status = $misHelper->getOrderStatus($order_id);
+
+$order = $block->getOrder();
+$sellerOrderData = $misHelper->getSellerOrderData($order_id);
+/*$vendorOrderStatus = ['pending', 'processing']; old */
+$vendorOrderStatus = ['sent_to_mygermany'];
+$orderStatusArray = ['closed', 'complete', 'canceled_by_vendor','received', 'processing','pending_paypal', 'pending_payment', 'canceled_by_customer', 'canceled', 'sent_to_mygermany', 'pending', 'paypal_reversed', 'paypal_canceled_reversal', 'payment_review', 'order_verified', 'order_processed', 'holded', 'fraud', 'compliance_check', 'canceled'];
+$cancel_order_btn_array = ['pending','processing'];
+/* MIS Tooltip*/
+$tooltipHelper = $this->helper('Mangoit\MisTooltip\Helper\Data');
+$store_id = $tooltipHelper->getStoreId();
+$section_id = 'dhl_label';
+$dhl_label_msg_id = 'dhl_label_msg';
+$dhlMsgToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $dhl_label_msg_id);
+/* MIS Tooltip Ends */
+
+/* RMA work */
+$isReturnRequestExist = false;
+$marketplaceHelper = $this->helper('Mangoit\Marketplace\Helper\Data');
+$isReturnRequestExist = $marketplaceHelper->isReturnRequestAlreadyExist($order->getIncrementId()) ;
+$showReturnProcessMsg = true;
+if (!in_array($order->getStatus(), $orderStatusArray)) {
+    $showReturnProcessMsg = false;
+}
+/*RMA works end */
+// DHL Weight 
+$dhlFees = 0.00;
+$dhlApplied = $dhlHelper->isDhlFeesApplied($order_id);
+if ($dhlApplied['result'] == true) {
+    $dhlFees = $dhlApplied['dhl_fees'];
+}
+$product_id_array = '';
+$productWeight = 0;
+$weightArray = array();
+foreach ($order->getItems() as $item) {
+    $weightArray[$item->getProductId()] = $item->getWeight();
+}
+// DHL Weight Ends
+
+$mpPreOrderHelper = $this->helper('Webkul\MarketplacePreorder\Helper\Data');
+$preorderCompleteProductId = $mpPreOrderHelper->getPreorderCompleteProductId();
+$isPreOrderComplete = (array_key_exists($preorderCompleteProductId, $weightArray)) ? true : false;
+
+if ($order->getShippingAddress()) {
+    $countryId = $order->getShippingAddress()->getCountryId();
+} else {
+    $countryId = $order->getBillingAddress()->getCountryId();
+}
+
+$euCountry = $misMrketplaceHelper->isEuCountry($countryId);
+
+$sellerTransaction = $misMrketplaceHelper->getSellerTransactionDetails($order_id, $helper->getCustomerId());
+
+$orderStatusLabel = $order->getStatusLabel();
+if ($orderStatusLabel == 'Processing') {
+    $orderStatusLabel = 'Pending';
+}
+$paymentCode = '';
+$payment_method = '';
+if($order->getPayment()){
+    $paymentCode = $order->getPayment()->getMethod();
+    $payment_method = $order->getPayment()->getMethodInstance()->getTitle();
+}
+
+$marketplace_orders = $block->getSellerOrderInfo($order_id);
+if(count($marketplace_orders)){
+
+    $admin_pay_status = $block->getAdminPayStatus($order_id);
+    $qty_to_refund_avail = $block->getQtyToRefundCollection($order_id);
+
+    $tracking=$orderHelper->getOrderinfo($order_id);
+    if($tracking!=""){
+        if($paymentCode == 'mpcashondelivery'){
+            $codcharges=$tracking->getCodCharges();
+        }
+
+        $disabled=$tracking->getTrackingNumber()==''? "":"readonly='readonly'";
+        $shipmentId = $tracking->getShipmentId();
+        $invoiceId=$tracking->getInvoiceId();
+        $creditmemoId=$tracking->getCreditmemoId();
+
+        $is_canceled=$tracking->getIsCanceled();
+        if($is_canceled){
+            $orderStatusLabel= __('Canceled');
+        }
+
+        if($shipmentId){
+            $item_ship_status = __('Shipped');
+        }else{
+            $item_ship_status = '';
+        }
+        if($invoiceId){
+            $item_invoice_status = __('Invoiced');
+        }else{
+            $item_invoice_status = '';
+        }
+        if($creditmemoId && !$qty_to_refund_avail){
+            $shippingamount=$tracking->getShippingCharges();
+            $refundedShippingAmount=$tracking->getRefundedShippingCharges();
+            if($shippingamount-$refundedShippingAmount == 0 ){
+                $item_refund_status = __('Refunded');
+            }else{
+                $item_refund_status = '';
+            }
+        }else{
+            $item_refund_status = '';
+        }
+
+        $item_cancel_status = $is_canceled;
+
+        $invoiceId=$tracking->getInvoiceId();
+    }
+
+
+    if($sellerOrderData->getTrackingNumber() != '' &&  (in_array($order->getStatus(), $vendorOrderStatus) ) ){
+        
+        $orderStatusLabel = __('SENT TO MYGERMANY');
+    } elseif($order->getStatus() == 'canceled_by_customer') {
+        $orderStatusLabel = __('CANCELED BY CUSTOMER');
+    }
+    ?>
+    <div class="wk-mp-design">
+        <div class="fieldset wk-mp-fieldset">
+            <div class="page-title-wrapper">
+                <h1 class="page-title">
+                    <span data-ui-id="page-title-wrapper" class="base">
+                        <?php echo __('Manage Order #%1', $order->getRealOrderId()) ?>
+                    </span>
+                </h1>
+
+
+                <span class="order-status"><?php echo __($orderStatusLabel);?></span>
+                <?php if ($order->getVendorTrackingId() != null) { ?>
+                <div class="order-date"><?php echo __("Tracking ID");?>: <?php echo $order->getVendorTrackingId(); ?></div>
+                <?php } ?>
+                <div class="order-date">
+                    <?php echo __('<span class="label">Order Date:</span> %1', '<date>' . date_format(date_create($order->getCreatedAt()),"d.m.Y") . '</date>'); ?>
+                </div>
+                <div class="actions-toolbar order-actions-toolbar">
+                    <div class="actions">
+                        <?php if (!empty($status) && !$isPreOrderComplete):  ?>
+                            <form id="mis-order-status-form" action="#" method="post">
+                                <input type="hidden" name="mis_order_id" value="<?php echo $order_id; ?>">
+                                <div class="mis-order-status">
+                                    <select class="mis_statuses" name="mis_statuses" style="width: 20%;float: left;margin: 5px 0;">
+                                        <?php foreach ($status as $statusKey => $statusValue): ?>
+                                            <option value="<?php echo $statusKey ?>"><?php echo __($statusValue);?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <button class="button wk-mp-btn " title="<?php echo __('Change Status') ?>" type="submit" id="mis_status_submit" style="float: left;margin:5px 0">
+                                        <span><span><?php echo __('Change Status') ?></span></span>
+                                    </button>
+                                </div>
+                            </form>
+                            <div class="mis-confirmation-box" id="mis-confirmation-box" style="display: none" >
+                                <a href="#" id="gsr_id" class="tablink tab">
+                                    <span><span><?php echo __('Own Delivery Method');?></span></span>
+                                </a>
+                                <a href="#" id="dhl_id" class="tablink tab">
+                                    <span><span><?php echo __('Shipping with myGermany DHL Lables');?></span></span>
+                                </a>
+                                <div class="main-tab-content" style="width: 100%;">
+                                    <div  class="gsr_class tabcontent">
+                                        <a target="_blank" href="<?php echo $block->getUrl('dispatch/order/printslip', ['id' => $this->getRequest()->getParam('id'), '_secure' => $this->getRequest()->isSecure()]);?>" class="action print-sheet">
+                                            <button class="button wk-mp-btn " title="" type="submit" id="save_butn" >
+                                                <span><span><?php echo __('Print Packaging Slip') ?></span></span>
+                                            </button>
+                                        </a>
+
+                                        <form id="mis-order-status-form-popup" action="<?php echo $block->getUrl('dispatch/order/status', ['_secure' => $this->getRequest()->isSecure()])?>" method="post" data-mage-init='{"validation": {}}'>
+                                            <input type="hidden" name="mis_order_id" value="<?php echo $order_id; ?>">
+                                            <input type="hidden" name="mis_statuses" value="sent_to_mygermany">
+                                            <div class="mis-order-status">
+                                                <div class="mis-fields">
+                                                    <input type="checkbox" name="mis_order_slip" value="1" class="input-checkbox checkbox device-required">
+                                                    <?php echo __('I hereby confirm that I enclose the packing slip with the package to myGermany.');?>
+                                                </div>
+                                                <div class="mis-fields">
+                                                    <input type="checkbox" name="mis_terms_condition"  value="1" class="input-checkbox checkbox device-required-2">
+                                                    <?php echo __('I hereby confirm that the package contains exactly the items that were ordered.');?>
+                                                </div>
+                                                <div class="mis-fields" style="margin-left: 21.59px;">
+                                                    <p><?php echo __('In case of wrongly delivered goods additional costs may be incurred (AGB).');?></p>
+                                                </div>
+                                                <p class="deviceErrorMsg" style="display: none; color:red; font-size: 13px;"></p>
+                                                <div class="mis-fields">
+                                                    <span><?php echo __('Tracking ID: ');?></span>
+                                                    <input type="text" id="mis_tracking_id"  name="mis_tracking_id"/>
+                                                    <div id="tracking_error" style="display: none;"><?php echo __('This is a required field.');?></div>
+                                                </div>
+                                                <button class="button wk-mp-btn " title="<?php echo __('Complete order and print packaging slip') ?>" type="submit" id="mis_submit" >
+                                                    <span><span><?php echo __('Complete order and print packaging slip') ?></span></span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="dhl_class tabcontent" style="display: none;">
+                                        <div class="dhl_message"> 
+                                            <span class="dhl_label_msg_tooltip">
+                                                <?php echo ( (count($dhlMsgToolTip) > 0) ? $dhlMsgToolTip[0]['tooltip_text'] : '');?>
+                                            </span> 
+                                        </div>
+                                        <div class="mis-order-status">
+                                            <div class="mis-fields">
+                                                <input type="checkbox" name="mis_order_slip" value="1" class="input-checkbox checkbox device-required-dhl-1">
+                                                <?php echo __('I hereby confirm that I enclose the packing slip with the package to myGermany.');?>
+                                            </div>
+                                            <div class="mis-fields">
+                                                <input type="checkbox" name="mis_terms_condition" value="1" class="input-checkbox checkbox device-required-dhl-2">
+                                                <?php echo __('I hereby confirm that the package contains exactly the items that were ordered.');?>
+                                            </div>
+                                            <div class="mis-fields" style="margin-left: 21.59px;">
+                                                <p>
+                                                    <?php echo __('In case of wrongly delivered goods additional costs may be incurred (AGB).');?>
+                                                </p>
+                                            </div>
+                                            <p class="deviceErrorMsgDhl" style="display: none; color:red; font-size: 13px;"></p>
+                                        </div>
+
+                                        <p class="weight_msg">
+                                            <?php echo __("For generating the label your product weight should be lesser than 31.5 kg.");?>
+                                        </p>
+                                        <p class="address_msg">
+                                            <?php echo __("Please add an address with your account.");?>
+                                        </p>
+                                        <p class="dhl_fees_msg">
+                                            <?php echo __("Default DHL fees has not been added. Ask admin to add default DHL Fees.");?>
+                                        </p>
+
+                                        <a class="address_link" href="<?php echo $this->getUrl('customer/address/edit') ?>" style="display: none;"></a>
+                                        <form method="post" action="<?php echo $this->getUrl('dhlshipment/dhl/status'); ?>" class="form" data-mage-init='{"validation":{}}'>
+                                            <fieldset class="fieldset">
+                                                <div>
+                                                    <input type="hidden" name="mis_order_id" value="<?php echo $order_id; ?>">
+                                                    <input type="hidden" name="mis_statuses" value="sent_to_mygermany">
+                                                    <input type="hidden" name="file_name" value="" class="pdf_file_name"> 
+                                                    <input type="hidden" name="product_ids" value="<?php echo $product_id_array;?>" class="product_ids"> 
+                                                    <input type="hidden" name="order_increment_id" value="<?php echo $order->getIncrementId();?>" class="order_increment_id"> 
+                                                </div>
+                                               
+                                            </fieldset>
+                                            <button class="button pv wk-mp-btn dhl_status_btn" style="display: none;">
+                                                <span><span><?php echo __("Change Status")?></span></span>
+                                            </button>
+                                        <button class="button wk-mp-btn dhl_status_btn" type="submit"> 
+                                            <span><span><?php echo __("Complete order and print packaging slip")?></span></span>
+                                        </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                        <?php /* if ($sellerTransaction): ?>
+                            <a onclick="this.target='_blank';" href="<?php echo $block->getUrl('dispatch/order/paidclosed', ['id'=>$this->getRequest()->getParam('id'), '_secure' => $this->getRequest()->isSecure()]);?>" class="action">
+                                <button class="button wk-mp-btn " title="<?php echo __('Paid/Closed') ?>" type="submit" id="paid_closed'" >
+                                    <span><span><?php echo __('Paid/Closed') ?></span></span>
+                                </button>
+                            </a>
+                        <?php endif; */ ?>
+
+                        <a onclick="this.target='_blank';" href="<?php echo $block->getUrl('marketplace/order/printorder', ['id'=>$this->getRequest()->getParam('id'), '_secure' => $this->getRequest()->isSecure()]);?>" class="action">
+                            <button class="button wk-mp-btn " title="<?php echo __('Print Order') ?>" type="submit" id="save_butn" >
+                                <span><span><?php echo __('Print Order') ?></span></span>
+                            </button>
+                        </a>
+                        <?php
+                        /*echo "<br>condition 1: ";
+                        var_dump($item_cancel_status== 0);
+                        echo "<br>";
+                        echo "<br>condition 2: ";
+                        echo "canCancel: ".$order->canCancel();
+                        var_dump($order->canCancel() == true);
+                        echo "<br>";
+                        echo "<br>condition 3: ";
+                        var_dump($item_invoice_status == null);
+                        echo "<br>";
+                        echo "<br>condition 4: ";
+                        var_dump(in_array($order->getStatus(), $cancel_order_btn_array) == true);
+                        echo "<br>";
+                        echo "<br>condition 5: ";
+                        var_dump($item_cancel_status== 0 && $order->canCancel() == true && $item_invoice_status == null && in_array($order->getStatus(), $cancel_order_btn_array) == true);
+                        echo "<br>";*/
+                        if ($item_cancel_status== 0 && $item_invoice_status == null && in_array($order->getStatus(), $cancel_order_btn_array) == true) { ?>
+                            <a href="<?php echo $block->getUrl('marketplace/order/cancel', ['id'=>$order_id, '_secure' => $this->getRequest()->isSecure()])?>" id="cancel_order" class="action" <?php echo ($order->getStatus() == 'canceled_by_vendor') ? 'disabled' : ''; ?>
+
+                                >
+                                <button class="button wk-mp-btn" title="<?php echo __('Cancel Order') ?>" type="button"  <?php echo ($order->getStatus() == 'canceled_by_vendor') ? 'disabled' : ''; ?>>
+                                    <span><span><?php echo __('Cancel Order') ?></span></span>
+                                </button>
+                            </a>
+                        <?php } ?>
+                        
+                        <?php /*if($item_cancel_status!="1" && !$order->isCanceled()){?>
+                            <a href="<?php echo $block->getUrl('marketplace/order/email', ['id'=>$order_id, '_secure' => $this->getRequest()->isSecure()])?>" onclick="return confirm('<?php echo __("Are you sure you want to send order email to customer?") ?>')" class="action">
+                                <button class="button wk-mp-btn" title="<?php echo __('Send Email To Customer') ?>" type="button">
+                                    <span><span><?php echo __('Send Email') ?></span></span>
+                                </button>
+                            </a>
+                        <?php
+                        } ?>
+                        <?php if($item_invoice_status!="Invoiced" && $order->canInvoice() && $item_cancel_status!="1"){?>
+                            <a href="<?php echo $block->getUrl('marketplace/order/invoice', ['id'=>$order_id, '_secure' => $this->getRequest()->isSecure()])?>" class="action">
+                                <button class="button wk-mp-btn" title="<?php echo __('Create Invoice to confirm collected amount from buyer for this order') ?>" onclick="return confirm('<?php echo __("Are you sure you want to create invoice?") ?>')" type="button">
+                                    <span><span><?php echo __('Invoice') ?></span></span>
+                                </button>
+                            </a>
+                        <?php
+                        } else if($item_invoice_status=="Invoiced" && $item_refund_status!="Refunded" && $order->canCreditmemo() && $item_cancel_status!="1"){
+                            if($paymentCode == 'mpcashondelivery' && !$admin_pay_status){ ?>
+                                <a href="<?php echo $block->getUrl('mpcashondelivery/order/payadmin', ['id'=>$order_id, '_secure' => $this->getRequest()->isSecure()])?>" class="action">
+                                    <button class="button wk-mp-btn" title="<?php echo __('Pay Admin for his commission for this order') ?>" onclick="return confirm('<?php echo __("If you pay admin commission then you can not do refund for buyer in future. Are you sure you want to pay admin for his commission?") ?>')" type="button">
+                                        <span><span><?php echo __('Pay Admin Commission') ?></span></span>
+                                    </button>
+                                </a>
+                                <a href="<?php echo $block->getUrl('marketplace/order_creditmemo/create', ['order_id'=>$order_id, '_secure' => $this->getRequest()->isSecure()])?>" class="action">
+                                    <button class="button wk-mp-btn" title="<?php echo __('Create Credit Memo') ?>" type="button">
+                                        <span><span><?php echo __('Credit Memo') ?></span></span>
+                                    </button>
+                                </a>
+                            <?php
+                            } elseif ($paymentCode != 'mpcashondelivery') { ?>
+                                <a href="<?php echo $block->getUrl('marketplace/order_creditmemo/create', ['order_id'=>$order_id, '_secure' => $this->getRequest()->isSecure()])?>" class="action">
+                                    <button class="button wk-mp-btn" title="<?php echo __('Create Credit Memo') ?>" type="button">
+                                        <span><span><?php echo __('Credit Memo') ?></span></span>
+                                    </button>
+                                </a>
+                            <?php
+                            }
+                        } ?>*/?>
+
+                        <?php if ($order->getVendorTrackingId() != null) { 
+                            $method = $orderHelper->getOrderinfo($order_id)->getVendorShippedBy();
+                            $filename = $method.'_Packaging_Slip_'.$misHelper->getVendorName()->getFirstname().'_'.$order->getIncrementId().'.pdf';
+                            if ($method == 'DHL') {
+                                $dhlLabelFile = $method.'_Label_'.$misHelper->getVendorName()->getFirstname().'_'.$order->getIncrementId().'.pdf';
+                                # code...
+                            }
+
+                        ?>
+                            <a href="<?php echo $this->getUrl('dispatch/order/download/').'file_name/'.$filename.'/method/'.$method.'/order_id/'.$order_id?>" target="_blank" class="wk-mp-btn yellow-button" title="<?php echo __('Print Packaging Slip') ?>" type="button" id="print_package">
+                                <span><span><?php echo __('Print Packaging Slip') ?></span></span>
+                            </a>
+                            <?php if($method == 'DHL'){ ?>
+                                <a href="<?php echo $this->getUrl('dispatch/order/download/').'file_name/'.$dhlLabelFile.'/method/'.$method.'/order_id/'.$order_id?>" target="_blank" class="wk-mp-btn yellow-button" title="<?php echo __('Print DHL Label') ?>" type="button" id="print_dhl_label">
+                                    <span><span><?php echo __('Print DHL Label') ?></span></span>
+                                </a>
+                            <?php } ?>
+                        <?php } ?>
+
+
+
+                        <?php
+                        if($item_ship_status!="Shipped" && $item_refund_status!="Refunded"  && $item_cancel_status!="1" && $block->isOrderCanShip($order)){ ?>
+                            <button class="button wk-mp-btn" title="<?php echo __('Add Comment on this order') ?>" type="button" id="addComment">
+                                <span><span><?php echo __('Add Comment') ?></span></span>
+                            </button>
+                        <?php
+                        } ?>
+                        
+                    </div>
+                </div>
+            </div>
+            <?php
+            $_links = $block->getLinks();
+            ?>
+            <ul class="items order-links">
+                <?php foreach ($_links as $_link): ?>
+                    <?php if(strpos($_link['url'], "marketplace/order/view") === false): ?>
+                        <li class="nav item">
+                            <a href="<?php echo $_link['url'] ?>">
+                                <?php echo $_link['label'] ?>
+                            </a>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav item current"><strong><?php echo $_link['label'] ?></strong></li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </ul>
+            <div class="order-details-items ordered">
+                <div class="order-title">
+                    <strong><?php echo __('Items Ordered') ?></strong>
+                </div>
+                <div class="table-wrapper order-items">
+                    <table class="data table table-order-items" id="my-orders-table" summary="<?php echo __('Items Ordered') ?>">
+                        <caption class="table-caption"><?php echo __('Items Ordered') ?></caption>
+                        <thead>
+                            <tr>
+                                <th class="col name"><?php echo __('Product Name') ?></th>
+                                <th class="col sku"><?php echo __('SKU') ?></th>
+                                <th class="col price"><?php echo __('Price') ?></th>
+                                <th class="col qty"><?php echo __('Qty') ?></th>
+                                <th class="col price"><?php echo __('Total Price') ?></th>
+                                <?php
+                                if($paymentCode == 'mpcashondelivery'){?>
+                                    <th class="col price"><?php echo __('COD Charges') ?></th>
+                                <?php
+                                } ?>
+                                <th class="col price"><?php echo __('Admin Commission') ?></th>
+                                <th class="col price vendor_total"><?php echo __('Vendor Total') ?></th>
+                                <th class="col price"><?php echo __('Subtotal') ?></th>
+                            </tr>
+                        </thead>
+                        <?php
+                        $_items = $order->getItemsCollection();
+                        $i = 0;
+                        $_count = $_items->count();
+                        $subtotal = 0;
+                        $vendor_subtotal =0;
+                        $totaltax = 0;
+                        $admin_subtotal =0;
+                        $shippingamount = 0;
+                        $couponamount = 0;
+
+                        $vToMgmbhCost = 0;
+                        $vendorShippingCost = 0;
+
+                        $exchange_rate = 0;
+                        $mits_exchange_rate_amount = 0;
+
+                        $payment_fee = 0;
+                        $mits_payment_fee_amount = 0;
+
+                        $codcharges_total = 0;
+                        foreach ($_items as $_item){
+                            if ($_item->getParentItem()) {
+                                continue;
+                            }
+                            $productNote = $myHelper->getMyProductAttribute($_item->getProductId());
+                            $row_total = 0;
+                            $available_seller_item = 0;
+                            $shippingcharges = 0;
+                            $couponcharges = 0;
+                            $itemPrice = 0;
+                            $seller_item_cost = 0;
+                            $totaltax_peritem = 0;
+                            $codcharges_peritem = 0;
+                            $seller_item_commission = 0;
+                            $orderid = $order_id;
+                            $seller_orderslist = $block->getSellerOrdersList(
+                                $orderid, $_item->getProductId(), $_item->getItemId()
+                            );
+                            
+
+                            foreach($seller_orderslist as $seller_item){
+                                //  DHL Working for weight
+                                $product_id_array = $product_id_array.','.$seller_item->getMageproductId();
+                                if ($weightArray[$seller_item->getMageproductId()]) {
+                                    $productWeight = (float) $productWeight + (float) $weightArray[$seller_item->getMageproductId()];
+                                }
+                                //  DHL Working for weight ends
+
+                                $parentitem_falg = 0;
+                                $available_seller_item = 1;
+                                $totalamount = $seller_item->getTotalAmount();
+                                $seller_item_cost = $seller_item->getActualSellerAmount();
+                                $seller_item_commission = $seller_item->getTotalCommission();
+                                $shippingcharges = $seller_item->getShippingCharges();
+                                $couponcharges = $seller_item->getAppliedCouponAmount();
+                                $itemPrice = $seller_item->getMageproPrice();
+                                $totaltax_peritem = $seller_item->getTotalTax();
+                                //MIS Coading
+                                $vToMgmbhCost = $seller_item->getVendorToMygermanyCost();
+                                $exchange_rate = $seller_item->getMitsExchangeRateAmount();
+                                $payment_fee = $seller_item->getMitsPaymentFeeAmount();
+
+                                if($paymentCode=='mpcashondelivery'){
+                                    $codcharges_peritem = $seller_item->getCodCharges();
+                                }
+                            }
+                            if($available_seller_item == 1){
+                                $i++;
+                                $seller_item_qty = $_item->getQtyOrdered();
+                                $row_total=$itemPrice*$seller_item_qty;
+                                $vendor_subtotal=$vendor_subtotal+$seller_item_cost;
+                                // echo "<br> * vendor subtotal: ".$vendor_subtotal;
+                                $subtotal=$subtotal+$row_total;
+                                $admin_subtotal = $admin_subtotal +$seller_item_commission;
+
+                                // vendor to mygermany shipping cost
+                                $vendorShippingCost = $vendorShippingCost + $vToMgmbhCost;
+                                $mits_exchange_rate_amount = $mits_exchange_rate_amount + $exchange_rate;
+                                $mits_payment_fee_amount = $mits_payment_fee_amount + $payment_fee;
+
+                                $totaltax=$totaltax+$totaltax_peritem;
+                                $codcharges_total=$codcharges_total+$codcharges_peritem;
+                                $shippingamount = $shippingamount+$shippingcharges;
+                                $couponamount = $couponamount+$couponcharges;
+                                
+                                $result = array();
+                                if ($options = $_item->getProductOptions()) {
+                                    if (isset($options['options'])) {
+                                        $result = array_merge($result, $options['options']);
+                                    }
+                                    if (isset($options['additional_options'])) {
+                                        $result = array_merge($result, $options['additional_options']);
+                                    }
+                                    if (isset($options['attributes_info'])) {
+                                        $result = array_merge($result, $options['attributes_info']);
+                                    }
+                                }
+                                // for bundle product
+                                $bundleitems = array_merge(array($_item), $_item->getChildrenItems());
+                                $_count = count ($bundleitems);
+                                $_index = 0;
+                                $_prevOptionId = '';
+                                // echo "<br> * vendorShippingCost ".$vendorShippingCost;
+                                ?>
+                                <tbody>
+                                    <?php
+                                    if($_item->getProductType()!='bundle'){ ?>
+                                        <tr class="border" id="order-item-row-<?php echo $_item->getId() ?>">
+                                            <?php
+                                            if($_item->getProductType()=='downloadable'){ ?>
+                                                <td class="col name" data-th="<?php echo $block->escapeHtml(__('Product Name')); ?>">
+                                                    <strong class="product name product-item-name"><?php echo $block->escapeHtml($_item->getName()) ?></strong>
+                                                    <?php if ($_options = $block->getItemOptions()): ?>
+                                                        <dl class="item-options links">
+                                                            <?php foreach ($_options as $_option) : ?>
+                                                                <dt><?php echo $block->escapeHtml($_option['label']) ?></dt>
+                                                                <?php if (!$block->getPrintStatus()): ?>
+                                                                                        <?php $_formatedOptionValue = $block->getFormatedOptionValue($_option) ?>
+                                                                                        <dd>
+                                                                                                <?php if (isset($_formatedOptionValue['full_view'])): ?>
+                                                                                                        <?php /* @escapeNotVerified */ echo $_formatedOptionValue['full_view'] ?>
+                                                                                                <?php else: ?>
+                                                                                                        <?php /* @escapeNotVerified */ echo $_formatedOptionValue['value'] ?>
+                                                                                                <?php endif; ?>
+                                                                                        </dd>
+                                                                <?php else: ?>
+                                                                    <dd><?php echo $block->escapeHtml((isset($_option['print_value']) ? $_option['print_value'] : $_option['value'])) ?></dd>
+                                                                <?php endif; ?>
+                                                            <?php endforeach; ?>
+                                                        </dl>
+                                                    <?php endif; ?>
+                                                    <?php /* downloadable */?>
+                                                    <?php if ($links = $block->getDownloadableLinks($_item->getId())): ?>
+                                                        <dl class="item-options links">
+                                                            <dt><?php /* @escapeNotVerified */ echo $block->getLinksTitle($_item->getId()) ?></dt>
+                                                            <?php foreach ($links->getPurchasedItems() as $link): ?>
+                                                                <dd><?php echo $block->escapeHtml($link->getLinkTitle()); ?></dd>
+                                                            <?php endforeach; ?>
+                                                        </dl>
+                                                    <?php endif; ?>
+                                                    <?php /* EOF downloadable */?>
+
+                                                    <?php $addInfoBlock = $block->getProductAdditionalInformationBlock(); ?>
+                                                    <?php if ($addInfoBlock) :?>
+                                                        <?php echo $addInfoBlock->setItem($_item->getOrderItem())->toHtml(); ?>
+                                                    <?php endif; ?>
+                                                    <?php echo $block->escapeHtml($_item->getDescription()) ?>
+                                                    <?php $addInfoBlock = $block->getOrderItemAdditionalInfoBlock(); ?>
+                                                    <?php if ($addInfoBlock): ?>
+                                                      <?php echo $addInfoBlock->setItem($_item)->toHtml() ?>
+                                                    <?php endif;?>
+                                                </td>
+                                            <?php
+                                            }else{ ?>
+                                                <td class="col name" data-th="<?php echo $block->escapeHtml(__('Product Name')); ?>">
+                                                    <strong class="product name product-item-name"><?php echo $block->escapeHtml($_item->getName()) ?></strong>
+                                                    <?php 
+                                                        if (!empty($productNote)) { ?>  
+                                                            <div class="tooltip">
+                                                                 <p class="intr_note" style="display: inline;" ><?php echo __('Internal Note');
+                                                                 ?></p>
+                                                                 <span>
+                                                                     <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px" id="toolimg" class="toolimg" data-proid = "<?php echo $_item->getProductId();?>" />
+                                                                 </span>
+                                                                 <span class="tooltiptext"><?php echo __($productNote) ?></span>
+                                                            </div>
+                                                        <?php } ?>
+                                                    </div>
+                                                    <?php if($_options = $result): ?>
+                                                        <dl class="item-options">
+                                                        <?php foreach ($_options as $_option) : ?>
+                                                            <dt><?php echo $block->escapeHtml($_option['label']) ?></dt>
+                                                            <?php if (!$block->getPrintStatus()): ?>
+                                                                            <?php $_formatedOptionValue = $block->getFormatedOptionValue($_option) ?>
+                                                                            <dd>
+                                                                                    <?php if (isset($_formatedOptionValue['full_view'])): ?>
+                                                                                            <?php /* @escapeNotVerified */ echo $_formatedOptionValue['full_view'] ?>
+                                                                                    <?php else: ?>
+                                                                                            <?php /* @escapeNotVerified */ echo $_formatedOptionValue['value'] ?>
+                                                                                    <?php endif; ?>
+                                                                            </dd>
+                                                            <?php else: ?>
+                                                                <dd>
+                                                                    <?php echo nl2br($block->escapeHtml( (isset($_option['print_value']) ? $_option['print_value'] : $_option['value']) )) ?>
+                                                                </dd>
+                                                            <?php endif; ?>
+                                                        <?php endforeach; ?>
+                                                        </dl>
+                                                    <?php endif; ?>
+                                                    <?php $addInfoBlock = $block->getOrderItemAdditionalInfoBlock(); ?>
+                                                    <?php if ($addInfoBlock): ?>
+                                                      <?php echo $addInfoBlock->setItem($_item)->toHtml() ?>
+                                                    <?php endif;?>
+                                                </td>
+                                            <?php }?>
+                                            <td class="col sku" data-th="<?php echo $block->escapeHtml(__('SKU')); ?>"><?php echo $_item->getSku() ?></td>
+                                            <td class="col price" data-th="<?php echo $block->escapeHtml(__('Price')); ?>">
+                                                <span class="price-excluding-tax" data-label="<?php echo $block->escapeHtml(__('Excl. Tax')); ?>">
+                                                    <span class="cart-price">
+                                                        <?php echo $order->formatPrice($_item->getPrice()); ?>
+                                                    </span>
+                                                </span>
+                                            </td>
+                                            <td class="col qty" data-th="<?php echo $block->escapeHtml(__('Qty')); ?>">
+                                                <ul class="items-qty">
+                                                    <?php if ($_item->getQtyOrdered() > 0): ?>
+                                                        <li class="item">
+                                                            <span class="title"><?php echo __('Ordered'); ?></span>
+                                                            <span class="content"><?php echo $_item->getQtyOrdered()*1 ?></span>
+                                                        </li>
+                                                    <?php endif; ?>
+                                                    <?php if ($_item->getQtyInvoiced() > 0): ?>
+                                                        <li class="item">
+                                                            <span class="title"><?php echo __('Invoiced'); ?></span>
+                                                            <span class="content"><?php echo $_item->getQtyInvoiced()*1 ?></span>
+                                                        </li>
+                                                    <?php endif; ?>
+                                                    <?php if ($_item->getQtyShipped() > 0): ?>
+                                                        <li class="item">
+                                                            <span class="title"><?php echo __('Shipped'); ?></span>
+                                                            <span class="content"><?php echo $_item->getQtyShipped()*1 ?></span>
+                                                        </li>
+                                                    <?php endif; ?>
+                                                    <?php if ($_item->getQtyCanceled() > 0): ?>
+                                                        <li class="item">
+                                                            <span class="title"><?php echo __('Canceled'); ?></span>
+                                                            <span class="content"><?php echo $_item->getQtyCanceled()*1 ?></span>
+                                                        </li>
+                                                    <?php endif; ?>
+                                                    <?php if ($_item->getQtyRefunded() > 0): ?>
+                                                        <li class="item">
+                                                            <span class="title"><?php echo __('Refunded'); ?></span>
+                                                            <span class="content"><?php echo $_item->getQtyRefunded()*1 ?></span>
+                                                        </li>
+                                                    <?php endif; ?>
+                                                </ul>
+                                            </td>
+                                            <td class="col price" data-th="<?php echo $block->escapeHtml(__('Total Price')); ?>"><?php echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), $row_total));?></td>
+                                            <?php
+                                            if($paymentCode == 'mpcashondelivery'){?>
+                                                <td class="col price" data-th="<?php echo $block->escapeHtml(__('COD Charges')) ?>"><?php echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), $codcharges_peritem));?></td>
+                                            <?php
+                                            } ?>
+                                            <td class="col price" data-th="<?php echo $block->escapeHtml(__('Admin Commission')); ?>"><?php echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), $seller_item_commission));?></td>
+                                            <td class="col price vendor_total" data-th="<?php echo $block->escapeHtml(__('Vendor Total')); ?>">
+                                                <?php echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), $seller_item_cost));?>
+                                                    
+                                                </td>
+                                            <td class="col subtotal" data-th="<?php echo $block->escapeHtml(__('Subtotal')); ?>"><?php echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), $row_total));?></td>
+                                        </tr>
+                                    <?php
+                                    }else{ ?>
+                                        <?php foreach ($bundleitems as $_bundleitem): ?>
+                                            <?php $attributes_option = $block->getSelectionAttribute($_bundleitem); ?>
+                                            <?php if ($_bundleitem->getParentItem()): ?>
+                                                <?php $attributes = $attributes_option ?>
+                                                <?php if ($_prevOptionId != $attributes['option_id']): ?>
+                                                <tr class="options-label">
+                                                    <td class="col label" colspan="8" data-th="<?php echo $block->escapeHtml(__('Product Name')); ?>">
+                                                        <?php echo $attributes['option_label'] ?>
+                                                    </td>
+                                                </tr>
+                                                <?php $_prevOptionId = $attributes['option_id'] ?>
+                                                <?php endif; ?>
+                                            <?php endif; ?>
+                                            <tr<?php echo (++$_index==$_count)?' class="border bundle"':' class="bundle"' ?> id="order-item-row-<?php echo $_bundleitem->getId() ?>">
+                                                <?php 
+                                                if (!$_bundleitem->getParentItem()){?>
+                                                    <td><h3 class="product-name"><?php echo $block->escapeHtml($_bundleitem->getName()) ?></h3></td>
+                                                    <td class="col sku" data-th="<?php echo $block->escapeHtml(__('SKU')); ?>"><?php echo $_bundleitem->getSku() ?></td>
+                                                    <td class="col price" data-rwd-label="<?php echo __('Price') ?>">
+                                                        <span class="price-excluding-tax" data-label="<?php echo $block->escapeHtml(__('Excl. Tax')); ?>">
+                                                            <?php echo $order->formatPrice($_item->getPrice());?>
+                                                        </span>
+                                                    </td>
+                                                    <td class="col qty item_status" data-rwd-label="<?php echo __('Status') ?>">
+                                                        <ul class="items-qty">
+                                                            <?php if ($_item->getQtyOrdered() > 0): ?>
+                                                                <li class="item">
+                                                                    <span class="title"><?php echo __('Ordered'); ?></span>
+                                                                    <span class="content"><?php echo $_item->getQtyOrdered()*1 ?></span>
+                                                                </li>
+                                                            <?php endif; ?>
+                                                        </ul>
+                                                    </td>
+                                                    <td class="lin-hide">&nbsp;</td>
+                                                    <td class="lin-hide">&nbsp;</td>
+                                                    <td class="lin-hide">&nbsp;</td>
+                                                    <td class="lin-hide">&nbsp;</td>
+                                                <?php
+                                                } else { ?>
+                                                    <?php
+                                                    $row_total = 0;
+                                                    $available_seller_item = 0;
+                                                    $shippingcharges = 0;
+                                                    $couponcharges = 0;
+                                                    $itemPrice = 0;
+                                                    $seller_item_cost = 0;
+                                                    $totaltax_peritem = 0;
+                                                    $codcharges_peritem = 0;
+                                                    $seller_item_commission = 0;
+                                                    $orderid = $order_id;
+                                                    $vToMgmbhCost = 0;
+                                                    $exchange_rate = 0;
+                                                    $payment_fee = 0;
+
+                                                    $seller_orderslist = $block->getSellerOrdersList(
+                                                        $orderid, $_bundleitem->getProductId(), $_bundleitem->getItemId()
+                                                    );
+                                                    foreach($seller_orderslist as $seller_item){
+                                                        $parentitem_falg = 0;
+                                                        $available_seller_item = 1;
+                                                        $totalamount = $seller_item->getTotalAmount();
+                                                        $seller_item_cost = $seller_item->getActualSellerAmount();
+                                                        $seller_item_commission = $seller_item->getTotalCommission();
+                                                        // Mis Coading
+                                                        $vToMgmbhCost = $seller_item->getVendorToMygermanyCost();
+                                                        $exchange_rate = $seller_item->getMitsExchangeRateAmount();
+                                                        $payment_fee = $seller_item->getMitsPaymentFeeAmount();
+
+                                                        $shippingcharges = $seller_item->getShippingCharges();
+                                                        $couponcharges = $seller_item->getAppliedCouponAmount();
+                                                        $itemPrice = $seller_item->getMageproPrice();
+                                                        $totaltax_peritem = $seller_item->getTotalTax();
+                                                        if($paymentCode=='mpcashondelivery'){
+                                                            $codcharges_peritem = $seller_item->getCodCharges();
+                                                        }
+                                                    }
+                                                    $i++;
+                                                    $seller_item_qty = $_bundleitem->getQtyOrdered();
+                                                    $row_total=$itemPrice*$seller_item_qty;
+                                                    $vendor_subtotal=$vendor_subtotal+$seller_item_cost;
+                                                    $subtotal= $subtotal+$row_total;
+                                                    $admin_subtotal = $admin_subtotal +$seller_item_commission;
+
+
+
+                                                    // vendor to mygermany shipping cost
+                                                    $vendorShippingCost = $vendorShippingCost + $vToMgmbhCost;
+                                                    $mits_exchange_rate_amount = $mits_exchange_rate_amount + $exchange_rate;
+                                                    $mits_payment_fee_amount = $mits_payment_fee_amount + $payment_fee;
+
+                                                    $totaltax=$totaltax+$totaltax_peritem;
+                                                    $codcharges_total=$codcharges_total+$codcharges_peritem;
+                                                    $shippingamount = $shippingamount+$shippingcharges;
+                                                    $couponamount = $couponamount+$couponcharges;
+                                                    ?>
+                                                    <td class="col value" data-th="<?php echo $block->escapeHtml(__('Product Name')); ?>">
+                                                        <?php echo $block->getValueHtml($_bundleitem)?>
+                                                        <?php $addInfoBlock = $block->getOrderItemAdditionalInfoBlock(); ?>
+                                                        <?php if ($addInfoBlock): ?>
+                                                            <?php echo $addInfoBlock->setItem($_bundleitem)->toHtml() ?>
+                                                        <?php endif;?>
+                                                    </td>
+                                                    <td class="col sku" data-th="<?php echo $block->escapeHtml(__('SKU')); ?>"><?php echo $_bundleitem->getSku() ?></td>
+                                                    <td class="col price" data-rwd-label="<?php echo __('Price') ?>"><?php echo $order->formatPrice($_bundleitem->getPrice());?></td>
+                                                    <td class="col qty item_status" data-rwd-label="<?php echo __('Status') ?>">
+                                                        <ul class="items-qty">
+                                                            <?php if ($_bundleitem->getQtyOrdered() > 0): ?>
+                                                                <li class="item">
+                                                                    <span class="title"><?php echo __('Ordered'); ?></span>
+                                                                    <span class="content"><?php echo $_bundleitem->getQtyOrdered()*1 ?></span>
+                                                                </li>
+                                                            <?php endif; ?>
+                                                            <?php if ($_bundleitem->getQtyInvoiced() > 0): ?>
+                                                                <li class="item">
+                                                                    <span class="title"><?php echo __('Invoiced'); ?></span>
+                                                                    <span class="content"><?php echo $_bundleitem->getQtyInvoiced()*1 ?></span>
+                                                                </li>
+                                                            <?php endif; ?>
+                                                            <?php if ($_bundleitem->getQtyShipped() > 0 && !$block->isShipmentSeparately()): ?>
+                                                                <li class="item">
+                                                                    <span class="title"><?php echo __('Shipped'); ?></span>
+                                                                    <span class="content"><?php echo $_bundleitem->getQtyShipped()*1 ?></span>
+                                                                </li>
+                                                            <?php endif; ?>
+                                                            <?php if ($_bundleitem->getQtyCanceled() > 0): ?>
+                                                                <li class="item">
+                                                                    <span class="title"><?php echo __('Canceled'); ?></span>
+                                                                    <span class="content"><?php echo $_bundleitem->getQtyCanceled()*1 ?></span>
+                                                                </li>
+                                                            <?php endif; ?>
+                                                            <?php if ($_bundleitem->getQtyRefunded() > 0): ?>
+                                                                <li class="item">
+                                                                    <span class="title"><?php echo __('Refunded'); ?></span>
+                                                                    <span class="content"><?php echo $_bundleitem->getQtyRefunded()*1 ?></span>
+                                                                </li>
+                                                            <?php endif; ?>
+                                                        </ul>
+                                                    </td>
+                                                    <td class="col price" data-th="<?php echo $block->escapeHtml(__('Total Price')); ?>"><?php echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), $row_total));?></td>
+                                                    <?php
+                                                    if($paymentCode == 'mpcashondelivery'){?>
+                                                        <td class="col price" data-th="<?php echo $block->escapeHtml(__('COD Charges')) ?>"><?php echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), $codcharges_peritem));?></td>
+                                                    <?php
+                                                    } ?>
+                                                    <td class="col price" data-th="<?php echo $block->escapeHtml(__('Admin Commission')); ?>"><?php echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), $seller_item_commission));?></td>
+                                                    <td class="col price" data-th="<?php echo $block->escapeHtml(__('Vendor Total')); ?>"><?php echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), $seller_item_cost));?></td>
+                                                    <td class="col subtotal" data-th="<?php echo $block->escapeHtml(__('Subtotal')); ?>"><?php echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), $row_total));?></td>
+                                                <?php
+                                                }?>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php
+                                }?>
+                                </tbody>
+                                <?php
+                            }
+                        }?>
+                        <?php
+                        $refundedShippingAmount = 0;
+                        $totalCouponAmount = 0;
+                        $totalTaxAmount = 0;
+                        $taxToSeller = $helper->getConfigTaxManage();
+                        foreach($marketplace_orders as $tracking){
+                            $shippingamount=$tracking->getShippingCharges();
+                            $totalCouponAmount=$tracking->getCouponAmount();
+                            $totalTaxAmount=$tracking->getTotalTax();
+                            $refundedShippingAmount=$tracking->getRefundedShippingCharges();
+                            $taxToSeller=$tracking['tax_to_seller'];
+                        }
+                        if($paymentCode == 'mpcashondelivery'){
+                            // $count_td = 8;
+                            /*DHL Work*/
+                            $count_td = 8-1;
+                            /*DHL Work ends*/
+                        }else{
+                            // $count_td = 7;
+                            /*DHL Work*/
+                            $count_td = 7-1;
+                            /*DHL Work ends*/
+                        } ?>
+                        <tfoot>
+                            <tr class="subtotal">
+                                <th colspan="<?php echo $count_td ?>" class="mark" scope="row">
+                                    <?php echo __('Subtotal')?>
+                                </th>
+                                <td>
+                                    <?php echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), $subtotal)); ?>
+                                </td>
+                            </tr>
+                            <?php if ($shippingamount > 0): ?>
+                                <tr class="subtotal">
+                                    <th colspan="<?php echo $count_td ?>" class="mark" scope="row">
+                                        <?php echo __('Shipping & Handling')?>
+                                    </th>
+                                    <td>
+                                        <?php echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), $shippingamount)); ?>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                            <tr class="subtotal">
+                                <th colspan="<?php echo $count_td ?>" class="mark" scope="row">
+                                    <?php echo __('Discount')?>
+                                </th>
+                                <td>
+                                    -<?php echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), $totalCouponAmount)); ?>
+                                </td>
+                            </tr>
+                                
+                            <?php 
+                            $admintotaltax = 0;
+                            $vendortotaltax = 0; /*
+                            if ($totaltax > 0): ?>
+                                <tr class="subtotal">
+                                    <th colspan="<?php echo $count_td ?>" class="mark" scope="row">
+                                        <?php echo __('Total Tax')?>
+                                    </th>
+                                    <td>
+                                        <?php
+                                        echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), $totaltax));
+                                        if (!$taxToSeller) {
+                                            $admintotaltax = $totaltax;
+                                        } else {
+                                            $vendortotaltax = $totaltax;
+                                        } ?>
+
+                                    </td>
+                                </tr>
+                            <?php endif; */ ?>
+                            <?php
+                            if($paymentCode == 'mpcashondelivery'){ ?>
+                                <tr class="subtotal">
+                                    <th colspan="<?php echo $count_td ?>" class="mark" scope="row">
+                                        <?php echo __('Total COD Charges')?>
+                                    </th>
+                                    <td>
+                                        <?php echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), $codcharges_total)); ?>
+                                    </td>
+                                </tr>
+                            <?php
+                            }?>
+                            <tr class="subtotal">
+                                <th colspan="<?php echo $count_td ?>" class="mark" scope="row">
+                                    <?php echo __('Vendor to myGermany cost')?>
+                                </th>
+                                <td>
+                                    <?php
+                                       if ($dhlFees > 0 ) {
+                                           echo $order->formatPrice(0);
+                                           // $vendorShippingCost = 0;
+                                       } else {
+                                           echo $order->formatPrice($vendorShippingCost);
+                                       }
+                                    ?>
+                                    <?php 
+                                    /*echo $order->formatPrice($vendorShippingCost);*/ 
+                                    ?>
+                                </td>
+                            </tr>
+                            <tr class="subtotal">
+                                <th colspan="<?php echo $count_td ?>" class="mark" scope="row">
+                                    <strong><?php echo __('Total Ordered Amount'); ?></strong>
+                                    <span class="mis_inclusive_label" style="display: none;"><?php echo ($euCountry == true ? __(' incl. VAT') : '');?></span>
+                                </th>
+                                <td>
+                                    <strong>
+                                        <?php //echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), ($subtotal+$shippingamount+$codcharges_total+$totaltax-$totalCouponAmount))); ?>
+                                        <?php
+                                        if ($dhlFees > 0) {
+                                          echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), ($subtotal+$shippingamount+$codcharges_total-$totalCouponAmount)));
+                                        } else {
+                                         echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), ($subtotal+$shippingamount+$codcharges_total+$vendorShippingCost-$totalCouponAmount))); 
+                                            
+                                        }
+                                         ?>
+                                        </strong>
+                                </td>
+                            </tr>
+                            <?php if ($order->isCurrencyDifferent()) { ?>
+                                <tr class="subtotal">
+                                    <th colspan="<?php echo $count_td ?>" class="mark" scope="row">
+                                        <strong><?php echo __('Total Ordered Amount(in base currency)')?></strong>
+                                    </th>
+                                    <td>
+                                        <strong><?php echo $order->formatBasePrice($subtotal+$shippingamount+$codcharges_total+$totaltax-$totalCouponAmount); ?></strong>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                            <?php if ($order->isCurrencyDifferent()) { ?>
+                                <tr class="subtotal">
+                                    <th colspan="<?php echo $count_td ?>" class="mark" scope="row">
+                                        <?php echo __('Total Vendor Amount(in base currency)')?>
+                                    </th>
+                                    <td>
+                                        <?php echo $order->formatBasePrice($vendor_subtotal+$shippingamount+$codcharges_total+$vendortotaltax-$refundedShippingAmount-$couponamount); ?>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                            <tr class="subtotal">
+                                <th colspan="<?php echo $count_td ?>" class="mark" scope="row">
+                                    <?php echo __('Total Admin Commission')?>
+                                </th>
+                                <td>
+                                    <?php echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), ($admin_subtotal))); ?>
+                                    <?php //echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), ($admin_subtotal+$admintotaltax))); ?>
+                                </td>
+                            </tr>
+
+                            
+                            <tr class="subtotal">
+                                <th colspan="<?php echo $count_td ?>" class="mark" scope="row">
+                                    <?php echo __('Exchange Rate')?>
+                                </th>
+                                <td>
+                                    <?php echo $order->formatPrice($mits_exchange_rate_amount); ?>
+                                </td>
+                            </tr>
+                            <tr class="subtotal">
+                                <th colspan="<?php echo $count_td ?>" class="mark" scope="row">
+                                    <?php echo __('Payment fees')?>
+                                </th>
+                                <td>
+                                    <?php echo $order->formatPrice($mits_payment_fee_amount); ?>
+                                </td>
+                            </tr>
+                            <tr class="subtotal">
+                                <th colspan="<?php echo $count_td ?>" class="mark" scope="row">
+                                    <?php echo __('DHL fees')?>
+                                </th>
+                                <td>
+                                    <?php echo $order->formatPrice($dhlFees); ?>
+                                </td>
+                            </tr>
+                            <tr class="subtotal">
+                                <th colspan="<?php echo $count_td ?>" class="mark" scope="row">
+                                    <?php echo __('Net Vendor Payout')?>
+                                </th>
+                                <td>
+                                    <?php 
+                                    if ($dhlFees > 0) {
+                                        $actualPrice = $block->getOrderedPricebyorder($order->getBaseToGlobalRate(), ($vendor_subtotal+$shippingamount+$codcharges_total+$vendortotaltax-$refundedShippingAmount-$couponamount));
+
+                                        echo $order->formatPrice($actualPrice-$vendorShippingCost-$dhlFees);
+
+                                        // $actualPrice = $order->formatPrice(
+                                        //     $block->getOrderedPricebyorder($order->getBaseToGlobalRate(), ($vendor_subtotal+$shippingamount+$codcharges_total+$vendortotaltax-$refundedShippingAmount-$couponamount-$vendorShippingCost-$dhlFees))
+                                        // );
+                                    } else {
+                                        echo $order->formatPrice($block->getOrderedPricebyorder($order->getBaseToGlobalRate(), ($vendor_subtotal+$shippingamount+$codcharges_total+$vendortotaltax-$refundedShippingAmount-$couponamount)));
+                                    }
+                                    ?>
+                                </td>
+                            </tr>
+                            
+                            <?php if ($order->isCurrencyDifferent()) { ?>
+                                <tr class="subtotal">
+                                    <th colspan="<?php echo $count_td ?>" class="mark" scope="row">
+                                        <?php echo __('Total Admin Commission(in base currency)')?>
+                                    </th>
+                                    <td>
+                                        <?php echo $order->formatBasePrice($admin_subtotal+$admintotaltax); ?>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <?php if ($helper->getSellerProfileDisplayFlag()) { ?>
+                <div class="mis-order-block block block-order-details-view">
+                    <!-- <div class="block-title">
+                        <strong><?php //echo __('Buyer Information') ?></strong>
+                    </div> -->
+                    <div class="mis-block-content block-content">
+                        <div class="box mis-box-order-shipping-address box-order-shipping-address">
+                            <strong class="box-title mis-box-title">
+                                <span>
+                                    <?php echo __('Buyer Information') ?>
+                                </span>
+                            </strong>
+                            <div class="box-content mis-box-content">
+                                <div class="box mis-box">
+                                    <div class="wk-row mis-wk-row">
+                                        <span class="label mis-label"><?php echo __('Customer Name')?></span>
+                                        <span class="value mis-value"><?php echo $order->getCustomerName(); ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
+            <div class="mis-block-order-details block block-order-details-view">
+                <!-- <div class="block-title">
+                    <strong><?php //echo __('Buyer Information') ?></strong>
+                </div> -->
+                <?php 
+                    $commentAvailable = 0;
+                    $customerId = $myHelper->getCustomerIdFromSession();
+                    $commentCollection = $myHelper->getSellerComment();
+                    $userComment = $commentCollection->getCollection()->addFieldToFilter('seller_id',['eq' => $customerId])->addFieldToFilter('order_id',['eq' => $order->getRealOrderId()]);      
+                ?>
+                <div class="mis-block-content block-content">
+                    <div class="box mis-order-comment mis-box-order-shipping-address box-order-shipping-address">
+                        <strong class="box-title mis-box-title">
+                            <span>
+                                <?php echo __('Order Comments') ?>
+                            </span>
+                        </strong>
+                        <div class="box-content mis-box-content mis-box-comments">
+                            <div class="box mis-box">
+                                <div class="wk-row mis-wk-row">
+                                    <?php if ($userComment->getSize() >=1) { 
+                                        foreach ($userComment->getData() as $key => $value) {
+                                            $commentDate = $value['created_on'];
+                                            $commentName = $value['seller_name'];
+                                            $commentUser = $value['comment'];
+                                    ?>
+                                    <ul class="note-list">
+                                        <li class="note-list-item">
+                                        <div class="note-list-date"><?php echo $commentDate; ?></div>
+                                        <div class="note-list-status"><?php echo $commentName; ?></div>
+                                        <div class="note-list-comment"><q><?php echo $commentUser; ?></q></div>
+                                        </li>
+                                    </ul>
+                                    <?php
+                                       }
+                                     } ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="block block-order-details-view">
+                <div class="block-title">
+                    <strong><?php echo __('Order Information') ?></strong>
+                </div>
+                <div class="block-content">
+                    <?php /*if ($block->isOrderCanShip($order)):   
+                    if (strpos($order->getShippingDescription(), 'WAREHOUSE') == false): ?>
+                        <?php if ($helper->getSellerProfileDisplayFlag()) { ?>
+                            <div class="box box-order-shipping-address">
+                                <strong class="box-title"><span><?php echo __('Shipping Address') ?></span></strong>
+                                <div class="box-content">
+                                    <!-- <address><?php //echo $order->getCustomerName(); ?></address> -->
+                                    <address><?php echo $block->getFormattedAddress($order->getShippingAddress()); ?></address>
+
+                                </div>
+                            </div>
+                        <?php
+                        } ?>
+                    <?php endif; ?>
+                        <div class="box box-order-shipping-method">
+                            <strong class="box-title">
+                                <span><?php echo __('Shipping Method') ?></span>
+                            </strong>
+                            <div class="box-content">
+                            <?php if ($order->getShippingDescription()): ?>
+                                <?php echo $block->escapeHtml($order->getShippingDescription()) ?>
+                            <?php else: ?>
+                                <?php echo __('No shipping information available'); ?>
+                            <?php endif; ?>
+                            </div>
+                            <?php 
+                            if($item_ship_status!="Shipped" && $item_cancel_status!="1" && $block->isOrderCanShip($order)){ ?>
+                                <form action="<?php echo $block->getUrl('marketplace/order/shipment', ['_secure' => $this->getRequest()->isSecure()])?>" id="marketplace-shipping-form" method="post">
+                                    <input class="required-entry" type="hidden" value="<?php echo $order->getId(); ?>" name="id"/>
+                                    <table class="data-table orders wk-mp-list_table" id="my-orders-table">
+                                        <col width="1" />
+                                        <col width="1" />
+                                        <tbody>
+                                            <?php echo $block->getChildHtml(); ?>
+                                            <tr>
+                                                <td>
+                                                    <input class="carrier input-text" value="<?php echo $tracking->getCarrierName(); ?>" <?php echo $disabled;?> type="text" name="carrier" placeholder="<?php echo __('Carrier') ?>"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input class="required-entry input-text" value="<?php echo $tracking->getTrackingNumber(); ?>" <?php echo $disabled;?> type="text" name="tracking_id" placeholder="<?php echo __('Tracking Number') ?>"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                                <?php
+                            } 
+                        </div>?>
+                    <?php endif; ?>
+                    <?php /*if ($helper->getSellerProfileDisplayFlag()) { ?>
+                        <div class="box box-order-billing-address">
+                            <strong class="box-title">
+                                <span><?php echo __('Billing Address') ?></span>
+                            </strong>
+                            <div class="box-content">
+                                <!-- <address><?php //echo $order->getCustomerName(); ?></address> -->
+                                <address><?php echo $block->getFormattedAddress($order->getBillingAddress()); ?></address>
+                            </div>
+                        </div>
+                    <?php
+                    } 
+                    <div class="box box-order-billing-method">
+                        <strong class="box-title">
+                            <span><?php echo __('Payment Method') ?></span>
+                        </strong>
+                        <div class="box-content">
+                            <?php echo $payment_method; ?>
+                        </div>
+                    </div> */?>
+                    <?php if ($order->getVendorDeliveryDays() && (!empty($order->getVendorDeliveryDays()))): ?>
+                        <?php $vndrprodctDelDays = unserialize($order->getVendorDeliveryDays());  ?>
+                        <div class="box box-order-billing-method">
+                            <strong class="box-title">
+                                <span><?php echo __('Products Delivery Days') ?></span>
+                            </strong>
+                            <div class="box-content" >
+                                <?php if (is_array($vndrprodctDelDays) && (array_key_exists($helper->getCustomerId(), $vndrprodctDelDays))): ?>
+                                <?php $productDeliveryDays = $vndrprodctDelDays[$helper->getCustomerId()]; ?>
+                                    <div class="mis_delivery_days">
+                                        <span class="delivery-days"><?php echo $vndrprodctDelDays[$helper->getCustomerId()]['final_days'].' working days'; ?></span>
+                                        <?php //foreach ($productDeliveryDays as $key => $value): ?>
+                                        <?php // endforeach; ?>
+                                    </div>
+                                <?php else:?>
+                                    <span><?php echo __('No information'); ?></span>
+                                <?php endif;?>
+                            </div>
+                        </div>
+                    <?php endif;?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="note-list">
+            <li class="note-list-item">
+    <?php 
+
+        $commentAvailable = 0;
+        $customerId = $myHelper->getCustomerIdFromSession();
+        $commentCollection = $myHelper->getSellerComment();
+        $userComment = $commentCollection->getCollection()->addFieldToFilter('seller_id',['eq' => $customerId])->addFieldToFilter('order_id',['eq' => $order->getRealOrderId()]);      
+    ?>
+
+    <div class="block-title">
+        <strong><?php echo __('Comments') ?></strong>
+    </div>
+    <?php if ($userComment->getSize() >=1) { 
+        foreach ($userComment->getData() as $key => $value) {
+            $commentDate = $value['created_on'];
+            $commentName = $value['seller_name'];
+            $commentUser = $value['comment'];
+
+
+    ?>
+    <ul class="note-list">
+            <li class="note-list-item">
+            <span class="note-list-date"><?php echo $commentDate; ?></span>
+            <span class="note-list-status"><?php echo $commentName; ?></span>
+            <div class="note-list-comment"><?php echo $commentUser; ?></div>
+            </li>
+    </ul>
+    <?php
+       }
+     } ?>
+     <br/><br/><br/>
+    <div class="buttons-set">
+        <p class="back-link">
+            <a href="<?php echo $block->getUrl('marketplace/order/history', ['_secure' => $this->getRequest()->isSecure()]);?>" class="left">&laquo; <?php echo __('Back to my orders') ?></a>
+        </p>
+    </div>
+    <script type="text/javascript">
+        var product_weight = "<?php echo $productWeight; ?>";
+        function changeTabView()
+            {
+                var id = jQuery(this).attr('id');
+                if (id == 'gsr_id') {
+                    jQuery('.gsr_class').css('display', 'block');
+                    jQuery('.dhl_class').css('display', 'none');
+                    jQuery('#gsr_id').css('background-color', '#ffc107');
+                    jQuery('#dhl_id').css('background-color', 'black');
+                } else {
+                    jQuery('.dhl_class').css('display', 'block');
+                    jQuery('.gsr_class').css('display', 'none');
+                    jQuery('#gsr_id').css('background-color', 'black');
+                    jQuery('#dhl_class').css('background-color', '#ffc107');
+                }
+            }
+    </script>
+    <script type="text/x-magento-init">
+        {
+            "#mis-order-status-form-popup": {
+                "validation": {}
+            }
+        }
+    </script>
+    <script>
+        var error_msg = "<?php echo __('Please select both the checkboxes!');?>";
+        var mQuery;
+        require([
+            "jquery",
+            "vesallFancybox",
+            "mage/mage",
+            "jquery/validate",
+            "mage/validation"
+        ], function($){
+            
+            $(document).ready(function() {
+                var product_ids = "<?php echo $product_id_array;?>";
+                $('.product_ids').val(product_ids);
+
+            });
+
+            $('#mis_submit').on('click', function(event){
+                console.log("Mis Button Clicked: ");
+                console.log($('#mis_tracking_id').val());
+                console.log($('#mis_tracking_id').val() == '');
+
+                if ($('#mis_tracking_id').val() !== null && $('#mis_tracking_id').val() != '') {
+                    $('#tracking_error').css('display','none');
+                } else {
+                    $('#tracking_error').css('display','block');
+                    event.preventDefault();
+                }
+
+                if ($('.deviceErrorMsg').prop('checked') && $('.deviceErrorMsg').prop('checked')) {
+                    $('.deviceErrorMsg').text(error_msg).hide();
+                    
+                } else {
+                    $('.deviceErrorMsg').text(error_msg).show();
+                }
+            });
+
+
+            $('.tablink').click(function(){
+                var id = $(this).attr('id');
+                if (id == 'gsr_id') {
+                    $('.gsr_class').css('display', 'block');
+                    $('.dhl_class').css('display', 'none');
+                } else {
+                    $('.dhl_class').css('display', 'block');
+                    $('.gsr_class').css('display', 'none');
+                    console.log(product_weight);
+                    if (product_weight > 31.5) {
+                        console.log('low weight');
+                        $('.weight_msg').css('display', 'block');              
+                        $('.weight_msg').css('color', 'red');              
+                        $('.dhl_btn').css('display', 'none');
+                        $('.dhl_message').css('display', 'none');
+                    }
+                }
+            });
+
+            $('.dhl_status_btn').on('click', function(){
+                if ($('.device-required-dhl-1').prop('checked') && $('.device-required-dhl-2').prop('checked')) {
+                    $('.deviceErrorMsgDhl').text(error_msg).hide();
+                    
+                } else {
+                    $('.deviceErrorMsgDhl').text(error_msg).show();
+                }
+            });
+
+            $('.dhl_status_btn').on('click', function(event){
+                 if ($('.device-required-dhl-1').prop('checked') && $('.device-required-dhl-2').prop('checked')) {
+                    $('.deviceErrorMsgDhl').hide();
+                } else {
+                    event.preventDefault();
+                    $('.deviceErrorMsgDhl').text(error_msg).show();
+                }
+            });
+            
+            $('.dhl_btn').on('click', function(){
+
+                if ($('.device-required-dhl-1').prop('checked') && $('.device-required-dhl-2').prop('checked')) {
+
+                    $('.deviceErrorMsgDhl').hide();
+
+                    var ajaxurl = "<?php echo $this->getUrl('dhlshipment/dhl/index') ?>";
+                    var address_url = "<?php echo $this->getUrl('customer/address/edit') ?>";
+                    
+                    var order_id = "<?php echo $order_id; ?>";
+                    var order_increment_id = "<?php echo $order->getIncrementId(); ?>";
+                    jQuery.ajax({
+                        type: "POST",
+                        data : {
+                            'product_ids': product_ids, 
+                            'order_id': order_id, 
+                            'order_increment_id': order_increment_id, 
+                            'is_ajax': true
+                        },
+                        async : true,
+                        url: ajaxurl,
+                        showLoader: true,
+                        success: function (response) {
+                            if (response == 2) {
+                                $(".address_msg").css('display', 'block');
+                                $(".address_msg").css('color', 'red');
+                                /*$(".address_link").trigger('click');*/
+                                $('.fancybox-close').trigger('click');
+                                window.location.href = address_url;
+                            } else if(response == 3){
+                                $(".address_msg").css('display', 'none');
+                                $('.dhl_fees_msg').css('display', 'block');
+                                $(".dhl_fees_msg").css('color', 'red');
+                            } else {
+                                console.log('tracking id');
+                                response_data = $.parseJSON(response);
+                                console.log(response_data);
+                                console.log(response_data.trackingId);
+                                window.open(response_data.pdf);
+                                window.open(response_data.filename);
+                                $('#transaction_id_field').val(response_data.trackingId);
+                                $('.pdf_file_name').val(response_data.filename);
+                                $('.transaction_div').css('display', 'block');
+                                $(".address_msg").css('display', 'none');
+                                $('.dhl_fees_msg').css('display', 'none');
+                                $(".dhl_status_btn").css('display', 'block');
+                                $(".dhl_btn").css('display', 'none');
+                            }  
+                        },
+                        error: function (response) {
+                            console.log('DHL Label Error Response '+response);
+                        }
+                    });
+
+                } else {
+                    $('.deviceErrorMsgDhl').text(error_msg).show();
+                }
+            });
+
+
+            var dataForm = $('#marketplace-shipping-form');
+            dataForm.mage('validation', {});
+
+            $('#mp-create-shipment-btn').click(function(){
+                var confimation = confirm('<?php echo __("Are you sure you want to create shipment?") ?>');
+                if (confimation) {
+                    dataForm.submit();
+                }
+            });
+
+            $( "#mis-order-status-form" ).submit(function( event ) {
+                event.preventDefault();
+                $.fancybox({
+                    'padding': '0px',
+                    'autoScale': true,
+                    'transitionIn': 'fade',
+                    'transitionOut': 'fade',
+                    'type': 'inline',
+                    'width':'400px',
+                    'height':300,
+                    'href': '#mis-confirmation-box',
+                    'tpl': { 
+                        closeBtn: '<a title="Close" class="fancybox-item fancybox-close fancybox-newsletter-close" href="javascript:;"></a>' 
+                    }
+                });
+            });
+                  //your js code here 
+            $.validator.addMethod('device-required', function (value) {
+                fieldLen = document.querySelectorAll('input[name="mis_order_slip"]:checked').length;
+                if(fieldLen) {
+                    $('.deviceErrorMsg').text('').hide();
+                    return true;
+                } else {
+                    $('.deviceErrorMsg').text(error_msg).show();
+                }
+                // return !!container.querySelectorAll(selector).length;
+            }, 'Please select both the options.');
+
+            $.validator.addMethod('device-required-2', function (value) {
+                fieldLen2 = document.querySelectorAll('input[name="mis_terms_condition"]:checked').length;
+                if(fieldLen2) {
+                    $('.deviceErrorMsg').text('').hide();
+                    return true;
+                } else {
+                    $('.deviceErrorMsg').text(error_msg).show();
+                }
+                // return !!container.querySelectorAll(selector).length;
+            }, 'Please select both the options.');
+            jQuery("#internalNote").click(function(){
+                jQuery("#noteMessage").toggle();
+            });
+            $("#addComment").click(function(){
+                $.fancybox({
+                    'padding': '5px',
+                    'autoScale': true,
+                    'closeBtn' : true,
+                    'transitionIn': 'fade',
+                    'transitionOut': 'fade',
+                    'type': 'inline',
+                    'href': '#comment-form',
+                    'onComplete': function() {
+
+                        $.cookie('fskPopUp', 'shown');
+                    },
+                    'helpers': {
+                        overlay: {
+                            closeClick: false,
+                            locked: false
+                        }
+                    }
+                }); 
+
+            });
+        });
+        
+    </script>
+<div id="comment-form" style="display: none;">
+    <form class="form" id="uploadForm" action="<?php echo $this->getUrl('fskverified/order/comment') ?>" method="post" enctype="multipart/form-data" >
+    <fieldset class="fieldset">
+        <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('') ?></span></legend>
+        <input name="form_key" type="hidden" value="<?php echo $block->getformKey();?>">
+        <input name="orderId" type="hidden" value="<?php echo $order->getRealOrderId();?>">
+        <br>
+        <div class="field required">
+            <h3><label for="number" class="label">
+                <span><?php /* @escapeNotVerified */ echo __('Add Comment') ?></span><span class="imp-red">*</span>
+            </label></h3>
+
+            <div class="control">
+                <textarea class="textarea" id="commentId" name="commentName" class="input-text"></textarea>
+                <small class="com-err" style="display: none; color: red;"><?php echo __('Field should not be empty.');?></small>
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="submit" class="action submit primary" id="commentbtn">
+                <span><?php /* @escapeNotVerified */ echo __('Submit') ?></span>
+            </button>
+        </div>
+    </div>
+
+</form>
+</div>
+<!-- RMA Work -->
+<div class="return_exist_div" id="return_exist_div_id" style="display: none;">
+    <p class="return_exist_div_p"><?php echo __('This order is in the return process.');?></p>
+</div>
+
+<script type="text/javascript">
+var isReturnRequestExist = "<?php echo $isReturnRequestExist; ?>";
+var showReturnProcessMsg = "<?php echo $showReturnProcessMsg; ?>";
+    require([
+            "jquery",
+            "vesallFancybox",
+        ], function($){
+            if (isReturnRequestExist == true && showReturnProcessMsg == true) {
+                $('.mis_statuses').prop("disabled", true);
+                $('#mis_status_submit').prop("disabled", true);
+                setTimeout(
+                    function(){ 
+                        $.fancybox({
+                            'padding': '5px',
+                            'autoScale': true,
+                            'closeBtn' : true,
+                            'transitionIn': 'fade',
+                            'transitionOut': 'fade',
+                            'type': 'inline',
+                            'href': '#return_exist_div_id',
+                            'onComplete': function() {
+                                $.cookie('fskPopUp', 'shown');
+
+                            },
+                            'helpers': {
+                                overlay: {
+                                    closeClick: false,
+                                    locked: false
+                                }
+                            }
+                        });                 
+                        
+                    }, 3000);
+            }
+    });
+</script>
+
+<!-- RMA work ends -->
+
+<script type="text/javascript">
+var old_product_id = 0;
+    require([
+            "jquery"
+        ], function($){
+            jQuery("#commentbtn").click(function(){
+                var commentData =  jQuery("#commentId").val();
+                if ( ((commentData == '') || (typeof commentData == 'undefined')) ) {
+                    jQuery(".com-err").css('display', 'block');
+                    event.preventDefault();
+                } else {
+                    jQuery(".com-err").css('display', 'none');
+                }
+            });
+
+
+        /*jQuery('#toolimg').hover(function(){
+            var product_id = jQuery(this).data('proid');
+            old_product_id = product_id;
+            console.log(product_id);
+
+            jQuery('.note'+product_id).css('display','block');
+        },
+        function(){
+            jQuery('.note'+old_product_id).css('display','none');
+        });*/
+    });
+</script>
+    <?php
+}

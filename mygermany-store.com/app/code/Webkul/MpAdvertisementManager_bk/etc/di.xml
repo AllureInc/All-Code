@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpAdvertisementManager
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    
+    <type name="\Magento\Quote\Model\Quote">
+        <plugin name="Webkul_MpAdvertisementManager::aroundAddProduct"
+                type="Webkul\MpAdvertisementManager\Plugin\Quote\AddProduct"
+                sortOrder="20" />
+    </type>
+
+    <type name="\Magento\Sales\Model\Order\Item">
+        <plugin name="Webkul_MpAdvertisementManager::afterGetItemOptions" type="Webkul\MpAdvertisementManager\Plugin\Order\Item\ItemOptions" sortOrder="22" />
+    </type>
+
+    <type name="\Magento\Sales\CustomerData\LastOrderedItems">
+        <plugin name="Webkul_MpAdvertisementManager::afterGetLastOrderedItems" type="Webkul\MpAdvertisementManager\Plugin\Customer\LastOrderedItems" sortOrder="23" />
+    </type>
+
+    <type name="\Magento\Checkout\Block\Cart">
+        <plugin name="Webkul_MpAdvertisementManager::afterGetCartItemHtml" type="Webkul\MpAdvertisementManager\Plugin\Checkout\Block\Cart\GetCartItemHtml" sortOrder="22" />
+    </type>
+    
+    <type name="\Magento\Checkout\CustomerData\Cart">
+        <plugin name="Webkul_MpAdvertisementManager::afterGetSectionData" type="Webkul\MpAdvertisementManager\Plugin\Checkout\CustomerData\Cart" sortOrder="24" />
+    </type>
+
+    <preference for="Webkul\MpAdvertisementManager\Api\Data\PricingInterface" 
+                type="Webkul\MpAdvertisementManager\Model\Pricing" />
+    <preference for="Webkul\MpAdvertisementManager\Api\PricingRepositoryInterface" 
+                type="Webkul\MpAdvertisementManager\Model\PricingRepository" />
+
+    <preference for="Webkul\MpAdvertisementManager\Api\Data\BlockInterface" 
+                type="Webkul\MpAdvertisementManager\Model\Block" />
+    <preference for="Webkul\MpAdvertisementManager\Api\BlockRepositoryInterface" 
+                type="Webkul\MpAdvertisementManager\Model\BlockRepository" />
+
+    <preference for="Magento\Quote\Api\Data\ProductOptionExtensionInterface" 
+                type="Magento\Quote\Api\Data\ProductOptionExtension" />
+
+    <type name="Webkul\MpAdvertisementManager\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Webkul\MpAdvertisementManager\Logger\AdsLogger">
+        <arguments>
+            <argument name="name" xsi:type="string">adslogger</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Webkul\MpAdvertisementManager\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>                
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="ads_pricing_list_data_source" xsi:type="string">Webkul\MpAdvertisementManager\Model\ResourceModel\Pricing\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Webkul\MpAdvertisementManager\Model\ResourceModel\Pricing\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">marketplace_ads_pricing</argument>
+            <argument name="eventPrefix" xsi:type="string">ads_pricing_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">ads_pricing_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\MpAdvertisementManager\Model\ResourceModel\Pricing</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="ads_purchase_list_data_source" xsi:type="string">Webkul\MpAdvertisementManager\Model\ResourceModel\AdsPurchaseDetail\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Webkul\MpAdvertisementManager\Model\ResourceModel\AdsPurchaseDetail\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">marketplace_ads_purchase_details</argument>
+            <argument name="eventPrefix" xsi:type="string">ads_purchase_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">ads_purchase_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\MpAdvertisementManager\Model\ResourceModel\AdsPurchaseDetail</argument>
+        </arguments>
+    </type>
+
+    <type name="\Webkul\Marketplace\Helper\Data">
+       <plugin name="Webkul_MpAdvertisementManager::updatedHelperDataFile"
+               type="Webkul\MpAdvertisementManager\Plugin\Helper\Data"
+               sortOrder="100" />
+    </type>
+</config>

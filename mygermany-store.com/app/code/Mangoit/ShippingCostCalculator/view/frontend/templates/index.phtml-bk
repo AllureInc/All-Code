@@ -1,0 +1,249 @@
+<?php
+/**
+ * Mangoit Software.
+ *
+ * @category  Mangoit
+ * @package   Mangoit_Marketplace
+ * @author    Mangoit
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Mangoit\Marketplace\Block\Product\Productlist */
+
+$countries = $this->getCountries();
+
+?>
+<style type="text/css">
+  .ship-a:hover{ text-decoration: underline; text-decoration-color: #323132; }
+</style>
+<div class="container-shipping-calculator">
+   <div class="form_title"><h1><?php echo __('TOTAL SHIPPING COST CALCULATOR') ?></h1></div>
+   <form action="" method="POST" class="calculator_form" id="calculator_form" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields')?>" data-mage-init='{"validation":{}}'>
+       <div class="full_width_input required" >
+           <label><?php echo __('To be sent from') ?></label>
+           <select id="sentFrom" name="sentFrom">
+              <option value="276"><?php echo __('Germany')?> </option>
+            </select>
+       </div>
+
+       <div class="full_width_input">
+            <label><?php echo __('To be delivered to'); ?></label>
+            <select id="deliveryTo" name="deliveryTo" required="" class="validate-select required-entry"> 
+                <option value="" selected="selected"><?php echo __('-- Please Select --');?></option>
+                <?php foreach ($countries as $countryValue): ?>
+                    <option value="<?php echo $countryValue['value'] ?>"><?php echo $countryValue['label'] ?></option>
+                <?php endforeach; ?>
+            </select>
+       </div>
+       <div class="full_width_input">
+           <label><?php echo __('ZIP code') ?></label>
+           <input type="text" id="zipCode" class="validate-zip-international required-entry" name="zipCode">
+       </div>
+
+       <div class="weight_part">
+           <label><?php echo __("Weight"); echo __(" (up to 70kg, "); echo __("for &gt; 70kg please contact"); echo __("<a href='mailto:info@mygermany.com' class='ship-a'>"); echo __(" info@mygermany.com"); echo __("</a>)");?>              
+             </label>
+           <select id="weight" name="weight">
+            <?php foreach ($this->getWeights() as $weightValue): ?>
+                <option value="<?php echo $weightValue['value']?>"><?php echo __($weightValue['label'])?></option>
+            <?php endforeach; ?>
+                <option value="71000"><?php echo __('if > 71KG Please contact info@mygermany.com') ?></option>
+          </select>
+
+            <select id="weightUnit" name="weightUnit"> 
+              <option selected="selected" value="kg"><?php echo __('kg');?></option> 
+              <option value="lb"><?php echo __('lb');?></option> 
+            </select>
+       </div>
+
+       <div class="option_block">
+           <label><?php echo __('Estimated dimensions');?></label>
+           <span>
+              <input id="dimLength" name="dimLength" type="number" data-toggle="tooltip" data-placement="top" title="<?php echo __('Length in cm or inch');?>" placeholder="<?php echo __('Length');?>" required="">
+           </span>
+           <span>
+              <input id="dimWidth" name="dimWidth" type="number" data-toggle="tooltip" data-placement="top" title="<?php echo __('Width in cm or inch');?>" placeholder="<?php echo __('Width');?>" required="">
+           </span>
+           <span>
+              <input id="dimHeight" name="dimHeight" type="number" data-toggle="tooltip" data-placement="top" title="<?php echo __('Height in cm or inch');?>" placeholder="<?php echo __('Height');?>" required="">
+           </span>
+           <span>
+            <select id="dimUnit" name="dimUnit"> 
+              <option selected="selected" value="cm"><?php echo __('cm');?></option> 
+              <option value="in"><?php echo __('inch');?></option> 
+            </select>
+           <span>
+       </div>
+
+       <div class="full_width_input">
+           <label><?php echo __('Goods value in €');?></label>
+           <input id="value" name="value" type="number" data-toggle="tooltip" data-placement="top" title="<?php echo __('Enter items value in €');?>" required="">
+       </div>
+       <div class="row">
+         <div class="radio_part p-sm-0 col-md-6">
+             <label><?php echo __('Transport Insurance');?></label>
+             <label class="not_full"><?php echo __('Yes');?></label><input type="radio" name="insurance" value="yes">
+             <label class="not_full"><?php echo __('No');?></label><input checked="checked" type="radio" name="insurance" value="no">
+         </div>
+         <div class="radio_part p-sm-0 col-md-6">
+             <label><?php echo __('Drop Shipping');?></label>
+             <label class="not_full"><?php echo __('Yes');?></label><input type="radio" name="drop_ship" value="yes">
+             <label class="not_full"><?php echo __('No');?></label><input checked="checked" type="radio" name="drop_ship" value="no">
+         </div>
+       </div>
+       <div>
+           <input type="submit" name="submit_calculate  " class="submit_calculate" value="<?php echo __('CALCULATE TOTAL SHIPPING COSTS')?>">
+       </div>
+
+       <div class="cssload-container">
+        <div class="cssload-whirlpool"></div>
+      </div>
+   </form>
+</div>
+<div class="container-shipping-calculator" id="calculator-results-container" style="display: none;">
+    
+</div>
+<script type="text/javascript">
+require([
+    'jquery',
+    'mage/mage'
+], function($){
+ 
+   var dataForm = $('#calculator_form');
+   dataForm.mage('validation', {});
+ 
+});
+</script>
+<script type="text/javascript">
+
+require(['jquery',  'Magento_Ui/js/modal/alert', 'jquery/ui', 'mage/validation'], function($, alert){ 
+     $(document).on('click','.open_more',function(){ /* expanding details of the delivery method */
+        var delivery_details_block = $(this).parent().parent().find('.more_part');
+        if(delivery_details_block.hasClass("visible_more")){
+            delivery_details_block.hide();
+            delivery_details_block.removeClass("visible_more");
+        }else{
+            delivery_details_block.show();
+            delivery_details_block.addClass("visible_more");
+        }
+        $(this).find('i').toggleClass( "active_more_btn" );
+    });
+    /**
+     * form tooltip initialization
+     */
+    jQuery( function() {
+        jQuery( document ).tooltip({
+            position: {
+                my: "center bottom-20",
+                at: "center top",
+                using: function( position, feedback ) {
+                    jQuery( this ).css( position );
+                    jQuery( "<div>" )
+                        .addClass( "arrow" )
+                        .addClass( feedback.vertical )
+                        .addClass( feedback.horizontal )
+                        .appendTo( this );
+                }
+            }
+        });
+    });
+
+    /** 
+     * change limit when changing between kg/lb
+     */
+    jQuery( function() {
+      $("select[name='weightUnit']").change(function() {
+        switch($( "select[name='weightUnit'] option:selected" ).text()) {
+          case "lb":
+          var options = $("select[name='weight']");
+          options.empty();
+          for (var i=1; i<=140; i++) {
+            options.append($("<option />").val(i*1000).text("up to " + i));
+          }
+          options.append($("<option />").val(141*1000).text("if > 141 lb Please contact info@mygermany.com "));
+          break;
+          case "kg":
+          var options = $("select[name='weight']");
+          options.empty();
+          for (var i=1; i<=70; i++) {
+            options.append($("<option />").val(i*1000).text("up to " + i));
+          }
+          options.append($("<option />").val(71*1000).text("<?php echo __('if > 71KG Please contact info@mygermany.com');?>"));
+          break;
+        }
+      });
+    });
+
+    /**
+     * error dialog initialization 
+     */
+        $( "#error-dialog" ).dialog({
+           autoOpen: false,  
+           modal: true,
+           buttons: {
+              Ok: function() {
+                $( this ).dialog( "close" );
+              }
+           }
+        });
+
+
+
+
+    /**
+     * form submit processor
+     */
+
+    $('.calculator_form').submit(function(event){
+
+      var dataCalForm = $('#calculator_form');
+      var ignore = null;
+
+      dataCalForm.mage('validation', {
+          ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+      }).find('input:text').attr('autocomplete', 'off');
+
+      console.log('Form Validation: ');
+      console.log(dataCalForm.validation('isValid'));
+
+      if (dataCalForm.validation('isValid')) {
+        event.preventDefault();
+        var url = "<?php echo $this->getUrl('shipping-cost-calculator/index/showcalculation') ?>";
+        $(".cssload-container").css("display","block");
+        $.ajax({
+            type: "POST",
+            url: url,
+            async : true,
+            showLoader:true,
+            data : $('.calculator_form').serialize(),
+            success: function(data)
+            {
+              var str1 = data;
+              var str2 = "too high";
+              var str3 = "Wrong dimensions!";
+              var str4 = "Shipping to this country not available.";
+              if(str1.indexOf(str2) != -1 || (str1.indexOf(str3) != -1) || (str1.indexOf(str4) != -1)){
+                  // Error found
+                  alert({
+                     content: data
+                  }); 
+              } else {
+                  $("#calculator-results-container").html(data).show();
+                  $('html, body').animate({
+                      scrollTop: $("#calculator-results-container").offset().top
+                  }, 2000);
+                  
+              }
+              $(".cssload-container").css("display","none");
+            }
+        });
+
+      }
+
+
+    });   
+ });
+    
+    
+</script>

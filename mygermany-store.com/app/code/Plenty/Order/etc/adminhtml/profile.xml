@@ -1,0 +1,190 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <!--
+        _____________________   ORDER EXPORT CONFIG   ___________________
+        ===================================================================
+        -->
+        <section id="order_export" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>General Configuration</label>
+            <resource>Plenty_Core::config_plenty_core</resource>
+            <group id="export_config" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Export Configuration</label>
+                <field id="is_active_order_export" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable order export</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="export_batch_size" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Process batch</label>
+                    <comment>An option to limit the number of entries to process per each schedule.</comment>
+                    <depends>
+                        <field id="enable_order_export">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="api_config" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>API Configuration</label>
+                <field id="api_behaviour" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>API behaviour</label>
+                    <source_model>Plenty\Core\Model\Profile\Config\Source\Behaviour</source_model>
+                    <comment>Api behaviour can be configured to either collected recently updated records or to replace existing records with new data. Consider "update" as this is more efficient way of collecting data.</comment>
+                </field>
+                <field id="api_collection_size" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>API collection size</label>
+                    <source_model>Plenty\Core\Model\Profile\Config\Source\ApiCollectionSize</source_model>
+                    <comment>Number of records an API returns per page request. Default: 50. Max 500.</comment>
+                </field>
+                <field id="order_search_filters" translate="label" type="multiselect" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Order search filters</label>
+                    <source_model>Plenty\Order\Profile\Config\Source\Api\Order\Filters</source_model>
+                    <comment>Select entries to collect during order search.</comment>
+                </field>
+            </group>
+            <group id="store_config" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Store Configuration</label>
+                <field id="store_mapping" translate="label" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Store mapping</label>
+                    <frontend_model>Plenty\Core\Block\Adminhtml\Profile\Config\Form\Field\Store\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                </field>
+                <field id="order_referer_id" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Order Referrer Id</label>
+                    <comment>
+                        <![CDATA[An option to mark orders with specific referrer. This helps identify order origin in PlentyMarkets. <span style="color:#e22626;">Please ensure order referrer ID exists in PlentyMarkets otherwise PM will return error.</span> For more information on Order Referrer ID visit <a href="https://knowledge.plentymarkets.com/en/orders/order-referrer" target="_blank">Tutorial Page</a>]]>
+                    </comment>
+                </field>
+            </group>
+            <group id="status_config" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Order Statuses Configuration</label>
+                <field id="status_filter" translate="label" type="multiselect" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Process orders with status</label>
+                    <source_model>Magento\Sales\Model\ResourceModel\Order\Status\Collection</source_model>
+                    <comment>Allowed orders with above status.</comment>
+                </field>
+                <field id="status_mapping" translate="label" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Status mapping</label>
+                    <frontend_model>Plenty\Order\Block\Adminhtml\Profile\Config\Form\Field\Order\Status\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                </field>
+            </group>
+            <group id="payment_config" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Payment Configuration</label>
+                <field id="enable_payment_export" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable payment export</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>An option to export payment information.</comment>
+                </field>
+                <field id="payment_mapping" translate="label" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Payment mapping</label>
+                    <frontend_model>Plenty\Order\Block\Adminhtml\Profile\Config\Form\Field\Order\Payment\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                    <depends>
+                        <field id="enable_payment_export">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="shipping_config" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Shipping Configuration</label>
+                <field id="enable_shipping_export" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable shipping export</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>An option to export shipping information.</comment>
+                </field>
+                <field id="default_shipping_profile" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Default shipping profile</label>
+                    <source_model>Plenty\Order\Profile\Config\Source\Shipping\ShippingProfiles</source_model>
+                    <depends>
+                        <field id="enable_shipping_export">1</field>
+                    </depends>
+                </field>
+                <field id="shipping_mapping" translate="label" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Shipping mapping</label>
+                    <frontend_model>Plenty\Order\Block\Adminhtml\Profile\Config\Form\Field\Order\Shipping\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                    <depends>
+                        <field id="enable_shipping_export">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="customer_config" translate="label" type="text comment" sortOrder="7" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Customer Configuration</label>
+                <field id="enable_customer_export" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Create customer</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>An option to create customer and contact in PlentyMarkets.</comment>
+                </field>
+            </group>
+            <group id="warehouse_config" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Warehouse Configuration</label>
+                <field id="main_warehouse_id" translate="label comment" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Main warehouse ID</label>
+                    <source_model>Plenty\Stock\Profile\Config\Source\Warehouse</source_model>
+                    <comment>The ID of the main warehouse</comment>
+                </field>
+            </group>
+        </section>
+        <!--
+        _____________________   ORDER IMPORT CONFIG   ___________________
+        ===================================================================
+        -->
+        <section id="order_import" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>General Configuration</label>
+            <resource>Plenty_Core::config_plenty_core</resource>
+            <group id="import_config" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Import Configuration</label>
+                <field id="enable_product_import" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable product import</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enables product import.</comment>
+                </field>
+                <field id="import_behaviour" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Import behaviour</label>
+                    <source_model>Plenty\Core\Model\Profile\Config\Source\Behaviour</source_model>
+                    <comment>Import behaviour can be configured to either update or replace existing records. Replace behaviour will replace all product data.</comment>
+                </field>
+                <field id="import_batch_size" translate="label comment" type="text" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Import process batch size</label>
+                    <comment>Number of records to import per process. Default: 100. Max 10,000.</comment>
+                </field>
+                <field id="reindex_after" translate="label comment" type="select" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Re-index after</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enables re-indexing of product data upon import completion.</comment>
+                </field>
+            </group>
+            <group id="api_config" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>API Configuration</label>
+                <field id="api_behaviour" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>API behaviour</label>
+                    <source_model>Plenty\Core\Model\Profile\Config\Source\Behaviour</source_model>
+                    <comment>Api behaviour can be configured to either collected recently updated records or to replace existing records with new data. Consider "update" as this is more efficient way of collecting data.</comment>
+                </field>
+                <field id="api_collection_size" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>API collection size</label>
+                    <source_model>Plenty\Core\Model\Profile\Config\Source\ApiCollectionSize</source_model>
+                    <comment>Number of records an API returns per page request. Default: 50. Max 500.</comment>
+                </field>
+            </group>
+            <group id="store_config" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Store Configuration</label>
+                <field id="store_mapping" translate="label" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Store mapping</label>
+                    <frontend_model>Plenty\Core\Block\Adminhtml\Profile\Config\Form\Field\Store\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                </field>
+                <field id="order_referer_id" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Order Referrer Id</label>
+                    <comment>
+                        <![CDATA[An option to mark orders with specific referrer. This helps identify order origin in PlentyMarkets. <span style="color:#e22626;">Please ensure order referrer ID exists in PlentyMarkets otherwise PM will return error.</span> For more information on Order Referrer ID visit <a href="https://knowledge.plentymarkets.com/en/orders/order-referrer" target="_blank">Tutorial Page</a>]]>
+                    </comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

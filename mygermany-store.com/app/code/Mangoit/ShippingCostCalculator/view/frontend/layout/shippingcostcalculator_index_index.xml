@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd" layout="1column">
+    
+    <head>
+        <link src="Mangoit_ShippingCostCalculator::css/scc.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Mangoit\ShippingCostCalculator\Block\Index" name="shipping-cost-calculator" template="Mangoit_ShippingCostCalculator::index.phtml" />
+        </referenceContainer>
+    </body>
+</page>

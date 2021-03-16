@@ -1,0 +1,244 @@
+<?php
+/**
+ * @var \Magento\Framework\View\TemplateEngine\Php $this
+ * @var \Scommerce\Gdpr\Block\Cookienotice $block
+ */
+?>
+
+<style>
+    .scommerce-gdpr-cookienotice {background: #<?php echo $block->getCookieBackgroundColor() ?>;color: #<?php echo $block->getCookieTextColor() ?>;}
+    .scommerce-gdpr-cookienotice .message span.cookie-title {color: #<?php echo $block->getCookieTextColor() ?>;}
+    .scommerce-gdpr-cookienotice .message a {color: #<?php echo $block->getCookieLinkColor() ?>;}
+
+    /* Popup dependent styles */
+    <?php if ($block->getPopupHelper()->isEnabled()): ?>
+
+    .scommerce-gdpr-cookienotice .message {
+        max-width: none;
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 14px;
+    }
+
+    .scommerce-gdpr-cookienotice .message .text {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .scommerce-gdpr-cookienotice .message span {
+        margin-left: 0;
+    }
+
+    .scommerce-gdpr-cookienotice .message a:hover {
+        text-decoration: none;
+    }
+    .scommerce-gdpr-cookienotice .message .close a {
+        font-size: 16px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .scommerce-gdpr-cookienotice .message .close a:hover {
+        text-decoration: underline;
+    }
+    .scommerce-gdpr-disabled {
+        pointer-events: none;
+        opacity: 0.4;
+    }
+    .bottom-position {
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        bottom: 0;
+        left: 0;
+    }
+    #js-cookienotice {
+        clear: both;
+    }
+    #js-cookienotice .message {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    <?php if ($block->getPopupHelper()->getStyleValue('notice_height')): ?>
+        min-height: <?php echo $block->getPopupHelper()->getStyleValue('notice_height'); ?>px;
+    <?php endif; ?>
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    #js-cookienotice p {
+        float: left;
+        width: 15%;
+        text-align: center;
+    }
+    #js-cookienotice .text {
+        float: left;
+        width: 70%;
+        text-align: left;
+    }
+    #js-cookienotice .accept a {
+        padding: 10px 20px;
+        background-color: #<?php echo $block->getPopupHelper()->getStyleValue('accept_button_background'); ?>;
+        color: #<?php echo $block->getPopupHelper()->getStyleValue('accept_button_text_color') ?>;
+        text-transform: uppercase;
+        text-decoration: none;
+    }
+
+    @media screen and (max-width: 767px) {
+        #js-cookienotice .message {
+            display: block;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        #js-cookienotice .text {
+            width: 100%;
+            float: none;
+        }
+
+        #js-cookienotice p {
+            width: 50%;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+    }
+
+    <?php endif; ?>
+</style>
+
+<div id="js-cookienotice" class="scommerce-gdpr-cookienotice" style="display: none;">
+    <div class="message">
+        <?php if (!$block->getPopupHelper()->isEnabled()): ?>
+        <span class="cookie-title"><?= __('Cookie Policy');?></span>
+        <?php endif; ?>
+        <p class="<?php echo ($block->getPopupHelper()->isEnabled() ? "text": ""); ?>">
+            <?= $block->getCookieTextMessage() ?>
+            <?php if (!$block->getPopupHelper()->isEnabled()): ?><br/><?php endif; ?>
+            <a href="<?= $block->getCmsPageUrl() ?>">
+                <?= $block->getCookieLinkText() ?>
+            </a>
+        </p>
+        <?php if (!$block->getPopupHelper()->isEnabled()): ?>
+            <p class="accept">
+                <a id="js-gdpr-accept" href=""><?= __('Accept');?></a>
+            </p>
+            <?php if (! $block->isBlocked()): ?>
+                <p class="decline">
+                    <a id="js-gdpr-decline" href=""><?= __('Decline');?></a>
+                </p>
+            <?php endif ?>
+        <?php endif; ?>
+        <?php if ($block->getPopupHelper()->isEnabled()): ?>
+            <?php if($block->hasChoices()): ?>
+                <p><a href="#" class="js-cookie-settings"><?php echo $block->getPopupHelper()->getLinkText(); ?></a></p>
+            <?php endif; ?>
+            <p class="accept">
+                <a id="js-gdpr-accept" href=""><?php echo $block->getPopupHelper()->getAcceptButtonText();?></a>
+            </p>
+        <?php endif; ?>
+    </div>
+</div>
+
+<script>
+    require([
+        'jquery',
+        'mage/cookies'
+    ], function($) {
+        // Model
+        var Model = {
+            wrapper: $('<?php echo $block->getCssPageWrapperClass() ?>'), // Page wrapper for enable/disable access to page
+            block: $('#js-cookienotice'), // Block with cookie alert text and links
+            wrapperClass: 'scommerce-gdpr-disabled', // Css class for enabling/disabling page wrapper
+            bottomClass: 'scommerce-gdpr-bottom-position', // Css class for bottom position of message
+			topClass: 'scommerce-gdpr-top-position', // Css class for top position of message
+            isBlocked: <?php echo (int) $block->isBlocked() ?>, // Config value for enable/disable accees to site page
+            isBottom: <?php echo (int) $block->isBottom() ?>, // Config value for top/bottom message position
+            cookieKey: '<?php echo $block->getCookieKey() ?>', // Cookie key to check accepted cookie policy
+            cookieClosedKey: '<?php echo $block->getCookieClosedKey() ?>', // Closed Cookie key to check if cookie message is closed
+
+            // Initialize model
+            initialize: function() {
+                if (! this.get(this.cookieClosedKey)) {
+                    this.block.show();
+                }
+                if (this.isBlocked && ! this.get(this.cookieKey)) {
+                    this.disable();
+                }
+                if (this.isBottom) {
+                    this.bottom();
+                }
+				else{
+					this.top();
+				}
+            },
+
+            // Set cookie value
+            set: function(name, value) {
+				$.cookie.domain = window.location.hostname;
+                $.cookie(name, value, {expires: new Date(new Date().getTime() + (100 * 365 * 24 * 60 * 60))});
+            },
+
+            // Get cookie value (just check to value is 1)
+            get: function(name) {
+                return $.cookie(name) == 1;
+            },
+
+            // Close gdpr block
+            close: function() {
+                this.set(this.cookieClosedKey, 1);
+                this.block.hide();
+            },
+
+            // Accept rules
+            accept: function() {
+                this.close();
+                this.set(this.cookieKey, 1);
+                if (this.isBlocked) {
+                    this.enable();
+                }
+                <?php if ($block->getPopupHelper()->isEnabled()): ?>
+                window.location = '<?php echo $block->getPopupHelper()->getSaveUrl(['save_all' => '1']) ?>';
+                <?php endif; ?>
+            },
+
+            // Decline rules
+            decline: function() {
+                this.close();
+                this.set(this.cookieKey, 0);
+            },
+
+            // Disable page wrapper ("close" access to site page)
+            disable: function() {
+                this.wrapper.addClass(this.wrapperClass);
+            },
+
+            // Enable page wrapper ("allow" access to site page)
+            enable: function() {
+                this.wrapper.removeClass(this.wrapperClass);
+            },
+
+            // "Move" message to bottom
+            bottom: function() {
+                this.block.addClass(this.bottomClass);
+            },
+			
+			// "Move" message to top
+            top: function() {
+                this.block.addClass(this.topClass);
+            }
+        };
+
+        // Callbacks
+        $('#js-gdpr-accept').on('click', function(e) {
+            e.preventDefault();
+            Model.accept();
+        });
+        $('#js-gdpr-decline').on('click', function(e) {
+            e.preventDefault();
+            Model.decline();
+        });
+
+        // Initialize
+        Model.initialize();
+    });
+</script>

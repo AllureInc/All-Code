@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Webkul
+ * @package    Webkul_MpAmazonConnector
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c)  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!-- fire on order placed -->
+    <event name="checkout_submit_all_after">
+        <observer name="webkul_mpamazonconnector_sales_order_place_after_observer" instance="Webkul\MpAmazonConnector\Observer\SalesOrderPlaceAfterObserver" />
+    </event>
+    <!-- fire on product saved -->
+    <event name="catalog_product_save_after">
+        <observer name="webkul_mpamazonconnector_catalog_product_save_after" instance="Webkul\MpAmazonConnector\Observer\CatalogProductSaveAfter" />
+    </event>
+
+</config>

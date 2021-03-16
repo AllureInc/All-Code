@@ -1,0 +1,21 @@
+{
+    "name": "webkul/mpseller-vacation",
+    "description": "Magento2 Marketplace Seller Vacation module",
+    "require": {
+        "php": "7.0.2|7.0.4|~7.0.6|~7.1.0",
+        "webkul/module-marketplace": "2.1.*"
+    },
+    "type": "magento2-module",
+    "version": "2.0.4",
+    "license": [
+        "proprietary"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Webkul\\MpSellerVacation\\": ""
+        }
+    }
+}

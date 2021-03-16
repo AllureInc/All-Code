@@ -1,0 +1,16 @@
+<!--@subject {{trans "Contact Form Response"}} @-->
+<!--@vars {
+"var data.name":"Sender Name"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<p>{{trans "Hello "}}{{var data.name}},</p>
+
+<table class="message-details">
+    <tr>
+        <td>{{trans "Thanks for your message. We will reveet soon."}}</td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

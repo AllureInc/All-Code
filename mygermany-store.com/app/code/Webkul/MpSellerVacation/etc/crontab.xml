@@ -1,0 +1,18 @@
+<!--
+/**
+* Webkul Software
+*
+* @category  Webkul
+* @package   Webkul_MpSellervacation
+* @author    Webkul
+* @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+* @license   https://store.webkul.com/license.html
+*/
+-->
+<config>
+	<group id="default">
+        <job name="mpseller_vacation_cron_data" instance="\Webkul\MpSellerVacation\Model\Cron" method="vacationUpdate">
+            <schedule>0 1 * * *</schedule>
+        </job>
+    </group>
+</config>

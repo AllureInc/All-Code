@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Walletsystem
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Ui\Model\Export\MetadataProvider">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="waletsystem_wallet_individual_details" xsi:type="array">
+                    <item name="transaction_at" xsi:type="string">transaction_at</item>
+                </item>
+                <item name="waletsystem_wallet_details" xsi:type="array">
+                    <item name="updated_at" xsi:type="string">updated_at</item>
+                </item>
+                <item name="wallesystem_creditrules" xsi:type="array">
+                    <item name="created_at" xsi:type="string">created_at</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="wallet_cash_back" xsi:type="array">
+                    <item name="class" xsi:type="string">Webkul\Walletsystem\Ui\DataProvider\Product\Form\Modifier\WalletCashBack</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+     <preference for="Magento\Backend\Block\Widget\Grid\Column\Filter\Select" type="Webkul\Walletsystem\Block\Widget\Grid\Column\Filter\Select"/> 
+
+</config>

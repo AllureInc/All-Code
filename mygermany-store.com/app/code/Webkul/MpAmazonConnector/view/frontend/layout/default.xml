@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Webkul
+ * @package    Webkul_MpAmazonConnector
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c)  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="layout2_seller_account_navigation">
+            <block class="Webkul\Marketplace\Block\Account\Navigation" name="layout2_seller_mpamazonconnector_menu" template="Webkul_MpAmazonConnector::/layout2/account/navigation.phtml">
+            </block>
+        </referenceBlock>
+    </body>
+</page>

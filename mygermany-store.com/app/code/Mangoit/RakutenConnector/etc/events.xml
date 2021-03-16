@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!-- fire on order placed -->
+    <event name="checkout_submit_all_after">
+        <observer name="Mangoit_RakutenConnector_sales_order_place_after_observer" instance="Mangoit\RakutenConnector\Observer\SalesOrderPlaceAfterObserver" />
+    </event>
+    <!-- fire on product saved -->
+    <event name="catalog_product_save_after">
+        <observer name="Mangoit_RakutenConnector_catalog_product_save_after" instance="Mangoit\RakutenConnector\Observer\CatalogProductSaveAfter" />
+    </event>
+
+</config>

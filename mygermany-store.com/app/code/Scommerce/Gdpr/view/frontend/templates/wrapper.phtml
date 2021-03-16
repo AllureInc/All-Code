@@ -1,0 +1,139 @@
+<?php
+/** @var \Scommerce\Gdpr\Block\Cookienotice $block */
+?>
+
+<style>
+    .scommerce-gdpr-cookienotice {background: #<?php echo $block->getCookieBackgroundColor() ?>;color: #<?php echo $block->getCookieTextColor() ?>;}
+    .scommerce-gdpr-cookienotice .message span.cookie-title {color: #<?php echo $block->getCookieTextColor() ?>;}
+    .scommerce-gdpr-cookienotice .message a {color: #<?php echo $block->getCookieLinkColor() ?>;}
+
+    /* Popup dependent styles */
+    <?php if ($block->getPopupHelper()->isEnabled()): ?>
+
+    .scommerce-gdpr-cookienotice .message {
+        max-width: none;
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 14px;
+    }
+
+    .scommerce-gdpr-cookienotice .message .text {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .scommerce-gdpr-cookienotice .message span {
+        margin-left: 0;
+    }
+
+    .scommerce-gdpr-cookienotice .message a:hover {
+        text-decoration: none;
+    }
+    .scommerce-gdpr-cookienotice .message .close a {
+        font-size: 16px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .scommerce-gdpr-cookienotice .message .close a:hover {
+        text-decoration: underline;
+    }
+    .scommerce-gdpr-disabled {
+        pointer-events: none;
+        opacity: 0.4;
+    }
+    .bottom-position {
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        bottom: 0;
+        left: 0;
+    }
+    #js-cookienotice {
+        clear: both;
+    }
+    #js-cookienotice .message {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    <?php if ($block->getPopupHelper()->getStyleValue('notice_height')): ?>
+        min-height: <?php echo $block->getPopupHelper()->getStyleValue('notice_height'); ?>px;
+    <?php endif; ?>
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    #js-cookienotice p {
+        float: left;
+        width: 15%;
+        text-align: center;
+    }
+    #js-cookienotice .text {
+        float: left;
+        width: 70%;
+        text-align: left;
+    }
+    #js-cookienotice .accept a {
+        padding: 10px 20px;
+        background-color: #<?php echo $block->getPopupHelper()->getStyleValue('accept_button_background'); ?>;
+        color: #<?php echo $block->getPopupHelper()->getStyleValue('accept_button_text_color') ?>;
+        text-transform: uppercase;
+        text-decoration: none;
+    }
+
+    @media screen and (max-width: 767px) {
+        #js-cookienotice .message {
+            display: block;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        #js-cookienotice .text {
+            width: 100%;
+            float: none;
+        }
+
+        #js-cookienotice p {
+            width: 50%;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+    }
+
+    <?php endif; ?>
+</style>
+
+<div data-bind="scope: 'cookie-notice-wrapper'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+
+<script type="text/x-magento-init">
+   {
+       "*": {
+           "Magento_Ui/js/core/app": {
+               "components": {
+                   "cookie-notice-wrapper": {
+                       "component": "Scommerce_Gdpr/js/wrapper",
+                       "title": "<?= __('Cookie Policy') ?>",
+                       "isPopupEnabled": "<?= $block->getPopupHelper()->isEnabled() ?>",
+                       "cookieTextMessage": "<?= $block->escapeHtml($block->getCookieTextMessage()) ?>",
+                       "cmsPageUrl": "<?= $block->getCmsPageUrl() ?>",
+                       "cookieLinkText": "<?= $block->getCookieLinkText() ?>",
+                       "acceptText": "<?= __('Accept') ?>",
+                       "declineText": "<?= __('Decline') ?>",
+                       "isBlocked": "<?= $block->isBlocked() ?>",
+                       "isBottom": "<?= $block->isBottom() ?>",
+                       "hasChoices": "<?= $block->hasChoices() ?>",
+                       "popupLinkText": "<?= $block->getPopupHelper()->getLinkText(); ?>",
+                       "acceptButtonText": "<?= $block->getPopupHelper()->getAcceptButtonText(); ?>",
+                       "cssPageWrapperClass": "<?= $block->getCssPageWrapperClass() ?>",
+                       "cookieKey": "<?php echo $block->getCookieKey() ?>",
+                       "cookieClosedKey": "<?php echo $block->getCookieClosedKey() ?>",
+                       "saveUrl": "<?= $block->getPopupHelper()->getSaveUrl(['save_all' => '1']) ?>",
+                       "getChoicesUrl": "<?= $block->getPopupHelper()->getChoicesUrl() ?>"
+                   }
+               }
+           }
+       }
+   }
+</script>

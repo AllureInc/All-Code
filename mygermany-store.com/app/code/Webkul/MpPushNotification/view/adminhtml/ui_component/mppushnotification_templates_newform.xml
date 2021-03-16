@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * @category   Webkul
+ * @package    Webkul_MpPushNotification
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">mppushnotification_templates_newform.mppushnotification_templates_newform_data_source</item>
+            <item name="deps" xsi:type="string">mppushnotification_templates_newform.mppushnotification_templates_newform_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Template Form</item>
+        <item name="layout" xsi:type="array">
+            <item name="type" xsi:type="string">tabs</item>
+        </item>
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">Webkul\MpPushNotification\Block\Adminhtml\Edit\BackButton</item>
+            <item name="delete" xsi:type="string">Webkul\MpPushNotification\Block\Adminhtml\Edit\Templates\DeleteButton</item>
+            <item name="reset" xsi:type="string">Webkul\MpPushNotification\Block\Adminhtml\Edit\ResetButton</item>
+            <item name="save" xsi:type="string">Webkul\MpPushNotification\Block\Adminhtml\Edit\Templates\SaveButton</item>
+        </item>
+    </argument>
+     
+    <dataSource name="mppushnotification_templates_newform_data_source">
+         <argument name="dataProvider" xsi:type="configurableObject">
+             <argument name="class" xsi:type="string">Webkul\MpPushNotification\Model\DataProvider</argument>
+             <argument name="name" xsi:type="string">mppushnotification_templates_newform_data_source</argument>
+             <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
+             <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" xsi:type="url" path="mppushnotification/templates/save"/>
+                </item>
+            </argument>
+         </argument>
+         <argument name="data" xsi:type="array">
+             <item name="js_config" xsi:type="array">
+                 <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+             </item>
+         </argument>
+    </dataSource>
+     
+    <fieldset name="pushnotification_template">
+         <argument name="data" xsi:type="array">
+             <item name="config" xsi:type="array">
+                 <item name="label" xsi:type="string" translate="true">Template Fieldset</item>
+             </item>
+         </argument>
+     
+         <!-- This field represents form id and is hidden -->
+         <field name="entity_id">
+             <argument name="data" xsi:type="array">
+                 <item name="config" xsi:type="array">
+                     <item name="visible" xsi:type="boolean">false</item>
+                     <item name="dataType" xsi:type="string">text</item>
+                     <item name="formElement" xsi:type="string">input</item>
+                     <item name="source" xsi:type="string">templates</item>
+                     <item name="dataScope" xsi:type="string">entity_id</item>
+                     <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                 </item>
+             </argument>
+         </field>
+         <field name="seller_id">
+             <argument name="data" xsi:type="array">
+                 <item name="config" xsi:type="array">
+                     <item name="visible" xsi:type="boolean">false</item>
+                     <item name="dataType" xsi:type="string">text</item>
+                     <item name="formElement" xsi:type="string">input</item>
+                     <item name="source" xsi:type="string">templates</item>
+                     <item name="dataScope" xsi:type="string">seller_id</item>
+                     <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">false</item>
+                    </item>
+                 </item>
+             </argument>
+         </field>
+     
+         <!-- This field has data type 'text' and standard 'input' form element and looks like input -->
+         <field name="title">
+             <argument name="data" xsi:type="array">
+                 <item name="config" xsi:type="array">
+                     <item name="label" xsi:type="string" translate="true">Template Title</item>
+                     <item name="visible" xsi:type="boolean">true</item>
+                     <item name="dataType" xsi:type="string">text</item>
+                     <item name="formElement" xsi:type="string">input</item>
+                     <item name="source" xsi:type="string">templates</item>
+                     <item name="dataScope" xsi:type="string">title</item>
+                     <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                 </item>
+             </argument>
+         </field>
+         <field name="message">
+             <argument name="data" xsi:type="array">
+                 <item name="config" xsi:type="array">
+                     <item name="label" xsi:type="string" translate="true">Template Message</item>
+                     <item name="visible" xsi:type="boolean">true</item>
+                     <item name="dataType" xsi:type="string">text</item>
+                     <item name="formElement" xsi:type="string">input</item>
+                     <item name="source" xsi:type="string">templates</item>
+                     <item name="dataScope" xsi:type="string">message</item>
+                     <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                 </item>
+             </argument>
+         </field>
+         <field name="url">
+             <argument name="data" xsi:type="array">
+                 <item name="config" xsi:type="array">
+                     <item name="label" xsi:type="string" translate="true">Redirect Url</item>
+                     <item name="visible" xsi:type="boolean">true</item>
+                     <item name="dataType" xsi:type="string">text</item>
+                     <item name="formElement" xsi:type="string">input</item>
+                     <item name="source" xsi:type="string">templates</item>
+                     <item name="dataScope" xsi:type="string">url</item>
+                     <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                          <item name="validate-url" xsi:type="string">true</item>
+                    </item>
+                 </item>
+             </argument>
+         </field>
+         <field name="tags">
+             <argument name="data" xsi:type="array">
+                 <item name="config" xsi:type="array">
+                     <item name="label" xsi:type="string" translate="true">Template Tags</item>
+                     <item name="visible" xsi:type="boolean">true</item>
+                     <item name="dataType" xsi:type="string">text</item>
+                     <item name="formElement" xsi:type="string">input</item>
+                     <item name="source" xsi:type="string">templates</item>
+                     <item name="dataScope" xsi:type="string">tags</item>
+                     <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                 </item>
+             </argument>
+         </field>
+        <field name="logo">
+            <argument name="data" xsi:type="array">
+                 <item name="config" xsi:type="array">
+                     <item name="label" xsi:type="string" translate="true">Template Logo</item>
+                     <item name="visible" xsi:type="boolean">true</item>
+                     <item name="dataType" xsi:type="string">string</item>
+                     <item name="source" xsi:type="string">templates</item>
+                     <item name="formElement" xsi:type="string">imageUploader</item>
+                     <item name="elementTmpl" xsi:type="string">ui/form/element/uploader/uploader</item>
+                    <item name="previewTmpl" xsi:type="string">Webkul_MpPushNotification/image-preview</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="notice" xsi:type="string" translate="true">Allowed file types:png, gif, jpg, jpeg</item>
+                    <item name="allowedExtensions" xsi:type="string">jpg jpeg gif png svg</item>
+                    <item name="uploaderConfig" xsi:type="array">
+                        <item name="url" xsi:type="url" path="mppushnotification/templates_image/upload"/>
+                    </item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+         </field>
+    </fieldset>
+</form>

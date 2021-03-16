@@ -1,0 +1,27 @@
+<!--@subject Return payment by the vendor @-->
+<!--@vars {
+"var data.comment":"Comment",
+"var data.email":"Sender Email",
+"var data.name":"Sender Name",
+"var data.orderids":"Sender Order Id",
+"var data.amount":"Sender Amount"
+} @-->
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">Hi Admin,</p>
+
+<table style="width:60%; padding: 10px;">
+	<tr>
+		<td style="padding: 10px 10px 10px 0px; width: 100%;">
+			<p>As per the request, I have returned the  payment of {{trans "%amount" amount=$data.amount}} for the returned order {{trans "%orderids" orderids=$data.orderids}}</p>.
+		</td><br/>
+	</tr>
+	<tr>
+		<td style="padding: 10px 10px 10px 0px; width: 100%;">
+			Vendor Information:
+			<p>Name: {{trans "%name" name=$data.name}}</p>
+			<p>Email Id: {{trans "%email" email=$data.email}}</p>
+		</td>
+	</tr>
+</table>
+{{template config_path="design/email/footer_template"}}

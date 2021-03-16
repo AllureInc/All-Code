@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2011-2017 SolrBridge, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="admin_system_config_changed_section_solrbridge_general">
+        <observer name="solrbridge_search" instance="Solrbridge\Search\Observer\SaveConfigHandler" />
+    </event>
+    <event name="admin_system_config_changed_section_solrbridge_autocomplete">
+        <observer name="solrbridge_search" instance="Solrbridge\Search\Observer\SaveConfigHandler" />
+    </event>
+    <event name="product_attribute_form_build_front_tab">
+        <observer name="solrbridge_search" instance="Solrbridge\Search\Observer\Attribute\Edit\Tab\Front\FormAlterObserver" />
+    </event>
+</config>

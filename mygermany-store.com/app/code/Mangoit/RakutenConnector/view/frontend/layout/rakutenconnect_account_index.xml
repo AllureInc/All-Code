@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */ 
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <body>
+        <referenceBlock name="head.components">
+            <block class="Magento\Framework\View\Element\Js\Components" name="customer_rakutenconnector_head_components" template="Magento_Customer::js/components.phtml"/>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Mangoit\RakutenConnector\Block\Account\RakutenConfig" name="rakutenconnect-account-index" template="account/amazon-config.phtml" cacheable="false">
+            </block>
+        </referenceContainer>
+    </body>
+</page>

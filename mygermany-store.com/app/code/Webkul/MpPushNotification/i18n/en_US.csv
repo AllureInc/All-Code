@@ -1,0 +1,98 @@
+Back,Back
+Reset,Reset
+"Delete Template","Delete Template"
+"Save Template","Save Template"
+"Notification Subscribers","Notification Subscribers"
+"A total of %1 record(s) have been deleted.","A total of %1 record(s) have been deleted."
+"Push notification(s) has been sent","Push notification(s) has been sent"
+"Requested template doesn't exist","Requested template doesn't exist"
+"Something went wrong while editing the template.","Something went wrong while editing the template."
+"Edit Template with id %1","Edit Template with id %1"
+"New Template","New Template"
+"Template Information","Template Information"
+"File can not be saved to the destination folder.","File can not be saved to the destination folder."
+"Notification Templates","Notification Templates"
+"You saved the template.","You saved the template."
+"Something went wrong while saving the template. %1","Something went wrong while saving the template. %1"
+"Please upload logo.","Please upload logo."
+"Create New Template","Create New Template"
+"Record has been deleted successfully","Record has been deleted successfully"
+"Edit Template","Edit Template"
+"Templates List","Templates List"
+"Template is updated successfully.","Template is updated successfully."
+"Template is saved successfully.","Template is saved successfully."
+"Something Went Wrong.","Something Went Wrong."
+"Templates View","Templates View"
+"Registered Users","Registered Users"
+Edit,Edit
+"Push Notification","Push Notification"
+Menu,Menu
+Save,Save
+Title,Title
+Message,Message
+"Redirect Url","Redirect Url"
+Tags,Tags
+Logo,Logo
+"To Become Seller Please Contact to Admin.","To Become Seller Please Contact to Admin."
+"Create Template","Create Template"
+Title/Message,Title/Message
+Date,Date
+"From: ","From: "
+"To: ","To: "
+Submit,Submit
+"Created At","Created At"
+Action,Action
+Delete,Delete
+View,View
+"No Template(s) Available","No Template(s) Available"
+"Complete View Of Template","Complete View Of Template"
+"Registered Users For Push Notification","Registered Users For Push Notification"
+"Subscribed From","Subscribed From"
+"Subscribed Date","Subscribed Date"
+"-- select template --","-- select template --"
+"Send Notification","Send Notification"
+"Subscriber Name","Subscriber Name"
+"Subscribed At","Subscribed At"
+"No Registered User(s) Available","No Registered User(s) Available"
+"Confirmation","Confirmatiobhghn"
+Push Notification Manager,Push Notification Manager
+" Are you sure you want to delete this logo ? "," Are you sure you want to delete this logo ? "
+Warning,Warning
+" No Checkbox is checked "," No Checkbox is checked "
+" Are you sure you want to delete these Template(s) ? "," Are you sure you want to delete these Template(s) ? "
+" Are you sure you want to delete this template ? "," Are you sure you want to delete this template ? "
+" Are you sure you want to edit this template ? "," Are you sure you want to edit this template ? "
+" Are you sure you want to delete this user ? "," Are you sure you want to delete this user ? "
+" Are you sure you want to delete these user(s) ? "," Are you sure you want to delete these user(s) ? "
+" Are you sure you want to send notification ? "," Are you sure you want to send notification ? "
+Webkul,Webkul
+"MP Push Notification","MP Push Notification"
+"Mp Push Notification","Mp Push Notification"
+"Server Key","Server Key"
+"Sender Id","Sender Id"
+"Create New","Create New"
+"Do you want to delete selected template(s)?","Do you want to delete selected template(s)?"
+Id,Id
+"Template Title","Template Title"
+"Template Message","Template Message"
+"Seller Name","Seller Name"
+"Template Form","Template Form"
+"Template Fieldset","Template Fieldset"
+"Allowed file types:png, gif, jpg, jpeg","Allowed file types:png, gif, jpg, jpeg"
+"Are you sure to use selected template to sent notification?","Are you sure to use selected template to sent notification?"
+"Template List","Template List"
+"Template View","Template View"
+"User List","User List"
+"Redirect Url","Redirect Url"
+"Template Tags","Template Tags"
+"Template Logo","Template Logo"
+Web API Key,Web API Key
+FCM Auth Domain,FCM Auth Domain
+FCM Database URL,FCM Database URL	
+FCM Project Id,FCM Project Id
+Messaging Sender Id,Messaging Sender Id
+FCM App Id,FCM App Id
+Public Key,Public Key
+You haven't selected any items!,You haven't selected any items!
+
+

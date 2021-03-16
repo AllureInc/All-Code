@@ -1,0 +1,85 @@
+<!--@subject Wallet Monthly Statement {{var customer.name}}  @-->
+<!--@vars {
+"var this.getUrl($store, 'customer/account/')":"Customer Account URL",
+"var customer.email":"Customer Email",
+"var customer.name":"Customer Name"
+} @-->
+<style type="text/css">
+    {{css file='Webkul_Walletsystem::css/ws_front.css'}}
+</style>
+{{template config_path="design/email/header_template"}}
+
+<table class="wk_ws_statement_outer">
+    <tr>
+        <td>
+            <h1 class="wk_ws_center">Monthly Statement</h1>
+            <i><h4 class="wk_ws_center">{{trans "%date" date=$date}}</h4></i>
+        </td>
+    </tr>
+    <tr class="email-intro">
+        <td>
+            <p class="greeting">{{trans "Hello %customername, " customername=$customername}}</p>
+            <p>{{trans 'Below is the details of your wallet balance for account associated with email id <b>%emailid</b> in the month of %month, %year' emailid=$emailid month=$month year=$year|raw}}</p>
+        </td>
+    </tr>
+    <tr class="email-information">
+        <table class="wk-ws-details">
+            <tr class="wk-details">
+                <td>{{trans "Opening balance "}}</td>
+                <td>{{trans "%openingbalance" openingbalance=$openingbalance}}</td>
+            </tr>
+            <tr class="wk-details">
+                <td>{{trans "Closing balance "}}</td>
+                <td>{{trans "%closingbalance" closingbalance=$closingbalance}}</td>
+            </tr>
+        </table>
+        <table class="wk-ws-details">
+            <tr class="wk-credits">
+                <th colspan=2>{{trans "Credits"}}</th>
+            </tr>
+            <tr class="wk-details">
+                <td>{{config_path="walletsystem/prefixfortransaction/prefix_order_credit"}}</td>
+                <td>{{trans "%rechargewallet" rechargewallet=$rechargewallet}}</td>
+            </tr>
+            <tr class="wk-details">
+                <td>{{config_path="walletsystem/prefixfortransaction/cashback_prefix"}}</td>
+                <td>{{trans "%cashbackamount" cashbackamount=$cashbackamount}}</td>
+            </tr>
+            <tr class="wk-details">
+                <td>{{config_path="walletsystem/prefixfortransaction/refund_order_amount"}}</td>
+                <td>{{trans "%refundamount" refundamount=$refundamount}}</td>
+            </tr>
+            <tr class="wk-details">
+                <td>{{config_path="walletsystem/prefixfortransaction/prefix_admin_credit"}}</td>
+                <td>{{trans "%admincredit" admincredit=$admincredit}}</td>
+            </tr>
+            <tr class="wk-details">
+                <td>{{config_path="walletsystem/prefixfortransaction/prefix_customer_credit"}}</td>
+                <td>{{trans "%customercredits" customercredits=$customercredits}}</td>
+            </tr>
+        </table>
+        <table class="wk-ws-details">
+            <tr class="wk-debits">
+                <th colspan=2>{{trans "Debits"}}</th>
+            </tr>
+            <tr class="wk-details">
+                <td>{{config_path="walletsystem/prefixfortransaction/prefix_order_debit"}}</td>
+                <td>{{trans "%usedwallet" usedwallet=$usedwallet}}</td>
+            </tr>
+            <tr class="wk-details">
+                <td>{{config_path="walletsystem/prefixfortransaction/refund_wallet_order"}}</td>
+                <td>{{trans "%refundwalletorder" refundwalletorder=$refundwalletorder}}</td>
+            </tr>
+            <tr class="wk-details">
+                <td>{{config_path="walletsystem/prefixfortransaction/prefix_admin_debit"}}</td>
+                <td>{{trans "%admindebit" admindebit=$admindebit}}</td>
+            </tr>
+            <tr class="wk-details">
+                <td>{{config_path="walletsystem/prefixfortransaction/prefix_customer_debit"}}</td>
+                <td>{{trans "%transfertocustomer" transfertocustomer=$transfertocustomer}}</td>
+            </tr>
+        </table>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

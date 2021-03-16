@@ -1,0 +1,91 @@
+Rakuten information saved successfuly.,Rakuten information saved successfuly.
+Invalid request.,Invalid request.
+Rakuten Credentials are not valid,Rakuten Credentials are not valid
+Rakuten Configuration,Rakuten Configuration
+Rakuten Secret Key,Rakuten Secret Key
+Currency Rate (base currency to amazon store currency),Currency Rate (base currency to amazon store currency)
+Back,Back
+Rakuten Product Import,Rakuten Product Import
+Rakuten Configuration',Rakuten Configuration'
+Rakuten Connect,Rakuten Connect
+Rakuten Magento Sync Products,Rakuten Magento Sync Products
+Product Name,Product Name
+Search,Search
+Import Products From Rakuten,Import Products From Rakuten
+Rakuten Product Id,Rakuten Product Id
+Product Type,Product Type
+Action,Action
+No Product Available,No Product Available
+Generate Report,Generate Report
+Run Profiler,Run Profiler
+Rakuten Client Does not Initialize.,Rakuten Client Does not Initialize.
+Product report haven'\t ready yet, try again later.,Product report haven'\t ready yet, try again later.
+Run Profiler,Run Profiler
+Starting Execution,Starting Execution
+Please don't close or refresh the window while importing product(s).,Please don't close or refresh the window while importing product(s).
+Total ,Total 
+ product(s) to import, product(s) to import
+ Importing ,Importing 
+ No product to import.,No product to import.
+ Finsihed Execution.,Finsihed Execution.
+ Data not found,Data not found
+ Finished Execution.,Finished Execution.
+ Imported Product,Imported Product
+  product(s) imported in your store from amazon, Click on Create Imported Product In Store to create these products in your store, product(s) imported in your store from amazon, Click on Create Imported Product In Store to create these products in your store
+  Report id already generated, regenerate report id for latest inventory.,Report id already generated, regenerate report id for latest inventory.
+  Search by product name,Search by product name
+ Are you sure you want to delete map record ? , Are you sure you want to delete map record ? 
+  Are you sure you want to edit this product ? , Are you sure you want to edit this product ? 
+  Edit,Edit
+  Delete Map,Delete Map
+  You don'\t have authorization to access the product,You don'\t have authorization to access the product
+  Product successfully deleted.,Product successfully deleted.
+Assign Imported Product,Assign Imported Product
+Product Category,Product Category
+CATEGORIES,CATEGORIES
+Assign Product To Category,Assign Product To Category
+Product,Product
+Rakuten Product Id,Rakuten Product Id
+Product Type,Product Type
+Action,Action
+Magento Product Id,Magento Product Id
+Sync product assign to category successfuly.,Sync product assign to category successfuly.
+Export Product,Export Product
+Export Product To Rakuten,Export Product To Rakuten
+Unique Identifier Code,Unique Identifier Code
+Unique Identifier,Unique Identifier
+Run Profiler For Export Product,Run Profiler For Export Product
+Please don't close or refresh the window while exporting product(s) to amazon.,Please don't close or refresh the window while exporting product(s) to amazon.
+ product(s) to export to amazon, product(s) to export to amazon
+ Importing ,Importing 
+ No product to import.,No product to import.
+ Finsihed Execution.,Finsihed Execution.
+ Update Status of Exported Product(s),Update Status of Exported Product(s)
+ Update Status,Update Status
+ Rakuten Mapped Product,Rakuten Mapped Product
+ Error Message,Error Message
+ Check Error,Check Error
+ Status,Status
+ Sync From Rakuten,Sync From Rakuten
+ Import Product,Import Product
+ Run Profiler,Run Profiler
+ Export Product,Export Product
+ Generate Report,Generate Report
+ Create Imported Product(s),Create Imported Product(s)
+ Export Product,Export Product
+ Rakuten Marketplace,Rakuten Marketplace
+ select attribute set,select attribute set
+ Something went wrong, please check error log.,Something went wrong, please check error log.
+ Revise amazon product on product update., Revise amazon product on product update.
+ Revise Rakuten Product, Revise Rakuten Product
+ Magento Order Id,Magento Order Id
+ Rakuten Order Id,Rakuten Order Id
+ Rakuten Order Status,Rakuten Order Status
+ View,View
+ Store Order Id,Store Order Id
+ Run Profiler For Order,Run Profiler For Order
+ Please don't close or refresh the window while importing order(s).,Please don't close or refresh the window while importing order(s).
+  order(s) to import, order(s) to import
+  No order to import.,No order to import.
+  Finsihed Execution.,Finsihed Execution.
+  Rakuten Order(s),Rakuten Order(s)

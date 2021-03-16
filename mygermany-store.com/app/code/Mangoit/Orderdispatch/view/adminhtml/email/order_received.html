@@ -1,0 +1,18 @@
+<!--@subject Order Received @-->
+<!--@vars {
+"var data.comment":"Comment",
+"var data.email":"Sender Email",
+"var data.name":"Sender Name"
+} @-->
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">Hi {{trans "%name" name=$data.name}},</p>
+
+<table style="width:60%; padding: 10px;">
+	<tr>
+		<td style="padding: 10px 10px 10px 0px; width: 100%;">
+		Your order #{{trans "%orderid" orderid=$data.orderid}} has just arrived at the myGermany GmbH premises.
+		</td><br/>
+	</tr>
+</table>
+{{template config_path="design/email/footer_template"}}

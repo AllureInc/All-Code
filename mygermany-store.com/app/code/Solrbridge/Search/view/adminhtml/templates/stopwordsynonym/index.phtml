@@ -1,0 +1,108 @@
+<?php $solrCores = $block->getSolrCoreCollection() ?>
+<?php $stopwords = $this->getStopwords() ?>
+<div class="admin__data-grid-wrap" data-mage-init='{"solrbridgeStopwordSynonym":<?php echo $block->getJsConfig() ?>}'>
+    <form id="solrbridge-index-mapping" method="post" action="<?php echo $this->getUrl('solrbridge/index/save') ?>">
+        <?php echo $block->getBlockHtml('formkey')?>
+        <table style="width: 100%">
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="admin__field-control">
+                            <label><?php echo __('Select Solr Core') ?></label>
+                            <select name="index[solr_core]" class=" required-entry _required select admin__control-select" id="select-solr-core">
+                                <option value=""><?php echo __('--Solr core--')?></option>
+                                <?php foreach($solrCores as $core => $info): ?>
+                                <option <?php echo $this->getSelectedHtmlAttribute($core) ?> data-url="<?php echo $block->getReloadUrl($core) ?>" value="<?php echo $core ?>"><?php echo $core ?></option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                        <br />
+                        <div>
+                            <?php echo __('<strong>ACTION:</strong> Select a solr core from the dropdown to edit stopwords and synonyms. Then click <strong>Save changes</strong> button') ?>
+                        </div>
+                        <div>
+                            <?php echo __('<strong>NOTICE:</strong> Need to reindex solr after update stopwords and synonyms') ?>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <hr />
+    <?php if($this->canShowForm()): ?>
+    <div class="stopword-synonym-form-wrapper">
+        <form id="new_index_form" method="post" action="<?php echo $block->getSaveChangeUrl() ?>">
+            <?php echo $block->getBlockHtml('formkey')?>
+            <input type="hidden" name="form_key" value="<?php echo $block->getFormKey(); ?>" />
+            <input type="hidden" name="solrcore" value="<?php echo $block->getCurrentSolrCore() ?>" />
+            <button id="save-changes-button" type="submit"><?php echo __('Save changes')?></button>
+            <hr />
+            <table cellspacing="0" id="onlineGrid_table" style="border:none; width: 100%">
+                <thead>
+                    <tr>
+                        <th style="position: relative; padding: 10px 0 10px 0">
+                            <span style="position: absolute; left: 0; top: 5px">
+                                <button type="button" style="font-size: 0.9em" class="delete-selected-button" id="delete-selected-stopword-button">
+                                    <?php echo __('Delete selected')?>
+                                </button>
+                            </span>
+                            <span style="font-size: 1.3em">
+                                <?php echo __('Stopwords')?>
+                            </span>
+                        </th>
+                        <th style="position: relative; padding: 10px 0 10px 10px">
+                            <span style="position: absolute; left: 5px; top: 5px">
+                                <button type="button" class="delete-selected-button" style="font-size: 0.9em" id="delete-selected-synonym-button">
+                                    <?php echo __('Delete selected')?>
+                                </button>
+                            </span>
+                            <span style="font-size: 1.3em">
+                                <?php echo __('Synonyms')?>
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td width="50%" style="border:none;vertical-align:top;padding-right: 5px">
+                            <table class="data-grid" id="stopword-table" cellspacing="0" class="data">
+                                <thead>
+                                    <tr class="headings">
+                                        <th class="data-grid-th" style="text-align:center">
+                                            <span class="nobr"><input type="checkbox" class="checkall stopword" /></span>
+                                        </th>
+                                        <th class="data-grid-th"><span class="nobr"><?php echo __('Stopword')?></span></th>
+                                        <th class="data-grid-th"><span class="nobr"><?php echo __('Action')?></span></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <br />
+                            <button type="button" id="add-more-stopword"><?php echo __('Add+')?></button>
+                        </td>
+                        <td width="50%" style="border:none;vertical-align:top; padding-left: 5px">
+                            <table class="data-grid" id="synonym-table" cellspacing="0" class="data">
+                                <thead>
+                                    <tr class="headings">
+                                        <th class="data-grid-th" style="text-align:center">
+                                            <span class="nobr"><input class="checkall synonym" type="checkbox" /></span>
+                                        </th>
+                                        <th class="data-grid-th"><span class="nobr"><?php echo __('Term')?></span></th>
+                                        <th class="data-grid-th"><span class="nobr"><?php echo __('Synonyms')?></span></th>
+                                        <th class="data-grid-th"><span class="nobr"><?php echo __('Action')?></span></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <br />
+                            <button type="button" id="add-more-synonym"><?php echo __('Add+')?></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <?php else: ?>
+        <div style="text-align: center; padding: 15px"><strong><?php echo __('No any solrcore selected yet. Please select solrcore above to continue.')?></strong></div>
+    <?php endif;?>
+</div>

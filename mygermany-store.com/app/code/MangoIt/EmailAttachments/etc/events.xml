@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!--
+    /**
+    * @author     MangoIt
+    * @package    MangoIt_EmailAttachments
+    * @copyright  Copyright (c) 2015 MangoIt Solutions (http://www.mangoitsolutions.com/)
+    *
+    * For the full copyright and license information, please view the LICENSE
+    * file that was distributed with this source code.
+    */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!--Order Emails-->
+    <event name="mangoit_emailattachments_before_send_order">
+        <observer name="mangoit_emailattachments_before_send_order_observer"
+                  instance="MangoIt\EmailAttachments\Observer\BeforeSendOrderObserver"/>
+    </event>
+    <event name="mangoit_emailattachments_before_send_order_comment">
+        <observer name="mangoit_emailattachments_before_send_order_comment_observer"
+                  instance="MangoIt\EmailAttachments\Observer\BeforeSendOrderCommentObserver"/>
+    </event>
+
+    <!--Invoice Emails-->
+    <event name="mangoit_emailattachments_before_send_invoice">
+        <observer name="mangoit_emailattachments_before_send_invoice_observer"
+                  instance="MangoIt\EmailAttachments\Observer\BeforeSendInvoiceObserver"/>
+    </event>
+    <event name="mangoit_emailattachments_before_send_invoice_comment">
+        <observer name="mangoit_emailattachments_before_send_invoice_comment_observer"
+                  instance="MangoIt\EmailAttachments\Observer\BeforeSendInvoiceCommentObserver"/>
+    </event>
+
+    <!--Shipment Emails-->
+    <event name="mangoit_emailattachments_before_send_shipment">
+        <observer name="mangoit_emailattachments_before_send_shipment_observer"
+                  instance="MangoIt\EmailAttachments\Observer\BeforeSendShipmentObserver"/>
+    </event>
+    <event name="mangoit_emailattachments_before_send_shipment_comment">
+        <observer name="mangoit_emailattachments_before_send_shipment_comment_observer"
+                  instance="MangoIt\EmailAttachments\Observer\BeforeSendShipmentCommentObserver"/>
+    </event>
+
+    <!--Credit Memo Emails-->
+    <event name="mangoit_emailattachments_before_send_creditmemo">
+        <observer name="mangoit_emailattachments_before_send_creditmemo_observer"
+                  instance="MangoIt\EmailAttachments\Observer\BeforeSendCreditmemoObserver"/>
+    </event>
+    <event name="mangoit_emailattachments_before_send_creditmemo_comment">
+        <observer name="mangoit_emailattachments_before_send_creditmemo_comment_observer"
+                  instance="MangoIt\EmailAttachments\Observer\BeforeSendCreditmemoCommentObserver"/>
+    </event>
+
+</config>

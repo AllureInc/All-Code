@@ -1,0 +1,57 @@
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpSellerCoupons
+ * @author    Webkul Software Private Limited
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+.discount h2 {
+    background-image :none;
+    background-repeat: no-repeat;
+    color: #e26703;
+    font: bold 13px/16px Arial,Helvetica,sans-serif;
+    padding: 0;
+    text-transform: uppercase;
+}
+
+.wk_applied_coupon dt {
+    font-weight: bold;
+    margin: 5px 0;
+}
+.wk_applied_coupon {
+    border-top: 1px dashed #4f4f4f;
+    margin-top: 10px;
+}
+.coupon_entry_field {
+    display: none;
+    margin-bottom: 5px;
+}
+.coupon_container{
+    margin-bottom: 10px;
+}
+
+.applied-coupon-block{
+    width:100%;
+    margin:10px 0;
+}
+.wk-mp-coupon-generator{
+    margin-bottom: 10px;
+}
+.payment-option-title{display:none;}
+.wk-coupon-remove-button{color:red;cursor:pointer}
+.cart-discount{display: none;}
+.hor-scroll{width:100%; overflow:hidden;}
+.toolbar-amount{position: relative !important;text-align:center}
+.wk-table-scroll{width: 100%;overflow-y: auto;}
+.wk-head-color{background: #eeeeee;}
+.wk-row-color{    text-align: center;
+    padding: 5px 7px;
+    border-color: #FFFFFF;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    background: url(../../Webkul_Marketplace/images/filter-row-bg.png) repeat-x #e3eff1;
+    background-color: #e3eff1;
+    border-bottom: none;}

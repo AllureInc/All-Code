@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Webkul Software
+ *
+ * @category Webkul
+ * @package Webkul_Walletsystem
+ * @author Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license https://store.webkul.com/license.html
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <!-- send code to customer for transfer -->
+    <template id="walletsystem_email_template_sendcode" label="Wallet System Customer Transfer OTP Email For Customer" file="transfercode.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+    <!-- send monthly statement to customers -->
+    <template id="walletsystem_email_template_monthlystatement" label="Wallet System Monthly Statement Email Template" file="monthlystatement.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+    <!-- wallet recharge customer -->
+    <template id="walletsystem_email_template_recharge_wallet_customer" label="Wallet System Recharge Email To Customer" file="recharge_wallet_customer.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+    <!-- wallet recharge admin -->
+    <template id="walletsystem_email_template_recharge_wallet_admin" label="Wallet System Recharge Email To Admin" file="recharge_wallet_admin.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+    <!-- wallet used customer -->
+    <template id="walletsystem_email_template_used_wallet_customer" label="Wallet Amount Used Email To Customer" file="used_wallet_customer.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+    <!-- wallet amount used admin -->
+    <template id="walletsystem_email_template_used_wallet_admin" label="Wallet Amount used Email To Admin" file="used_wallet_admin.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+    <!-- Wallet cashback email for customer -->
+    <template id="walletsystem_email_template_cashback_wallet_customer" label="Wallet Cashback Amount used Email for Customer" file="cashback_wallet_customer.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+    <!-- Wallet cashback email for admin -->
+    <template id="walletsystem_email_template_cashback_wallet_admin" label="Wallet Cashback Amount used Email for Admin" file="cashback_wallet_admin.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+    <!-- Wallet amount refund email for customer -->
+    <template id="walletsystem_email_template_refund_wallet_amount_customer" label="Wallet Amount Refund Email for Customer" file="refund_wallet_amount_customer.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+    <!-- Wallet amount refund email for admin -->
+    <template id="walletsystem_email_template_refund_wallet_amount_admin" label="Wallet Amount Refund Email for Admin" file="refund_wallet_amount_admin.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+    <!-- Order refund email for customer -->
+    <template id="walletsystem_email_template_refund_order_customer" label="Order Refund Email for Customer" file="refund_order_customer.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+    <!-- Order refund email for admin -->
+    <template id="walletsystem_email_template_refund_order_admin" label="Order Refund Email for Admin" file="refund_order_admin.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+    <!-- Admin credit amount email for customer -->
+    <template id="walletsystem_email_template_admin_credit_amount_customer" label="Admin credit amount Email for Customer" file="admin_credit_amount_customer.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+    <!-- Admin credit amount email for admin -->
+    <template id="walletsystem_email_template_admin_credit_amount_admin" label="Admin credit amount Email for Admin" file="admin_credit_amount_admin.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+    <!-- Admin debit amount email for customer -->
+    <template id="walletsystem_email_template_admin_debit_amount_customer" label="Admin debit amount Email for Customer" file="admin_debit_amount_customer.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+    <!-- Admin debit amount email for admin -->
+    <template id="walletsystem_email_template_admin_debit_amount_admin" label="Admin debit amount Email for Admin" file="admin_debit_amount_admin.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+    <!-- Customer credit amount email for customer -->
+    <template id="walletsystem_email_template_customer_credit_amount_customer" label="Customer credit amount Email for Customer" file="customer_credit_amount_customer.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+    <!-- Customer credit amount email for admin -->
+    <template id="walletsystem_email_template_customer_credit_amount_admin" label="Customer credit amount Email for Admin" file="customer_credit_amount_admin.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+    <!-- Customer debit amount email for customer -->
+    <template id="walletsystem_email_template_customer_debit_amount_customer" label="Customer debit amount Email for Customer" file="customer_debit_amount_customer.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+    <!-- Customer debit amount email for admin -->
+    <template id="walletsystem_email_template_customer_debit_amount_admin" label="Customer debit amount Email for Admin" file="customer_debit_amount_admin.html" type="html" module="Webkul_Walletsystem" area="frontend"/>
+</config>

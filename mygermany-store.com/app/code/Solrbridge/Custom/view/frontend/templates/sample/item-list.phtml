@@ -1,0 +1,6 @@
+<ul>
+    <?php foreach ($block->getItemList() as $item): ?>
+    <li><?php echo $item->getId() ?></li>
+    <li><?php echo $item->getTitle() ?></li>
+    <?php endforeach; ?>
+</ul>

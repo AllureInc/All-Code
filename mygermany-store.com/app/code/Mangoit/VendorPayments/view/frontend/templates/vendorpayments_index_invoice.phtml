@@ -1,0 +1,246 @@
+<?php
+/* DHL Work 29-jan-2019 (last work)*/
+/*$helper = $this->helper('Mangoit\VendorPayments\Helper\Data');*/
+/*$attachmentContent = $helper->getOrderPdfHtmlContent();*/
+$tooltipHelper = $this->helper('Mangoit\MisTooltip\Helper\Data');
+$section_id = 'vendor_invoice'; 
+$text_content_id = "vendor_invoice_text_to_btn";
+$table_text = "vendor_invoice_topic_for_tbl";
+$store_id = $tooltipHelper->getStoreId();
+$table_text_data = $tooltipHelper->getToolTipData($store_id, $section_id, $table_text);
+$text_content_id_data = $tooltipHelper->getToolTipData($store_id, $section_id, $text_content_id);
+$buttonDisabled = $this->canShowInvoiceButton();
+$invoicesCollection = $this->getAllGeneratedInvoices()->getData();
+$invoiceStatuses = $block->getHelper()->getVendorInvoiceStatuses();
+?>
+<div class="wk-mp-design amazon-sync-products">
+    <fieldset class="fieldset info wk-mp-fieldset">
+        <legend class="legend">
+            <span><?php /* @escapeNotVerified */ echo __('Invoices') ?></span>
+        </legend>
+        <div class="grid">
+            <div class="hor-scroll">
+                <div class="wk-msg-box wk-info">
+                    <?php if(isset($buttonDisabled['last']) && $buttonDisabled['last'] != '') { ?>
+                        <div>
+                            <span><?php echo __('Last Invoice Generated, %1',$buttonDisabled['last']) ?></span>
+                        </div>
+                    <?php } else { ?>
+                        <div>
+                            <span><?php echo __('There are no invoices generated yet.') ?></span>
+                        </div>
+                    <?php } ?>
+                </div>
+                <form method="post" enctype="multipart/form-data" id="generateInvoice" action="<?php echo $block->getUrl('vendorpayments/index/generateinvoice', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                    <button style="display: none;" type="submit" title="<?php echo __('Generate New Invoices') ?>" class="action" <?php echo (!$buttonDisabled['status'])?'disabled="disabled"':'';  ?>>
+                        <span><?php echo __('Generate New Invoices') ?></span>
+                    </button>
+                </form>
+                <?php if(count($text_content_id_data) > 0): ?>
+                    <div class="mis_tool_tip_block">
+                        <?php echo ( (count($text_content_id_data) > 0) ? $text_content_id_data[0]['tooltip_text'] : '');?>
+                    </div>
+                <?php endif; ?>
+                <!---->
+                <?php if ($invoicesCollection): ?>
+                    <div class="mis_invoice_list">
+                        <table cellspacing="0" class="border wk-mp-list-table wk-mp-list-container-table">
+                            <thead>
+                                <tr class="wk-content">
+                                    <th colspan="11">
+                                        <span class="label mis_tool_tip_tbl_text">
+                                            <?php if(count($table_text_data) > 0): ?>
+                                                <?php echo ( (count($table_text_data) > 0) ? $table_text_data[0]['tooltip_text'] : __('Overview already generated Invoices')
+                                                );?>
+                                            <?php endif; ?>
+                                        </span>
+                                    </th>
+                                </tr>
+                                <tr class="wk-content">
+                                    <th class="wk-first-td name">
+                                        <span class="label">
+                                            <?php /* @escapeNotVerified */ echo __('Invoice Number')?>
+                                        </span>
+                                    </th>
+                                    <th class="wk-first-td">
+                                        <span class="label">
+                                            <?php /* @escapeNotVerified */ echo __('Generated At')?>
+                                        </span>
+                                    </th>
+                                    <th class="wk-first-td">
+                                        <span class="label name">
+                                            <?php /* @escapeNotVerified */ echo __('Order Ids')?>
+                                        </span>
+                                    </th>
+                                    <th class="wk-first-error">
+                                        <span class="label">
+                                            <?php /* @escapeNotVerified */ echo __('Amount (incl. VAT)')?>
+                                        </span>
+                                    </th>
+                                    <th class="wk-first-error">
+                                        <span class="label">
+                                            <?php /* @escapeNotVerified */ echo __('Total Fees')?>
+                                        </span>
+                                    </th>
+                                    <th class="wk-first-error">
+                                        <span class="label">
+                                            <?php /* @escapeNotVerified */ echo __('Status')?>
+                                        </span>
+                                    </th>
+                                    <th class="wk-first-error">
+                                        <span class="label">
+                                            <?php /* @escapeNotVerified */ echo __('Payout Date')?>
+                                        </span>
+                                    </th>
+                                    <th class="wk-first-error">
+                                        <span class="label">
+                                            <?php /* @escapeNotVerified */ echo __('Comment Message')?>
+                                        </span>
+                                    </th>
+                                    <th class="wk-first-error">
+                                        <span class="label">
+                                            <?php /* @escapeNotVerified */ echo __('Type')?>
+                                        </span>
+                                    </th>
+                                    <th class="wk-first-error">
+                                        <span class="label">
+                                            <?php /* @escapeNotVerified */ echo __('Cancel Order Charge')?>
+                                        </span>
+                                    </th>
+                                    <th class="wk-first-td">
+                                        <span class="label name">
+                                            <?php /* @escapeNotVerified */ echo __('Action')?>
+                                        </span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php 
+                                $i = 0;
+                                foreach($invoicesCollection as $invoice){
+                                    $i++;
+                                    $invoiceData = $block->getInvoiceDetail($invoice['saleslist_item_ids']);
+                                    /*$imageUrl = $block->getProImgUrl($products);*/
+                                    $realOrderIds = implode(', ', array_unique(explode(', ', $invoiceData['real_order_ids'])));
+                                    ?>
+                                    <tr class="wk-row-view <?php /* @escapeNotVerified */ echo $i == count($invoicesCollection) ? 'wk-last_tr':''?>">
+                                        <td class="wk-first_td"><?php echo $invoice['invoice_number']; ?></td>
+                                        <td class="wk-first_td">
+                                            <?php
+                                            $date = date_create($invoice['created_at']);
+                                            echo date_format($date,"m/d/y");
+                                            ?>
+                                        </td>
+                                        <td class ="wk-first_td">
+                                            <?php
+                                            if($invoice['invoice_typ'] == 0) {
+                                                echo $realOrderIds;
+                                            } else {
+                                                echo $block->getMageRealOrderIdByOrderId($invoice['canceled_order_id']);
+                                            }
+                                            ?>
+                                        </td>
+                                        <td class ="wk-first_td">
+                                            <?php
+                                            echo $block->getHelper()->getFormatedPrice($invoiceData['amnt_incl_vat'])
+                                            ?>
+                                        </td>
+                                        <td class ="wk-first_td">
+                                            <?php
+                                            echo $block->getHelper()->getFormatedPrice($invoiceData['fees_net'])
+                                            ?>
+                                        </td>
+                                        <td class ="wk-first_td">
+                                            <?php
+                                            if($invoice['invoice_typ'] == 0) {
+                                                echo __($invoiceStatuses[$invoice['invoice_status']]);
+                                            } else{
+                                                echo ($invoice['cancellation_req_status'] == 5)?__('Pending'):__('Complete');
+                                            }
+                                            ?>
+                                        </td>
+                                        <td class ="wk-first_td">
+                                            <?php
+                                            $payoutDate = '';
+                                            if($invoice['payout_date'] != '') {
+                                                $payoutDate = date_format(
+                                                    date_create($invoice['payout_date']),
+                                                    "m/d/y"
+                                                );
+                                            }
+                                            echo $payoutDate;
+                                            ?>
+                                        </td>
+                                        <td class ="wk-first_td">
+                                            <?php
+                                            $customNote = '';
+                                            if($invoice['custom_note'] != '') {
+                                                $customNote = $invoice['custom_note'];
+                                            }
+                                            echo $customNote;
+                                            ?>
+                                        </td>
+                                        <td class ="wk-first_td">
+                                            <?php
+                                            if($invoice['invoice_typ'] == 0) {
+                                                echo __('Sales');
+                                            } else {
+                                                echo __('Cancel');
+                                            }
+                                            ?>
+                                        </td>
+                                        <td class ="wk-first_td">
+                                            <?php
+                                            if($invoice['invoice_typ'] == 0) {
+                                                echo '-';
+                                            } else {
+                                                echo $block->getHelper()->getFormatedPrice($invoice['cancellation_charge_total']);
+                                            }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <div class="mist-view-invoice">
+                                                <a href="<?php echo $block->getUrl('vendorpayments/invoice/view', ['_secure' => $this->getRequest()->isSecure(), 'id' => $invoice['entity_id']]); ?>" target="_blank">
+                                                    <?php /* @escapeNotVerified */ echo __('View') ?>
+                                                </a>
+                                            </div>
+                                            <div class="mist-download-invoice">
+                                                <a href="<?php echo $block->getUrl('vendorpayments/invoice/download', ['_secure' => $this->getRequest()->isSecure(), 'id' => $invoice['entity_id']]); ?>" target="_blank">
+                                                    <?php /* @escapeNotVerified */ echo __('Download') ?>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <?php else: ?>
+                        <div class="wk-emptymsg">
+                            <?php /* @escapeNotVerified */ echo __('No Invoices Available') ?>
+                        </div>
+                    <?php endif ?>  
+                    <!---->     
+                </div>
+            </div>
+            <?php if ($block->getPagerHtml()): ?>
+                <div class="order-products-toolbar toolbar bottom"><?php /* @escapeNotVerified */ echo $block->getPagerHtml(); ?></div>
+            <?php endif ?>  
+        </fieldset> 
+        <div class="buttons-set">
+            <p class="back-link">
+                <a href="javascript:;" onclick="javascript: window.history.back();" class="left">&laquo; <?php /* @escapeNotVerified */ echo __('Back') ?></a>
+            </p>
+        </div>
+    </div>
+
+
+    <?php if($this->getRequest()->getParam('makeDownload') == 1){ ?>
+        <script type="text/javascript">
+            jQuery(document).ready(function(){
+                window.location.href = '<?php echo $block->getUrl('vendorpayments/index/generateinvoice', ['makeDownload' => 1]); ?>'
+            });
+        </script>
+        <?php } ?>
+  

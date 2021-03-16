@@ -1,0 +1,223 @@
+<style type="text/css">
+	.error{
+		color: red;
+		margin-left: 5px;
+	}
+</style>
+<?php
+$arryAttr = $this->getAttributesList();
+$arryCode = $this->getAttributesCodeList();
+$arryLbl = $this->getAttributesLabelList();
+$dropdownValues = [];
+// echo "<pre>";
+// print_r($arryCode);
+foreach ($arryCode as $key => $value) {
+	$attroptions = $this->getAttributeCollection($value);
+	foreach ($attroptions as $optKey => $optValue) {
+		if ($optKey > 0) {
+		    array_push($dropdownValues, array('label' => $optValue['label'], 'value' => $optValue['value']));
+			# code...
+		}
+	}
+}
+// print_r($dropdownValues);
+// die("<br>123");
+$arryId  = $this->getAttributesIdList();
+$attribute_codes = implode(",",$arryCode);
+$attribute_ids = implode(",",$arryId);
+$attribute_types = serialize($arryAttr);
+$attribute_label = serialize($arryLbl);
+$attrType = '';
+$display = 'none';
+?>
+<p>Make Global Attributes for : <?php 
+foreach ($arryLbl as $key => $value) {
+	echo __($value.',');
+}
+foreach ($arryAttr as $key => $value) {
+	$attrType = $value;
+}
+$label = '';
+if ($attrType == 'text') {
+	$label = 'Text Field';
+}
+if ($attrType == 'textarea') {
+	$label = 'Text Area';
+}
+if ($attrType == 'date') {
+	$label = 'Date';
+}
+if ($attrType == 'boolean') {
+	$label = 'Yes/No';
+}
+if ($attrType == 'multiselect') {
+	$label = 'Multiple Select';
+}
+if ($attrType == 'select') {
+	$label = 'Dropdown';
+}
+?> </p>
+<form class="entry-edit form-inline" action="<?php echo $this->getSaveUrl(); ?>" method="post">
+	<legend></legend>
+	<input name="form_key" type="hidden" value="<?php echo $this->getformKey();?>">
+	<input type="hidden" name="attribute_codes" value="<?php echo $attribute_codes;?>">
+	<input type="hidden" name="attribute_ids" value="<?php echo $attribute_ids;?>">
+	<input type="hidden" name="attribute_types" value='<?php echo $attribute_types;?>'>
+	<table>
+		<tr>
+			<td><?php echo __('Store')?>: </td>
+			<td>
+				<select disabled="disabled">
+					<option><?php echo "Store View" ?></option>
+					<option><?php echo "Website" ?></option>
+					<option><?php echo "Global" ?></option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td><?php echo __('Visibal On FrontEnd')?>: </td>
+			<td>
+				<select >
+					<option selected="selected"><?php echo "Yes" ?></option>
+					<option><?php echo "No" ?></option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td><?php echo __('Attribute Code')?>:</td>
+			<td><input type="text" name="attribute_code" id="attrcode"><span><small class="error" id="errattrcode"></small></span></td>
+		</tr>
+		<tr>
+			<td><?php echo __('Attribute Label')?>:</td>
+			<td><input type="text" name="attribute_label" id="attrlbl"><span><small class="error" id="errattrlbl"></small></span></td>
+		</tr>
+		<tr>
+			<td><?php echo __('Catalog Input Type')?>:</td>
+			<td>
+				<select id="frontend_input" class=" select validate-select" title="<?php echo __('Catalog Input Type for Store Owner') ?>" name="frontend_input"  >
+					<option value="<?php echo $attrType ;?>"><?php echo __($label); ?></option>					
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td><?php echo __('Is Required')?>: </td>
+			<td>
+				<select name="val_required" >
+					<option value="1"><?php echo "Yes" ?></option>
+					<option selected="selected" value="0"><?php echo "No" ?></option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input id="submit" type="submit" name="save" value="<?php echo "Submit" ?>">
+			</td>
+		</tr>
+	</table>
+	<?php if (($attrType == 'select') || ($attrType == 'multiselect')) { $display = 'block'; }?>
+	<table style="display: none;" class="data-grid">
+		<tr>
+			<th class="data-grid-th col-entity_id"><?php echo __('Admin'); ?></th>
+			<th class="data-grid-th col-entity_id"><?php echo __('Default Store View'); ?></th>
+			<th class="data-grid-th col-entity_id"><?php echo __('Is Default'); ?></th>
+		</tr>
+		<tbody>
+		<?php 
+			$counter = 0;
+			foreach ($dropdownValues as $key => $value) { ?>
+			<tr >
+				<td><input type="text" name="attroptions[<?php echo $counter; ?>][admin]" value="<?php echo $value['label']; ?>"></td>
+				<td><input type="text" name="attroptions[<?php echo $counter; ?>][store]" value="<?php echo $value['label']; ?>"></td>
+				<td><input type="checkbox" name="attroptions[<?php echo $counter; ?>][isdefault]"></td>
+			</tr>			
+		<?php $counter++;	} ?>
+		</tbody>
+
+	</table> 
+</form>
+<script type="text/javascript">
+var count = 1;
+	function tblRowAdd()
+	{
+		console.log("chxgxch");
+		var tblRow = "<tr><td><input type='text' name='attroptions["+count+"][admin]'></td><td><input type='text' name='attroptions["+count+"][store]'></td><td><input type='checkbox' name='attroptions["+count+"][isdefault]'></td><td><input type='button' name='delete' id='remove' value='Delete'></td></tr>";
+		count++;
+		return tblRow;
+		
+	}
+require(['jquery', 'jquery/ui'], function($){ 
+       jQuery(document).on('click','#addMore', function(){
+		console.log('hhjhdjkhfjkh');
+		var tblRowData = tblRowAdd();
+		jQuery("tr:last").after(tblRowData);
+   		// jQuery("#lastRow").after(tblRowData);
+	});
+       jQuery(document).on('click','#remove', function(){
+           console.log('remover');
+           jQuery(this).parent().parent().remove();
+       });
+
+       jQuery(document).on('change','#attrcode', function(){
+       	console.log('changwed');
+       	var pattern = /\d/g;
+           var fieldVal = jQuery('#attrcode').val();
+           if (fieldVal == '') {
+           	   jQuery("#errattrcode").html("Field Cant be Empty.");
+           } else if (fieldVal.match(pattern)) {
+               jQuery("#errattrcode").html("Use only alphabets and _");
+           } else {
+           		jQuery("#errattrcode").html("");
+           }
+
+       });
+
+       jQuery(document).on('change','#attrlbl', function(){
+       	console.log('changwed');
+       	var pattern = /^[A-z ]+$/g;
+           var fieldVal = jQuery('#attrlbl').val();
+           if (fieldVal == '') {
+           	   jQuery("#errattrlbl").html("Field Cant be Empty.");
+           } else if (!fieldVal.match(pattern)) {
+               jQuery("#errattrlbl").html("Use only alphabets.");
+           } else {
+           		jQuery("#errattrlbl").html("");
+           }
+
+       });
+
+       jQuery(document).on('click','#submit', function(){
+       		var pattern = /^[A-z]+$/g;
+       		var newPattern = /^[A-z ]+$/g;
+           var fieldVal = jQuery('#attrcode').val();
+           var fieldValNew = jQuery('#attrlbl').val();
+           if (fieldVal == '') {
+           	   jQuery("#errattrcode").html("Field Cant be Empty.");
+           	   event.preventDefault();
+           } else if (!fieldVal.match(pattern)) {
+               jQuery("#errattrcode").html("Use only alphabets and _");
+               event.preventDefault();
+           } else if (fieldValNew == '') {
+           		jQuery("#errattrlbl").html("Field cant be empty");
+           		event.preventDefault();
+           }else if (!fieldValNew.match(newPattern)) {
+               jQuery("#errattrcode").html("Use only alphabets.");
+               event.preventDefault();
+           }
+            else {
+           		jQuery("#errattrcode").html("");
+           }
+       });
+ });
+
+	
+	// function myFunction()
+	// {
+	// 	console.log('hhjhdjkhfjkh');
+	// }
+	// document.getElementById("demo").onclick
+	// jQuery(document).on('click','#addMore', function(){
+	// 	console.log('hhjhdjkhfjkh');
+	// 	var tblRowData = tblRowAdd();
+ //   		jQuery("tr:last").after(tblRowData);
+	// });
+</script>

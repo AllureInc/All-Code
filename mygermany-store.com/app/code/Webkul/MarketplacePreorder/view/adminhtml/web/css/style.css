@@ -1,0 +1,26 @@
+.wk-msg-box {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.wk-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    clear: both;
+}
+.order-status {
+    margin-top: 6px;
+    padding: 5px 10px;
+}
+
+.order-status {
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    display: inline-block;
+    margin: 3px 0 0;
+    padding: 2px 10px;
+    text-transform: uppercase;
+    vertical-align: top;
+}

@@ -1,0 +1,47 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * @var \Magento\Theme\Block\Html\Header\Logo $block
+ */
+?>
+<?php
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $mediaUrl = $objectManager->get('Magento\Store\Model\StoreManagerInterface')
+                    ->getStore()
+                    ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+    $logoSrc = $mediaUrl.'logo/default/my_g_logo_svg.svg';
+    $logoStickySrc = $mediaUrl.'logo/default/mygermany-logo-sticky.svg';
+    $logoMobileSrc = $mediaUrl.'logo/default/my-germany-logo-mobile.svg';
+?>
+<?php $storeName = $block->getThemeName() ? $block->getThemeName() : $block->getLogoAlt();?>
+<?php
+    $header_type = $this->helper('Smartwave\Porto\Helper\Data')->getConfig('porto_settings/header/header_type');
+?>
+<?php if($header_type <= 13):?>
+    <span data-action="toggle-nav" class="action nav-toggle"><span><?php /* @escapeNotVerified */ echo __('Toggle Nav') ?></span></span>
+<?php endif;?>
+<?php if ($block->isHomePage()):?>
+    <strong class="logo">
+<?php else: ?>
+    <a class="logo" href="<?php echo $block->getUrl(''); ?>" title="<?php /* @escapeNotVerified */ echo $storeName ?>">
+<?php endif ?>
+        <img src="<?php /* @escapeNotVerified */ /*echo $block->getLogoSrc()*/ echo $logoSrc; ?>"
+             alt="<?php /* @escapeNotVerified */ echo $block->getLogoAlt() ?>"
+             <?php echo $block->getLogoWidth() ? 'width="' . $block->getLogoWidth() . '"' : '' ?>
+             <?php echo $block->getLogoHeight() ? 'height="' . $block->getLogoHeight() . '"' : '' ?>
+        />
+        <img src="<?php /* @escapeNotVerified */ /*echo $block->getLogoSrc()*/ echo $logoStickySrc; ?>"
+             alt="<?php /* @escapeNotVerified */ echo $block->getLogoAlt() ?>" class="mitsStickyHeaderLogo"/>
+        <img src="<?php /* @escapeNotVerified */ /*echo $block->getLogoSrc()*/ echo $logoMobileSrc; ?>"
+             alt="<?php /* @escapeNotVerified */ echo $block->getLogoAlt() ?>" class="mitsMobileHeaderLogo"/>
+<?php if ($block->isHomePage()):?>
+    </strong>
+<?php else:?>
+    </a>
+<?php endif?>

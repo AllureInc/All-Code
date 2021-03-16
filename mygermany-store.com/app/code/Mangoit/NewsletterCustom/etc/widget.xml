@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Magento/Widget/etc/widget.xsd">
+	<widget
+		id="mangoit_newsletter_bestsellerwidget"
+		class="Mangoit\NewsletterCustom\Block\Widget\Bestsellerdproduct"
+		is_email_compatible="true">
+		<label translate="true">myGermany Most Sold Products</label>
+		<description>myGermany Most Sold Products Widget</description>
+		<parameters>
+			<parameter name="productcount" xsi:type="text"  visible="true" sort_order="1">
+				<label translate="true">Product Count</label>
+			</parameter>
+			<parameter name="imagewidth" xsi:type="text"  visible="true" sort_order="2">
+				<label translate="true">Image Width</label>
+			</parameter>
+			<parameter name="imageheight" xsi:type="text"  visible="true" sort_order="3">
+				<label translate="true">Image Height</label>
+			</parameter>
+		</parameters>
+	</widget>
+	<widget
+		id="mangoit_newsletter_topproductswidget"
+		class="Mangoit\NewsletterCustom\Block\Widget\Topproducts"
+		is_email_compatible="true">
+		<label translate="true">myGermany Top Products</label>
+		<description>myGermany Top Products Widget</description>
+		<parameters>
+			<parameter name="productcount" xsi:type="text"  visible="true" sort_order="1">
+				<label translate="true">Product Count</label>
+			</parameter>
+			<parameter name="imagewidth" xsi:type="text"  visible="true" sort_order="2">
+				<label translate="true">Image Width</label>
+			</parameter>
+			<parameter name="imageheight" xsi:type="text"  visible="true" sort_order="3">
+				<label translate="true">Image Height</label>
+			</parameter>
+		</parameters>
+	</widget>
+	<widget
+		id="mangoit_newsletter_newproductswidget"
+		class="Mangoit\NewsletterCustom\Block\Widget\Newproducts"
+		is_email_compatible="true">
+		<label translate="true">myGermany New Products</label>
+		<description>myGermany New Products Widget</description>
+		<parameters>
+			<parameter name="productcount" xsi:type="text"  visible="true" sort_order="1">
+				<label translate="true">Product Count</label>
+			</parameter>
+			<parameter name="imagewidth" xsi:type="text"  visible="true" sort_order="2">
+				<label translate="true">Image Width</label>
+			</parameter>
+			<parameter name="imageheight" xsi:type="text"  visible="true" sort_order="3">
+				<label translate="true">Image Height</label>
+			</parameter>
+		</parameters>
+	</widget>
+	<widget
+		id="mangoit_newsletter_categoryproducts"
+		class="Mangoit\NewsletterCustom\Block\Widget\CategoryProducts"
+		is_email_compatible="true">
+		<label translate="true">myGermany Category Products</label>
+		<description>myGermany Products From Category X Widget</description>
+		<parameters>
+			<parameter name="productcount" xsi:type="text"  visible="true" sort_order="1">
+				<label translate="true">Product Count</label>
+			</parameter>
+			<parameter name="categoryids" xsi:type="block" visible="true" required="true" sort_order="10">
+                <label translate="true">Category</label>
+                <block class="Magento\Catalog\Block\Adminhtml\Category\Widget\Chooser">
+                    <data>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string" translate="true">Select Category...</item>
+                        </item>
+                    </data>
+                </block>
+            </parameter>
+		</parameters>
+	</widget>
+</widgets>

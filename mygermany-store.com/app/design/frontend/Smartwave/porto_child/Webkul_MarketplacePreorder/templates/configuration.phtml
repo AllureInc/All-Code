@@ -1,0 +1,185 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MarketplacePreorder
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+// @codingStandardsIgnoreFile
+
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$currentHelper = $this->helper('Webkul\MarketplacePreorder\Helper\Data');
+$isPartner = $helper->isSeller();
+$fewProducts = [];
+$disableProducts = [];
+if ($isPartner) {
+	$savedValue = $currentHelper->getSellerConfiguration();
+?>
+	<form class="form" action="<?php /* @escapeNotVerified */ echo $block->getUrl('mppreorder/seller/save', ['_secure' => $this->getRequest()->isSecure()]) ?>" method="post" id="form-validate" data-mage-init='{"validation":{}}' enctype="multipart/form-data" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>" autocomplete="off">
+		<fieldset class="fieldset info">
+		     <div>
+			    <legend style="font-size:2rem;" class="legend wk-mp-page-title"><span><?php /* @escapeNotVerified */ echo __('Preorder Configuration') ?></span>
+	        	    <button type="submit" class="button wk-mp-btn action save primary">
+					     <span><span><?php echo __('Save') ?></span></span>
+				    </button>
+	          </legend>
+			</div>
+			<br>
+			<?php echo $block->getBlockHtml('formkey')?>
+			<?php echo $block->getBlockHtml('seller.formkey')?>
+			<div class="field required">
+            	<label class="label"><span><?php echo __("Preorder Type"); ?></span></label>
+                <div class="control">
+                <?php $_type = $currentHelper->getPreorderType(); ?>
+                    <select id="preorder_type" class="required-entry validate-select" name="type" data-validate="{required:true}">
+                    	<?php
+							foreach ($_type as $_value) {
+								?>
+								<option value="<?php echo $_value['value']; ?>" <?php if(isset($savedValue['type']) && $savedValue['type']==$_value['value']){ ?>selected="true"<?php } ?>><?php echo __($_value['label']); ?></option>
+								<?php
+							}
+						?>
+                    </select>
+                </div>
+            </div>
+            <div class="field required mppreorder-percent">
+            	<label class="label"><span><?php echo __("Percent Payment Accept for Preorder"); ?></span></label>
+                <div class="control">
+                	<input type="text" class="input-text validate-digits-range digits-range-1-100" name="preorder_percent" id="preorder_percent" <?php if(isset($savedValue['preorder_percent']) && $savedValue['preorder_percent']>0){ ?>value="<?php echo $savedValue['preorder_percent'] ?>"<?php } ?> data-validate="{required:true}" />
+					<span><?php echo __('Please enter value between 1 to 100.') ?></span>
+                </div>
+            </div>
+            <div class="field required">
+            	<label class="label"><span><?php echo __("Enable Preorder for"); ?></span></label>
+                <div class="control">
+                <?php $_action = $currentHelper->getPreorderAction(); ?>
+                	<select id="preorder_action" class="required-entry validate-select" name="preorder_action" data-validate="{required:true}">
+                    	<?php
+							foreach ($_action as $_value) {
+								?>
+								<option value="<?php echo $_value['value']; ?>" <?php if(isset($savedValue['preorder_action']) && $savedValue['preorder_action']==$_value['value']){ ?>selected="true"<?php } ?>><?php echo $_value['label'] ?></option>
+								<?php
+							}
+						?>
+                    </select>
+					<span><?php echo __("if you choose 'per product' option you have to enable preorder on every product by selecting preorder status");?>
+					</span>
+                </div>
+            </div>
+            <div class="field required mppreorder-few">
+            	<label class="label"><span><?php echo __("Enable Preorder for these Products"); ?></span></label>
+                <div class="control">
+                <textarea name="few_products" id="few_products" rows="5" cols="75" ><?php if(isset($savedValue['custom_message']) && $savedValue['few_products']!==NULL && $savedValue['few_products']!==""){
+                                echo $savedValue['few_products'];
+                            } ?></textarea>
+					<span><?php echo __("Enter ',' seperated product SKUs for those you want to enable Preorder");?>
+					</span>
+                </div>
+
+            </div>
+            <div class="field required mppreorder-allproducts">
+            	<label class="label"><span><?php echo __("Disable Preorder for these Products"); ?></span></label>
+                <div class="control">
+                    <textarea name="disable_products" id="disable_products" rows="5" cols="75" ><?php if(isset($savedValue['custom_message']) && $savedValue['disable_products']!==NULL && $savedValue['disable_products']!= ""){
+                                echo $savedValue['disable_products'];
+                            } ?></textarea>
+                </div>
+            </div>
+            <div class="field">
+            	<label class="label"><span><?php echo __("Custom Message to display on preorder product"); ?></span></label>
+                <div class="control">
+                	<textarea name="custom_message" id="custom_message" rows="5" cols="75" ><?php if(isset($savedValue['custom_message']) && $savedValue['custom_message']!==NULL && $savedValue['custom_message']!==""){
+								echo $savedValue['custom_message'];
+							} ?></textarea>
+                </div>
+            </div>
+             <div class="field required">
+            	<label class="label"><span><?php echo __("Send email to customer when product is in stock"); ?></span></label>
+                <div class="control">
+                <?php $_emailType = $currentHelper->getPreorderEmailTypes();
+                ?>
+                	<select id="email_type" class="required-entry validate-select" name="email_type" data-validate="{required:true}">
+                    	<?php
+							foreach ($_emailType as $_email) {
+								?>
+								<option value="<?php echo $_email['value']; ?>" <?php if(isset($savedValue['email_type']) && $savedValue['email_type']==$_email['value']){ ?>selected="true"<?php } ?>><?php echo $_email['label'];?></option>
+								<?php
+							}
+						?>
+                    </select>
+					<span><?php echo __("if you choose 'manual' option. you will have to manually send mail to customer from admin");?>
+					</span>
+                </div>
+            </div>
+            <div class="field required">
+            	<label class="label"><span><?php echo __("Preorder Quantity"); ?></span></label>
+                <div class="control">
+                <?php $_status = $currentHelper->getPreorderQuantityStatus(); ?>
+                	<select id="mppreorder_qty" class="required-entry validate-select" name="mppreorder_qty" data-validate="{required:true}">
+                    	<?php
+							foreach ($_status as $_value) {
+								?>
+								<option value="<?php echo $_value['value']; ?>" <?php if(isset($savedValue['mppreorder_qty']) && $savedValue['mppreorder_qty']==$_value['value']){ ?>selected="true"<?php } ?>><?php echo __($_value['label']);?></option>
+								<?php
+							}
+						?>
+                    </select>
+					<span><?php echo __("if you choose 'enable' option then a 'text' field is shown to enter preorder quantity for product");?>
+					</span>
+                </div>
+            </div>
+            <div class="field required">
+            	<label class="label"><span><?php echo __("Buyer Specification"); ?></span></label>
+                <div class="control">
+                <?php $_specification = $currentHelper->getBuyerPreorderSpecification(); ?>
+                	<select id="mppreorder_specific" class="required-entry validate-select" name="preorder_specific" data-validate="{required:true}">
+                    	<?php
+							foreach ($_specification as $_value) {
+								?>
+								<option value="<?php echo $_value['value']; ?>" <?php if(isset($savedValue['preorder_specific']) && $savedValue['preorder_specific']==$_value['value']){ ?>selected="true"<?php } ?>><?php echo __($_value['label']);?></option>
+								<?php
+							}
+						?>
+                    </select>
+					<span><?php echo __("if you choose 'preorder buyers' then only those buyers will be allowed to complete preorder who has done a preorder on that product");?>
+					</span>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+<?php
+    $optionData = [
+        'fewProductVal' => $savedValue['few_products'],
+        'disableProductsVal'   => $savedValue['disable_products']
+    ];
+?>
+<script type="text/x-magento-init">
+{
+    "*" : {
+            "preorderConfig": ""
+    }
+}
+</script>
+<?php } else { ?>
+	<h2 class="wk_mp_error_msg">
+		<?php echo __("To Become Seller Please Contact to Admin."); ?>
+	</h2>
+<?php } ?>
+<script type="text/javascript">
+require(['jquery'],function(jQuery){
+    jQuery(window).on('scroll', function(){
+        var offsettop = jQuery('#form-validate').offset().top;
+        var isActive = (jQuery(window).scrollTop() > offsettop);
+
+        if (isActive) {
+            jQuery('#form-validate legend.legend').addClass('wk-mp-fixed');
+        } else {
+            jQuery('#form-validate legend.legend').removeClass('wk-mp-fixed');
+        }
+    });
+});
+</script>

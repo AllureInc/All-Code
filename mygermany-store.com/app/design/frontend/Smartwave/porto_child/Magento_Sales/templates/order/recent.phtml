@@ -1,0 +1,135 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+ <?php 
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $customerSession = $objectManager->create('Magento\Customer\Model\Session');
+    $customerId = $customerSession->getCustomerId();
+    $model = $objectManager->create(
+        'Webkul\Marketplace\Model\Seller'
+    )->getCollection()
+    ->addFieldToFilter('seller_id', $customerId);
+    $sellerStatus = 0;
+    foreach ($model as $value) {
+        $sellerStatus = $value->getIsSeller();
+    }
+?>
+<div class="block block-dashboard-orders">
+<?php $_orders = $block->getOrders(); ?>
+    <div class="block-title order" style="margin-top: 20px !important";>
+        <strong><?= /* @escapeNotVerified */ __('Recent Orders') ?></strong>
+        <?php if (sizeof($_orders->getItems()) > 0): ?>
+            <a class="action view" href="<?= /* @escapeNotVerified */ $block->getUrl('sales/order/history') ?>">
+                <span><?= /* @escapeNotVerified */ __('View All') ?></span>
+            </a>
+        <?php endif; ?>
+    </div>
+    <div class="block-content">
+    <?= $block->getChildHtml() ?>
+    <?php if (sizeof($_orders->getItems()) > 0): ?>
+        <div class="table-wrapper orders-recent">
+            <table class="data table table-order-items recent" id="my-orders-table">
+                <caption class="table-caption"><?= /* @escapeNotVerified */ __('Recent Orders') ?></caption>
+                <thead>
+                    <tr>
+                        <th scope="col" class="col id"><?= /* @escapeNotVerified */ __('Order #') ?></th>
+                        <th scope="col" class="col date"><?= /* @escapeNotVerified */ __('Date') ?></th>
+                        <th scope="col" class="col shipping"><?= /* @escapeNotVerified */ __('Ship To') ?></th>
+                        <th scope="col" class="col total"><?= /* @escapeNotVerified */ __('Order Total') ?></th>
+                        <th scope="col" class="col status"><?= /* @escapeNotVerified */ __('Status') ?></th>
+                        <th scope="col" class="col actions"><?= /* @escapeNotVerified */ __('Action') ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($_orders as $_order):
+                    ?>
+                         <?php 
+                            $statusLabel = $_order->getStatusLabel();
+                            $status = $_order->getStatus();
+                            if ($statusLabel == 'Canceled' || ($statusLabel == 'Return')) {
+                                $statusLabel = $statusLabel;
+                            } else {
+                                if ($_order->getShippingMethod() == 'dropship_dropship') {
+                                    if ($status == 'pending' || ($status == 'order_processed') || ($status == 'sent_to_mygermany') || ($status == 'received') || ($status == 'processing')) {
+                                        $statusLabel = "In Process";
+                                    } elseif ($status == 'order_verified') {
+                                        $statusLabel = "Shipped";
+                                    }
+
+                                } elseif ($_order->getShippingMethod() == 'warehouse_warehouse') {
+                                    if ($status == 'pending' || ($status == 'order_processed') || ($status == 'compliance_check') || ($status == 'sent_to_mygermany') || ($status == 'processing')) {
+                                        $statusLabel = "Expected";
+                                    } elseif ($status == 'received' || ($status == 'order_verified') || ($status == 'closed')) {
+                                        $statusLabel = "Received";
+                                    }
+                                } else {
+                                    if ($status == 'pending' || ($status == 'order_processed') || ($status == 'compliance_check') || ($status == 'sent_to_mygermany') || ($status == 'processing')) {
+                                        $statusLabel = "Expected";
+                                    } elseif ($status == 'received' || ($status == 'order_verified') || ($status == 'closed')) {
+                                        $statusLabel = "Received";
+                                    }
+                                } 
+                            }
+
+                            $statusLink = '#';
+                            if($_order->getShippingMethod() == 'dropship_dropship') {
+                                if($statusLabel == 'Shipped') {
+                                    $statusLink = 'https://account.mygermany.com/en/web/content/orders?tabselected=3';
+                                }
+                            } elseif ($_order->getShippingMethod() == 'warehouse_warehouse') {
+                                if($statusLabel == 'Expected' || $statusLabel == 'In Process') {
+                                    $statusLink = 'https://account.mygermany.com/en/web/content/orders?tabselected=1';
+                                } elseif ($statusLabel == 'Received') {
+                                    $statusLink = 'https://account.mygermany.com/en/web/content/orders?tabselected=2';
+                                } elseif ($statusLabel == 'Shipped') {
+                                    $statusLink = 'https://account.mygermany.com/en/web/content/orders?tabselected=3';
+                                }
+                            }
+                        ?>
+                        <tr>
+                            <td data-th="<?= $block->escapeHtml(__('Order #')) ?>" class="col id"><?= /* @escapeNotVerified */ $_order->getRealOrderId() ?></td>
+                            <td data-th="<?= $block->escapeHtml(__('Date')) ?>" class="col date"><?php echo date_format( date_create($_order->getCreatedAt()),"d.m.Y"); ?></td>
+                            <td data-th="<?= $block->escapeHtml(__('Ship To')) ?>" class="col shipping">
+                                <?php 
+                                    if ($sellerStatus != 1) {
+                                        if ($_order->getShippingMethod() == 'dropship_dropship') {
+                                            echo __("Drop Shipment ".$_order->getCustomerFirstname().' '.$_order->getCustomerLastname());
+                                        } else {
+                                            echo __("myGermany Warehouse");           
+                                        }
+                                    } else {
+                                        echo ($_order->getShippingAddress() ? $block->escapeHtml($_order->getShippingAddress()->getName()) : '&nbsp;' );
+                                    }
+                                ?>
+                            </td>
+                            <td data-th="<?= $block->escapeHtml(__('Order Total')) ?>" class="col total"><?= /* @escapeNotVerified */ $_order->formatPrice($_order->getGrandTotal()) ?></td>
+                            <td data-th="<?= $block->escapeHtml(__('Status')) ?>" class="col status"><a class="action order" href="<?= /* @escapeNotVerified */ $statusLink ?>" target="_blank"><?php echo __($statusLabel); ?></a></td>
+                            <td data-th="<?= $block->escapeHtml(__('Actions')) ?>" class="col actions">
+                                <a href="<?= /* @escapeNotVerified */ $block->getViewUrl($_order) ?>" class="action view">
+                                    <span><?= /* @escapeNotVerified */ __('View Order') ?></span>
+                                </a>
+                                <?php if ($this->helper('Magento\Sales\Helper\Reorder')->canReorder($_order->getEntityId())) : ?>
+                                    <a href="#" data-post='<?php /* @escapeNotVerified */ echo
+                                    $this->helper(\Magento\Framework\Data\Helper\PostHelper::class)
+                                        ->getPostData($block->getReorderUrl($_order))
+                                    ?>' class="action order">
+                                        <span><?= /* @escapeNotVerified */ __('Reorder') ?></span>
+                                    </a>
+                                <?php endif ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    <?php else: ?>
+        <div class="message info empty"><span><?= /* @escapeNotVerified */ __('You have placed no orders.') ?></span></div>
+    <?php endif; ?>
+    </div>
+</div>

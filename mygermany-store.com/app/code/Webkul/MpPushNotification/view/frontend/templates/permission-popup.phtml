@@ -1,0 +1,23 @@
+<!-- 
+/**
+ * @category   Webkul
+ * @package    Webkul_MpPushNotification
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+
+<?php
+ // @codingStandardsIgnoreFile
+    $helper = $this->helper('Webkul\MpPushNotification\Helper\Data');
+
+    $data = [
+        "apiKey"=>$helper->getServerKey(),
+        'swPath' => $block->getViewFileUrl('Webkul_MpPushNotification::js/service-worker-script.js'),
+        'ajaxUrl' => $block->getUrl('mppushnotification/users/save')
+    ];
+
+    $serializedData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($data);
+
+    ?>
+

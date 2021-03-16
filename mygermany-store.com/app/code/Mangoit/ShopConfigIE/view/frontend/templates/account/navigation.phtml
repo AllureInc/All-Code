@@ -1,0 +1,46 @@
+<?php
+/**
+ * Mangoit Software.
+ *
+ * @category  Mangoit
+ * @package   Mangoit_ShopConfigIE
+ * @author    Mangoit
+ */
+
+// @codingStandardsIgnoreFile
+$_helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$isPartner= $_helper->isSeller();
+$magentoCurrentUrl = $block->getCurrentUrl();
+$allow_pro_type=$_helper->getAllowedProductType();
+$isSellerGroup = $_helper->isSellerGroupModuleInstalled();
+?>
+<style type="text/css">
+    @media only screen and (max-width: 767px){
+
+        .block-collapsible-nav.wk-mp-main{
+            top: 20px;
+        }
+    }
+</style>
+<!-- <nav class="account-nav">
+    <ul class="nav items"> -->
+        <?php /*
+        if($isPartner){ ?>
+            <li class="nav item <?php echo strpos($magentoCurrentUrl,'mitsshopconfig/shopconfig/export')? "current":"";?>">
+                <a href="<?php echo $block->getUrl('mitsshopconfig/shopconfig/export', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                    <?php  echo __('Export Shop Configuration') ?>
+                </a>
+            </li>
+            <li class="nav item <?php echo strpos($magentoCurrentUrl,'mitsshopconfig/shopconfig/import')? "current":"";?>">
+                <a href="<?php echo $block->getUrl('mitsshopconfig/shopconfig/import', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                    <?php  echo __('Import Shop Configuration') ?>
+                </a>
+            </li>
+            <!-- <li class="nav item <?php // echo strpos($magentoCurrentUrl,'mpmassupload/dataflow/profile')? "current":"";?>">
+                <a href="<?php // echo $block->getUrl('mpmassupload/dataflow/profile', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                    <?php  // echo __('Mass Upload Dataflow Profile') ?>
+                </a>
+            </li> -->
+        <?php } */ ?>
+<!--     </ul>
+</nav> -->

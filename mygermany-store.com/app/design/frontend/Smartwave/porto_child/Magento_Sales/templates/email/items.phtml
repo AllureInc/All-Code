@@ -1,0 +1,93 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php $_order = $block->getOrder() ?>
+<?php if ($_order): ?>
+    <?php if ($_order->getVendorDeliveryDays()): ?>
+        <?php $vndrprodctDelDays = unserialize($_order->getVendorDeliveryDays()); ?>
+        <?php if (is_array($vndrprodctDelDays)): ?>
+            <h3 style="font-weight:300;line-height:1.1;font-size:17px;margin-top:0;margin-bottom:9px"><?php echo __('Vendor Product delivery days'); ?></h3>
+            <table class="email-items">
+                <thead>
+                    <tr>
+                        <th colspan="5">
+                            <?php echo  __('Vendors') ?>
+                        </th>
+                        <th colspan="5">
+                            <?php echo  __('Delivery days') ?>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($vndrprodctDelDays as $allKey => $allValue): ?>
+                            <tr class="row">
+                                <td class="col col-method" colspan="5">
+                                    <span class="shop-title"><?php echo $allValue['shop_title']; ?></span>
+                                </td>
+                                <td class="col col-price" colspan="5">
+                                    <span class="delivery-days"><?php echo $allValue['final_days'].' '.__('working days'); ?></span>
+                                </td>
+                            </tr>
+                        <?php // foreach ($allValue as $key => $value): ?>
+                        <?php // endforeach; ?>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php endif;?>
+    <?php endif;?>
+    <?php $_items = $_order->getAllItems(); ?>
+    <table class="email-items">
+        <thead>
+            <tr>
+                <th class="item-info">
+                    <?php echo  __('Items'); ?>
+                </th>
+                <th class="item-qty">
+                    <?php echo  __('Qty'); ?>
+                </th>
+                <th class="item-price">
+                    <?php echo  __('Price'); ?>
+                </th>
+                <th colspan="4">
+                    <?php echo  __('FSK Type'); ?>
+                </th>
+            </tr>
+        </thead>
+        <?php foreach ($_items as $_item): ?>
+            <?php
+                if ($_item->getParentItem()) {
+                    continue;
+                }
+            ?>
+            <tbody>
+                <?= $block->getItemHtml($_item) ?>
+            </tbody>
+        <?php endforeach; ?>
+        <tfoot class="order-totals">
+            <?= $block->getChildHtml('order_totals') ?>
+        </tfoot>
+    </table>
+    <?php if ($this->helper('Magento\GiftMessage\Helper\Message')->isMessagesAllowed('order', $_order, $_order->getStore()) && $_order->getGiftMessageId()): ?>
+        <?php $_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage($_order->getGiftMessageId()); ?>
+        <?php if ($_giftMessage): ?>
+            <br />
+            <table class="message-gift">
+                <tr>
+                    <td>
+                        <h3><?= /* @escapeNotVerified */  __('Gift Message for this Order') ?></h3>
+                        <strong><?= /* @escapeNotVerified */  __('From:') ?></strong> <?= $block->escapeHtml($_giftMessage->getSender()) ?>
+                        <br /><strong><?= /* @escapeNotVerified */  __('To:') ?></strong> <?= $block->escapeHtml($_giftMessage->getRecipient()) ?>
+                        <br /><strong><?= /* @escapeNotVerified */  __('Message:') ?></strong>
+                        <br /><?= $block->escapeHtml($_giftMessage->getMessage()) ?>
+                    </td>
+                </tr>
+            </table>
+        <?php endif; ?>
+    <?php endif; ?>
+<?php endif; ?>

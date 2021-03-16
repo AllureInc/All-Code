@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Webkul Software
+ *
+ * @category Webkul
+ * @package Webkul_Walletsystem
+ * @author Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license https://store.webkul.com/license.html
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Webkul_Walletsystem::walletsystem" title="Webkul Wallet System" sortOrder="10" >
+                    <resource id="Webkul_Walletsystem::wallet" title="Wallet System Details" sortOrder="10">
+                    </resource>
+                    <resource id="Webkul_Walletsystem::banktransfer" title="Wallet System Bank Transfer Details" sortOrder="11">
+                    </resource>
+                    <resource id="Webkul_Walletsystem::walletamount" title="Adjust Amount to Wallet" sortOrder="12">
+                    </resource>
+                    <resource id="Webkul_Walletsystem::walletcreditrules" title="Wallet System Credit Rules" sortOrder="13">
+                    </resource>
+                    <resource id="Webkul_Walletsystem::walletpayee" title="Wallet System Payee Details" sortOrder="13">
+                    </resource>
+                </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Webkul_Walletsystem::config_walletsystem" title="Walletsystem Configuration section" sortOrder="50" />
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<section id="marketplace" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+			<tab>webkul</tab>
+			<!-- <resource>Mangoit_VendorPayments::config_mangoit_vendorpayments</resource> -->
+			<group id="general_settings" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+				<field id="allow_invoice_in" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>Allow Invoice Generation In (Days)</label>
+					<validate>validate-digits</validate>
+					<comment>Please enter number of days here.</comment>
+				</field>
+				<field id="vendor_invoice_email_template" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Vendor Invoice Email Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+				<field id="vendor_invoice_email_template_vendor_copy" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Vendor Invoice Email Template (Vendor Email)</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+			</group>
+		</section>
+	</system>
+</config>

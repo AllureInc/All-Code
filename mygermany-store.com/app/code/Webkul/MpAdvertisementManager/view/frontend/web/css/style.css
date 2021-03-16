@@ -1,0 +1,90 @@
+.slideshow {
+    margin: 30px auto;
+    position: relative;
+    width: 100%;
+    padding: 10px;
+    display:none;
+    overflow: hidden;
+}
+
+.slideshow .slideshow-inner-cont{
+    position:absolute;
+
+}
+
+.slideshow .slideshow-inner-cont > div.wkads {
+    display:inline-block;
+    margin:10px 10px;
+    /*border:1px solid;*/
+    vertical-align: top;
+}
+
+.wk-plan-fieldset {
+    padding: 10px;
+    text-align: left;
+    box-shadow: 0px 1px 3px #333;
+}
+
+.wk-plan-fieldset .legend {
+    text-transform: capitalize;
+}
+
+.single-ad-container {
+    width:100%;
+    position: relative;
+}
+.single-ad-container > .single-ad {
+    width:100%;
+    margin:auto;
+    padding:2px;
+    text-align:center;
+    background-color:rgba(255,255,255, .5);
+}
+
+.single-ad-container > .single-ad {
+    max-width: 100%;
+    max-height:100%;
+}
+
+.page-bottom{
+    width:100%;
+}
+
+.wk-enable-demo-action {
+    margin:10px 0;
+}
+
+.wk-enable-demo-action > div.primary, .wk-enable-demo-action > div.primary > .enable-ads-demo {
+    width:100%;
+}
+
+.single-ad-container-demo {
+    width: 99%;
+    padding: 5px;
+    margin: 5px auto;
+    background: currentColor;
+    margin:10px 0;
+    clear:both;
+}
+
+.single-ad-demo {
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.ads-demo-title {
+    color: #A9A9A9;
+}
+
+.ads-demo-text {
+    color: tomato;
+    font-size: 14px;
+}
+
+.plan-items {
+    background: rgba(60, 47, 12, 0.2);
+}
+
+.plan-items.ads-sold-out {
+    background: rgba(211, 217, 221, 0.2);
+}

@@ -1,0 +1,25 @@
+Legend
+
++ Features
+- Bugs
+
+-------------------------------- Version 2.0.3 --------------------------------------
+
+	+ Updated composer.json as per magento 2.2.x version.
+	+ Updated according to magento 2.2.x and marketplace 2.1.x version
+
+-------------------------------- Version 2.0.2 --------------------------------------
+
+	+ Updated composer.json File
+
+-------------------------------- Version 2.0.1 --------------------------------------
+
+	- Fixed few bugs.
+
+-------------------------------- Version 2.0.0 --------------------------------------
+
+	+ Works very fine in magento marketplace with other addons.
+	+ Different type of google chart enabled life PIE chart and many more.
+	+ Many filter option available.
+	+ Category wise sorting available.
+	+ Filter by the date range and reporting.

@@ -1,0 +1,37 @@
+"This order contains Preorder Product(s).","This order contains Preorder Product(s)."
+Complete Preorder,Complete Preorder
+Preorder Pending,Preorder Pending
+Preorder Complete,Preorder Complete
+Preorder Configuration,Preorder Configuration
+Preorder Type,Preorder Type
+Percent Payment Accept for Preorder,Percent Payment Accept for Preorder
+Enable Preorder for,Enable Preorder for
+Enable Preorder for these Products,Enable Preorder for these Products
+Disable Preorder for these Products,Disable Preorder for these Products
+Custom Message to display on preorder product,Custom Message to display on preorder product
+Send email to customer when product is in stock,Send email to customer when product is in stock
+Preorder Quantity,Preorder Quantity
+Buyer Specification,Buyer Specification
+Preorder Management,Preorder Management
+Configuration,Configuration
+Preorder Configuration,Preorder Configuration
+Preorder Orders,Preorder Orders
+Order Id,Order Id
+Date,Date
+Notification Status,Notification Status
+Search by order Id,Search by order Id
+Notified,Notified
+Unnotified,Unnotified
+Submit,Submit
+Send Email,Send Email
+Product,Product
+Purchased On,Purchased On
+Paid Amount,Paid Amount
+Remaining Amount,Remaining Amount
+Action,Action
+Complete,Complete
+Bill to Name,Bill to Name
+Ship to Name,Ship to Name
+Send Stock Notification Email,Send Stock Notification Email
+"Are you sure you want to send email?","Are you sure you want to send email?"
+"Pay %1% as Preorder.","Pay %1% as Preorder."

@@ -1,0 +1,383 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Shop System Plugins - Terms of Use
+ *
+ * The plugins offered are provided free of charge by Wirecard AG and are explicitly not part
+ * of the Wirecard AG range of products and services.
+ *
+ * They have been tested and approved for full functionality in the standard configuration
+ * (status on delivery) of the corresponding shop system. They are under General Public
+ * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
+ * the same terms.
+ *
+ * However, Wirecard AG does not provide any guarantee or accept any liability for any errors
+ * occurring when used in an enhanced, customized shop system configuration.
+ *
+ * Operation in an enhanced, customized configuration is at your own risk and requires a
+ * comprehensive test phase by the user of the plugin.
+ *
+ * Customers use the plugins at their own risk. Wirecard AG does not guarantee their full
+ * functionality neither does Wirecard AG assume liability for any disadvantages related to
+ * the use of the plugins. Additionally, Wirecard AG does not guarantee the full functionality
+ * for customized shop systems or installed plugins of other vendors of plugins within the same
+ * shop system.
+ *
+ * Customers are responsible for testing the plugin's functionality before starting productive
+ * operation.
+ *
+ * By installing the plugin into the shop system the customer agrees to these terms of use.
+ * Please do not use the plugin if you do not agree to these terms of use!
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <wirecard_elasticengine>
+            <credentials>
+                <base_url>https://api-test.wirecard.com</base_url>
+                <http_user>70000-APITEST-AP</http_user>
+                <http_pass>qD2wzQ_hrc!8</http_pass>
+            </credentials>
+            <settings>
+                <public_key>-----BEGIN CERTIFICATE-----
+MIIF5DCCBMygAwIBAgICLHQwDQYJKoZIhvcNAQELBQAwWzELMAkGA1UEBhMCREUx
+ETAPBgNVBAoTCFdpcmVjYXJkMTkwNwYDVQQDFDB3aXJlY2FyZC1EUS1NVUMtaW50
+ZXJuYWwtd2Vic2VydmljZS1pc3N1aW5nQ0FfMDIwHhcNMTcwMTEyMTM1OTI2WhcN
+MTkwMTEyMTM1OTI2WjCBijELMAkGA1UEBhMCREUxIzAhBgNVBAoTGldpcmVjYXJk
+IFRlY2hub2xvZ2llcyBHbWJIMRMwEQYDVQQLEwpPcGVyYXRpb25zMR4wHAYDVQQD
+ExVhcGktdGVzdC53aXJlY2FyZC5jb20xDzANBgNVBAQTBkJheWVybjEQMA4GA1UE
+BxMHQXNjaGVpbTCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAKSkExBY
+8FjRcZdrxOuJF+HZY8+McQaOB8B0E/hTUhoclsF4OJNaMThje7R6w6OYWBMKpssG
+ngHFaZv35rCo5XVUpJmjZa04ytxE72GKO/uP4yIR7ZBXZx42B22MFaJJZTgPRCCF
+d6jrz906BZ//CmEAmk5gKelfPxfWJgGyTX6xz7I9R/G57E1xNOuEihN0ma5Q2IhD
+71MPVseFIGazyfGbJD6rYYbeBbOQSGk//TL8sdRCn0BLcm4DH5oqcPxDKzkaBP4o
+hNkCWsxpLLSyV6Wx0ihT0S1OLVNkEeTvcrYgUk124VyGatwWNUuCBYyOGQSOGqrW
+8IHmrhjzzT0NQog0/m38lpdqw/eWmt39qhODqSfILUk2Dxv1+W0IRKJCKcJrcTbX
+EQCuHl+XWY+U2AhinIPNRA0KX2oOgC//inwyKWSGWHdQnaake646R1wHqtoEfCtE
+cfyaeR+IrMr1rCAA3RZ+MH1J5UlUCWcnxPT0kad6dUwe3Qjq3jK4gaFzYU2yVScX
+5LVZMlWy2NiGCIvngHQmhArESzxMVvz5METZujfax6hfmiLNRWu0Zqs09Mpxy5zk
+5m/WRi5izb0uBeCfcA6x9pmjMx8M4OGG5RO2HTXSwLYJTKI47VXNsLLOY+nMFmhj
+/dkLJ5d3zI7EczToPMRHmHG7EqEdAfbb+oUlAgMBAAGjggGAMIIBfDARBgNVHQ4E
+CgQIS6wVIA0mJ9IwEwYDVR0jBAwwCoAIQ2weFtQ9BQ4wCwYDVR0PBAQDAgTwMIIB
+QwYDVR0fBIIBOjCCATYwggEyoIIBLqCCASqGgdVsZGFwOi8vd2lyZWNhcmQubGFu
+L0NOPXdpcmVjYXJkLURRLU1VQy1pbnRlcm5hbC13ZWJzZXJ2aWNlLWlzc3VpbmdD
+QV8wMixDTj1DRFAsQ049UHVibGljIEtleSBTZXJ2aWNlcyxDTj1TZXJ2aWNlcyxD
+Tj1Db25maWd1cmF0aW9uLGRjPXdpcmVjYXJkLGRjPWxhbj9jZXJ0aWZpY2F0ZVJl
+dm9jYXRpb25MaXN0P2Jhc2U/b2JqZWN0Q2xhc3M9Q1JMRGlzdHJpYnV0aW9uUG9p
+bnSGUGh0dHA6Ly9jcmwud2lyZWNhcmQubGFuL0NSTF93aXJlY2FyZC1EUS1NVUMt
+aW50ZXJuYWwtd2Vic2VydmljZS1pc3N1aW5nQ0FfMDIuY3JsMA0GCSqGSIb3DQEB
+CwUAA4IBAQAmlUoiEFPRsOjGPb7SYiuJLxqTXCvZQeuXiUydF6FQl/zIpR/zSlta
+ZKK86L+1i7t1C89OyTTXBD9FN6EKmlHo/ulsMn9V2B4zK3lT/NUclST98BmCla4J
+zm+roeOHTqlPz3gPRJiPsr3wdvM+FSAJ2MRdv3l77mTE3v3hjsVVMmShR3VwwpxC
+ICl3mpMsSaJZLyJdOHwvnpXs1m9kESwPD3DQ3RAQ/OGa0pPxAkHaauog4DhPvr/n
+BQnWHd2Us5b/ep7LME9hZ8u3hu/Kc6Vk24c5p3WUOiyaTiw+Ym3QDXl1wBSl9DdM
+94KbmAAQ5D/FUqyQnSc4TpmYvJ+Iavag
+-----END CERTIFICATE-----</public_key>
+            </settings>
+        </wirecard_elasticengine>
+        <payment>
+            <wirecard_elasticengine_paypal>
+                <title>Wirecard PayPal</title>
+                <active>0</active>
+                <base_url>https://api-test.wirecard.com</base_url>
+                <http_user>70000-APITEST-AP</http_user>
+                <http_pass>qD2wzQ_hrc!8</http_pass>
+                <can_initialize>1</can_initialize>
+                <can_authorize>0</can_authorize>
+                <can_void>1</can_void>
+                <can_capture>1</can_capture>
+                <can_capture_partial>1</can_capture_partial>
+                <can_refund>1</can_refund>
+                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <sort_order>1</sort_order>
+                <model>PaypalFacade</model>
+                <order_status>processing</order_status>
+                <payment_action>authorize</payment_action>
+                <merchant_account_id>2a0e9351-24ed-4110-9a1b-fd0fee6bec26</merchant_account_id>
+                <secret>dbc5a498-9a66-43b9-bf1d-a618dd399684</secret>
+                <send_shopping_basket>1</send_shopping_basket>
+                <send_additional>1</send_additional>
+            </wirecard_elasticengine_paypal>
+            <wirecard_elasticengine_creditcard>
+                <title>Wirecard Credit Card</title>
+                <active>0</active>
+                <base_url>https://api-test.wirecard.com</base_url>
+                <http_user>70000-APITEST-AP</http_user>
+                <http_pass>qD2wzQ_hrc!8</http_pass>
+                <can_initialize>1</can_initialize>
+                <can_authorize>0</can_authorize>
+                <can_capture>1</can_capture>
+                <can_capture_partial>1</can_capture_partial>
+                <can_refund>1</can_refund>
+                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
+                <can_void>1</can_void>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <sort_order>1</sort_order>
+                <model>CreditCardFacade</model>
+                <order_status>processing</order_status>
+                <payment_action>authorize</payment_action>
+                <merchant_account_id>53f2895a-e4de-4e82-a813-0d87a10e55e6</merchant_account_id>
+                <secret>dbc5a498-9a66-43b9-bf1d-a618dd399684</secret>
+                <three_d_merchant_account_id>508b8896-b37d-4614-845c-26bf8bf2c948</three_d_merchant_account_id>
+                <three_d_secret>dbc5a498-9a66-43b9-bf1d-a618dd399684</three_d_secret>
+                <ssl_max_limit>100.0</ssl_max_limit>
+                <three_d_min_limit>50.0</three_d_min_limit>
+                <default_currency>EUR</default_currency>
+                <send_additional>1</send_additional>
+            </wirecard_elasticengine_creditcard>
+            <wirecard_elasticengine_maestro>
+                <title>Wirecard Maestro</title>
+                <active>0</active>
+                <base_url>https://api-test.wirecard.com</base_url>
+                <http_user>70000-APITEST-AP</http_user>
+                <http_pass>qD2wzQ_hrc!8</http_pass>
+                <can_initialize>1</can_initialize>
+                <can_authorize>0</can_authorize>
+                <can_capture>1</can_capture>
+                <can_capture_partial>1</can_capture_partial>
+                <can_void>0</can_void>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <sort_order>1</sort_order>
+                <model>MaestroFacade</model>
+                <order_status>processing</order_status>
+                <payment_action>authorize</payment_action>
+                <merchant_account_id>53f2895a-e4de-4e82-a813-0d87a10e55e6</merchant_account_id>
+                <secret>dbc5a498-9a66-43b9-bf1d-a618dd399684</secret>
+                <three_d_merchant_account_id>508b8896-b37d-4614-845c-26bf8bf2c948</three_d_merchant_account_id>
+                <three_d_secret>dbc5a498-9a66-43b9-bf1d-a618dd399684</three_d_secret>
+                <ssl_max_limit>0.0</ssl_max_limit>
+                <three_d_min_limit></three_d_min_limit>
+                <default_currency>EUR</default_currency>
+                <send_additional>1</send_additional>
+            </wirecard_elasticengine_maestro>
+            <wirecard_elasticengine_sepa>
+                <title>Wirecard SEPA</title>
+                <active>0</active>
+                <base_url>https://api-test.wirecard.com</base_url>
+                <http_user>70000-APITEST-AP</http_user>
+                <http_pass>qD2wzQ_hrc!8</http_pass>
+                <can_initialize>1</can_initialize>
+                <can_authorize>0</can_authorize>
+                <can_capture>1</can_capture>
+                <can_capture_partial>1</can_capture_partial>
+                <can_refund>1</can_refund>
+                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
+                <can_void>0</can_void>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <sort_order>1</sort_order>
+                <model>SepaFacade</model>
+                <order_status>processing</order_status>
+                <payment_action>authorize</payment_action>
+                <merchant_account_id>4c901196-eff7-411e-82a3-5ef6b6860d64</merchant_account_id>
+                <secret>ecdf5990-0372-47cd-a55d-037dccfe9d25</secret>
+                <enable_bic>0</enable_bic>
+                <creditor_id>DE98ZZZ09999999999</creditor_id>
+                <creditor_name>Max Mustermann</creditor_name>
+                <creditor_city>City</creditor_city>
+                <send_additional>1</send_additional>
+            </wirecard_elasticengine_sepa>
+            <wirecard_elasticengine_sofortbanking>
+                <title>Wirecard Pay now.</title>
+                <active>0</active>
+                <base_url>https://api-test.wirecard.com</base_url>
+                <http_user>70000-APITEST-AP</http_user>
+                <http_pass>qD2wzQ_hrc!8</http_pass>
+                <can_initialize>1</can_initialize>
+                <can_authorize>0</can_authorize>
+                <can_capture>0</can_capture>
+                <can_refund>1</can_refund>
+                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
+                <can_void>0</can_void>
+                <can_invoice>1</can_invoice>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <sort_order>1</sort_order>
+                <model>SofortFacade</model>
+                <order_status>processing</order_status>
+                <payment_action>debit</payment_action>
+                <merchant_account_id>c021a23a-49a5-4987-aa39-e8e858d29bad</merchant_account_id>
+                <secret>dbc5a498-9a66-43b9-bf1d-a618dd399684</secret>
+                <send_additional>1</send_additional>
+            </wirecard_elasticengine_sofortbanking>
+            <wirecard_elasticengine_ideal>
+                <title>Wirecard iDEAL</title>
+                <active>0</active>
+                <base_url>https://api-test.wirecard.com</base_url>
+                <http_user>70000-APITEST-AP</http_user>
+                <http_pass>qD2wzQ_hrc!8</http_pass>
+                <can_initialize>1</can_initialize>
+                <can_authorize>0</can_authorize>
+                <can_capture>0</can_capture>
+                <can_refund>1</can_refund>
+                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
+                <can_void>0</can_void>
+                <can_invoice>1</can_invoice>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <sort_order>1</sort_order>
+                <model>IdealFacade</model>
+                <order_status>processing</order_status>
+                <payment_action>debit</payment_action>
+                <merchant_account_id>b4ca14c0-bb9a-434d-8ce3-65fbff2c2267</merchant_account_id>
+                <secret>dbc5a498-9a66-43b9-bf1d-a618dd399684</secret>
+                <send_additional>1</send_additional>
+            </wirecard_elasticengine_ideal>
+            <wirecard_elasticengine_ratepayinvoice>
+                <title>Wirecard Guaranteed Invoice</title>
+                <active>0</active>
+                <base_url>https://api-test.wirecard.com</base_url>
+                <http_user>70000-APITEST-AP</http_user>
+                <http_pass>qD2wzQ_hrc!8</http_pass>
+                <can_initialize>1</can_initialize>
+                <can_authorize>0</can_authorize>
+                <can_void>1</can_void>
+                <can_capture>1</can_capture>
+                <can_capture_partial>1</can_capture_partial>
+                <can_refund>1</can_refund>
+                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <sort_order>1</sort_order>
+                <model>RatepayInvoiceFacade</model>
+                <order_status>processing</order_status>
+                <payment_action>authorize</payment_action>
+                <merchant_account_id>fa02d1d4-f518-4e22-b42b-2abab5867a84</merchant_account_id>
+                <secret>dbc5a498-9a66-43b9-bf1d-a618dd399684</secret>
+                <min_order_total>20</min_order_total>
+                <max_order_total>3500</max_order_total>
+                <allowspecific>1</allowspecific>
+                <specificcountry>AT,DE</specificcountry>
+                <billing_shipping_address_identical>1</billing_shipping_address_identical>
+                <send_additional>1</send_additional>
+            </wirecard_elasticengine_ratepayinvoice>
+            <!--<wirecard_elasticengine_ratepayinstall>
+                <title>Wirecard Guaranteed Installment</title>
+                <active>0</active>
+                <base_url>https://api-test.wirecard.com</base_url>
+                <http_user>70000-APITEST-AP</http_user>
+                <http_pass>qD2wzQ_hrc!8</http_pass>
+                <can_initialize>1</can_initialize>
+                <can_authorize>0</can_authorize>
+                <can_void>1</can_void>
+                <can_capture>1</can_capture>
+                <can_capture_partial>1</can_capture_partial>
+                <can_refund>1</can_refund>
+                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <sort_order>1</sort_order>
+                <model>RatepayInstallFacade</model>
+                <order_status>processing</order_status>
+                <payment_action>authorize</payment_action>
+                <merchant_account_id>fa02d1d4-f518-4e22-b42b-2abab5867a84</merchant_account_id>
+                <secret>dbc5a498-9a66-43b9-bf1d-a618dd399684</secret>
+                <min_order_total>200</min_order_total>
+                <max_order_total>3500</max_order_total>
+                <allowspecific>1</allowspecific>
+                <specificcountry>AT,DE</specificcountry>
+                <billing_shipping_address_identical>1</billing_shipping_address_identical>
+                <send_additional>1</send_additional>
+            </wirecard_elasticengine_ratepayinstall>-->
+            <wirecard_elasticengine_alipayxborder>
+                <title>Wirecard Alipay Cross Border</title>
+                <active>0</active>
+                <base_url>https://api-test.wirecard.com</base_url>
+                <http_user>70000-APITEST-AP</http_user>
+                <http_pass>qD2wzQ_hrc!8</http_pass>
+                <can_initialize>1</can_initialize>
+                <can_authorize>0</can_authorize>
+                <can_void>0</can_void>
+                <can_capture>0</can_capture>
+                <can_refund>1</can_refund>
+                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <sort_order>1</sort_order>
+                <model>AlipayXBorderFacade</model>
+                <order_status>processing</order_status>
+                <payment_action>debit</payment_action>
+                <merchant_account_id>7ca48aa0-ab12-4560-ab4a-af1c477cce43</merchant_account_id>
+                <secret>dbc5a498-9a66-43b9-bf1d-a618dd399684</secret>
+                <send_additional>1</send_additional>
+            </wirecard_elasticengine_alipayxborder>
+            <wirecard_elasticengine_poipia>
+                <title>Wirecard Payment on Invoice / Payment on Advance</title>
+                <active>0</active>
+                <base_url>https://api-test.wirecard.com</base_url>
+                <http_user>70000-APITEST-AP</http_user>
+                <http_pass>qD2wzQ_hrc!8</http_pass>
+                <can_initialize>1</can_initialize>
+                <can_authorize>0</can_authorize>
+                <can_void>1</can_void>
+                <can_capture>0</can_capture>
+                <can_refund>1</can_refund>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <sort_order>1</sort_order>
+                <model>PoiPiaFacade</model>
+                <order_status>processing</order_status>
+                <payment_action>authorize</payment_action>
+                <poipia_action>invoice</poipia_action>
+                <merchant_account_id>105ab3e8-d16b-4fa0-9f1f-18dd9b390c94</merchant_account_id>
+                <secret>dbc5a498-9a66-43b9-bf1d-a618dd399684</secret>
+                <send_additional>1</send_additional>
+            </wirecard_elasticengine_poipia>
+            <wirecard_elasticengine_masterpass>
+                <title>Wirecard Masterpass</title>
+                <active>0</active>
+                <base_url>https://api-test.wirecard.com</base_url>
+                <http_user>70000-APITEST-AP</http_user>
+                <http_pass>qD2wzQ_hrc!8</http_pass>
+                <can_initialize>1</can_initialize>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_capture_partial>1</can_capture_partial>
+                <can_refund>1</can_refund>
+                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
+                <can_void>1</can_void>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <sort_order>1</sort_order>
+                <model>MasterpassFacade</model>
+                <order_status>processing</order_status>
+                <payment_action>authorize</payment_action>
+                <merchant_account_id>8bc8ed6d-81a8-43be-bd7b-75b008f89fa6</merchant_account_id>
+                <secret>dbc5a498-9a66-43b9-bf1d-a618dd399684</secret>
+                <send_additional>1</send_additional>
+            </wirecard_elasticengine_masterpass>
+            <wirecard_elasticengine_unionpayinternational>
+                <title>Wirecard UnionPay International</title>
+                <active>0</active>
+                <base_url>https://api-test.wirecard.com</base_url>
+                <http_user>70000-APILUHN-CARD</http_user>
+                <http_pass>8mhwavKVb91T</http_pass>
+                <can_initialize>1</can_initialize>
+                <can_authorize>0</can_authorize>
+                <can_capture>1</can_capture>
+                <can_refund>1</can_refund>
+                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
+                <can_void>1</can_void>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <sort_order>1</sort_order>
+                <model>UnionPayInternationalFacade</model>
+                <order_status>processing</order_status>
+                <payment_action>authorize</payment_action>
+                <merchant_account_id>c6e9331c-5c1f-4fc6-8a08-ef65ce09ddb0</merchant_account_id>
+                <secret>16d85b73-79e2-4c33-932a-7da99fb04a9c</secret>
+                <send_additional>1</send_additional>
+            </wirecard_elasticengine_unionpayinternational>
+            <wirecard_elasticengine_cc_vault>
+                <model>CreditCardVaultFacade</model>
+                <title>Stored Cards</title>
+                <active>0</active>
+            </wirecard_elasticengine_cc_vault>
+        </payment>
+    </default>
+</config>

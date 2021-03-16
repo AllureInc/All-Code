@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */  -->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+	<update handle="formkey"/>
+	<head>
+		<css src="Mangoit_RakutenConnector::css/style.css"/>
+	</head>
+    <container name="root" label="Root">
+    	<block class="Mangoit\RakutenConnector\Block\Adminhtml\Order\OrderSync" name="adminhtml.mpamzmagesync.order" template="order/order-sync.phtml" />
+        <block class="Mangoit\RakutenConnector\Block\Adminhtml\Accounts\Edit\Tab\Order" name="adminhtml.mpamzmagesync.edit.tab.orders"/>
+    </container>
+</layout>

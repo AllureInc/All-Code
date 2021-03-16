@@ -1,0 +1,17 @@
+<!--@subject New Order @-->
+<!--@vars {
+"var data.name":"Sender Name",
+"var data.payment_method":"Payment Method Name",
+"var data.order_id":"Order ID"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<p>{{trans "Hello Admin",</p>
+
+<table class="message-details">
+    <tr>
+        <td>{{trans "The" }}</td>
+</table>
+
+{{template config_path="design/email/footer_template"}}

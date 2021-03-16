@@ -1,0 +1,37 @@
+<?php
+/**
+ * Mangoit Software.
+ *
+ * @category  Mangoit
+ * @package   Mangoit_ShopConfigIE
+ * @author    Mangoit
+ */
+
+// @codingStandardsIgnoreFile
+$_helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$isPartner= $_helper->isSeller();
+$magentoCurrentUrl = $block->getCurrentUrl();
+$allow_pro_type=$_helper->getAllowedProductType();
+$isSellerGroup = $_helper->isSellerGroupModuleInstalled();
+?>
+<style type="text/css">
+    @media only screen and (max-width: 767px){
+
+        .block-collapsible-nav.wk-mp-main{
+            top: 20px;
+        }
+    }
+</style>
+<?php /*
+if($isPartner){ ?>
+    <li class="nav item <?php echo strpos($magentoCurrentUrl,'vendorpayments/index/index')? "current":"";?>">
+        <a href="<?php echo $block->getUrl('vendorpayments/index/index', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+            <?php echo __('Payment Fees Structure') ?>
+        </a>
+    </li>
+    <!-- <li class="nav item <?php //echo strpos($magentoCurrentUrl,'vendorpayments/index/invoice')? "current":"";?>">
+        <a href="<?php //echo $block->getUrl('vendorpayments/index/invoice', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+            <?php  //echo __('Vendor Invoices') ?>
+        </a>
+    </li> -->
+<?php } */ ?>

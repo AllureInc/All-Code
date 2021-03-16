@@ -1,0 +1,385 @@
+<style type="text/css">
+.lable-name{
+        width: 100%;
+        margin-right: 10%;
+}
+.lable-value{
+        width: 100%;
+        margin-right: 10%;
+}
+.custom_field_value
+{
+    width: 100%;
+}
+.mis_faq_admin_list tr td,tr th
+{
+    width: 0% !important;
+}
+.mis_delete {
+    margin: 10px 0px 10px 0px;
+    padding: 5px 8px 8px 8px !important;
+}
+</style>
+<?php 
+$product = $block->getCurrentProduct();
+$faqCollection = $block->getFaqCollection();
+$isEdit = $this->getRequest()->getParam('id');
+$storeId = 0;
+$newStoreId = $this->getRequest()->getParam('store');
+if ($newStoreId) {
+    $storeId = $newStoreId;
+}
+$row = 0;
+?>
+<div class="field">
+    <label class="label"></label>
+    <input type="button" name="addFaqField" class="add-faq-field action-basic" value="<?php echo __('Add Product FAQ')?>">
+    <input type="button" name="mis_faq_save" class="mis_faq_save action-basic" value="<?php echo __('Save FAQs')?>" style="display: none;" >
+</div>
+
+<div class="field mis-faq-field" style="display: none;">
+    <form id="mis_new_faq_form" novalidate="novalidate" method="post" name="mis_new_faq_form">
+        <input type="hidden" name="productfaq" value="0">
+        <input type="hidden" name="product_id" value="<?php echo $this->getRequest()->getParam('id'); ?>">
+        <table name="faq_fields" class="mis_faq_field_value">
+            <input type="hidden" name="hasValue" id="hasValue" value="0">
+            <input type="hidden" name="deletValue" id="deletValue" value="0">
+            <tr>
+                <th><?php echo __('Title');?></th>
+                <th><?php echo __('Answer');?></th>                     
+                <th><?php echo __('Action');?></th> 
+                <td>
+                    <input type='button' name='add' class='faq-add-btn action-basic' value='Add FAQ'>
+                </td>                   
+            </tr>   
+        </table>
+    </form>
+</div>
+<?php $faqGridCounter = 1; ?>
+<?php if ($faqCollection->count() > 0): ?>
+<!-- <form action="javascript:void(0)" method="get" id="faq_grid_form" name="faq_grid_form" novalidate="novalidate" class="__web-inspector-hide-shortcut__"> -->
+    <button href="javascript:void(0)" class="button action-basic mis_delete" title="Delete Products" style="float: left;padding: 5px 5px 5px 0;" id="mass-delete-butn">
+        <span><span><?php echo __('Delete FAQs'); ?></span></span>
+    </button>
+    <table cellspacing="0" border="1" class="border mis_faq_admin_list">
+        <thead>
+            <tr class="wk-content">
+                <th class="wk-check-first-td">
+                    <span>
+                        <input type="checkbox" name="mpselecctall" value="all" id="mpselecctall"/>
+                    </span>
+                </th>
+                <th>
+                    <span class="label faq-title">
+                        <?php echo __('Title')?>
+                    </span>
+                </th>
+                <th>
+                    <span class="label faq-desc">
+                        <?php echo __('Description')?>
+                    </span>
+                </th>
+                <th class="wk-list-th-display">
+                    <span class="label status">
+                        <?php echo __('Status')?>
+                    </span>
+                </th>
+                <th class="wk-list-th-display">
+                    <span class="label faq-edit">
+                        <?php echo __('Action')?>
+                    </span>
+                </th>                       
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($faqCollection as $faqValue): ?>
+                <tr class="wk-row-view">
+                    <td class="wk-check-first-td">
+                        <span>
+                            <input type="checkbox" name="faq_mass_delete[]" class="mpcheckbox mpcheckbox-[<?php echo $faqGridCounter?>]" value="<?php echo $faqValue->getId(); ?>"/>
+                        </span>
+                    </td>
+                    <td>        
+                        <span class="label faq-label-<?php echo $faqGridCounter?>" contenteditable="false">
+                            <?php echo $faqValue->getTitle() ?>
+                        </span>
+                        <span style='display: none; color: red' class="label_error_<?php echo $faqGridCounter?>"><?php echo __('This is required Field.')?></span>
+                    </td>
+                    <td>        
+                        <span class="label faq-description-<?php echo $faqGridCounter?>" contenteditable="false">
+                            <?php echo $faqValue->getDescription() ?>
+                        </span>
+                        <span style='display: none; color: red' class="description_error_<?php echo $faqGridCounter?>"><?php echo __('This is required Field.')?></span>
+                    </td>
+                    <td>        
+                        <span class="label faq-is-active">
+                            <?php echo ($faqValue->getIsActive() == 1 ? 'Approved': 'Disapproved') ?>
+                        </span>
+                    </td>
+                    <td>        
+                        <span class="label faq-edit-individual">
+                            <a href="javascript:void(0)" class="faq-edit faq-edit-<?php echo $faqGridCounter ?>" data-attr="<?php echo $faqGridCounter ?>"><?php echo __('Edit'); ?></a>
+                            <a href="javascript:void(0)" class="faq-cancel faq-cancel-<?php echo $faqGridCounter ?>" data-attr="<?php echo $faqGridCounter ?>" style="display: none" >
+                                <?php echo __('Cancel'); ?>
+                            </a>
+                            <a href="javascript:void(0)" data-attr="<?php echo $faqGridCounter ?>" data-faq="<?php echo $faqValue->getId();?>" class="faq-save faq-save-<?php echo $faqGridCounter ?>" style="display: none" >
+                                <?php echo __('Save'); ?>
+                            </a>
+                        </span>
+                    </td>                   
+                </tr>
+            <?php  $faqGridCounter++; ?>   
+            <?php  endforeach; ?>   
+        </tbody>
+    </table>
+<!-- </form> -->
+<?php endif; ?>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'Magento_Ui/js/modal/alert'
+    ],
+    function($, alert) {
+        var faqCounter = 0;
+        var isEdit = "<?php echo $isEdit; ?>";
+        $(document).on('click', '.add-faq-field', function(event){
+            event.preventDefault();
+            if (faqCounter == 0) {
+                $( ".faq-add-btn" ).trigger( "click" );
+            }
+            $('.mis-faq-field').css('display', 'block');
+            $(".mis_faq_save").show(500);
+        });
+
+        $(document).on('click', '.faq-add-btn', function(){
+            $('.mis_faq_field_value').append(addFaqRow(faqCounter));
+            faqCounter++;
+        });
+
+        $(document).on('click', '.global_faq_save', function(){
+            ajaxToSave(false);
+        });
+
+        $(document).on('click', '.mis_faq_save', function(event){
+            event.preventDefault();
+            var checkValues = true;
+            $('.mis-required-entry').each(function () {
+                if (!$(this).val()) {
+                    checkValues = false;
+                    if ($(this).parent().find('.mis_required').length == 0) {
+                        $('<br/><span>').attr({
+                            style: 'color:red',
+                            value: "<?php echo __('This is required Field.')?>",
+                            class: 'mis_required'
+                        }).text("<?php echo __('This is required Field.')?>").insertAfter($(this)); 
+                    }
+                } else {
+                    console.log('else');
+                    $(this).parent().find('.mis_required').remove();
+                }
+            });
+            if (checkValues) {
+                $("#save-button").addClass('global_faq_save');
+                $("#save_and_new").addClass('global_faq_save');
+                $("#save_and_duplicate").addClass('global_faq_save');
+                $("#save_and_close").addClass('global_faq_save');
+                ajaxToSave(true);
+            }
+        });
+
+        // Remove faq add
+        $(document).on('click', '.faq-remove-btn', function(){
+            var faqCounterNew = $(this).attr('data-attr');
+            if (faqCounterNew != 0 || faqCounterNew > 0) {
+                $(this).parent().parent().remove();
+                faqCounter--;
+            } 
+        });
+
+        function ajaxToSave(finalsave) {
+                var url = "<?php echo $this->getUrl('faqs/product/save'); ?>";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    async : true,
+                    showLoader : true,
+                    data : $('#mis_new_faq_form').serialize(),
+                    success: function(data)
+                    {
+                        if (finalsave) {
+                            if (data == 1) {
+                                alert({
+                                   content: "<?php echo __('The FAQ has been saved. Please save product to see the FAQs') ?>"
+                                }); 
+                            } else {
+                                alert({
+                                   content: "<?php echo __('The FAQ has been saved.') ?>"
+                                });
+                                location.reload();
+                            }
+                        }
+                        // $('.faq-label-'+counterVal).text(changedFaqLabel);
+                        // $('.faq-description-'+counterVal).text(changedFaqDescription);
+
+                        // //remove text field in label and showing default 
+                        // $('.faq-edit-label-'+counterVal).remove();
+                        // $('.faq-label-'+counterVal).show();
+
+                        // //remove textarea in Description and showing default value
+                        // $('.faq-edit-description-'+counterVal).remove();
+                        // $('.faq-description-'+counterVal).show();
+
+
+                        // $('.faq-save-'+counterVal).hide();
+                        // $('.faq-cancel-'+counterVal).hide();
+                        // $('.faq-edit-'+counterVal).show();
+                    }
+                });
+        }
+
+        function addFaqRow(faqCounter) {
+        var field = "<tr class='mis-fields-row'>"+
+                    "<td><input type='text' name='faq_fields["+faqCounter+"][title]' class='mis-required-entry' data-value="+faqCounter+">"+
+                    "</td>"+
+                    "<td>"+
+                    "<textarea rows='4' cols='50' name='faq_fields["+faqCounter+"][description]' class='mis-required-entry'></textarea>"+
+                    "</td>"+
+                        "<td>"+
+                            "<input type='button' name='remove' class='faq-remove-btn' value='Remove' data-attr='"+faqCounter+"'>"+
+                        "</td>"+
+                    "</tr>";
+            return field;
+        }
+
+        $(document).on('click', '.faq-edit', function(){
+            var counterVal = $(this).attr('data-attr');
+            var faqLabel = $('.faq-label-'+counterVal).text();
+            var faqDesc = $('.faq-description-'+counterVal).text();
+            
+            //append text field in label
+            $('<input>').attr({
+                type: 'text',
+                name: 'faq-edit-label-'+counterVal,
+                class: 'required-entry faq-edit-label-'+counterVal,
+                value: $.trim(faqLabel)
+            }).insertAfter('.faq-label-'+counterVal);
+            $('.faq-label-'+counterVal).hide();
+
+            //append text area in Description
+            $('<textarea>').attr({
+                name: 'faq-edit-description-'+counterVal,
+                class: 'required-entry faq-edit-description-'+counterVal,
+                value: $.trim(faqDesc)
+            }).insertAfter('.faq-description-'+counterVal); 
+            $('.faq-description-'+counterVal).hide();
+            
+            $('.faq-save-'+counterVal).show();
+            $('.faq-cancel-'+counterVal).show();
+            $('.faq-edit-'+counterVal).hide();
+        });
+        $(document).on('click', '.faq-cancel', function(){
+            var counterVal = $(this).attr('data-attr');
+            
+            //remove text field in label and showing default 
+            $('.faq-edit-label-'+counterVal).remove();
+            $('.faq-label-'+counterVal).show();
+
+            //remove textarea in Description and showing default value
+            $('.faq-edit-description-'+counterVal).remove();
+            $('.faq-description-'+counterVal).show();
+
+            $('.faq-save-'+counterVal).hide();
+            $('.faq-cancel-'+counterVal).hide();
+            $('.faq-edit-'+counterVal).show();
+        });
+        $(document).on('click', '.faq-save', function(){
+            var counterVal = $(this).attr('data-attr');
+            var faqId = $(this).attr('data-faq');
+            var changedFaqLabel = $('.faq-edit-label-'+counterVal).val();
+            var changedFaqDescription = $('.faq-edit-description-'+counterVal).val();
+            if (!changedFaqLabel || (!changedFaqDescription)) {
+                if (!changedFaqLabel) {
+                    $('.label_error_'+counterVal).css({"color": "red", 'display':'block'});
+                } else{
+                    $('.label_error_'+counterVal).hide(500);
+                }
+                if (!changedFaqDescription) {
+                    $('.description_error_'+counterVal).css({"color": "red", 'display':'block'});
+                } else {
+                    $('.description_error_'+counterVal).hide(500);
+
+                }
+            } else {
+                $('.label_error_'+counterVal).hide(500);
+                $('.description_error_'+counterVal).hide(500);
+                var url = "<?php echo $this->getUrl('faqs/product/save'); ?>";
+                var storeId = "<?php echo $storeId; ?>";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    async : true,
+                    showLoader : true,
+                    data : {id:faqId,title:changedFaqLabel,description: changedFaqDescription,productfaq:1,storeId:storeId},
+                    success: function(data)
+                    {
+                        $('.faq-label-'+counterVal).text(changedFaqLabel);
+                        $('.faq-description-'+counterVal).text(changedFaqDescription);
+
+                        //remove text field in label and showing default 
+                        $('.faq-edit-label-'+counterVal).remove();
+                        $('.faq-label-'+counterVal).show();
+
+                        //remove textarea in Description and showing default value
+                        $('.faq-edit-description-'+counterVal).remove();
+                        $('.faq-description-'+counterVal).show();
+
+
+                        $('.faq-save-'+counterVal).hide();
+                        $('.faq-cancel-'+counterVal).hide();
+                        $('.faq-edit-'+counterVal).show();
+                        alert({
+                           content: "<?php echo __('The FAQ has been saved.') ?>"
+                        })
+                    }
+                });
+            }
+        });
+       
+        $(document).on('click','#mpselecctall', function (event) {
+            if (this.checked) {
+                $('.mpcheckbox').each(function () {
+                    this.checked = true;
+                });
+            } else {
+                $('.mpcheckbox').each(function () {
+                    this.checked = false;
+                });
+            }
+        });
+        $(document).on('click','.mis_delete', function (event) {
+            var selected = new Array();
+            jQuery(".mpcheckbox:checked").each(function() {
+                selected.push(jQuery(this).val());
+            });
+            if (selected.length > 0) {
+                var url = "<?php echo $this->getUrl('faqs/product/delete'); ?>";
+                var storeId = "<?php echo $storeId; ?>";
+                jQuery.ajax({
+                    type: "POST",
+                    url: url,
+                    async : true,
+                    showLoader : true,
+                    data : {deleteIds:selected,id:storeId},
+                    success: function(data)
+                    {
+                        location.reload();
+                    }
+                });
+            } else {
+                alert({
+                   content: "<?php echo __('Please select FAQs to delete!') ?>"
+                })
+            }
+        });
+    });
+</script>

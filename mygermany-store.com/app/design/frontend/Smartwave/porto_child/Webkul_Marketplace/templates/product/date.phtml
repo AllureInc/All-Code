@@ -1,0 +1,25 @@
+<div class="field">
+    <label class="label"><?php echo __($frontLabel) ?>:</label>
+    <?php
+        if($product_hint_status && $helper->getProductHintStartDate()){?>
+            <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProductHintStartDate() ?>"/>
+    <?php
+    } ?>
+    <div class="control">
+        <input type="text" name="<?php echo "product[$attributeCode]";?>" aria-required="true" class="input-text" id="calendar_inputField"/>
+    </div>
+</div>
+
+ <script>
+        require([
+            "jquery",
+            "mage/calendar"
+        ], function ($) {
+            $("#calendar_inputField").calendar({
+                changeYear: true,
+                changeMonth: true,
+                yearRange: "1970:2100",
+                buttonText: "Select Date",
+            });
+        });
+    </script>

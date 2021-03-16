@@ -1,0 +1,200 @@
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpAdvertisementManager
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<?php
+    $positions = $block->getAdsPositions();
+    $saveUrl = $block->getAjaxSaveUrl();
+    $savedAdsSettings = $block->getSavedAdsSettings();
+?>
+
+<script id="wk_ads_configuration" type="text/x-magento-template">
+    <fieldset class="fieldset admin__fieldset fieldset-wide">
+        <form id="ads_settings_form" >
+
+            <?php
+                foreach ($positions as $key => $position) {
+                    $popupAd = false;
+                    if ($position['value'] == null) {
+                        continue;
+                    }
+                    if ($position['value'] == 2) {
+                        //$popupAd = true;
+                    }
+                    if ($popupAd == false) {
+                        $days = isset($savedAdsSettings[$position['value']])?$savedAdsSettings[$position['value']]['valid_for']:'';
+                        $count = isset($savedAdsSettings[$position['value']])?$savedAdsSettings[$position['value']]['sort_order']:'';
+                    }
+                    ?>
+                        <fieldset class="fieldset admin__fieldset fieldset-wide">
+                            <label class="legend label"><h2><?php /* @escapeNotVerified */ echo __($position['label']); ?></h2></label>
+                            <div class="admin__field field field-priority  required _required">
+                                <div>
+                                    <input type="hidden" name="ads[<?php echo $position['value']; ?>]['block_id']" value="<?php echo $position['value']; ?>"/>
+                                </div>
+                            </div>
+                            <div class="admin__field field field-priority  required _required">
+                                <label class="label admin__field-label"><?php /* @escapeNotVerified */ echo __("Valid for"); ?></label>
+                                <div class="admin__field-control control">
+                                    <input class="admin__control-text input-text" type="text" name="ads[<?php echo $position['value']; ?>][valid_for]" value="<?php echo $days; ?>" data-validate="{required:true, 'validate-greater-than-zero':true}"/>
+                                <comment>
+                                    <?php /* @escapeNotVerified */ echo __("add number of days"); ?>
+                                </comment>
+                                </div>
+                            </div>
+                            <?php  if ($popupAd == false) { ?>
+                              <div class="admin__field field field-priority  required _required">
+                                  <label class="label admin__field-label"><?php /* @escapeNotVerified */ echo __("Number of ads"); ?></label>
+                                  <div class="admin__field-control control">
+                                      <input class="admin__control-text validate-number-range number-range-1-5" type="text" name="ads[<?php echo $position['value']; ?>][sort_order]" value="<?php if ($popupAd) { echo 1; } else { echo $count; } ?>" <?php if ($popupAd) { echo 'readonly'; } ?> data-validate="{required:true, 'validate-greater-than-zero':true}"/>
+                                  <comment>
+                                      <?php /* @escapeNotVerified */ echo __("add number of adds within range 1-5"); ?>
+                                  </comment>
+                                  </div>
+                              </div>
+                            <?php } ?>
+                        </fieldset>
+                    <?php
+              }
+            ?>
+        </form>
+    </fieldset>
+</script>
+
+<?php /* @escapeNotVerified */ echo $block->getButtonHtml() ?>
+
+<script>
+/**
+ * script for managing tax rule form
+ * @param  jquery $
+ * @param  mage/translate $t      for translation
+ * @param  Magento_Ui/js/modal/alert alert
+ * @param  Magento_Ui/js/modal/confirm confirm
+ * @param  Magento_Ui/js/modal/modal modal for ajax popup model
+ */
+require(
+    [
+      'jquery',
+      'mage/translate',
+      'Magento_Ui/js/modal/alert',
+      'Magento_Ui/js/modal/confirm',
+      'Magento_Ui/js/modal/modal',
+      'mage/template',
+      'mage/mage',
+      'mage/validation',
+      'jquery/ui'
+
+    ], function($,$t,alert,confirm,modal,template) {
+
+        var self = this;
+        // var dataForm = $('#ads_settings_form');
+        // dataForm.mage('validation', {});
+        $("body").on("change", ".widthtype", function() {
+            if ($(this).val() == 'custom') {
+                $(this).next('.depends-on-widthtype').show();
+            } else {
+                $(this).next('.depends-on-widthtype').hide();
+            }
+        });
+
+        var widthTypes = $(".widthtype");
+        $.each(widthTypes, function(index, value){
+            alert(value.val());
+            if ($(value).val() == 'custom') {
+               $(value).next('.depends-on-widthtype').show();
+            }
+        });
+
+        var htmlForm = template("#wk_ads_configuration");
+
+        var options = {
+            type: "popup",
+            autoOpen:false,
+            innerScroll:true,
+            buttons: [
+                {
+                    text: $t('Save Ads Settings'),
+                    class: 'save-ads-settings primary action-default',
+                    click: function() {
+                    /**
+                     * validate validate form
+                     * @type boolean
+                     */
+                       validate =  $("#ads_settings_form").validation();
+                       if (validate && $("#ads_settings_form").validation('isValid')) {
+                            /**
+                             * validation passed save tax
+                             */
+                            res = saveSettings($("#ads_settings_form").serialize());
+
+                            this.closeModal();
+
+                        }
+
+                    }
+                },
+                {
+                    text: $t('Close'),
+                    class: 'close-ads-settings-form primary action-default',
+                    click: function() {
+                        this.closeModal();
+                    }
+                }
+            ],
+            closed: function() {
+                /**
+                 * remove tax slide model created after closing
+                 */
+                $('body').find('.modal-slide').remove();
+            },
+            responsive: true
+        };
+
+        $("#ads_config").on("click", function() {
+            var popup = modal(options, htmlForm({}));
+            popup.openModal();
+        });
+
+        /**
+         * saveSettings save ads settings
+         * @param  string $settings seriaized form
+         * @return array
+         */
+        function saveSettings($settings) {
+            res = null;
+                $("body").trigger('processStart');
+                    $.ajax({
+                        url: '<?php echo $saveUrl; ?>',
+                        method: 'POST',
+                        async: true,
+                        data:$settings,
+                        dataType:'json',
+                        success: function(result) {
+                            if(result.success) {
+                                res = result;
+                            alert({content: $t("settings successfully saved")});
+                            $("#save").trigger('click');
+                            // window.location.reload();
+                            $("body").trigger('processStop');
+                            } else {
+                                $("body").trigger('processStop');
+                                res = result;
+                                alert({content: $t(result.error_message)});
+                            }
+                        },
+                        error: function() {
+                            $("body").trigger('processStop');
+                            alert({content: $t("There is some error in processing")});
+                        }
+                    });
+                return res;
+        }
+    });
+</script>

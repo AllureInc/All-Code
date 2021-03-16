@@ -1,0 +1,38 @@
+#addMore { background-color: #35302c;border-color: #35302c;box-shadow: 0 0 0 1px #007bdb;color: #fff;text-decoration: none; }
+#addMore:hover { background: #fff; border-color: #fff;  color: #333; text-shadow: none; box-shadow:none; }
+.entry-edit.form-inline table {
+  width: 100%;
+}
+
+/*.entry-edit.form-inline table tr td { padding: 10px; width: 9%; }
+.entry-edit.form-inline table tr td:first-child { width: 12%; padding: 10px 0px ; }*/
+.entry-edit.form-inline table tr td select, .entry-edit.form-inline table tr td  input[type="text"] { width: 100%; }
+.advertisement-adminads-edit #editForm label, .advertisement-adminads-view #editForm label { width: 130px; float: left; text-align: left; }
+
+.advertisement-adminads-edit #editForm .admin__field-control, .advertisement-adminads-view .admin__field-control { width: 40%; display: inline-block; }
+
+.advertisement-adminads-edit #editForm .admin__field-control select, .advertisement-adminads-edit #editForm  .admin__field-control input, .advertisement-adminads-view .admin__field-control select, .advertisement-adminads-view .admin__field-control input  { width: 100%; }
+.advertisement-adminads-newads #forImage .admin__field.image { width: 100%;    }
+.advertisement-adminads-newads select#product-list{ width: 100%; }
+
+.vendorattribute-attribute-makeglobal .entry-edit.form-inline { display: inline-block; }
+.wk-categories, .wk-order-status { width: 100%; display: inline-block; position: relative; margin: 0 10px; vertical-align: middle;  }
+.wk-categories .wk-select-box, .wk-order-status .wk-select-box { width: 100%; }
+.wk-categories .wk_categories-options {
+    top: 50px;
+    left: 10px;
+    width: 100%;
+}
+
+.wk-report-select-box-head >  .wk-select-box { margin-right: 4px; }
+body .wkreport_header .wk-report-select-box-head button { margin-left: 20px; }
+
+.wk-order-status .wk_orders-options {
+    top: 50px;
+    left: 10px;
+    width: 100%;
+}
+
+body .customer-welcome .action.switch:hover::after {
+    color: #000;
+}

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <carriers>
+            <!-- <wk_mpamzconnectship> -->
+            <mis_rakutenshipment>
+                <active>1</active>
+                <allowed_methods>delivery</allowed_methods>
+                <methods>delivery</methods>
+                <sallowspecific>0</sallowspecific>
+                <model>Mangoit\RakutenConnector\Model\Carrier\RakutenShipping</model>
+                <name>Rakuten Connector Shipment</name>
+                <title>Rakuten Connector Shipment</title>
+                <handling_type>F</handling_type>
+            </mis_rakutenshipment>
+        </carriers>
+        <payment>
+            <!-- <mpamzpayment> -->
+            <mis_rktnpayment>
+                <payment_action>authorize</payment_action>
+                <model>Mangoit\RakutenConnector\Model\Payment\RakutenPayment</model>
+                <active>1</active>
+                <title>Rakuten Payment Method</title>
+                <order_status>pending_payment</order_status><!-- set default order status-->
+            </mis_rktnpayment>
+        </payment>
+        <rakutenconnect>
+            <product_options>
+                <default_qty>1</default_qty>
+                <default_weight>1</default_weight>
+            </product_options>
+        </rakutenconnect>
+    </default>
+</config>

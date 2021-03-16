@@ -1,0 +1,21 @@
+<?php
+/**
+ * Mangoit Software.
+ *
+ * @category  Mangoit
+ * @package   Mangoit_TranslationSystem
+ * @author    Mangoit
+ */
+
+// @codingStandardsIgnoreFile
+$_helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$isPartner= $_helper->isSeller();
+$magentoCurrentUrl = $block->getCurrentUrl();
+
+if($isPartner){ ?>
+    <li class="nav item <?php echo strpos($magentoCurrentUrl,'translation/index/translate')? "current":"";?>">
+        <a href="<?php echo $block->getUrl('translation/index/translate', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+            <?php /* @escapeNotVerified */ echo __('Content Translation') ?>
+        </a>
+    </li>
+<?php } ?>

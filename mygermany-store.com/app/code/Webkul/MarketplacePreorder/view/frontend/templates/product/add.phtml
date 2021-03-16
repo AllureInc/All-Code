@@ -1,0 +1,61 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MarketplacePreorder
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<?php
+$set = $this->getRequest()->getParam('set');
+$type = $this->getRequest()->getParam('type');
+$currentHelper = $this->helper('Webkul\MarketplacePreorder\Helper\Data');
+
+$attributeOptions = $currentHelper->getPreorderAttribute($type);
+
+if($this->getRequest()->getParam('type')!=="bundle"
+	&& $this->getRequest()->getParam('type')!=="grouped"
+):
+?>
+	<div class="field">
+		<label class="label"><?php echo __('Preorder Status') ?></label>
+		<div class="control">
+			<select name="product[wk_marketplace_preorder]" id="wk_marketplace_preorder" class="required-entry">
+			<?php foreach($attributeOptions as $option) {
+					if($option['value']!=="" && $option['value']!==NULL){
+				?>
+					<option value="<?php echo $option['value'] ?>"><?php echo __($option['label']); ?></option>
+			<?php 	}
+				}
+			 ?>
+			</select>
+		</div>
+	</div>
+	<div class="field">
+		<label class="label"><?php echo __('Preorder Product Availability Date') ?></label>
+		<div class="control">
+			<input type="text" name="product[wk_marketplace_availability]" id="wk-marketplace-availability" class="input-text"/>
+		</div>
+	</div>
+	<?php if ($currentHelper->getPreorderQtyEnable()): ?>
+	<div class="field ">
+		<label class="label"><?php echo __('Preorder Product Quantity') ?></label>
+		<div class="control">
+			<input type="text" name="product[wk_mppreorder_qty]" id="wk_mppreorder_qty" class="input-text validate-digits-range digits-range-1-100"/>
+			<span><?php echo __('Please enter Quantity between 1 to 100.') ?></span>
+		</div>
+	</div>
+<?php endif; ?>
+	<script type="text/x-magento-init">
+    {
+        "*": {
+            "preorderProduct": ""
+        }
+    }
+</script>
+<?php endif; ?>

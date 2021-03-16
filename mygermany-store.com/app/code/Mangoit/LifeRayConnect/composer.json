@@ -1,0 +1,22 @@
+{
+    "name": "mangoit/module-liferayconnect",
+    "description": "",
+    "type": "magento2-module",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "email": "info@mage2gen.com",
+            "name": "Mage2Gen"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Mangoit\\LifeRayConnect\\": ""
+        },
+        "files": [
+            "registration.php"
+        ]
+    }
+}

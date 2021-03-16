@@ -1,0 +1,19 @@
+<!--@subject You can now process this order @-->
+<!--@vars {
+"var data.orderid":"Order ID",
+"var data.email":"Sender Email",
+"var data.name":"Sender Name"
+} @-->
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">Hello {{trans "%name" name=$data.name}},</p>
+
+<table style="width:60%; padding: 10px;">
+	<tr>
+		<td style="padding: 10px 10px 10px 0px; width: 100%;">
+			We have received the payment of the Order ID {{trans "%orderid" orderid=$data.orderid}}.
+			Now you can process the order.
+		</td><br/>
+	</tr>
+</table>
+{{template config_path="design/email/footer_template"}}

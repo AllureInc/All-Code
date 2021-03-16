@@ -1,0 +1,11 @@
+<div>
+    <label class="label"><?php echo __($frontLabel) ?></label>
+    <div class="control">
+        <input type="text" 
+        value="<?php echo isset($data['product'][$attributeCode]) ? $data['product'][$attributeCode] : null;?>"
+        class="required-entry input-text" 
+        placeholder="<?php echo __('Enter value');?>" 
+        name="<?php echo "product[$attributeCode]";?>"
+        />
+    </div>
+</div>

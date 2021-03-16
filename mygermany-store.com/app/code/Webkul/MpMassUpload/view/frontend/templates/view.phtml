@@ -1,0 +1,344 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpMassUpload
+ * @author    Webkul
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+$helper = $this->helper("Webkul\MpMassUpload\Helper\Data");
+$isPartner = $this->helper('Webkul\Marketplace\Helper\Data')->isSeller(); ?>
+<?php if($isPartner == 1): ?>
+    <?php
+    $attributeSetCollection = $block->getAttributeSetCollection();
+    $profiles = $helper->getProfiles();
+    $attributeProfiles = $helper->getAttributeProfiles();
+    /* Get allowed product status */
+    $isSimpleAllowed = $helper->isProductTypeAllowed('simple');
+    $isVirtualAllowed = $helper->isProductTypeAllowed('virtual');
+    $isDownloadableAllowed = $helper->isProductTypeAllowed('downloadable');
+    $isConfigurableAllowed = $helper->isProductTypeAllowed('configurable');
+
+    if ($isDownloadableAllowed) {
+        $row = "<div id='link_file' class='field required'><label for='link_files' class='label'><span>";
+        $row .= __("Upload Link Files");
+        $row .="</span></label><div class='control'><input type='file' data-validate='{required:true}' class='input-text required-entry' title='Upload Link Files' name='link_files' id='link_files' aria-required='true'></div></div>";
+        $row .= "<div id='is_link_sample' class='field'><div class='control'><input type='checkbox' class='input-text' name='is_link_samples' id='is_link_samples'>".__("Is Links have samples")."</div></div>";
+        $row .= "<div id='is_sample' class='field'><div class='control'><input type='checkbox' class='input-text' name='is_samples' id='is_samples'>".__("Is Samples Available")."</div></div>";
+
+        $linkSampleRow = "<div id='link_sample_file' class='field required'><label for='link_sample_files' class='label'><span>";
+        $linkSampleRow .= __("Upload Link Sample Files");
+        $linkSampleRow .="</span></label><div class='control'><input type='file' data-validate='{required:true}' class='input-text required-entry' title='Upload Link Files' name='link_sample_files' id='link_sample_files' aria-required='true'></div></div>";
+        $sampleRow = "<div id='sample_file' class='field required'><label for='sample_files' class='label'><span>";
+        $sampleRow .= __("Upload Sample Files");
+        $sampleRow .="</span></label><div class='control'><input type='file' data-validate='{required:true}' class='input-text required-entry' title='Upload Link Files' name='sample_files' id='sample_files' aria-required='true'></div></div>";
+    } else {
+        $row = '';
+        $linkSampleRow = '';
+        $sampleRow = '';
+    }
+    $sampleCsv = $helper->getSampleCsv();
+    $sampleXml = $helper->getSampleXml();
+    $sampleXls = $helper->getSampleXls();
+    $url = $block->getUrl('mpmassupload/product/options/');
+    $customAttributeCodes = $helper->getAttributeCodes();
+    $attributeSetInfo = $helper->getAttributeSetsInfo();
+    $attributeDetails = $helper->getAttributeDetails();
+    $data = [
+        "attributeSetInfo" => $attributeSetInfo,
+        "attributeDetails" => $attributeDetails,
+        "defaultUrl" => $block->getUrl('mpmassupload/product/profile').'id/',
+        "infoUrl" => $url,
+        "row" => $row,
+        "linkSampleRow" => $linkSampleRow,
+        "sampleRow" => $sampleRow
+    ];
+
+    $data = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($data);
+    $groups = $helper->getCustomerGroups();
+    $websites = $helper->getAllWebsites();
+    ?>
+    <div class="wk-mu-sample-files" style="margin-bottom:0;">
+        <table style="width: 100%;">
+            <tr>
+                <?php if ($isSimpleAllowed) { ?>
+                    <td style="padding: 5px;">
+                        <a href="<?php echo $sampleCsv[0]; ?>"><?php echo __("Sample Simple Type Csv File"); ?></a>
+                    </td>
+                <?php } ?>
+                <?php if ($isDownloadableAllowed) { ?>
+                    <td style="padding: 5px;">
+                        <a href="<?php echo $sampleCsv[1]; ?>"><?php echo __("Sample Downloadable Type Csv File"); ?></a>
+                    </td>
+                <?php } ?>
+                <?php if ($isConfigurableAllowed) { ?>
+                    <td style="padding: 5px;">
+                        <a href="<?php echo $sampleCsv[2]; ?>"><?php echo __("Sample Configurable Type Csv File"); ?></a>
+                    </td>
+                <?php } ?>
+                <?php if ($isVirtualAllowed) { ?>
+                    <td style="padding: 5px;">
+                        <a href="<?php echo $sampleCsv[3]; ?>"><?php echo __("Sample Virtual Type Csv File"); ?></a>
+                    </td>
+                <?php } ?>
+            </tr>
+            <tr>
+                <?php if ($isSimpleAllowed) { ?>
+                    <td style="padding: 5px;">
+                        <a href="<?php echo $sampleXml[0]; ?>"><?php echo __("Sample Simple Type XML File"); ?></a>
+                    </td>
+                <?php } ?>
+                <?php if ($isDownloadableAllowed) { ?>
+                    <td style="padding: 5px;">
+                        <a href="<?php echo $sampleXml[1]; ?>"><?php echo __("Sample Downloadable Type XML File"); ?></a>
+                    </td>
+                <?php } ?>
+                <?php if ($isConfigurableAllowed) { ?>
+                    <td style="padding: 5px;">
+                        <a href="<?php echo $sampleXml[2]; ?>"><?php echo __("Sample Configurable Type XML File"); ?></a>
+                    </td>
+                <?php } ?>
+                <?php if ($isVirtualAllowed) { ?>
+                    <td style="padding: 5px;">
+                        <a href="<?php echo $sampleXml[3]; ?>"><?php echo __("Sample Virtual Type XML File"); ?></a>
+                    </td>
+                <?php } ?>
+            </tr>
+            <tr>
+                <?php if ($isSimpleAllowed) { ?>
+                    <td style="padding: 5px;">
+                        <a href="<?php echo $sampleXls[0]; ?>"><?php echo __("Sample Simple Type XLS File"); ?></a>
+                    </td>
+                <?php } ?>
+                <?php if ($isDownloadableAllowed) { ?>
+                    <td style="padding: 5px;">
+                        <a href="<?php echo $sampleXls[1]; ?>"><?php echo __("Sample Downloadable Type XLS File"); ?></a>
+                    </td>
+                <?php } ?>
+                <?php if ($isConfigurableAllowed) { ?>
+                    <td style="padding: 5px;">
+                        <a href="<?php echo $sampleXls[2]; ?>"><?php echo __("Sample Configurable Type XLS File"); ?></a>
+                    </td>
+                <?php } ?>
+                <?php if ($isVirtualAllowed) { ?>
+                    <td style="padding: 5px;">
+                        <a href="<?php echo $sampleXls[3]; ?>"><?php echo __("Sample Virtual Type XLS File"); ?></a>
+                    </td>
+                <?php } ?>
+            </tr>
+        </table>
+    </div>
+    <form method="post" action="<?php echo $block->getUrl('mpmassupload/product/upload'); ?>" id="wk_massupload_form" enctype="multipart/form-data" class="wk-massupload-container" data-mage-init='{"validation":{}}'>
+        <fieldset class="fieldset">
+            <?php echo $block->getBlockHtml('formkey') ?>
+			<?php echo $block->getBlockHtml('seller.formkey')?>
+            <legend class="legend">
+                <span><?php echo __("Upload Profile"); ?></span>
+                <button class="button wk-mp-btn" type="submit">
+                    <span><span><?php echo __("Upload Profile"); ?></span></span>
+                </button>
+            </legend>
+            <?php if ($isDownloadableAllowed) { ?>
+                <div class="field">
+                    <div class="control">
+                        <input type="checkbox" class="input-text" name="downloadable" id="downloadable"><?php echo __("Is Downloadable"); ?>
+                    </div>
+                </div>
+            <?php } ?>
+            <div class="field required">
+                <label for="attribute_set" class="label">
+                    <span><?php echo __("Select Attribute Set"); ?></span>
+                </label>
+                <div class="control">
+                    <select data-validate="{'validate-select':true}" title="<?php echo __("Attribute Set"); ?>" class="required-entry" id="attribute_set" name="attribute_set" aria-required="true">
+                        <option value=""><?php echo __("Select Attribute Set"); ?></option>
+                        <?php foreach ($attributeSetCollection as $attribute): ?>
+                            <option value="<?php echo $attribute->getAttributeSetId(); ?>"><?php echo $attribute->getAttributeSetName(); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="attribute_set" class="label">
+                    <span><?php echo __("Dataflow Profile"); ?></span>
+                </label>
+                <div class="control">
+                    <select title="<?php echo __("Dataflow Profile"); ?>" id="attribute_profile_id" name="attribute_profile_id">
+                        <?php foreach ($attributeProfiles as $attributeProfileId => $attributeProfile): ?>
+                            <option value="<?php echo $attributeProfileId; ?>"><?php echo $block->escapeHtml($attributeProfile); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            <div class="field required">
+                <label for="massupload_csv" class="label">
+                    <span><?php echo __("Upload CSV/XML/XLS File"); ?></span>
+                </label>
+                <div class="control">
+                    <input type="file" data-validate="{required:true}" class="input-text required-entry" title="<?php echo __("CSV/XML/XLS"); ?>" name="massupload_csv" id="massupload_csv" aria-required="true">
+                </div>
+            </div>
+            <div class="field">
+                <label for="massupload_image" class="label">
+                    <span><?php echo __("Upload Images Zip"); ?></span>
+                </label>
+                <div class="control">
+                    <input type="file" class="input-text" title="<?php echo __("Images Zip"); ?>" name="massupload_image" id="massupload_image" aria-required="true">
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <?php if ($isConfigurableAllowed) {
+        $superAttributes = $helper->getSuperAttributes();
+        $attributeInfo =  implode(", ", $superAttributes);
+        ?>
+        <div class="wk-mu-info-container wk-mu-super-attributes">
+            <div class="wk-field">
+                <div class="wk-mu-label"><?php echo __("Configurable Super Attributes"); ?></div>
+                <div class="wk-mu-content">
+                    <?php echo $attributeInfo; ?>
+                </div>
+            </div>
+            <div class="wk-field">
+                <div class="wk-mu-sa-overlay wk-display-none">
+                    <div class="wk-mu-sa-loader"></div>
+                </div>
+                <div class="wk-mu-label"><?php echo __("Configurable Super Attribute Options"); ?></div>
+                <div class="wk-mu-content">
+                    <select data-validate="{'validate-select':true}" title="<?php echo __("Attribute Info"); ?>" class="required-entry" id="attribute_info" name="attribute_info" aria-required="true">
+                        <option value=""><?php echo __("Select Attribute"); ?></option>
+                        <?php foreach ($superAttributes as $id => $code): ?>
+                            <option value="<?php echo $id; ?>"><?php echo $code; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="wk-mu-options">
+                    <div class="wk-mu-options-title">
+                        <?php echo __("Options"); ?>
+                    </div>
+                    <div class="wk-mu-options-content">
+                        <?php echo __("No attribute is selected."); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+    } ?>
+    <?php if($helper->canSaveCustomAttribute()): ?>
+        <div class="wk-mu-info-container wk-mu-super-attributes">
+            <div class="wk-field">
+                <div class="wk-mu-label"><?php echo __("CSV column name for custom attribute"); ?></div>
+                <div class="wk-mu-content wk-mu-custom-attribute">
+                    <?php echo implode(", ", $customAttributeCodes); ?>
+                </div>
+            </div>
+        </div>
+        <div class="wk-mu-info-container wk-mu-super-attributes">
+            <div class="wk-field">
+                <div class="wk-mu-label"><?php echo __("Multiselect attribute value example"); ?></div>
+                <div class="wk-mu-content">
+                    <span class="wk-tier-price-span">value1</span>
+                    <span class="wk-tier-price-span">value1|value2|value3</span>
+                </div>
+            </div>
+        </div>
+        <div class="wk-mu-info-container wk-mu-super-attributes">
+            <div class="wk-field">
+                <div class="wk-mu-label"><?php echo __("Tier price attribute value example"); ?></div>
+                <div class="wk-mu-content ">
+                    <span class="wk-tier-price-span">
+                        [{"cust_group": "ALL GROUPS", "price_qty": "2","price": "10" }]
+                    </span>
+                    <span class="wk-tier-price-span">
+                     [{"cust_group": "ALL GROUPS", "price_qty": "2","price": "10" },{"cust_group":"Wholesale" , "price_qty": "10","price": "40"}]
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="wk-mu-info-container wk-mu-super-attributes">
+            <div class="wk-field">
+                <div class="wk-mu-label"><?php echo __("Tier Price options for custom attribute"); ?></div>
+                <div class="wk-mu-content">
+                    <div class="wk-tier-price-content wk-tier-price-groups">
+                        <div class="wk-mu-label"><?php echo __("Customer Groups"); ?></div>
+                        <div class="wk-mu-content">
+                            <div class="wk-tier-price-row wk-tier-price-head">
+                                <div class="wk-tier-price-col">Group Name</div>
+                                <div class="wk-tier-price-col">Group Code</div>
+                            </div>
+                            <div class="wk-tier-price-row">
+                                <div class="wk-tier-price-col"><?php echo __("All Groups"); ?></div>
+                                <div class="wk-tier-price-col"><?php echo __("all"); ?></div>
+                            </div>
+                            <?php foreach ($groups as $groupId => $groupName): ?>
+                                <div class="wk-tier-price-row">
+                                    <div class="wk-tier-price-col"><?php echo $groupName; ?></div>
+                                    <div class="wk-tier-price-col"><?php echo $groupId; ?></div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <div class="wk-tier-price-content wk-tier-price-groups">
+                        <div class="wk-mu-label"><?php echo __("Websites"); ?></div>
+                        <div class="wk-mu-content">
+                            <div class="wk-tier-price-row wk-tier-price-head">
+                                <div class="wk-tier-price-col">Website Name</div>
+                                <div class="wk-tier-price-col">Website Code</div>
+                            </div>
+                            <div class="wk-tier-price-row">
+                                <div class="wk-tier-price-col"><?php echo __("All Websites"); ?></div>
+                                <div class="wk-tier-price-col"><?php echo __("all"); ?></div>
+                            </div>
+                            <?php foreach ($websites as $websiteId => $website): ?>
+                                <div class="wk-tier-price-row">
+                                    <div class="wk-tier-price-col"><?php echo $website; ?></div>
+                                    <div class="wk-tier-price-col"><?php echo $websiteId; ?></div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+    <div class="wk-massupload-container">
+        <fieldset class="fieldset">
+            <?php echo $block->getBlockHtml('formkey') ?>
+			<?php echo $block->getBlockHtml('seller.formkey')?>
+            <legend class="legend">
+                <span><?php echo __("Run Profile"); ?></span>
+            </legend>
+            <div class="field required">
+                <label class="label">
+                    <span><?php echo __("Select Profile"); ?></span>
+                </label>
+                <div class="control">
+                    <select data-validate="{'validate-select':true}" title="Profile" class="required-entry" id="profile" name="profile" aria-required="true">
+                        <?php foreach ($profiles as $profileId => $name): ?>
+                            <option value="<?php echo $profileId; ?>"><?php echo $block->escapeHtml($name); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            <button id="run-profile" class="button wk-mp-btn" type="submit">
+                <span><span><?php echo __("Run Profile"); ?></span></span>
+            </button>
+        </fieldset>
+    </div>
+    <script type="text/x-magento-init">
+        {
+            "body": {
+                "Webkul_MpMassUpload/js/view": <?php echo $data ?>
+            }
+        }
+    </script>
+<?php else: ?>
+    <h2 class="wk-mp-error-msg">
+        <?php echo __("To Become Seller Please Contact to Admin."); ?>
+    </h2>
+<?php endif; ?>

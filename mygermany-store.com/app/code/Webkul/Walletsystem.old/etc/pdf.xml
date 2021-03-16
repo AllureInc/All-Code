@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Webkul Software
+ *
+ * @category Webkul
+ * @package Webkul_Walletsystem
+ * @author Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license https://store.webkul.com/license.html
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Sales:etc/pdf_file.xsd">
+    <totals>
+        <total name="wallet_amount">
+            <title translate="true">Wallet Amount</title>
+            <source_field>wallet_amount</source_field>
+            <model>Webkul\Walletsystem\Model\Sales\Pdf\Walletamount</model>
+            <font_size>7</font_size>
+            <display_zero>false</display_zero>
+            <sort_order>600</sort_order>
+        </total>
+    </totals>
+</config>

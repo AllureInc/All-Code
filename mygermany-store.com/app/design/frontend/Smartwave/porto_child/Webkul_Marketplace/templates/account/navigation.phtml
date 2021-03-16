@@ -1,0 +1,1907 @@
+<style type="text/css">
+    #ves-livecss
+    {
+        display: none;
+    }
+    .modal-popup.confirm.mis-confirm footer.modal-footer {
+        display: none !important;
+    }
+    .toggle-section ul {
+        display: none;
+    }
+    .mis-old-menus {
+        display: none;
+    }
+    .toggle-section ul.visible-ul {
+        display: block;
+    }
+    .mis-notification {
+        display: block !important;
+    }
+    /*.toggle-section ul.marketplace-dropdown-menu {
+        display: block !important;
+    }
+    ul.marketplace-dropdown-menu {
+        display: block !important;
+    }*/
+</style>
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Marketplace
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */ 
+
+// @codingStandardsIgnoreFile
+// updated file to add notification for seller.
+$_helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$captchaEnableStatus = $_helper->getCaptchaEnable();
+$mis_helper = $this->helper('Mangoit\Marketplace\Helper\Data');
+$becomeSellerRequest = $_helper->isSellerExist();
+$routeName = $mis_helper->getRouteName();
+$misController = $mis_helper->getControllerName();
+$misActionName = $mis_helper->getActionName();
+/*echo "<br> routeName: ".$routeName;
+echo "<br> misController: ".$misController;
+echo "<br> action_name: ".$mis_helper->getActionName();*/
+$currentUrl = $this->getCurrentUrl();
+$isDashBoard = 0;
+if (strpos($currentUrl, 'dashboard')) {
+    $isDashBoard = 1;
+}
+//Get Object Manager Instance
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+$vendorInvoiceMod = $objectManager->create('Mangoit\VendorPayments\Model\Vendorinvoices')->getCollection();
+$transationIds = array_column($block->getTransactionCollection()->getData(), 'transaction_id');
+$vendorInvoiceMod = $vendorInvoiceMod->addFieldToFilter('transaction_id', ['in'=> $transationIds]);
+$vendorInvoice = array_column($vendorInvoiceMod->getData(), 'entity_id', 'transaction_id');
+
+if (!$_helper->getIsSeparatePanel()) {
+    $isPartner= $_helper->isSeller();
+    $magentoCurrentUrl = $block->getCurrentUrl();
+    $allow_pro_type=$_helper->getAllowedProductType();
+    $isSellerGroup = $_helper->isSellerGroupModuleInstalled();
+    $productNotificationCount = $block->getProductNotificationCount();
+    $orderNotificationCount = $block->getOrderNotificationCount();
+    $transactionCount = $block->getTransactionNotificationCount();
+    ?>
+    <style type="text/css">
+        .mis_seller_menu{margin-bottom: 20px;}
+        @media only screen and (max-width: 767px){
+
+            .block-collapsible-nav.wk-mp-main{
+                top: 20px;
+            }
+        }
+        .hidden-ul{display: none}
+        .visible-ul{display: block}
+    </style>
+    <div class="mis_seller_menu block account-nav block-collapsible-nav wk-mp-main">
+        <div class="title block-collapsible-nav-title" data-mage-init='{"toggleAdvanced": {"toggleContainers": "#block-collapsible-nav-seller", "selectorsToggleClass": "active"}}'>
+            <?php if($isPartner): ?>
+                <strong><?php /* @escapeNotVerified */ echo __('Marketplace'); ?></strong>
+            <?php else: ?>
+                <strong><?php /* @escapeNotVerified */ echo __('Menu'); ?></strong>
+            <?php endif; ?>
+        </div>
+        <div class="content block-collapsible-nav-content" id="block-collapsible-nav-seller">
+            <nav class="account-nav">
+                <ul class="nav items mis_menu_items">
+                    <?php if($isPartner) { ?>
+                        <?php if(($isSellerGroup && $_helper->isAllowedAction('marketplace/account/dashboard')) || !$isSellerGroup) { ?>
+                            <li class="nav itemm <?php echo strpos($magentoCurrentUrl,'marketplace/account/dashboard')? "current":"";?>">
+                                <?php 
+                                if(strpos($magentoCurrentUrl,'marketplace/account/dashboard') !== false){ ?>      
+                                    <strong><?php echo __('Dashboard') ?></strong>              
+                                <?php
+                                } else { ?>        
+                                    <a href="<?php echo $block->getUrl('marketplace/account/dashboard', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                        <?php echo __('Dashboard'); ?>
+                                    </a>                    
+                                <?php } ?>
+                            </li>
+                        <?php } ?>
+                        <!-- Oreder Section -->
+                        <li class="nav itemm notification-link  <?php echo strpos($magentoCurrentUrl,'marketplace/order')&&(!strpos($magentoCurrentUrl,'marketplace/order/shipping/'))? "current":"";?>">        
+                                <?php 
+                                if (strpos($magentoCurrentUrl, 'marketplace/order/history') !== false || (strpos($magentoCurrentUrl, 'marketplace/order/view') !== false)) { ?>
+                                    <strong><?php echo __('Orders') ?></strong>  
+                                <?php 
+                                } else { ?>
+                                    <a href="<?php echo $block->getUrl('marketplace/order/history', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                        <?php echo __('Orders') ?>
+                                    </a>
+                                    <?php if ($block->getMarketplaceOrderCollection()->getSize()) { ?>
+                                    <!-- Orders Notification -->
+                                    <div class="notification-block">
+                                        <a href="" class="notifications-action marketplace-dropdown">
+                                            <img height="20" width="20" src="<?php echo $block->getViewFileUrl('Webkul_Marketplace::images/icons_notifications.png'); ?>" class="notifications-img" />
+                                            <?php if($orderNotificationCount > 3): ?>
+                                            <span class="notification-count">3+</span>
+                                            <?php else: ?>
+                                                <span class="notification-count"><?php echo $orderNotificationCount; ?></span>
+                                            <?php endif; ?>
+                                        </a>
+                                        <ul class="marketplace-dropdown-menu">
+                                        <span class="notify-point"></span>
+                                        <?php
+                                        $orderDisplayCount = 1; 
+                                        $notificationData = $block->getMarketplaceOrderCollection()->getData();
+                                        
+                                        foreach ($notificationData as $order) {
+                                            $orderIdGet = $order['order_id'];
+                                            if ($orderDisplayCount <= 3):
+                                            ?>
+                                            <li class="notifications-entry">
+                                                <strong class="notifications-entry-title">
+                                                    <?php echo $block->getOrderNotificationTitle($orderIdGet); ?> 
+                                                </strong>
+                                                <p class="notifications-entry-description _cutted">
+                                                    <a href="<?php echo $block->getUrl('marketplace/order/view', ['id'=>$orderIdGet, 'n' => 1,'_secure' => $this->getRequest()->isSecure()])?>" class="notifications-entry-description-start">
+                                                        <span>
+                                                            <?php echo $block->getOrderNotificationDesc($orderIdGet); ?> 
+                                                        </span>
+                                                    </a>
+                                                </p>
+                                                <time class="notifications-entry-time">
+                                                    <?php echo $block->getOrderCreatedDate($orderIdGet); ?>
+                                                </time>
+                                            </li>
+                                        <?php 
+                                            $orderDisplayCount++;
+                                            endif;
+                                        } ?>
+                                        <?php 
+                                            if($orderDisplayCount > 3):
+                                        ?>    
+                                            <li class="notifications-entry notifications-entry-last">
+                                                <a href="<?php echo $block->getUrl('marketplace/order/history', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                    <?php echo __('Click here to view order history'); ?>
+                                                </a>
+                                            </li>
+                                        <?php endif; ?>
+                                        </ul>
+                                    </div>
+                                    <?php } ?>
+                                    <!-- Orders Notification End -->
+                                <?php } ?> 
+                        </li>
+                        <!-- Oreder Section Ends -->
+                        <div id="marketplace-notification-component" data-bind="scope:'notification-content'">
+                            <script type="text/x-magento-init">
+                            {
+                                "#marketplace-notification-component": {
+                                    "Magento_Ui/js/core/app":  <?php /* @escapeNotVerified */ echo $block->getJsLayout();?>
+                                }
+                            }
+                            </script>
+                            <?php echo $block->getChildHtml('reply_template'); ?>
+                        </div>
+                        <!-- MarketPlace Report Section Start -->
+                        <?php if(($isSellerGroup && $_helper->isAllowedAction('mpreportsystem/report/index')) || !$isSellerGroup) { ?>
+                            <li class="nav itemm <?php echo strpos($magentoCurrentUrl,'mpreportsystem/report/index') !== false ? "current":"";?>">
+                               <?php 
+                                if (strpos($magentoCurrentUrl,'mpreportsystem/report/index') !== false) { ?>
+                                    <strong><?php echo __('Reports') ?></strong>
+                                    <?php
+                                } else { ?>
+                                    <a href="<?php /* @escapeNotVerified */echo $block->getUrl('mpreportsystem/report/index'); ?>">
+                                        <?php echo __('Reports') ?>
+                                    </a>
+                                <?php 
+                                    } ?>
+                            </li>
+                        <?php } ?>
+                        <!-- MarketPlace Report Section Start Ends -->
+                        <!-- Seller Profile Section -->
+                        <?php 
+                        $routeName = $routeName.'/'.$misController.'/'.$misActionName;
+                        /*$profileArray = ['marketplace','mpsellervacation','translation','mitsshopconfig','marketplce'];*/
+                        $profileArray = [
+                            'marketplace/account/editprofile',
+                            'mitsshopconfig/shopconfig/import',
+                            'mitsshopconfig/shopconfig/export',
+                            'mpsellervacation/setting/index',
+                            'translation/index/translate',
+                            'marketplce/account/deactivate'
+                        ];
+                        ?>
+                        <li class="nav item toggle-section">
+                                <?php 
+                                /*if(strpos($magentoCurrentUrl,'marketplace/account/editprofile') !== false){*/ ?>
+                                <?php if(in_array($routeName, $profileArray)){ ?>
+                                    <strong><?php echo __('Profile') ?></strong>
+                                <?php } else { ?>
+                                    <a href="javascript:void(0)">
+                                        <?php echo __('Profile') ?>
+                                    </a>
+                                <?php } ?>
+                                <ul class="<?php echo (in_array($routeName, $profileArray)) ? 'visible-ul' : ''; ?>">
+                                    <li class="nav item ">
+                                        <?php if ($this->getCurrentUrl() == $this->getUrl('marketplace/account/editprofile')) { ?>
+                                            <a href="javascript:void(0)">
+                                                <strong class="">
+                                                <?php echo __('Edit/Change profile'); ?>
+                                                </strong>
+                                            </a>
+                                        <?php } else { ?>
+                                            <a href="<?php echo $this->getUrl('marketplace/account/editprofile');?>">
+                                                <?php echo __('Edit/Change profile'); ?>
+                                            </a>
+                                        <?php } ?>
+                                    </li>
+                                    <li class="nav item ">
+                                        <?php if($this->getCurrentUrl() == $this->getUrl('mitsshopconfig/shopconfig/import') || $this->getCurrentUrl() == $this->getUrl('mitsshopconfig/shopconfig/export')
+                                        ): ?>
+                                            <a href="javascript:void(0)">
+                                            <strong class=""><?php echo __('Import & Export') ?></strong></a>
+                                        <?php else: ?>
+                                            <a href="javascript:void(0)"><?php echo __('Import & Export') ?></a>
+                                        <?php endif; ?>
+                                        <ul class="<?php echo (in_array($misController, ['shopconfig'])) ? 'visible-ul' : ''; ?>">
+                                            <li class="nav item">
+                                                <?php
+                                                if ( $this->getCurrentUrl() == $this->getUrl('mitsshopconfig/shopconfig/import')) { ?>
+                                                    <strong>
+                                                    <?php echo __('Import'); ?>
+                                                    </strong>
+                                                <?php } else { ?>
+                                                    <a href="<?php echo $block->getUrl('mitsshopconfig/shopconfig/import', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                        <?php echo __('Import');?>
+                                                    </a>
+                                                <?php } ?>
+                                            </li>
+                                            <li class="nav item">
+                                                <?php
+                                                if ( $this->getCurrentUrl() == $this->getUrl('mitsshopconfig/shopconfig/export')) { ?>
+                                                    <strong>
+                                                    <?php echo __('Export'); ?>
+                                                    </strong>
+                                                <?php
+                                                } else { ?>
+                                                    <a href="<?php echo $block->getUrl('mitsshopconfig/shopconfig/export', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                    <?php echo __('Export');?>
+                                                    </a>
+                                                <?php } ?>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav item ">
+                                        <?php if($this->getCurrentUrl() == $this->getUrl('mpsellervacation/setting')) {?>
+                                            <strong class=""><?php echo __('Vacation Settings') ?></strong>
+                                        <?php } else {?>
+                                            <a href="<?php echo $this->getUrl('mpsellervacation/setting');?>">
+                                                <?php echo __('Vacation Settings') ?>
+                                            </a>
+                                        <?php } ?>
+                                    </li>
+                                    <li class="nav item ">
+                                        <?php if($this->getCurrentUrl() == $this->getUrl('translation/index/translate')) {?>
+                                            <strong class=""><?php echo __('Content Translation') ?></strong>
+                                        <?php } else {?>
+                                            <a href="<?php echo $this->getUrl('translation/index/translate');?>">
+                                                <?php echo __('Content Translation') ?>
+                                            </a>
+                                        <?php } ?>
+                                    </li>
+                                    <li class="nav item ">
+                                        <?php if($this->getCurrentUrl() == $this->getUrl('marketplce/account/deactivate')) {?>
+                                            <strong class=""><?php echo __('Deactivate') ?></strong>
+                                        <?php } else {?>
+                                            <a href="<?php echo $this->getUrl('marketplce/account/deactivate');?>">
+                                                <?php echo __('Deactivate') ?>
+                                            </a>
+                                        <?php } ?>
+                                    </li>
+                                </ul>
+                        </li>
+                        <!-- Seller Profile Section Ends -->
+                        <!-- Product Section Start -->
+                        <?php 
+                           /*$productRouteArray = ['marketplace','product','marketplace_product','product_attribute','faqs'];*/
+                           $productRouteArray = ['product','product_attribute','seller'];
+                        ?>
+
+                        <li class="nav item toggle-section">
+                                <?php if(in_array($misController, $productRouteArray)){ ?>
+                                    <strong><?php echo __('Sell / Products & Attributes') ?></strong>
+                                <?php } else { ?>
+                                    <a href="javascript:void(0)">
+                                        <?php echo __('Sell / Products & Attributes') ?>
+                                    </a>
+                                <?php } ?>                                
+                                <ul class="<?php echo (in_array($misController, $productRouteArray) ? 'visible-ul' : '') ?> ">
+                                    <li class="nav item ">
+                                        <?php if ($this->getCurrentUrl() == $this->getUrl('marketplace/product/create')) { ?>
+                                             <strong class="mis_strong"><a href="javascript:void(0)"><?php echo __('New Product'); ?></a></strong>
+                                        <?php } else { ?>
+                                            <a href="<?php echo $this->getUrl('marketplace/product/create');?>">
+                                                <?php echo __('New Product'); ?>
+                                            </a>
+                                        <?php } ?>
+                                    </li>
+                                    <li class="nav item ">
+                                        <?php if ($this->getCurrentUrl() == $this->getUrl('marketplace/product_attribute/new')) { ?>
+                                            <strong class="mis_strong"><a href="javascript:void(0)"><?php echo __('New Attributes'); ?></a></strong>
+
+                                        <?php } else { ?>
+                                            <a href="<?php echo $this->getUrl('marketplace/product_attribute/new');?>">
+                                                <?php echo __('New Attributes'); ?>
+                                            </a>
+                                        <?php } ?>
+                                    </li>
+                                    <li class="nav item ">
+                                        <?php if ($this->getCurrentUrl() == $this->getUrl('marketplace/product/productlist')) { ?>
+                                            <strong class="mis_strong"><a href="javascript:void(0)"><?php echo __('Products Listing'); ?></a></strong>         
+                                        <?php } else { ?>
+                                            <a href="<?php echo $this->getUrl('marketplace/product/productlist');?>">
+                                                <?php echo __('Products Listing'); ?>
+                                            </a>
+                                        <?php } ?>
+                                    </li>
+                                    <li class="nav item ">
+                                        <?php if ($this->getCurrentUrl() == $this->getUrl('faqs/product/faq')) { ?>
+                                            <strong class="mis_strong"><a href="javascript:void(0)"><?php echo __('Product FAQ'); ?></a></strong>
+                                        <?php } else { ?>
+                                            <a href="<?php echo $this->getUrl('faqs/product/faq');?>">
+                                                <?php echo __('Product FAQ'); ?>
+                                            </a>
+                                        <?php } ?>
+                                    </li>
+                                    <li class="nav item ">
+                                        <?php if (
+                                            $this->getCurrentUrl() == $this->getUrl('mppreorder/seller/configuration') || $this->getCurrentUrl() == $this->getUrl('mppreorder/seller/orders')) { ?>
+                                                <strong class="mis_strong"><a href="javascript:void(0)"><?php echo __('PreOrder Management'); ?></a></strong>
+                                        <?php } else { ?>
+                                            <a href="javascript:void(0)">
+                                                <?php echo __('PreOrder Management'); ?>
+                                            </a>
+                                        <?php } ?>
+                                        <ul class="<?php echo ($this->getCurrentUrl() == $this->getUrl('mppreorder/seller/configuration') || $this->getCurrentUrl() == $this->getUrl('mppreorder/seller/orders') ) ? 'visible-ul' : '';?>">
+                                            <li class="nav item">
+                                                <?php
+                                                if ( $this->getCurrentUrl() == $this->getUrl('mppreorder/seller/configuration')) { ?>
+                                                    <strong class="mis_strong"><a href="javascript:void(0)"><?php echo __('Configuration'); ?></a></strong>
+                                                <?php } else { ?>
+                                                    <a href="<?php echo $block->getUrl('mppreorder/seller/configuration', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                        <?php echo __('Configuration');?>
+                                                    </a>
+                                                <?php } ?>
+                                            </li>
+                                            <li class="nav item">
+                                                <?php
+                                                if ( $this->getCurrentUrl() == $this->getUrl('mppreorder/seller/orders')) { ?>
+                                                    <strong class="mis_strong"><a href="javascript:void(0)"><?php echo __('Orders'); ?></a></strong>
+                                                <?php
+                                                } else { ?>
+                                                    <a href="<?php echo $block->getUrl('mppreorder/seller/orders', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                    <?php echo __('Orders');?>
+                                                    </a>
+                                                <?php } ?>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav item ">
+                                        <?php if (
+                                            $this->getCurrentUrl() == $this->getUrl('mpmassupload/product/view') || $this->getCurrentUrl() == $this->getUrl('mpmassupload/product/export')
+                                    ) { ?>
+                                        <strong class="mis_strong"><a href="javascript:void(0)"><?php echo __('Product Import & Export'); ?></a></strong>
+                                        <?php } else { ?>
+                                            <a href="javascript:void(0)">
+                                                <?php echo __('Product Import & Export'); ?>
+                                            </a>
+                                        <?php } ?>
+                                        <ul class="<?php echo ($this->getCurrentUrl() == $this->getUrl('mpmassupload/product/view') || $this->getCurrentUrl() == $this->getUrl('mpmassupload/product/export') ) ? 'visible-ul' : '';?>">
+                                            <li class="nav item">
+                                                <?php
+                                                if ( $this->getCurrentUrl() == $this->getUrl('mpmassupload/product/view')) { ?>
+                                                    <strong class="mis_strong"><a href="javascript:void(0)"><?php echo __('Import'); ?></a></strong>
+
+                                                <?php } else { ?>
+                                                    <a href="<?php echo $block->getUrl('mpmassupload/product/view', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                        <?php echo __('Import');?>
+                                                    </a>
+                                                <?php } ?>
+                                            </li>
+                                            <li class="nav item">
+                                                <?php
+                                                if ( $this->getCurrentUrl() == $this->getUrl('mpmassupload/product/export')) { ?>
+                                                    <strong class="mis_strong"><a href="javascript:void(0)"><?php echo __('Export'); ?></a></strong>
+                                                <?php
+                                                } else { ?>
+                                                    <a href="<?php echo $block->getUrl('mpmassupload/product/export', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                    <?php echo __('Export');?>
+                                                    </a>
+                                                <?php } ?>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                        </li>
+                        <!-- Product Section Start Ends -->
+                        <!-- Payment Section --> 
+                         <?php 
+                            $paymentActionArray = ['invoice', 'shipping', 'history'];
+                            if((in_array($mis_helper->getActionName(),$paymentActionArray) || ($routeName == 'vendorpayments') || ($misController == 'transaction')) && (strpos($magentoCurrentUrl,'marketplace/order/history') == false)) {
+                                    $paymentListStatus = true;
+                                } else {
+                                    $paymentListStatus = false;
+                                }
+                                ?>
+                            <li class="nav item toggle-section">
+                                <?php if($paymentListStatus) { ?>
+                                    <strong><?php echo __('Invoices & Fees') ?></strong>
+                                    <?php 
+                                } else { ?>
+                                        <a href="javascript:void(0)">
+                                            <?php echo __('Invoices & Fees') ?>
+                                        </a>
+                                <?php } ?>
+                                <ul class="<?php echo ($paymentListStatus !== false) ? 'visible-ul' : ''; ?> ">
+                                    <li class="nav item">
+                                        <?php if(strpos($magentoCurrentUrl,'vendorpayments/index/invoice') !== false){ ?>
+                                        <strong><?php echo __('Invoices') ?></strong>
+                                        <?php 
+                                        } else{ ?>
+                                            <a href="<?php echo $block->getUrl('vendorpayments/index/invoice', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                <?php echo __('Invoices') ?>
+                                            </a>
+                                            <!-- Transaction Notification -->
+                                            <?php if ($block->getTransactionCollection()->getSize()) { ?>
+                                            <div class="notification-block">
+                                                <a href="" class="notifications-action marketplace-dropdown">
+                                                    <img height="20" width="20" src="<?php echo $block->getViewFileUrl('Webkul_Marketplace::images/icons_notifications.png'); ?>" class="notifications-img" />
+                                                <?php if($transactionCount > 5): ?>
+                                                    <span class="notification-count">5+</span>
+                                                <?php else: ?>
+                                                    <span class="notification-count"><?php echo $transactionCount; ?></span>
+                                                <?php endif; ?>
+                                                </a>
+                                                <ul class="marketplace-dropdown-menu">
+                                                <span class="notify-point"></span>
+                                                <?php
+                                                $trnDisplayCount = 1;
+                                                foreach($block->getTransactionCollection() as $transaction): 
+                                                    if($trnDisplayCount <= 5):
+                                                        $link = "#";
+                                                        if(isset($vendorInvoice[$transaction->getTransactionId()])) {
+                                                            $link = $block->getUrl('vendorpayments/invoice/view', ['id'=>$vendorInvoice[$transaction->getTransactionId()], '_secure' => $this->getRequest()->isSecure()]);
+                                                        }
+                                                    ?>
+                                                    <li class="notifications-entry">
+                                                        <strong class="notifications-entry-title">
+                                                            <?php echo $block->getTransactionNotifyTitle($transaction->getEntityId()); ?> 
+                                                        </strong>
+                                                        <p class="notifications-entry-description _cutted">
+                                                            <a href="<?php echo $link; ?>" class="notifications-entry-description-start">
+                                                                <span>
+                                                                    <?php echo $block->getTransactionNotifyDesc($transaction->getEntityId()); ?>
+                                                                </span>
+                                                            </a>
+                                                        </p>
+                                                        <time class="notifications-entry-time">
+                                                            <?php echo $block->getTransactionDate($transaction->getUpdatedAt()); ?>
+                                                        </time>
+                                                    </li>
+                                                <?php $trnDisplayCount++;
+                                                    endif; 
+                                                endforeach; ?>
+                                                    
+                                                <?php
+                                                    if($trnDisplayCount > 5):
+                                                ?> 
+                                                        <li class="notifications-entry notifications-entry-last">
+                                                        <a href="<?php echo $block->getUrl('marketplace/transaction/history', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                                <?php echo __('Click here to view transaction history'); ?>
+                                                            </a>
+                                                        </li>
+                                                <?php endif; ?>
+                                                </ul>
+                                            </div>
+                                            <?php } ?>
+                                            <!-- Transaction Notification End -->
+                                        <?php } ?>
+
+                                        <?php if(strpos($magentoCurrentUrl,'vendorpayments/index/index') !== false){ ?>
+                                            <strong><?php echo __('Payment Fees Structure') ?></strong>
+                                        <?php 
+                                        } else { ?>
+                                            <a href="<?php echo $block->getUrl('vendorpayments/index/index', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                <?php echo __('Payment Fees Structure') ?>
+                                            </a>
+                                        <?php } ?>
+                                    </li>
+                                </ul>
+                            </li>
+                        <!-- Payment Section Ends -->
+                        <!-- Marketing Section  -->
+                        <?php 
+                            $marketingArray = ['mpads', 'mpsellercoupons', 'advertisement'];
+                            if((in_array($routeName, $marketingArray)) || ($misController == 'advertisement')) {
+                                    $marketingMenus = true;
+                                } else {
+                                    $marketingMenus = false;
+                                }
+                            ?>
+                            <li class="nav toggle-section">
+                                <?php if (in_array($routeName, $marketingArray) || ($misController == 'advertisement')): ?>
+                                    <strong><?php echo __('Marketing') ?></strong>
+                                <?php else: ?>
+                                    <a href="javascript:void(0)"><?php echo __('Marketing') ?></a>
+                                <?php endif; ?>
+                                <ul class="<?php echo ($marketingMenus == true) ? 'visible-ul' : ''; ?>" >
+                                    <li class="nav item">    
+                                        <?php if (strpos($magentoCurrentUrl, 'mpads/block') !== false) { ?>    
+                                            <strong>
+                                            <?php echo __('Advertisement Blocks')?>
+                                            </strong>  
+                                        <?php } else { ?>        
+                                            <a href="<?php echo $block->getUrl(
+                                                        'mpads/block',['_secure' => $this->getRequest()->isSecure()]); 
+                                                ?>">
+                                                <?php echo __('Advertisement Blocks') ?>
+                                            </a>                        
+                                        <?php } ?> 
+                                        <?php if (strpos($magentoCurrentUrl, 'mpads/advertise') !== false ) {
+                                        ?>    
+                                            <strong><?php echo __('Advertisement')?></strong>  
+                                        <?php } else { ?>        
+                                            <a href="<?php echo $block->getUrl(
+                                                        'mpads/advertise',['_secure' => $this->getRequest()->isSecure()]);?>" >
+                                                <?php echo __('Advertisement')?>
+                                            </a>                        
+                                        <?php } ?>
+                                        <?php if (strpos($magentoCurrentUrl, 'advertisement/block/purcheses') !== false ) { ?>    
+                                            <strong><?php echo __('Purchesed Advertisements') ?></strong>  
+                                        <?php } else { ?>        
+                                            <a href="<?php echo $block->getUrl('advertisement/block/purcheses',['_secure' => $this->getRequest()->isSecure()]); 
+                                                ?>">
+                                                <?php echo __('Purchesed Advertisements') ?>
+                                            </a>                        
+                                        <?php } ?>
+                                        <?php if ($mis_helper->isModuleEnabled('Webkul_MpSellerCoupons')) {?>
+                                        <?php if(strpos($magentoCurrentUrl,'mpsellercoupons/index/index')!==FALSE){ ?>   
+                                            <strong><?php echo __('Gift Voucher'); ?></strong>        
+                                        <?php } else { ?>    
+                                            <a href="<?php echo $block->getUrl('mpsellercoupons/index/index', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                <?php /* @escapeNotVerified */ echo __('Gift Voucher') ?>
+                                            </a>                
+                                        <?php } ?>
+                                        <?php } ?>
+                                    </li>
+                                </ul>
+                            </li>
+                        <!-- Marketing Section Ends -->
+                        <!-- API Section  -->
+                        <?php 
+                            $apiMenu = false;
+                            $apiSectionArray = ['mpamazonconnect', 'rakutenconnect', 'sellerapi'];
+                            if(in_array($routeName, $apiSectionArray)) {
+                                    $apiMenu = true;
+                                } else {
+                                    $apiMenu = false;
+                                }
+                            ?>
+                            <li class="nav toggle-section">
+                                <?php if (in_array($routeName, $apiSectionArray) && ($this->getCurrentUrl() == $this->getUrl('sellerapi/seller/index/')) ): ?>
+                                    <strong><?php echo __('APIs') ?></strong>
+                                <?php else: ?>
+                                    <a href="javascript:void(0)"><?php echo __('APIs') ?></a>
+                                <?php endif; ?>
+                                <ul class="<?php echo (in_array($routeName, $apiSectionArray)) ? 'visible-ul' : '';?>">
+                                    <li class="nav item toggle-section">
+                                        <?php if ($routeName == 'mpamazonconnect') { ?>   
+                                            <strong><?php echo __('Amazon') ?></strong>        
+                                        <?php 
+                                        } else { ?>    
+                                            <a href="javascript:void(0)"><?php echo __('Amazon') ?></a>              
+                                        <?php } ?>
+                                        <ul class="<?php echo ($routeName == 'mpamazonconnect') ? 'visible-ul' : '';?> ">
+                                            <li class="nav item">
+                                                <?php if(strpos($magentoCurrentUrl,'mpamazonconnect/account/index') !== false) { ?>   
+                                                    <strong><?php echo __('Manage Account') ?></strong>        
+                                                <?php 
+                                                } else { ?>    
+                                                    <a href="<?php echo $block->getUrl('mpamazonconnect/account/index')?>">
+                                                        <?php echo __('Manage Account') ?>
+                                                    </a>                
+                                                <?php } ?>
+
+                                                <?php if(strpos($magentoCurrentUrl,'mpamazonconnect/product/index') !== false) { ?>   
+                                                    <strong><?php echo __('Import Products') ?></strong>        
+                                                <?php 
+                                                } else { ?>    
+                                                    <a href="<?php echo $block->getUrl('mpamazonconnect/product/index')?>">
+                                                        <?php echo __('Import Products') ?>
+                                                    </a>                
+                                                <?php } ?>
+
+                                                <?php if(strpos($magentoCurrentUrl,'mpamazonconnect/product/unassigned') !== false) { ?>   
+                                                    <strong><?php echo __('Unassigned Product') ?></strong>
+                                                <?php 
+                                                } else { ?>    
+                                                    <a href="<?php echo $block->getUrl('mpamazonconnect/product/unassigned')?>">
+                                                        <?php echo __('Unassigned Product') ?>
+                                                    </a>                
+                                                <?php } ?>
+
+                                                <?php if(strpos($magentoCurrentUrl,'mpamazonconnect/producttoamazon/index') !== false) { ?>   
+                                                    <strong><?php echo __('Export Product') ?></strong>
+                                                <?php 
+                                                } else { ?>    
+                                                    <a href="<?php echo $block->getUrl('mpamazonconnect/producttoamazon/index')?>">
+                                                        <?php echo __('Export Product') ?>
+                                                    </a>                
+                                                <?php } ?>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav item">
+                                        <?php if ($routeName == 'rakutenconnect') { ?>   
+                                            <strong><?php echo __('Rakuten') ?></strong>        
+                                        <?php 
+                                        } else { ?>    
+                                            <a href="javascript:void(0)"><?php echo __('Rakuten') ?></a>              
+                                        <?php } ?>
+
+                                        <ul class="<?php echo ($routeName == 'rakutenconnect') ? 'visible-ul' : '';?> ">
+                                            <li class="nav item">
+                                                <?php if(strpos($magentoCurrentUrl,'rakutenconnect/account/index') !== false) { ?>   
+                                                    <strong><?php echo __('Manage Account') ?></strong>        
+                                                <?php 
+                                                } else { ?>    
+                                                    <a href="<?php echo $block->getUrl('rakutenconnect/account/index')?>">
+                                                        <?php echo __('Manage Account') ?>
+                                                    </a>                
+                                                <?php } ?>
+
+                                                <?php if(strpos($magentoCurrentUrl,'rakutenconnect/product/index') !== false) { ?>   
+                                                    <strong><?php echo __('Import Products') ?></strong>        
+                                                <?php } else { ?>    
+                                                    <a href="<?php echo $block->getUrl('rakutenconnect/product/index')?>">
+                                                        <?php echo __('Import Products') ?>
+                                                    </a>                
+                                                <?php } ?>
+
+                                                <?php if(strpos($magentoCurrentUrl,'rakutenconnect/product/unassigned') !== false) { ?>   
+                                                    <strong><?php echo __('Unassigned Product') ?></strong>
+                                                <?php 
+                                                } else { ?>    
+                                                    <a href="<?php echo $block->getUrl('rakutenconnect/product/unassigned')?>">
+                                                        <?php echo __('Unassigned Product') ?>
+                                                    </a>                
+                                                <?php } ?>
+                                                <?php if(strpos($magentoCurrentUrl,'rakutenconnect/producttorakuten/index') !== false) { ?>   
+                                                    <strong><?php echo __('Export Product') ?></strong>
+                                                <?php } else { ?>    
+                                                    <a href="<?php echo $block->getUrl('rakutenconnect/producttorakuten/index')?>">
+                                                        <?php echo __('Export Product') ?>
+                                                    </a>                
+                                                <?php } ?>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav item">
+                                        <?php if ($this->getCurrentUrl() == $this->getUrl('sellerapi/seller/index/')) { ?>   
+                                            <strong><?php echo __('Seller API') ?></strong>        
+                                        <?php 
+                                        } else { ?>    
+                                            <a href="<?php echo $this->getUrl('sellerapi/seller/index',['_secure' => $this->getRequest()->isSecure()]);?>"><?php echo __('Seller API') ?></a>              
+                                        <?php } ?>
+                                    </li>
+                                </ul>
+                            <!-- Parent child configuration End payment-->
+                            <!-- Parent child configuration Start payment-->
+                            </li>
+                        <!-- API Section Ends -->
+                        <!-- FAQ Section -->
+                        <li class="nav itemm">
+                            <?php if(strpos($magentoCurrentUrl,'translation/index/translate') !== false) { ?>
+                                <strong><?php echo __('FAQ') ?></strong>
+                                    <?php 
+                                } else{ ?>
+                                <a href="<?php echo $block->getUrl('faq', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                    <?php echo __('FAQ') ?>
+                                </a>
+                            <?php } ?>
+                        </li>
+                        <!-- FAQ Section Ends -->
+                        <!-- Question to Admin Section  -->
+                        <li class="nav item"><a href="javascript:void(0)" class="mis_askque" id="mis_askque"><?php echo __('Question to Admin');?></a></li>
+                        <!-- FAQ Section Ends -->
+                    <?php } else { ?>
+                        <?php echo $block->getChildHtml();?>
+                        <?php if (!$becomeSellerRequest): ?>
+                            <li class="nav item ">
+                                <?php if(strpos($magentoCurrentUrl,'marketplace/account/becomeseller') !== false){ ?> 
+                                    <strong><?php echo __('Become Seller') ?></strong>    
+                                <?php } else{ ?>    
+                                    <a href="<?php echo $block->getUrl('marketplace/account/becomeseller', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                        <?php echo __('Become Seller') ?>
+                                    </a>                    
+                                <?php } ?>      
+                            </li>    
+                        <?php endif; ?>
+                        <?php $customerAcc = ['account', 'address'];
+                        $dashboardLink = false;
+                        if (in_array($misController,$customerAcc) && (strpos($magentoCurrentUrl,'marketplace/account/becomeseller') != true)) {
+                            $dashboardLink = true;
+                        }
+                        ?>
+                        <!-- Parent child configuration Start payment-->
+                        <li class="nav item toggle-section">
+                            <?php if($dashboardLink) { ?> 
+                                <strong class="mis_strong">
+                                    <a href="<?php echo $block->getUrl('customer/account/', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                        <?php echo __('Dashboard') ?>
+                                    </a> 
+                                </strong>    
+                            <?php } else { ?>    
+                                <a href="<?php echo $block->getUrl('customer/account/', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                    <?php echo __('Dashboard') ?>
+                                </a>                    
+                            <?php } ?> 
+
+                            <ul class="<?php echo (strpos($magentoCurrentUrl,'customer/address/') !== false || strpos($magentoCurrentUrl,'customer/account/edit') !== false || strpos($magentoCurrentUrl,'customer/account/') !== false) ? 'visible-ul': '';?>">
+                                <li class="nav item">
+                                    <?php if(strpos($magentoCurrentUrl,'customer/address/') !== false){ ?> 
+                                        <strong><?php echo __('Address Book') ?></strong>    
+                                    <?php } else { ?>    
+                                            <a href="<?php echo $block->getUrl('customer/address/', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                <?php echo __('Address Book') ?>
+                                            </a>                    
+                                    <?php } ?> 
+                                    <?php if(strpos($magentoCurrentUrl,'customer/account/edit') !== false){ ?> 
+                                        <strong><?php echo __('Account Information') ?></strong>    
+                                    <?php } else { ?>    
+                                        <a href="<?php echo $block->getUrl('customer/account/edit', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                            <?php echo __('Account Information') ?>
+                                        </a>                    
+                                    <?php } ?> 
+                                </li>
+                            </ul>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div class="block account-nav block-collapsible-nav wk-mp-main">
+        <div class="title block-collapsible-nav-title" data-mage-init='{"toggleAdvanced": {"toggleContainers": "#block-collapsible-nav-seller", "selectorsToggleClass": "active"}}'>
+            <?php if($isPartner): ?>
+                <strong><?php /* @escapeNotVerified */ echo __('Marketplace'); ?></strong>
+            <?php else: ?>
+                <strong><?php /* @escapeNotVerified */ echo __('Menu'); ?></strong>
+            <?php endif; ?>
+        </div>
+        <!-- Not Used Menus -->
+        <div class="mis-old-menus content block-collapsible-nav-content" id="block-collapsible-nav-seller">
+            <nav class="account-nav">
+                <ul class="nav items mis_menu_items">
+                    <?php 
+                    if($isPartner){ ?>
+                        <?php if(($isSellerGroup && $_helper->isAllowedAction('marketplace/account/dashboard')) || !$isSellerGroup) { ?>
+                            <li class="nav itemm <?php echo strpos($magentoCurrentUrl,'marketplace/account/dashboard')? "current":"";?>">
+                                <?php 
+                                if(strpos($magentoCurrentUrl,'marketplace/account/dashboard') !== false){ ?>      
+                                    <strong><?php echo __('Dashboard') ?></strong>              
+                                <?php
+                                } else{ ?>        
+                                    <a href="<?php echo $block->getUrl('marketplace/account/dashboard', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                        <?php echo __('Dashboard') ?>
+                                    </a>                    
+                                <?php 
+                                } ?>
+                            </li>
+                        <?php 
+                        } ?>
+                         <?php if($isPartner) { ?>
+                         <?php // if(($isSellerGroup && $_helper->isAllowedAction('marketplace/order/history')) || (!$isSellerGroup)) { ?>
+                            <li class="nav itemm notification-link  <?php echo strpos($magentoCurrentUrl,'marketplace/order')&&(!strpos($magentoCurrentUrl,'marketplace/order/shipping/'))? "current":"";?>">        
+                                <?php 
+                                if (strpos($magentoCurrentUrl, 'marketplace/order/history') !== false || (strpos($magentoCurrentUrl, 'marketplace/order/view') !== false)) { ?>
+                                    <strong><?php echo __('Orders') ?></strong>  
+                                <?php 
+                                } else { ?>
+                                    <a href="<?php echo $block->getUrl('marketplace/order/history', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                        <?php echo __('Orders') ?>
+                                    </a>
+                                    <?php if ($block->getMarketplaceOrderCollection()->getSize()) { ?>
+                                    <!-- Orders Notification -->
+                                    <div class="notification-block">
+                                        <a href="" class="notifications-action marketplace-dropdown">
+                                            <img height="20" width="20" src="<?php echo $block->getViewFileUrl('Webkul_Marketplace::images/icons_notifications.png'); ?>" class="notifications-img" />
+                                            <?php if($orderNotificationCount > 3): ?>
+                                            <span class="notification-count">3+</span>
+                                            <?php else: ?>
+                                                <span class="notification-count"><?php echo $orderNotificationCount; ?></span>
+                                            <?php endif; ?>
+                                        </a>
+                                        <ul class="marketplace-dropdown-menu">
+                                        <span class="notify-point"></span>
+                                        <?php
+                                        $orderDisplayCount = 1; 
+                                        $notificationData = $block->getMarketplaceOrderCollection()->getData();
+                                        
+                                        foreach ($notificationData as $order) {
+                                            $orderIdGet = $order['order_id'];
+                                            if ($orderDisplayCount <= 3):
+                                            ?>
+                                            <li class="notifications-entry">
+                                                <strong class="notifications-entry-title">
+                                                    <?php echo $block->getOrderNotificationTitle($orderIdGet); ?> 
+                                                </strong>
+                                                <p class="notifications-entry-description _cutted">
+                                                    <a href="<?php echo $block->getUrl('marketplace/order/view', ['id'=>$orderIdGet, 'n' => 1,'_secure' => $this->getRequest()->isSecure()])?>" class="notifications-entry-description-start">
+                                                        <span>
+                                                            <?php echo $block->getOrderNotificationDesc($orderIdGet); ?>                                                        
+                                                        </span>
+                                                    </a>
+                                                </p>
+                                                <time class="notifications-entry-time">
+                                                    <?php echo $block->getOrderCreatedDate($orderIdGet); ?>
+                                                </time>
+                                            </li>
+                                        <?php 
+                                            $orderDisplayCount++;
+                                            endif;
+                                        } ?>
+                                        <?php 
+                                            if($orderDisplayCount > 3):
+                                        ?>    
+                                            <li class="notifications-entry notifications-entry-last">
+                                                <a href="<?php echo $block->getUrl('marketplace/order/history', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                    <?php echo __('Click here to view order history'); ?>
+                                                </a>
+                                            </li>
+                                        <?php endif; ?>
+                                        </ul>
+                                    </div>
+                                    <?php } ?>
+                                    <!-- Orders Notification End -->                      
+                                <?php 
+                                } ?> 
+                            </li>
+                        <?php } ?>
+                        <div id="marketplace-notification-component" data-bind="scope:'notification-content'">
+                            <script type="text/x-magento-init">
+                            {
+                                "#marketplace-notification-component": {
+                                    "Magento_Ui/js/core/app":  <?php /* @escapeNotVerified */ echo $block->getJsLayout();?>
+                                }
+                            }
+                            </script>
+                            <?php echo $block->getChildHtml('reply_template'); ?>
+                        </div>
+                        <!-- Written here from the file app/code/Webkul/Mpreportsystem/view/frontend/templates/account/ Advnce report -->
+                        <?php if($isPartner){ ?>
+                            <?php if(($isSellerGroup && $_helper->isAllowedAction('mpreportsystem/report/index')) || !$isSellerGroup) { ?>
+                            <li class="nav itemm <?php /* @escapeNotVerified */echo strpos($magentoCurrentUrl,'mpreportsystem/report/index') !== false ? "current":"";?>">
+                               <?php 
+                                if (strpos($magentoCurrentUrl,'mpreportsystem/report/index') !== false) { ?>
+                                    <strong><?php /* @escapeNotVerified */echo __('Reports') ?></strong>
+                                    <?php
+                                } else { ?>
+                                    <a href="<?php /* @escapeNotVerified */echo $block->getUrl('mpreportsystem/report/index'); ?>">
+                                        <?php /* @escapeNotVerified */echo __('Reports') ?>
+                                    </a>
+                                <?php 
+                                    } ?>
+                                </li>
+                            <?php } ?>
+                        <?php } ?>
+                        <!-- Written here from the file app/code/Webkul/Mpreportsystem/view/frontend/templates/account/ Advnce report End -->
+                        <?php $profileArray = ['mitsshopconfig','mpsellervacation','marketplce' ]; 
+                        ?>
+                        <?php if(($isSellerGroup && $_helper->isAllowedAction('marketplace/account/editprofile')) || !$isSellerGroup) { ?>
+                            <?php if ($_helper->getSellerProfileDisplayFlag()) { ?>
+                            <!-- Parent child configuration start -->
+                            <li class="nav item <?php echo (in_array($routeName, $profileArray) ? '' : 'profile-preorder-nav') ?> ">
+                                 <?php if(strpos($magentoCurrentUrl,'marketplace/account/editprofile') !== false){ ?>
+                                    <strong><?php echo __('Profile') ?></strong>
+                                <?php 
+                                } else if(in_array($routeName, $profileArray)){ ?>
+                                    <strong class="mis_strong">
+                                            <?php echo __('Profile') ?>
+                                    </strong>
+                                <?php 
+                                } else { ?>
+                                    <a href="<?php echo $block->getUrl('marketplace/account/editprofile', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                        <?php echo __('Profile') ?>
+                                    </a>
+                                <?php } ?>
+                                <ul class="preorder-sub-nav  <?php echo (in_array($routeName, $profileArray) ? '' : 'profile-child-menu hidden-ul') ?>">
+                                    <li class="nav item <?php echo (in_array($routeName, $profileArray) ? '' : 'profile-preorder-nav') ?> ">
+                                        <a href="javascript:void(0)">
+                                            <?php echo __('Import & Export') ?>
+                                        </a>
+                                        <ul class="preorder-sub-nav <?php echo (in_array($routeName, $profileArray) ? '' : 'profile-child-menu') ?>">
+                                            <li class="nav item">
+                                                <?php
+                                                if ( 
+                                                    strpos(
+                                                        $magentoCurrentUrl,
+                                                        'mitsshopconfig/shopconfig/import'
+                                                    ) !== false
+                                                ) {
+                                                ?>
+                                                    <strong>
+                                                    <?php
+                                                        /* @escapeNotVerified */
+                                                        echo __('Import')
+                                                    ?>
+                                                    </strong>
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <a href="<?php echo $block->getUrl('mitsshopconfig/shopconfig/import', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                        <?php /* @escapeNotVerified */ echo __('Import') ?>
+                                                    </a>
+                                                <?php } ?>
+                                            </li>
+                                            
+                                            <li
+                                                class="nav item
+                                                <?php
+                                                    /* @escapeNotVerified */
+                                                    echo strpos(
+                                                        $magentoCurrentUrl,
+                                                        'mppreorder/seller/orders'
+                                                    ) !== false ? "current":"";
+                                                ?>"
+                                            >
+                                                <?php
+                                                if ( 
+                                                    strpos(
+                                                        $magentoCurrentUrl,
+                                                        'mitsshopconfig/shopconfig/export'
+                                                    ) !== false
+                                                ) {
+                                                ?>
+                                                    <strong>
+                                                    <?php
+                                                        /* @escapeNotVerified */
+                                                        echo __('Export')
+                                                    ?>
+                                                    </strong>
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <a href="<?php echo $block->getUrl('mitsshopconfig/shopconfig/export', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                        <?php /* @escapeNotVerified */ echo __('Export') ?>
+                                                    </a>
+                                                <?php
+                                                }
+                                                ?>
+                                            </li>
+                                        </ul>
+                                        <?php
+                                        if(strpos($magentoCurrentUrl,'mpsellervacation/setting') !== false){ ?>
+                                            <strong><?php echo __('Vacation Settings') ?></strong>
+                                        <?php
+                                        } else{ ?>
+                                            <a href="<?php echo $block->getUrl('mpsellervacation/setting', ['_secure' => $block->getRequest()->isSecure()]); ?>">
+                                                <?php echo __('Vacation Settings') ?>
+                                            </a>
+                                        <?php
+                                        } ?>
+                                        <?php
+                                        if(strpos($magentoCurrentUrl,'marketplce/account/deactivate') !== false){ ?>
+                                            <strong><?php /* @escapeNotVerified */ echo __('Deactivate') ?></strong>
+                                        <?php
+                                        } else{ ?>
+                                            <a href="<?php echo $block->getUrl('marketplce/account/deactivate', ['_secure' => $block->getRequest()->isSecure()]); ?>">
+                                                <?php /* @escapeNotVerified */ echo __('Deactivate') ?>
+                                            </a>
+                                        <?php
+                                        } ?>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- Parent child configuration End-->
+                            <?php } ?>
+                        <?php } ?>
+                        
+                        <?php if(($isSellerGroup && $_helper->isAllowedAction('marketplace/product_attribute/new')) || !$isSellerGroup) {
+                            if(strpos($allow_pro_type,'configurable') !== false){ ?>
+                                <!-- Parent child configuration Start-->
+                                <?php $productsAttrArray = ['product_attribute', 'product', 'configuration', 'orders', 'seller']; 
+                                $routeOk= true;
+                                if ($routeName == 'mpamazonconnect' ||  ($routeName == 'rakutenconnect')||  ($routeName == 'sellerapi')) {
+                                    $routeOk = false;
+                                }
+                                ?>
+                                
+                                <li class="nav item <?php echo ((in_array($misController, $productsAttrArray) && ($routeOk != false)) ? '': 'product-attr-nav') ?> ">
+                                    <?php if (in_array($misController, $productsAttrArray) && ($routeOk)): ?>
+                                        <strong class="mis_strong">
+                                                <?php echo __('Sell / Products & Attributes') ?>
+                                        </strong>
+                                    <?php else: ?>
+                                        <a href="javascript:void(0)">
+                                            <?php echo __('Sell / Products & Attributes') ?>
+                                        </a>
+                                    <?php endif; ?>
+                                <ul class="preorder-sub-nav <?php echo ((in_array($misController, $productsAttrArray) && ($routeOk)) ? '': 'product-attr-child-menu hidden-ul') ?> ">
+                                    <li class="nav item <?php echo ((in_array($misController, $productsAttrArray) && ($routeOk)) ? '': 'product-attr-nav') ?> ">
+                                        <?php 
+                                        if(strpos($magentoCurrentUrl,'marketplace/product/add') !== false || strpos($magentoCurrentUrl,'marketplace/product/create') !== false){ ?>       
+                                            <strong><?php echo __('New Product') ?></strong>  
+                                        <?php 
+                                        } else{ ?>                    
+                                            <a href="<?php echo $block->getUrl('marketplace/product/create', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                <?php echo __('New Product') ?>
+                                            </a>                        
+                                        <?php 
+                                        } ?>
+                                        <?php if(strpos($magentoCurrentUrl,'marketplace/product_attribute/new') !== false){ ?>
+                                            <strong><?php echo __('New Attributes') ?></strong>  
+                                        <?php }     
+                                        else{ ?>        
+                                            <a href="<?php echo $block->getUrl('marketplace/product_attribute/new', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                <?php echo __('New Attributes') ?></a>           
+                                        <?php } ?>
+                                       
+                                        <?php if(strpos($magentoCurrentUrl,'marketplace/product/productlist') !== false){ ?>       
+                                            <strong><?php echo __('Products Listing') ?></strong>  
+                                            <?php }                 
+                                            else{ ?>                    
+                                                <a href="<?php echo $block->getUrl('marketplace/product/productlist', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                    <?php echo __('Products Listing') ?>
+                                                </a>
+                                                <!-- Product Notification -->
+                                                <?php if ($block->getProductCollection()->getSize()) { ?>
+                                                <div class="notification-block">
+                                                    <a href="" class="notifications-action marketplace-dropdown">
+                                                        <img height="20" width="20" src="<?php echo $block->getViewFileUrl('Webkul_Marketplace::images/icons_notifications.png'); ?>" class="notifications-img" />
+                                                        <?php if($productNotificationCount > 5): ?>
+                                                            <span class="notification-count">5+</span>
+                                                        <?php else: ?>
+                                                            <span class="notification-count"><?php echo $productNotificationCount; ?></span>
+                                                        <?php endif; ?>
+                                                    </a>
+                                                    <ul class="marketplace-dropdown-menu">
+                                                    <span class="notify-point"></span>
+                                                    <?php 
+                                                    $productDisplayCount = 1;
+                                                    foreach($block->getProductCollection() as $product): 
+                                                        if($productDisplayCount <= 5):
+                                                    ?>
+                                                    <li class="notifications-entry">
+                                                        <strong class="notifications-entry-title">
+                                                            <?php echo $block->getProductNotificationTitle($product->getMageproductId(), $product->getStatus()); ?> 
+                                                        </strong>
+                                                        <p class="notifications-entry-description _cutted">
+                                                            <a href="<?php echo $block->getUrl('marketplace/product/productlist', ['_secure' => $this->getRequest()->isSecure()])?>" class="notifications-entry-description-start">
+                                                                <span >
+                                                                    <?php echo $block->getProductNotificationDesc($product->getMageproductId(), $product->getStatus()); ?>
+                                                                    
+                                                                </span>
+                                                            </a>
+                                                        </p>
+                                                        <time class="notifications-entry-time">
+                                                            <?php echo $block->getProductNotifyDateTime($product->getUpdatedAt()); ?>
+                                                        </time>
+                                                    </li>
+                                                <?php  $productDisplayCount++;
+                                                        endif;
+                                                    endforeach; ?>
+                                                    <?php 
+                                                        if($productDisplayCount > 5):
+                                                    ?>    
+                                                            <li class="notifications-entry notifications-entry-last">
+                                                                <a href="<?php echo $block->getUrl('marketplace/product/productlist', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                                    <?php echo __('Click here to view product list'); ?>
+                                                                </a>
+                                                            </li>
+                                                    <?php endif; ?>
+                                                    </ul>
+                                                </div>
+                                                <?php } ?>
+                                            <?php } ?> 
+                                        <?php 
+                                            if (strpos($magentoCurrentUrl,'faqs/product/faq') !== false
+                                            ) {
+                                            ?>
+                                                <strong>
+                                                <?php /* @escapeNotVerified */ echo __('Product FAQ');?>
+                                                </strong>
+                                            <?php
+                                            } else {
+                                            ?>
+                                            <a href="<?php echo $block->getUrl('faqs/product/faq', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                <?php /* @escapeNotVerified */ echo __('Product FAQ') ?>
+                                            </a>
+                                            <!-- Product Notification End -->
+                                        <?php } ?>
+                                        <!-- PReorder  -->
+
+                                        <a onClick="javascript:void(0)">
+                                            <?php
+                                                /* @escapeNotVerified */
+                                                echo __("PreOrder Management");
+                                                // $paymentListStatus = true;
+                                            ?>
+                                        </a>
+                                        <ul class="preorder-sub-nav <?php echo (( in_array($misController, $productsAttrArray) && ($routeOk) ) ? '': 'product-attr-child-menu hidden-ul') ?> "
+                                        <?php
+                                            if (
+                                                    strpos(
+                                                        $magentoCurrentUrl,
+                                                        'mppreorder/seller/'
+                                                    ) !== false
+                                                ) {
+                                                    /* @escapeNotVerified */
+                                                    echo "style=\"display:block\"";
+                                            }
+                                        ?>
+                                        >
+                                            <li
+                                                class="nav item
+                                                <?php
+                                                    /* @escapeNotVerified */
+                                                    echo strpos(
+                                                        $magentoCurrentUrl,
+                                                        'mppreorder/seller/configuration'
+                                                    ) !== false ? "current":"";
+                                                ?>"
+                                            >
+                                                <?php
+                                                if ( 
+                                                    strpos(
+                                                        $magentoCurrentUrl,
+                                                        'mppreorder/seller/configuration'
+                                                    ) !== false
+                                                ) {
+                                                ?>
+                                                    <strong>
+                                                    <?php
+                                                        /* @escapeNotVerified */
+                                                        echo __('Configuration')
+                                                    ?>
+                                                    </strong>
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <a href="<?php echo $block->getUrl(
+                                                                'mppreorder/seller/configuration',
+                                                                ['_secure' => $this->getRequest()->isSecure()]
+                                                            );
+                                                        ?>"
+                                                    >
+                                                        <?php  /* @escapeNotVerified */ echo __('Configuration') ?>
+                                                    </a>
+                                                <?php
+                                                }
+                                                ?>
+                                            </li>
+                                        
+                                            <li
+                                                class="nav item
+                                                <?php
+                                                    /* @escapeNotVerified */
+                                                    echo strpos(
+                                                        $magentoCurrentUrl,
+                                                        'mppreorder/seller/orders'
+                                                    ) !== false ? "current":"";
+                                                ?>"
+                                            >
+                                                <?php
+                                                if ( 
+                                                    strpos(
+                                                        $magentoCurrentUrl,
+                                                        'mppreorder/seller/orders'
+                                                    ) !== false
+                                                ) {
+                                                ?>
+                                                    <strong>
+                                                    <?php
+                                                        /* @escapeNotVerified */
+                                                        echo __('Orders')
+                                                    ?>
+                                                    </strong>
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <a href="<?php echo $block->getUrl(
+                                                                'mppreorder/seller/orders',
+                                                                ['_secure' => $this->getRequest()->isSecure()]
+                                                            );
+                                                        ?>"
+                                                    >
+                                                        <?php  /* @escapeNotVerified */ echo __('Orders') ?>
+                                                    </a>
+                                                <?php
+                                                }
+                                                ?>
+                                            </li>
+
+                                        </ul>
+                                        <!-- PReorder ends -->
+                                        <a href="javascript:void(0)">
+                                            <?php /* @escapeNotVerified */ echo __('Product Import & Export') ?>
+                                        </a>
+                                        <ul class="preorder-sub-nav <?php echo (in_array($misController, $productsAttrArray) ? '': 'product-attr-child-menu') ?>">
+                                            <li class="nav item">
+                                                <?php
+                                                if ( 
+                                                    strpos(
+                                                        $magentoCurrentUrl,
+                                                        'mpmassupload/product/view'
+                                                    ) !== false
+                                                ) {
+                                                ?>
+                                                    <strong>
+                                                    <?php
+                                                        /* @escapeNotVerified */
+                                                        echo __('Import')
+                                                    ?>
+                                                    </strong>
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <a href="<?php echo $block->getUrl('mpmassupload/product/view', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                        <?php /* @escapeNotVerified */ echo __('Import') ?>
+                                                    </a>
+                                                <?php } ?>
+                                            </li>
+                                            
+                                            <li class="nav item
+                                                <?php
+                                                    /* @escapeNotVerified */
+                                                    echo strpos(
+                                                        $magentoCurrentUrl,
+                                                        'mppreorder/seller/orders'
+                                                    ) !== false ? "current":"";
+                                                ?>"
+                                            >
+                                                <?php
+                                                if ( 
+                                                    strpos(
+                                                        $magentoCurrentUrl,
+                                                        'mpmassupload/product/export'
+                                                    ) !== false
+                                                ) {
+                                                ?>
+                                                    <strong>
+                                                    <?php
+                                                        /* @escapeNotVerified */
+                                                        echo __('Export')
+                                                    ?>
+                                                    </strong>
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <a href="<?php echo $block->getUrl('mpmassupload/product/export', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                        <?php /* @escapeNotVerified */ echo __('Export') ?>
+                                                    </a>
+                                                <?php
+                                                }
+                                                ?>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- Parent child configuration End-->
+                            <?php }
+                        } ?>
+                        <?php if($isPartner){ ?>
+                            <li class="nav itemm <?php echo strpos($magentoCurrentUrl,'translation/index/translate')? "current":"";?>">
+                                <?php if(strpos($magentoCurrentUrl,'translation/index/translate') !== false) { ?>
+                                    <strong><?php echo __('Content Translation') ?></strong>
+                                        <?php 
+                                    } else{ ?>
+                                    <a href="<?php echo $block->getUrl('translation/index/translate', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                        <?php /* @escapeNotVerified */ echo __('Content Translation') ?>
+                                    </a>
+                                <?php } ?>
+                            </li>
+                        <?php } ?>
+                        
+                        <?php //if(($isSellerGroup && $_helper->isAllowedAction('marketplace/transaction/history')) || (!$isSellerGroup)) { ?>
+                        <?php if($isPartner) { 
+                            $paymentActionArray = ['invoice', 'shipping', 'history'];
+                            ?>
+                            <!-- Parent child configuration Start payment-->
+                             <?php if((in_array($mis_helper->getActionName(),$paymentActionArray) || ($routeName == 'vendorpayments') || ($misController == 'transaction')) && (strpos($magentoCurrentUrl,'marketplace/order/history') == false)) {
+                                    $paymentListStatus = true;
+                                } else {
+                                    $paymentListStatus = false;
+                                }
+                                ?>
+                            <li class="nav item <?php echo (($paymentListStatus) ? '' : 'payment-overview-nav') ?>  ">
+                                <?php if($paymentListStatus) { ?>
+                                    <strong><?php echo __('Payment') ?></strong>
+                                    <?php 
+                                } else{ ?>
+                                        <a href="javascript:void(0)">
+                                            <?php /* @escapeNotVerified */ echo __('Payment') ?>
+                                        </a>
+                                <?php } ?>
+                                <ul class="preorder-sub-nav <?php echo ($paymentListStatus ? '': 'payment-overview-child-menu hidden-ul') ?> ">
+                                    <li class="nav item <?php echo ($paymentListStatus ? '': 'payment-overview-nav') ?> ">
+                                    <?php /*
+                                    if(strpos($magentoCurrentUrl,'marketplace/transaction/history') !== false || ($misController == 'transaction')){ ?>
+                                        <strong><?php echo __('Payout Overview') ?></strong>
+                                    <?php 
+                                    } else{ ?>
+                                    <a href="<?php echo $block->getUrl('marketplace/transaction/history', ['_secure' => $this->getRequest()->isSecure()]); ?>"><?php echo __('Payout Overview') ?></a>
+                                    <?php } */ ?>
+                                        <?php if(strpos($magentoCurrentUrl,'vendorpayments/index/invoice') !== false){ ?>
+                                        <strong><?php echo __('Invoices') ?></strong>
+                                        <?php 
+                                        } else{ ?>
+                                            <a href="<?php echo $block->getUrl('vendorpayments/index/invoice', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                <?php /* @escapeNotVerified */ echo __('Invoices') ?>
+                                            </a>
+                                            <!-- Transaction Notification -->
+                                            <?php if ($block->getTransactionCollection()->getSize()) { ?>
+                                            <div class="notification-block">
+                                                <a href="" class="notifications-action marketplace-dropdown">
+                                                    <img height="20" width="20" src="<?php echo $block->getViewFileUrl('Webkul_Marketplace::images/icons_notifications.png'); ?>" class="notifications-img" />
+                                                <?php if($transactionCount > 5): ?>
+                                                    <span class="notification-count">5+</span>
+                                                <?php else: ?>
+                                                    <span class="notification-count"><?php echo $transactionCount; ?></span>
+                                                <?php endif; ?>
+                                                </a>
+                                                <ul class="marketplace-dropdown-menu">
+                                                <span class="notify-point"></span>
+                                                <?php
+                                                $trnDisplayCount = 1;
+                                                foreach($block->getTransactionCollection() as $transaction): 
+                                                    if($trnDisplayCount <= 5):
+                                                        $link = "#";
+                                                        if(isset($vendorInvoice[$transaction->getTransactionId()])) {
+                                                            $link = $block->getUrl('vendorpayments/invoice/view', ['id'=>$vendorInvoice[$transaction->getTransactionId()], '_secure' => $this->getRequest()->isSecure()]);
+                                                        }
+                                                    ?>
+                                                    <li class="notifications-entry">
+                                                        <strong class="notifications-entry-title">
+                                                            <?php echo $block->getTransactionNotifyTitle($transaction->getEntityId()); ?> 
+                                                        </strong>
+                                                        <p class="notifications-entry-description _cutted">
+                                                            <a href="<?php echo $link; ?>" class="notifications-entry-description-start">
+                                                                <span>
+                                                                    <?php echo $block->getTransactionNotifyDesc($transaction->getEntityId()); ?>
+                                                                </span>
+                                                            </a>
+                                                        </p>
+                                                        <time class="notifications-entry-time">
+                                                            <?php echo $block->getTransactionDate($transaction->getUpdatedAt()); ?>
+                                                        </time>
+                                                    </li>
+                                                <?php $trnDisplayCount++;
+                                                    endif; 
+                                                endforeach; ?>
+                                                    
+                                                <?php
+                                                    if($trnDisplayCount > 5):
+                                                ?> 
+                                                        <li class="notifications-entry notifications-entry-last">
+                                                        <a href="<?php echo $block->getUrl('marketplace/transaction/history', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                                <?php echo __('Click here to view transaction history'); ?>
+                                                            </a>
+                                                        </li>
+                                                <?php endif; ?>
+                                                </ul>
+                                            </div>
+                                            <?php } ?>
+                                            <!-- Transaction Notification End -->
+                                        <?php } ?>
+
+                                        <?php /* if(strpos($magentoCurrentUrl,'marketplace/order/shipping') !== false){ ?>
+                                            <strong><?php echo __('Manage Print PDF Header Info') ?></strong>
+                                        <?php 
+                                        } else{ ?>
+                                            <a href="<?php echo $block->getUrl('marketplace/order/shipping', ['_secure' => $this->getRequest()->isSecure()]); ?>"><?php echo __('Manage Print PDF Header Info') ?></a>
+                                        <?php 
+                                        } */ ?>
+                                        <?php if(strpos($magentoCurrentUrl,'vendorpayments/index/index') !== false){ ?>
+                                            <strong><?php echo __('Payment Fees Structure') ?></strong>
+                                        <?php 
+                                        } else{ ?>
+                                            <a href="<?php echo $block->getUrl('vendorpayments/index/index', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                <?php /* @escapeNotVerified */ echo __('Payment Fees Structure') ?>
+                                            </a>
+                                        <?php } ?>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- Parent child configuration End payment-->
+                        <?php } ?>    
+                        <?php 
+                            if(($isSellerGroup && $helper->isAllowedAction('mpads/block')) || !$isSellerGroup) { 
+                        ?>
+                            <!-- Parent child configuration Start payment-->
+                            <?php 
+                            $marketingArray = ['mpads', 'mpsellercoupons', 'advertisement'];
+                             ?>
+                            <?php if((in_array($routeName, $marketingArray)) || ($misController == 'advertisement')) {
+                                    $marketingMenus = true;
+                                } else {
+                                    $marketingMenus = false;
+                                }
+                            ?>
+                            <li class="nav <?php echo (($marketingMenus) ? '' : 'item marketing-nav') ?> ">
+                                <?php if (in_array($routeName, $marketingArray) || ($misController == 'advertisement')): ?>
+                                    <strong><?php echo __('Marketing') ?></strong>
+                                <?php else: ?>
+                                    <a href="javascript:void(0)"><?php echo __('Marketing') ?></a>
+                                <?php endif; ?>
+                                <ul class="preorder-sub-nav <?php echo (($marketingMenus) ? '': 'marketing-child-menu hidden-ul') ?>" >
+                                    <li class="nav item <?php echo (($marketingMenus) ? '': 'marketing-nav') ?> ">    
+                                        <?php if (strpos($magentoCurrentUrl, 'mpads/block') !== false) { ?>    
+                                            <strong>
+                                            <?php   
+                                                /* @escapeNotVerified */ 
+                                                echo __('Advertisement Blocks') 
+                                            ?>
+                                            </strong>  
+                                        <?php 
+                                        } else {
+                                        ?>        
+                                            <a href="<?php
+                                                    /* @escapeNotVerified */ 
+                                                    echo $block->getUrl(
+                                                        'mpads/block',
+                                                        ['_secure' => $this->getRequest()->isSecure()]
+                                                    ); 
+                                                ?>"
+                                            >
+                                                <?php  /* @escapeNotVerified */ echo __('Advertisement Blocks') ?>
+                                            </a>                        
+                                        <?php 
+                                        } 
+                                        ?> 
+                                        <?php if (strpos($magentoCurrentUrl, 'mpads/advertise') !== false ) {
+                                        ?>    
+                                            <strong>
+                                            <?php   
+                                                /* @escapeNotVerified */ 
+                                                echo __('Advertisement') 
+                                            ?>
+                                            </strong>  
+                                        <?php 
+                                        } else {
+                                        ?>        
+                                            <a href="<?php
+                                                    /* @escapeNotVerified */ 
+                                                    echo $block->getUrl(
+                                                        'mpads/advertise',
+                                                        ['_secure' => $this->getRequest()->isSecure()]
+                                                    ); 
+                                                ?>"
+                                            >
+                                                <?php  /* @escapeNotVerified */ echo __('Advertisement') ?>
+                                            </a>                        
+                                        <?php 
+                                        } 
+                                        ?>
+                                        <?php if (strpos($magentoCurrentUrl, 'advertisement/block/purcheses') !== false ) {
+                                        ?>    
+                                            <strong>
+                                            <?php   
+                                                /* @escapeNotVerified */ 
+                                                echo __('Purchesed Advertisements') 
+                                            ?>
+                                            </strong>  
+                                        <?php 
+                                        } else {
+                                        ?>        
+                                            <a href="<?php
+                                                    /* @escapeNotVerified */ 
+                                                    echo $block->getUrl(
+                                                        'advertisement/block/purcheses',
+                                                        ['_secure' => $this->getRequest()->isSecure()]
+                                                    ); 
+                                                ?>"
+                                            >
+                                                <?php  /* @escapeNotVerified */ echo __('Purchesed Advertisements') ?>
+                                            </a>                        
+                                        <?php 
+                                        } 
+                                        ?>
+                                        <?php if(strpos($magentoCurrentUrl,'mpsellercoupons/index/index')!==FALSE){ ?>   
+                                            <strong><?php /* @escapeNotVerified */ echo __('Gift Voucher') ?></strong>        
+                                        <?php 
+                                        } else{ ?>    
+                                            <a href="<?php echo $block->getUrl('mpsellercoupons/index/index', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                <?php /* @escapeNotVerified */ echo __('Gift Voucher') ?>
+                                            </a>                
+                                        <?php 
+                                        } ?>
+                                    </li>
+                                </ul>
+                            </li>
+                                <!-- Parent child configuration End payment-->
+                            <?php } ?>
+                        <?php if ($isPartner){ ?>
+
+                            <!-- Parent child configuration Start payment-->
+                                <li class="nav item <?php echo ($routeName == 'mpamazonconnect' ? '': 'amazon-nav') ?> ">
+                                    <?php if ($routeName == 'mpamazonconnect') { ?>   
+                                        <strong><?php /* @escapeNotVerified */ echo __('Amazon') ?></strong>        
+                                    <?php 
+                                    } else { ?>    
+                                        <a href="javascript:void(0)"><?php echo __('Amazon') ?></a>              
+                                    <?php } ?>
+                                    <ul class="preorder-sub-nav <?php echo ($routeName == 'mpamazonconnect' ? '': 'amazon-child-menu hidden-ul') ?>">
+                                        <li class="nav item <?php echo ($routeName == 'mpamazonconnect' ? '': 'amazon-nav') ?> ">
+                                            <?php if(strpos($magentoCurrentUrl,'mpamazonconnect/account/index') !== false) { ?>   
+                                                <strong><?php /* @escapeNotVerified */ echo __('Manage Account') ?></strong>        
+                                            <?php 
+                                            } else { ?>    
+                                                <a href="<?php /* @escapeNotVerified */ echo $block->getUrl('mpamazonconnect/account/index')?>">
+                                                    <?php /* @escapeNotVerified */ echo __('Manage Account') ?>
+                                                </a>                
+                                            <?php } ?>
+
+                                            <?php if(strpos($magentoCurrentUrl,'mpamazonconnect/product/index') !== false) { ?>   
+                                                <strong><?php /* @escapeNotVerified */ echo __('Import Products') ?></strong>        
+                                            <?php 
+                                            } else { ?>    
+                                                <a href="<?php /* @escapeNotVerified */ echo $block->getUrl('mpamazonconnect/product/index')?>">
+                                                    <?php /* @escapeNotVerified */ echo __('Import Products') ?>
+                                                </a>                
+                                            <?php } ?>
+
+                                            <?php if(strpos($magentoCurrentUrl,'mpamazonconnect/product/unassigned') !== false) { ?>   
+                                                <strong><?php /* @escapeNotVerified */ echo __('Unassigned Product') ?></strong>
+                                            <?php 
+                                            } else { ?>    
+                                                <a href="<?php /* @escapeNotVerified */ echo $block->getUrl('mpamazonconnect/product/unassigned')?>">
+                                                    <?php /* @escapeNotVerified */ echo __('Unassigned Product') ?>
+                                                </a>                
+                                            <?php } ?>
+
+                                            <?php if(strpos($magentoCurrentUrl,'mpamazonconnect/producttoamazon/index') !== false) { ?>   
+                                                <strong><?php /* @escapeNotVerified */ echo __('Export Product') ?></strong>
+                                            <?php 
+                                            } else { ?>    
+                                                <a href="<?php /* @escapeNotVerified */ echo $block->getUrl('mpamazonconnect/producttoamazon/index')?>">
+                                                    <?php /* @escapeNotVerified */ echo __('Export Product') ?>
+                                                </a>                
+                                            <?php } ?>
+
+                                            <?php /* if(strpos($magentoCurrentUrl,'mpamazonconnect/order/index') !== false) { ?>   
+                                                <strong><?php  echo __('Mapped Order') ?></strong>
+                                            <?php 
+                                            } else { ?>    
+                                                <a href="<?php  echo $block->getUrl('mpamazonconnect/order/index')?>">
+                                                    <?php  echo __('Mapped Order') ?>
+                                                </a>                
+                                            <?php } */ ?>
+                                        </li>
+                                    </ul>
+                                </li>
+                            <!-- Parent child configuration End payment-->
+                            <!-- Parent child configuration Start payment-->
+                                <li class="nav <?php echo ($routeName == 'rakutenconnect' ? '': 'item rakuten-nav') ?> ">
+                                    <?php if ($routeName == 'rakutenconnect') { ?>   
+                                        <strong><?php /* @escapeNotVerified */ echo __('Rakuten') ?></strong>        
+                                    <?php 
+                                    } else { ?>    
+                                        <a href="javascript:void(0)"><?php echo __('Rakuten') ?></a>              
+                                    <?php } ?>
+
+                                    <ul class="preorder-sub-nav <?php echo ($routeName == 'rakutenconnect' ? '': 'rakuten-child-menu hidden-ul') ?> ">
+                                        <li class="nav item rakuten-nav ">
+                                            <?php if(strpos($magentoCurrentUrl,'rakutenconnect/account/index') !== false) { ?>   
+                                                <strong><?php /* @escapeNotVerified */ echo __('Manage Account') ?></strong>        
+                                            <?php 
+                                            } else { ?>    
+                                                <a href="<?php /* @escapeNotVerified */ echo $block->getUrl('rakutenconnect/account/index')?>">
+                                                    <?php /* @escapeNotVerified */ echo __('Manage Account') ?>
+                                                </a>                
+                                            <?php } ?>
+
+                                            <?php if(strpos($magentoCurrentUrl,'rakutenconnect/product/index') !== false) { ?>   
+                                                <strong><?php /* @escapeNotVerified */ echo __('Import Products') ?></strong>        
+                                            <?php 
+                                            } else { ?>    
+                                                <a href="<?php /* @escapeNotVerified */ echo $block->getUrl('rakutenconnect/product/index')?>">
+                                                    <?php /* @escapeNotVerified */ echo __('Import Products') ?>
+                                                </a>                
+                                            <?php } ?>
+
+                                            <?php if(strpos($magentoCurrentUrl,'rakutenconnect/product/unassigned') !== false) { ?>   
+                                                <strong><?php /* @escapeNotVerified */ echo __('Unassigned Product') ?></strong>
+                                            <?php 
+                                            } else { ?>    
+                                                <a href="<?php /* @escapeNotVerified */ echo $block->getUrl('rakutenconnect/product/unassigned')?>">
+                                                    <?php /* @escapeNotVerified */ echo __('Unassigned Product') ?>
+                                                </a>                
+                                            <?php } ?>
+                                            <?php if(strpos($magentoCurrentUrl,'rakutenconnect/producttorakuten/index') !== false) { ?>   
+                                                <strong><?php /* @escapeNotVerified */ echo __('Export Product') ?></strong>
+                                            <?php 
+                                            } else { ?>    
+                                                <a href="<?php /* @escapeNotVerified */ echo $block->getUrl('rakutenconnect/producttorakuten/index')?>">
+                                                    <?php /* @escapeNotVerified */ echo __('Export Product') ?>
+                                                </a>                
+                                            <?php } ?>
+                                            <?php /* if(strpos($magentoCurrentUrl,'rakutenconnect/order/index') !== false) { ?>   
+                                                <strong><?php  echo __('Mapped Order') ?></strong>
+                                            <?php 
+                                            } else { ?>    
+                                                <a href="<?php  echo $block->getUrl('rakutenconnect/order/index')?>">
+                                                    <?php  echo __('Mapped Order') ?>
+                                                </a>                
+                                            <?php } */?>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav item"><a href="javascript:void(0)" class="mis_askque" id="mis_askque"><?php echo __('Question to Admin');?></a></li>
+                            <!-- Parent child configuration End payment-->
+                        <?php } ?>
+                        <?php if($isPartner){ ?>
+                            <li class="nav itemm <?php echo strpos($magentoCurrentUrl,'faq/index/index')? "current":"";?>">
+                                <?php if(strpos($magentoCurrentUrl,'translation/index/translate') !== false) { ?>
+                                    <strong><?php echo __('FAQ') ?></strong>
+                                        <?php 
+                                    } else{ ?>
+                                    <a href="<?php echo $block->getUrl('faq', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                        <?php /* @escapeNotVerified */ echo __('FAQ') ?>
+                                    </a>
+                                <?php } ?>
+                            </li>
+                        <?php } ?>
+                        <?php echo $block->getChildHtml();?>
+                        <?php 
+                    } else{ ?>    
+                        <?php echo $block->getChildHtml();?>
+                        <?php if (!$becomeSellerRequest): ?>
+                            <li class="nav item <?php echo strpos($magentoCurrentUrl,'marketplace/account/becomepartner')? "current":"";?>">
+                                <?php if(strpos($magentoCurrentUrl,'marketplace/account/becomeseller') !== false){ ?> 
+                                    <strong><?php echo __('Become Seller') ?></strong>    
+                                <?php }         
+                                else{ ?>    
+                                    <a href="<?php echo $block->getUrl('marketplace/account/becomeseller', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                        <?php echo __('Become Seller') ?>
+                                    </a>                    
+                                <?php } ?>      
+                            </li>    
+                        <?php endif; ?>
+                        <?php $customerAcc = ['account', 'address'];
+                        $dashboardLink = false;
+                        if (in_array($misController,$customerAcc) && (strpos($magentoCurrentUrl,'marketplace/account/becomeseller') != true)) {
+                            $dashboardLink = true;
+                        }
+                        ?>
+                        <!-- Parent child configuration Start payment-->
+                        <li class="nav item <?php echo (($dashboardLink) ? '': 'marketing-nav') ?> ">
+                            <?php if($dashboardLink) { ?> 
+                                <strong class="mis_strong">
+                                    <a href="<?php echo $block->getUrl('customer/account/', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                        <?php echo __('Dashboard') ?>
+                                    </a> 
+                                </strong>    
+                            <?php }         
+                            else{ ?>    
+                                <a href="<?php echo $block->getUrl('customer/account/', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                    <?php echo __('Dashboard') ?>
+                                </a>                    
+                            <?php } ?> 
+                            <ul class="preorder-sub-nav <?php echo (($dashboardLink) ? '': 'marketing-child-menu hidden-ul') ?>">
+                                <li class="nav item  <?php echo (($dashboardLink) ? '': 'marketing-nav') ?> ">   
+                                    <?php if(strpos($magentoCurrentUrl,'customer/address/') !== false){ ?> 
+                                        <strong><?php echo __('Address Book') ?></strong>    
+                                    <?php }         
+                                    else{ ?>    
+                                            <a href="<?php echo $block->getUrl('customer/address/', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                <?php echo __('Address Book') ?>
+                                            </a>                    
+                                    <?php } ?> 
+                                    <?php if(strpos($magentoCurrentUrl,'customer/account/edit') !== false){ ?> 
+                                        <strong><?php echo __('Account Information') ?></strong>    
+                                    <?php }         
+                                    else{ ?>    
+                                        <a href="<?php echo $block->getUrl('customer/account/edit', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                            <?php echo __('Account Information') ?>
+                                        </a>                    
+                                    <?php } ?> 
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Parent child configuration End payment-->
+                    <?php 
+                    } ?>
+                </ul>
+            </nav>
+            <div id="popup-modal" style="display: none;">
+                <?php echo $this->getLayout()
+                            ->createBlock('Magento\Framework\View\Element\Template')
+                            ->setTemplate('Mangoit_Marketplace::question/ask_admin.phtml')
+                            ->toHtml(); ?>
+            </div>
+            <script>
+                var isDashBoard = "<?php echo $isDashBoard;?>";
+                
+                require(
+                    [
+                        'jquery',
+                        'mage/translate',
+                        'Magento_Ui/js/modal/modal'
+                    ],
+                    function(
+                        $,
+                        $t,
+                        modal
+                    ) {
+                        var options = {
+                            type: 'popup',
+                            responsive: true,
+                            innerScroll: true,
+                            title: "<?php echo __("Question to Admin"); ?>",
+                            buttons: [
+                                {
+                                    text: $.mage.__('Reset'),
+                                    class: 'resetbtn',                        
+                                    id: 'resetbtn',
+                                    click: function () {
+                                        $('.subject').val(null);
+                                        $('.ask').val(null);
+                                    }
+                                },
+                                {
+                                    text: $.mage.__('Submit'),
+                                    class: 'mis_askbtn',
+                                    type: 'submit',
+                                    id: 'mis_askbtn',
+                                    click: function () {
+                                        onClickAction();
+                                    }
+                                }
+                            ]
+                            
+                        };
+
+                        var attention_pop = {
+                            type: 'popup',
+                            responsive: true,
+                            innerScroll: true,
+                            title: $.mage.__('Attention')
+                        };
+                        var err_pop = {
+                            type: 'popup',
+                            responsive: true,
+                            innerScroll: true,
+                            title: $.mage.__('Attention')
+                        };
+
+                        var popup = modal(options, $('#popup-modal'));
+
+                        var popup_new = modal(attention_pop, $('#mail-send'));
+                        var popup_err = modal(attention_pop, $('#mail-err'));
+
+                        $('#mis_askque').on('click', function(){
+                            // console.log('mis_askque');                  
+                            if (isDashBoard == 0) {
+                                $('#popup-modal').modal('openModal');                      
+                            } else {
+                                $('#askque').trigger('click');
+                            }
+                            
+
+                            // $('.modal-footer').css('display', 'none');
+                        });
+
+                        $('.delimiter').parent().remove();
+                        $(document).ready(function(){
+                            windowChange();
+                        });
+                        $( window ).resize(function() {
+                            windowChange();
+                            
+                        });
+                        
+                        function windowChange() {
+                            var width = $(window).width(); 
+                            var height = $(window).height(); 
+                            if (width < 768 ) {
+                                jQuery("#account-nav .item").each(function(){
+                                    var copy = jQuery(this).clone();
+                                    jQuery(this).addClass('mis_temp_menus');
+                                    console.log('added');
+                                    jQuery(this).css('display','none');
+                                    jQuery('.mis_menu_items').append(copy);
+                                });
+                             //do something
+                            } else {
+                                jQuery("#account-nav .item").each(function(){
+                                    jQuery(this).css('display','block');
+                                    jQuery('.mis_temp_menus').remove();
+                                });
+                            }
+                        }
+
+
+                        $('.toggle-section a').on('click', function(){
+                            $(this).parent().children('ul').toggle();
+                        });
+
+                        $('.toggle-section strong').on('click', function(){
+                            $(this).parent().children('ul').toggle();
+                        });
+
+                        $('.notifications-action.marketplace-dropdown').toggle(
+
+                          function(){
+                            $(".marketplace-dropdown-menu").addClass("mis-notification");
+                          },
+                          function(){
+                            $(".marketplace-dropdown-menu").removeClass("mis-notification");
+                        });
+                    }
+                );
+            </script>
+            <script type="text/x-magento-init">
+                        {
+                            "*" : {
+                                    "preorderLink": ""
+
+                            }
+                        }
+                        </script>
+                        <script type="text/x-magento-init">
+                        {
+                            "*" : {
+                                    "profileLink": ""
+
+                            }
+                        }
+                        </script>
+                        <script type="text/x-magento-init">
+                        {
+                            "*" : {
+                                    "productAttributeLink": ""
+
+                            }
+                        }
+                        </script>
+                        <script type="text/x-magento-init">
+                        {
+                            "*" : {
+                                    "paymentOverviewLink": ""
+
+                            }
+                        }
+                        </script>
+        </div>
+        <!-- Not Used Menus Ends -->
+    </div>
+<?php
+} ?>
+
+<div id="mail-err" style="display: none;">
+    <p><?php echo __('Something went wrong.');?></p>
+</div>
+<div id="mail-send" style="display: none;">
+    <p><?php echo __('Your query has been sent successfully. myGermany will answer within 24-48 hours.');?></p> 
+</div>
+<script type="text/javascript">
+    var tabArray = [];
+    require([
+            "jquery"
+        ], function($){
+            $('.mp-push-notification').css('display','none');
+            setTimeout(function(){ 
+                console.log('mis-cookie-js');
+                $('.js-cookie-settings').on('click', function(){
+                    $('.modal-popup').each(function(){   
+                        if ($(this).hasClass('confirm') && $(this).hasClass('_show')) {
+                            $(this).addClass('mis-confirm');                           
+                        }
+                    });
+                }); 
+             }, 5000);
+    });
+</script>

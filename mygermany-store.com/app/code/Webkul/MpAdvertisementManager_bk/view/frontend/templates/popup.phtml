@@ -1,0 +1,66 @@
+<!-- 
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpAdvertisementManager
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */  
+-->
+<?php
+    $html = ''; 
+	$currentAds = $block->getCurrentAds();
+    $copyOfCurrentAds = $currentAds;
+    $sessionVal = $block->getSessionVal();
+    if (isset($sessionVal) && $sessionVal != null) {
+        unset($copyOfCurrentAds[$sessionVal]);
+        $random_key=array_rand($copyOfCurrentAds);
+        $block->setSessionVal($random_key);
+    } elseif ($sessionVal == 0) {
+        unset($copyOfCurrentAds[$sessionVal]);
+        $random_key=array_rand($copyOfCurrentAds);
+        $block->setSessionVal($random_key);
+    } else {
+        $random_key=array_rand($currentAds);
+        $block->setSessionVal($random_key);
+    }
+    $adsCount = count($currentAds);
+    $isOccupiedMessage = '';
+    if ($adsCount > 0 ) {
+        $isOccupiedMessage = __("this ad is already booked");
+    } else {
+        $isOccupiedMessage = __("this ad is open to book");
+    }
+    if (!$block->isAdsDemoEnabled()) {
+        if ($adsCount > 0) {
+             foreach ($currentAds as $key=>$currentAd) {
+                 if ($random_key == $key) {
+                    $html = '<a href="'.$currentAd['url'].'">
+                                <img style="height:300px;width:100%" src="'.$block->getMediaUrl().'webkul/MpAdvertisementManager/'.$currentAd['seller_id'].'/'.$currentAd['id'].'/'.$currentAd['image_name'].'"/>
+                            </a>';
+                 }
+             }
+        }
+    } else {
+        $html = '<div class="single-ad-container-demo">
+        <div class="single-ad-demo">
+            <div class="ads-demo-title"><h2>'.$block->getPositionLabel().'</h2></div>
+            <span class="ads-demo-text">'.$isOccupiedMessage.'</span>
+        </div>
+    </div>';
+    }
+?>
+
+<script id="ads-popup-html" type="text/x-magento-template">
+   <?php echo $html; ?>
+</script>
+
+<script type="text/x-magento-init">
+    {
+        "*":{
+            "adsPopup":{}
+        }
+    }
+</script>

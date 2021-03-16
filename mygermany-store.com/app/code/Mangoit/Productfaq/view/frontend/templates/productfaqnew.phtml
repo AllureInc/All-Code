@@ -1,0 +1,39 @@
+
+<?php
+    $sellerProducts = $block->getSellerProducts();
+
+ ?>
+<div class="mis_new_faq">
+    <h2 class="block-title"><?php echo __('New FAQ');?></h2>
+    <div class="mis_new_parent">
+        <form action="<?php echo $this->getUrl('faqs/product/save'); ?>" method="post" id="new_faq_form" data-mage-init='{"validation":{}}'>
+
+            <?php echo $block->getBlockHtml('formkey');?>
+
+            <div class="mis_fields required ">
+                <label class="label"><?php echo __('Product Name') ?></label>
+                <select name="product_id[]" multiple style="height: 100%" class="required-entry">
+                    <?php foreach ($sellerProducts as $key => $value): ?>
+                        <option value="<?php echo $value['value']?>"><?php echo $value['label']?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div class="mis_fields required ">
+                <label class="label"><?php echo __('Title/Question') ?></label>
+                <input type="text" placeholder="<?php echo __('Enter Title/Question') ?>" name="title" class="required-entry"/>
+            </div>
+
+            <div class="mis_fields required">
+                <label class="label"><?php echo __('Answer') ?></label>
+                <textarea rows="4" cols="50" placeholder="<?php echo __('Enter Answer') ?>" name="description" class="required-entry"></textarea>
+            </div>
+
+            <input type="hidden" name= "is_active" value="0" />
+
+            <button class="new_faq_submit" type="submit">
+                <span><?php  echo __('Save') ?></span>
+            </button>
+        </form>
+    </div>
+</div> 

@@ -1,0 +1,31 @@
+.seller-api-class-for-test{ 
+display: none;
+}
+.btn.btn-generate-token a {
+    color: #fff;
+}
+.copy-to-clipboard{
+    padding: 8px;
+    display: block;
+    border: 1px solid #ccc;
+    width: 70%;
+    height: 30px;
+    }
+.btn{
+    background-color: #fec10d !important;
+    color: white !important;
+    text-decoration: none;
+    height: auto;
+    width: auto;
+    margin: 10px;
+    font-size: 12px;
+}
+.btn:hover{
+    background-color: #323132 !important;
+    color: white !important;
+    text-decoration: none;
+    height: auto;
+    width: auto;
+    margin: 10px;
+    font-size: 12px; 
+}

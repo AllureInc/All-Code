@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Print Packaging Slip</title>
+    </head>
+    <update handle="customer_account"/>
+    <update handle="print" />
+    <body>
+        <referenceContainer name="content">
+            <block class="Mangoit\Orderdispatch\Block\Printslip" name="order_dispatch_print" template="Mangoit_Orderdispatch::printslip.phtml" />
+        </referenceContainer>
+    </body></page>

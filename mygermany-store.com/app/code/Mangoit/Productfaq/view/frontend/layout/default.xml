@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mangoit_Productfaq
+ *
+ * @category    Mangoit
+ * @package     Mangoit_Productfaq
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <link src="Ced_Productfaq::css/faq.css"/>
+    </head>
+</page>

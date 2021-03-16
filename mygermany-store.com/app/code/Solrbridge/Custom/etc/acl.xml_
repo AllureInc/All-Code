@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Solrbridge. All rights reserved.
+ * See LICENSE.txt for more details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Solrbridge_Custom::solrbridgecustom">
+                    <resource id="Solrbridge_Custom::solrbridgecustom_index_index"></resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

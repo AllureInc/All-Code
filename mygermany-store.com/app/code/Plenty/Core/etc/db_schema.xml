@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="plenty_core_auth" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="varchar" name="token_type" nullable="true" length="32"/>
+        <column xsi:type="varchar" name="expires_in" nullable="true" length="32"/>
+        <column xsi:type="longtext" name="access_token" nullable="true"/>
+        <column xsi:type="longtext" name="refresh_token" nullable="true"/>
+        <column xsi:type="text" name="license" nullable="true"/>
+        <column xsi:type="text" name="domain" nullable="true"/>
+        <column xsi:type="text" name="message" nullable="true"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="plenty_core_profile" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="varchar" name="name" nullable="true" length="32"/>
+        <column xsi:type="boolean" name="is_active" nullable="false"/>
+        <column xsi:type="varchar" name="entity" nullable="true" length="64"/>
+        <column xsi:type="varchar" name="adaptor" nullable="true" length="32"/>
+        <column xsi:type="varchar" name="crontab" nullable="true" length="16"/>
+        <column xsi:type="text" name="message" nullable="true"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="plenty_core_profile_config" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="profile_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="scope" nullable="false" length="8" default="default"/>
+        <column xsi:type="int" name="scope_id" padding="11" unsigned="false" nullable="false" identity="false" default="0"/>
+        <column xsi:type="varchar" name="path" nullable="false" length="255" default="general"/>
+        <column xsi:type="longtext" name="value" nullable="true"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_BFFB7379FB5D63A6D8D18F349BC8E719" table="plenty_core_profile_config" column="profile_id"
+                    referenceTable="plenty_core_profile" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_CORE_PROFILE_CONFIG_PROFILE_ID_SCOPE_SCOPE_ID_PATH">
+            <column name="profile_id"/>
+            <column name="scope"/>
+            <column name="scope_id"/>
+            <column name="path"/>
+        </constraint>
+    </table>
+    <table name="plenty_core_profile_history" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="profile_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="action_code" nullable="true" length="64"/>
+        <column xsi:type="varchar" name="status" nullable="true" length="16"/>
+        <column xsi:type="longtext" name="params" nullable="true"/>
+        <column xsi:type="text" name="message" nullable="true"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="processed_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_EC3BEBCD328171A8B2303BF761C57662" table="plenty_core_profile_history" column="profile_id"
+                    referenceTable="plenty_core_profile" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <index referenceId="PLENTY_CORE_PROFILE_HISTORY_PROFILE_ID" indexType="btree">
+            <column name="profile_id"/>
+        </index>
+    </table>
+    <table name="plenty_core_profile_schedule" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="profile_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="status" nullable="false" length="7" default="pending"/>
+        <column xsi:type="varchar" name="job_code" nullable="false" length="255" default="0"/>
+        <column xsi:type="longtext" name="params" nullable="true"/>
+        <column xsi:type="text" name="message" nullable="true"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="scheduled_at" on_update="false" nullable="true"/>
+        <column xsi:type="timestamp" name="executed_at" on_update="false" nullable="true"/>
+        <column xsi:type="timestamp" name="finished_at" on_update="false" nullable="true"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_6212763C713393C2C78CE106475C4900" table="plenty_core_profile_schedule" column="profile_id"
+                    referenceTable="plenty_core_profile" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <index referenceId="PLENTY_CORE_PROFILE_SCHEDULE_PROFILE_ID" indexType="btree">
+            <column name="profile_id"/>
+        </index>
+        <index referenceId="PLENTY_CORE_PROFILE_SCHEDULE_JOB_CODE" indexType="btree">
+            <column name="job_code"/>
+        </index>
+        <index referenceId="PLENTY_CORE_PROFILE_SCHEDULE_SCHEDULED_AT_STATUS" indexType="btree">
+            <column name="scheduled_at"/>
+            <column name="status"/>
+        </index>
+    </table>
+    <table name="plenty_core_config_source" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="entry_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="config_source" nullable="true" length="64"/>
+        <column xsi:type="longtext" name="config_entries" nullable="true"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="true"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="true"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="PLENTY_CORE_CONFIG_SOURCE_ENTRY_ID_CONFIG_SOURCE">
+            <column name="entry_id"/>
+            <column name="config_source"/>
+        </constraint>
+        <index referenceId="PLENTY_CORE_CONFIG_SOURCE_CONFIG_SOURCE" indexType="btree">
+            <column name="config_source"/>
+        </index>
+    </table>
+</schema>

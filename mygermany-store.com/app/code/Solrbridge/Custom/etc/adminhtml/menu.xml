@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Solrbridge. All rights reserved.
+ * See LICENSE.txt for more details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Solrbridge_Custom::solrbridgecustom" title="Solr Bridge Custom" module="Solrbridge_Custom" sortOrder="60" resource="Solrbridge_Custom::solrbridgecustom"/>
+        <add id="Solrbridge_Custom::solrbridgecustom_index_index" action="solrbridgecustom/index/index" title="Sample Manage" module="Solrbridge_Custom" parent="Solrbridge_Custom::solrbridgecustom" sortOrder="2" resource="Solrbridge_Custom::solrbridgecustom_index_index"/>
+    </menu>
+</config>

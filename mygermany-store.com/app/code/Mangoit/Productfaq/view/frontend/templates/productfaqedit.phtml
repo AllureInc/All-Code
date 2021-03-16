@@ -1,0 +1,35 @@
+
+<?php $sellerProducts = $block->getFaqDetails();
+$productName = $block->getLoadProduct($sellerProducts->getProductId());
+
+ ?>
+<div class="mis_new_faq">
+    <h2 class="block-title"><?php echo __('Edit Faq')?></h2>
+    <div class="mis_new_parent">
+        <form action="<?php echo $this->getUrl('faqs/product/save',['edit'=> true]); ?>" method="post" id="edit_faq_form" data-mage-init='{"validation":{}}'>
+
+            <?php echo $block->getBlockHtml('formkey');?>
+
+            <div class="mis_fields required ">
+                <label class="label"><?php echo __('Product Name') ?>:</label>
+                <input type="text" name="product_id" value="<?php echo $productName->getName() ?>" readonly/>
+            </div>
+
+            <div class="mis_fields required ">
+                <label class="label"><?php echo __('Title/Question') ?>:</label>
+                <input type="text" name="title" class="required-entry" value="<?php echo $sellerProducts->getTitle()?>" />
+            </div>
+
+            <div class="mis_fields required">
+                <label class="label"><?php echo __('Answer') ?>:</label>
+                <textarea rows="4" cols="50" name="description" class="required-entry"><?php echo $sellerProducts->getDescription()?></textarea>
+            </div>
+            <input type="hidden" name= "is_active" value="0" />
+            <input type="hidden" name= "id" value="<?php echo $sellerProducts->getId() ?>" />
+
+            <button class="edit_faq_submit" type="submit">
+                <span><?php  echo __('Save') ?></span>
+            </button>
+        </form>
+    </div>
+</div> 

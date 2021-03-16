@@ -1,0 +1,157 @@
+<?php 
+
+
+$currentInvoice = $this->getCurrentInvoiceData();
+$canceledOrder = $this->getCanceledOrder($currentInvoice->getCanceledOrderId());
+
+$date = $this->getHelper()->date->gmtDate('d.m.Y', $currentInvoice->getCreatedAt());
+$invoiceNumber = $currentInvoice->getInvoiceNumber();
+
+$sellerData = $this->marketplaceHelper->getSellerDataBySellerId($currentInvoice->getSellerId())->getData();
+$sellerData = $sellerData[0];
+$sellerName = $sellerData['name'];
+// echo "<pre>";
+// print_r($sellerData);die;
+// $statusesOpts = $this->getHelper()->getVendorInvoiceStatuses();
+
+?>
+
+<div class="page-actions">
+    <div class="page-actions-inner">
+        <div class="page-actions-buttons">
+            <button id="print" title="Print" type="button" class="action-default scalable print" onclick="setLocation('<?php echo $this->getUrl('*/*/download',['id' => $currentInvoice->getId()]); ?>')">
+                <span><?php echo __('Download PDF'); ?></span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="mits_vendor_invoice_main">
+    <div class="mits_invoce_actions">
+        
+    </div>
+    <div class="mits_invoice_tables">
+        <table style="width: 100%">
+            <tbody>
+                <tr>
+                    <td style="text-align: left;">
+                        <div style="color: grey;margin-bottom: 20px;">Gutschriftadresse</div>
+                        <br/> 
+                        <div>
+                            <div>
+                                <span>
+                                    <strong><?php echo $sellerData['shop_title'] ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo $sellerName ?></span></div>
+                            <div><span><?php echo $sellerData['company_locality'] ?></span></div>
+                            <div><span><?php echo __('Deutschland') ?></span></div>
+                            <br/>
+                            <div><span><?php echo __('SteuerNr %1', $sellerData['taxvat']) ?></span></div>
+                            <div><span><?php echo __('USTNr %1', $sellerData['taxvat']) ?></span></div>
+                            <div><span><?php echo __('Regisitrierungsnummer %1', $sellerData['seller_id']) ?></span></div>
+                            <div><span><?php echo __('Telefonnummer %1', $sellerData['contact_number']) ?></span></div>
+                        </div>
+                    </td>
+                    <td style="text-align: right;">
+                        <div>
+                            <div>
+                                <span>
+                                    <strong><?php echo __('myGermany GmbH') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo __('Nordstrasse 5') ?></span></div>
+                            <div><span><?php echo __('99427 Weimar') ?></span></div>
+                            <div><span><?php echo __('Deutschland') ?></span></div>
+                            <br/>
+                            <div>
+                                <span>
+                                    <strong><?php echo __('Steuernummer') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo __('162/114/05590') ?></span></div>
+                            <br/>
+                            <div>
+                                <span>
+                                    <strong><?php echo __('Umsatzsteuernummer') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo __('DE293153410') ?></span></div>
+                            <div style="width: 100%;display: inline-block;">
+                                <span style="
+                                    text-align:  right;
+                                    float:  right;
+                                ">.......................................................</span>
+                            </div>
+                            <br/>
+                            <div>
+                                <span>
+                                    <strong><?php echo __('Rechnungsnummer') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo $invoiceNumber ?></span></div>
+                            <br/>
+                            <div>
+                                <span>
+                                    <strong><?php echo __('Kundennummer') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo $sellerData['seller_id'] ?></span></div>
+                            <br/>
+                            <div>
+                                <span>
+                                    <strong><?php echo __('Ausstellungsdatum') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo $date ?></span></div>
+                            <br/>
+                            <!-- <div>
+                                <span>
+                                    <strong><?php //echo __('Rechnungsstatus') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php// echo $statusesOpts[$currentInvoice->getInvoiceStatus()] ?></span></div> -->
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="50%">
+                        <div style="width:95%;margin:30px auto;">
+                            <span style="font-size: 20px;">
+                                <strong><?php echo __('Cancel Invoice') ?></strong>
+                            </span>
+                        </div>
+                    </td>
+                    <td width="50%"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="data-table edit-order-table">
+            <thead>
+                <tr class="headings">
+                    <th class="col-product"><span><?php echo __('Bestelldatum/ Order Date'); ?></span></th>
+                    <th class="col-status"><span><?php echo __('Artikelname/ Product Name'); ?></span></th>
+                    <th class="col-price-original"><span><?php echo __('Bestellnummer/ Order ID'); ?></span></th>
+                    <th class="col-price"><span><?php echo __('Bestellung/ Order'); ?></span></th>
+                    <th class="col-ordered-qty"><span><?php echo __('Cancel Order Charge'); ?></span></th>
+                    <th class="col-subtotal"><span><?php echo __('Payment Method'); ?></span></th>
+                </tr>
+            </thead>
+            <tbody class="even">
+                <tr>
+                    <td><?php echo $this->getHelper()->date->gmtDate('d.m.Y', $canceledOrder->getCreatedAt()); ?></td>
+                    <td><?php echo $canceledOrder->getMageproName(); ?></td>
+                    <td><?php echo $canceledOrder->getMagerealorderId(); ?></td>
+                    <td><?php echo $block->getHelper()->getFormatedPrice($canceledOrder->getTotalAmount()+$canceledOrder->getTotalTax()); ?></td>
+                    <td><?php echo $block->getHelper()->getFormatedPrice($currentInvoice->getCancellationChargeTotal()); ?></td>
+                    <td><?php echo $currentInvoice->getCancellationPayMethod(); ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    window.setLocation = function (url) {
+        window.location.href = url;
+    };
+</script>

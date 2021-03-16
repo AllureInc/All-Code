@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="Mangoit\Sellerapi\Api\SellerCategoriesInterface" type="Mangoit\Sellerapi\Model\SellerCategories"/>
+	<preference for="Mangoit\Sellerapi\Api\SellerProductInterface" type="Mangoit\Sellerapi\Model\SellerProduct"/>
+	<preference for="Mangoit\Sellerapi\Api\SellersAttributesInterface" type="Mangoit\Sellerapi\Model\SellersAttributes"/>
+</config>

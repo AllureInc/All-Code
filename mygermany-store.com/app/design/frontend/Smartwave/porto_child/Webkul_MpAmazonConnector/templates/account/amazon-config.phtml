@@ -1,0 +1,163 @@
+<?php 
+/**
+ * @category   Webkul
+ * @package    Webkul_MpAmazonConnector
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c)  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */ 
+$tooltipHelper = $this->helper('Mangoit\MisTooltip\Helper\Data');
+$imgHelper = $this->helper('Webkul\Marketplace\Helper\Data');
+$section_id = 'amazon';
+$amazon_manage_account_tooltip_id = 'amazon_manage_account';
+$store_id = $tooltipHelper->getStoreId();
+$manageAccountTooltip = $tooltipHelper->getToolTipData($store_id, $section_id, $amazon_manage_account_tooltip_id);
+
+$sellerAmzDetail = $block->getSellerAmzDetail();
+$amzMarketlaces = $block->getAmzMarketplaces();
+$attributeSets = $block->getAttributeSets();
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+if ($helper->isSeller()){ ?>
+	<form action="<?php /* @escapeNotVerified */ echo $block->getConfigSaveAction() ?>" method="POST"  id="form-seller-config" data-mage-init='{"validation":{}}'>
+	<div class="wk-mp-design">
+		<fieldset class="info wk-mp-fieldset fieldset" id="amazon-config">
+			<legend class="legend">
+				<span><?php /* @escapeNotVerified */ echo __('Amazon Configuration') ?></span>
+				<button class="button wk-mp-btn" title="<?php /* @escapeNotVerified */ echo __('Save') ?>" type="submit" id="save-btn">
+					<span><span><?php /* @escapeNotVerified */ echo __('Save'); ?></span></span>
+				</button>
+			</legend>	
+			<span class="amazon_manage_account_tooltip">
+	            <?php if(count($manageAccountTooltip) > 0): ?>
+	                    <?php echo ( (count($manageAccountTooltip) > 0) ? $manageAccountTooltip[0]['tooltip_text'] : '');?>
+	            <?php endif; ?>
+	        </span>		
+			<?php /* @escapeNotVerified */ echo $block->getBlockHtml('formkey'); ?>
+			<div class="fieldset form-list" id="cust">
+				<div class="field required">
+					<label class="label"><?php /* @escapeNotVerified */ echo __('Amazon Marketplace') ?>: </label>
+
+					<div class="control">
+						<select class="required-entry input-text" name="marketplace_id" id="marketplace_id">
+							<option value=""><?php echo __('Select Amazon Marketplace')?></option>
+							<?php
+								foreach ($amzMarketlaces as $amzMpId => $amzMpName) { 
+									$selected = $amzMpId == $sellerAmzDetail->getMarketplaceId() ? 'selected="selected"' : '';
+									?>
+									<option <?php echo $selected ?> value="<?php echo $amzMpId ?>"><?php echo $amzMpName ?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="field required">
+					<label class="label"><?php /* @escapeNotVerified */ echo __('Attribute Set') ?>: </label>
+					<div class="control">
+						<select class="required-entry input-text" name="attribute_set" id="attribute_set">
+							<option value=""><?php echo __('Select Attribute Set')?></option>
+							<?php
+								foreach ($attributeSets as $attributeSet) { 
+									$selected = $attributeSet['value'] == $sellerAmzDetail->getAttributeSet() ? 'selected="selected"' : '';
+									?>
+									<option <?php echo $selected ?> value="<?php echo $attributeSet['value'] ?>"><?php echo $attributeSet['label'] ?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="field required">
+					<label class="label"><?php /* @escapeNotVerified */ echo __('Amazon Access key Id') ?>: </label>
+					<div class="control">
+						<input type="text" value="<?php /* @escapeNotVerified */ echo $sellerAmzDetail->getAccessKeyId()?>" class="required-entry input-text" name="access_key_id" id="access_key_id" />
+					</div>
+				</div>
+				<div class="field required">
+					<label class="label"><?php /* @escapeNotVerified */ echo __('Amazon Secret Key') ?>: </label>
+					<div class="control">
+						<input type="text" value="<?php /* @escapeNotVerified */ echo $sellerAmzDetail->getSecretKey()?>" class="required-entry input-text" name="secret_key" id="secret_key" />
+					</div>
+				</div>
+				<div class="field required">
+					<label class="label"><?php /* @escapeNotVerified */ echo __('Amazon Seller Id') ?>: </label>
+					<div class="control">
+						<input type="text" value="<?php /* @escapeNotVerified */ echo $sellerAmzDetail->getAmzSellerId()?>" class="required-entry input-text" name="amz_seller_id" id="amz_seller_id" />
+					</div>
+				</div>
+				<div class="field required">
+					<label class="label"><?php /* @escapeNotVerified */ echo __('Revise Amazon Product') ?>: </label>
+					<div class="control">
+						<select name="revise_item">
+							<option value="0"><?php echo __('Yes') ?></option>
+							<option value="1" <?php if($sellerAmzDetail->getReviseItem()) { echo 'selected=selected';} ?>><?php echo __('No') ?></option>
+						</select>
+					</div>
+					<small><?php echo __('Revise amazon product on product update.') ?></small>
+				</div>
+				<div class="field required">
+					<label class="label"><?php /* @escapeNotVerified */ echo __('Default Category') ?>: </label>
+					<div class="control">
+						<select class="required-entry input-text" name="default_cate" id="default_cate">
+						<option value=""><?php echo __('Select Default Category')?></option>
+						<?php
+							foreach ($block->getCategoryList() as $cate) { 
+								$selected = $cate['value'] == $sellerAmzDetail->getDefaultCate() ? 'selected="selected"' : '';
+								?>
+								<option <?php echo $selected ?> value="<?php echo $cate['value'] ?>"><?php echo $cate['label'] ?></option>
+						<?php } ?>
+					</select>
+					<small><?php echo __('Amazon product will be assigned on default category.') ?></small>
+					</div>
+				</div>
+				<div class="field required">
+					<label class="label"><?php /* @escapeNotVerified */ echo __('Product Create') ?>: </label>
+					<div class="control">
+						<select class="required-entry input-text" name="product_create" id="product_create">
+						<option value=""><?php echo __('Select')?></option>
+						<?php
+							foreach ($block->getProductOpeation() as $opt) { 
+								$selected = $opt['value'] == $sellerAmzDetail->getProductCreate() ? 'selected="selected"' : '';
+								?>
+								<option <?php echo $selected ?> value="<?php echo $opt['value'] ?>"><?php echo $opt['label'] ?></option>
+						<?php } ?>
+					</select>
+					<small><?php echo __('Opted option will be used for product create at magento.') ?></small>
+					</div>
+				</div>
+				<div class="field required">
+					<label class="label"><?php /* @escapeNotVerified */ echo __('Default Product Qty') ?>: </label>
+					<div class="control">
+						<input type="text" value="<?php /* @escapeNotVerified */ echo $sellerAmzDetail->getDefaultProQty()?>" class="required-entry input-text" name="default_pro_qty" id="default_pro_qty" />
+						<small><?php echo __('Default qty will be used, when api response does not return item qty.') ?></small>
+					</div>
+				</div>
+				<div class="field required">
+					<label class="label"><?php /* @escapeNotVerified */ echo __('Default Product Weight') ?>: </label>
+					<div class="control">
+						<input type="text" value="<?php /* @escapeNotVerified */ echo $sellerAmzDetail->getDefaultProWeight()?>" class="required-entry input-text" name="default_pro_weight" id="default_pro_weight" />
+						<small><?php echo __('Default weight will be used, when api response does not return item weight.') ?></small>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+	</div>
+</form><br/>
+<div class="buttons-set">
+	<p class="back-link">
+		<a href="javascript:;" onclick="javascript: window.history.back();" class="left">&laquo; <?php /* @escapeNotVerified */ echo __('Back') ?></a>
+	</p>
+</div>
+<?php } else { ?>
+<h3><?php /* @escapeNotVerified */ echo __('Not a Seller.')?></h3>
+<?php } ?>
+<script type="text/javascript">
+require(['jquery'],function(jQuery){
+	jQuery(window).on('scroll', function(){
+		var offsettop = jQuery('#form-seller-config').offset().top;
+		var isActive = (jQuery(window).scrollTop() > offsettop);
+
+		if (isActive) {
+	        jQuery('#form-seller-config legend.legend').addClass('wk-mp-fixed');
+	    } else {
+	        jQuery('#form-seller-config legend.legend').removeClass('wk-mp-fixed');
+	    }
+	});
+});
+</script>

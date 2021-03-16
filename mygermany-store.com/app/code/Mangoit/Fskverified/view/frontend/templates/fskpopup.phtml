@@ -1,0 +1,104 @@
+<script type="text/javascript">
+    require(["jquery","vesallFancybox"], function ($) {
+        var firstAjaxResponse = 'null';
+    	var fsk = "<?php echo $this->getCategoryId(); ?>";
+        // console.log("fsk:"+fsk);
+    	var productId = "<?php echo $this->getProductId(); ?>"; 
+    	// var userIp = '192.168.168.31';
+    	// var userIp = '192.168.168.32';
+
+    	var userIp = "<?php echo $this->getFskUserIp(); ?>";
+
+    	// console.log("userIp: "+userIp);
+    	// console.log("productId: "+productId);
+        var currentdate = new Date(); 
+        var datetime = "Now: " + currentdate.getDate() + "/"
+                    + (currentdate.getMonth()+1)  + "/" 
+                    + currentdate.getFullYear() + " @ "  
+                    + currentdate.getHours() + ":"  
+                    + currentdate.getMinutes() + ":" 
+                    + currentdate.getSeconds();
+        // console.log('currentdate: '+datetime);
+
+		console.log('fsk not available'+fsk);
+		if(fsk == 1){
+			// console.log("fancy box");
+		    $(window).load(function(){
+                var ajaxfskurl = "<?php echo $this->getUrl('fskverified/fsk/Firstfskagreed') ?>";
+                //console.log(userIp);
+                $.ajax({
+		    				type: "POST",
+		    			    data : {ip:userIp, product:productId},
+		    			    async : true,
+   							url: ajaxfskurl,
+   							success: function (response) {//response is value returned from php (for your example it's "bye bye"
+   							    console.log('current date: '+currentdate);
+     						    firstAjaxResponse = response;
+                                console.log('firstAjaxResponse: '+firstAjaxResponse);
+     						     if (firstAjaxResponse == 'first') {
+							    	$.fancybox({
+							            'padding': '0px',
+							            'autoScale': true,
+							            'closeBtn' : false,
+							            'transitionIn': 'fade',
+							            'transitionOut': 'fade',
+							            'type': 'inline',
+							            'href': '#fskPopUp',
+							            'onComplete': function() {
+
+							                $.cookie('fskPopUp', 'shown');
+							            },
+							            'helpers': {
+							                overlay: {
+							                	closeClick: false,
+							                    locked: false
+							                }
+							            }
+							        });
+
+					             }
+   						    },
+   						    error: function (response) {
+   						    	alert(response);
+   						    }
+					});           
+
+		    	$("#yes").click(function(){
+		    		var ajaxurl = "<?php echo $this->getUrl('fskverified/fsk/save') ?>";
+		    		$.ajax({
+		    				type: "POST",
+		    			    data : {ip:userIp, product:productId},
+		    			    async : true,
+   							url: ajaxurl,
+   							success: function (response) {//response is value returned from php (for your example it's "bye bye"
+     						    // alert(response);
+   						    },
+   						    error: function (response) {
+   						    	// console.log(response);
+   						    	// alert(response);
+   						    }
+					});
+		    		// $.cookie("fsk", "1", { expires: 1 });
+	                $.fancybox.close();
+	            });
+
+	            $("#no").click(function(){
+	            	if (history.length > 1) {
+	                    history.go(-1);	            		
+	            	} else if (confirm("<?php echo __('Do you really want to exit?')?>")) {
+                        window.close();
+	            	}
+	            	console.log("no clicked");
+	            });
+
+
+		    });		
+	    }
+	});
+    
+</script>
+<div id="fskPopUp" style="display: none;">
+	<p><?php echo __('The following contents could irritate you /contain violent /erotic content.')?></p>
+	<input type="button" name="agree" id="yes" value="<?php echo __('I Agree');?>">
+	<input type="button" name="disagree" id="no" value="<?php echo __('Exit');?>">
+</div>

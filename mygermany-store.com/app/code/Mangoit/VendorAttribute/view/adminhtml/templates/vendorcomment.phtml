@@ -1,0 +1,54 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$sellerCollection = $objectManager->create('Mangoit\Vendorcommission\Helper\Data')->getSellerComment();
+$orderId = $block->getOrder()->getIncrementId();
+?>
+<div id="order_history_block" class="edit-order-comments">
+        <div class="admin__field">
+        <?php 
+            $filteredCollection = $sellerCollection->getCollection()->addFieldToFilter('order_id',['eq' => $orderId]);
+            if ($filteredCollection->getSize() >= 1) { 
+
+        ?>
+                <label  class="admin__field-label"><?= /* @noEscape */ __('Comments by vendor') ?></label>
+
+       <?php  } else { 
+        ?>
+                <label  class="admin__field-label"><?= /* @noEscape */ __('No Comments by vendor') ?></label>
+           <?php } 
+           ?>
+        
+    </div>
+    <ul class="note-list">
+    <li class="note-list-item">
+
+    <?php 
+
+        
+        if ($filteredCollection->getSize() >= 1) {  
+            foreach ($filteredCollection->getData() as $key => $value) {
+            $commentDate = $value['created_on'];
+            $commentName = $value['seller_name'];
+            $commentUser = $value['comment'];   ?>
+
+            <ul class="note-list">
+            <li class="note-list-item">
+            <span class="note-list-date"><?php echo $commentDate; ?></span>
+            <span class="note-list-status"><?php echo $commentName; ?></span>
+            <div class="note-list-comment"><?php echo $commentUser; ?></div>
+            </li>
+            </ul>
+
+        <?php }
+         }
+        ?>
+</div>
+
+
+     

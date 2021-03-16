@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+	<head>
+        <title>Vendor Canceled Order Invoice</title>
+    </head> 
+	<body>
+        <referenceContainer name="content">
+            <block class="Mangoit\VendorPayments\Block\Adminhtml\View" name="vendorpayments_block_adminhtml_invoice_canceled_view"  template="Mangoit_VendorPayments::admin_canceled_invoice_view.phtml" />
+        </referenceContainer>
+    </body>
+</page>

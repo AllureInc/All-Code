@@ -1,0 +1,2262 @@
+"Your Checkout Progress", "Checkout Progress"
+"Card Verification Number", "CVV"
+"Items %1-%2 of %3","%3 items"
+"Regular Price", "was"
+"Shop By","Filter"
+"Remove item", "Remove"
+"Proceed to Checkout", "Go to Checkout"
+"Grand Total", "Estimated Total"
+"Review by", "By"
+"View Order", "View"
+"Update Shopping Cart", "Update Cart"
+"Print Order", "Print"
+"Move to Wish List","Move"
+"Copy to Wish List","Copy"
+"Move Selected to Wish List", "Move Selected"
+"Copy Selected to Wish List", "Copy Selected"
+"%1 items in wish list", "%1 items"
+"1 item in wish list", "1 item"
+"Continue to Shipping Information", "Select Shipping Method"
+Installed,Instalado
+Update available,Actualización disponible
+Output disabled,Salida desactivada
+Magento Mode,Modo Magento
+Magento Path,Ruta Magento
+Current Time,Hora actual
+Server User,Usuario del servidor
+No cron jobs found,No encontrado cron jobs
+Learn more,leer más
+Amasty Extensions,Extensiones amasty
+Extensions &amp; Notifications,Extensiones &amp; notificaciones
+Installed Extensions,Extensiones instaladas
+System Information,Información del sistema
+Last Imported: ,Última importación
+Download and Import,Descarga e importación
+Download,Descarga
+Import,Importación 
+Completed,Completo
+Geo Ip Data,Datos Geo IP
+Country, país
+Currency,Moneda
+Url,URL
+--Please Select--, - elige -
+All Except Specified URLs,Todas excepto las URL especificadas
+Specified URLs,URL especificadas
+Redirect From Home Page Only,Redirecciónar solo desde la página de inicio
+GeoIp Redirect,Geo IP redirect
+General,General
+Enable GeoIP Redirect,habilitar Geo IP redirect
+General setting affecting all rules,Configuraciones generals que afectan a todas las reglas
+Restriction,Restricción
+Apply Logic To,Aplicar lógica a
+Accepted URLs,URL aceptadas
+Excepted URLs,URL exceptuadas
+User Agents to Ignore,Agentes de usuario a ignorar
+First visit redirect only,Primera visita redireccionar sólo
+Redirect Between Websites,Redireccionar entre los sitios web
+Affected Countries,Países afectados
+ | Page %1,I página %1
+General Settings,Ajustes generales
+Enable Redirect from 404 to Search Results,Habilitar la redirección desde 404 a los resultados de búsqueda
+Pager Optimization,Optimización de pager
+Add Page Number to Meta Title,Añadir número de página a Meta título
+Add Page Number to Meta Description,Añadir número de página a Meta descripción
+Save and Continue Edit,Guardar y seguir editando
+Edit Item `%1`,editar objeto 
+Add new Item,Añadir nuevo artículo
+Blog Pages,Páginas del blog
+Include Blog Pages,Incluir páginas del blog
+Priority,Prioridad
+Frequency,Frecuencia
+Categories,Categorías
+Include categories,Incluir categorías
+Add Images,Añadir imágenes
+General,General
+Name,Nombre
+Stores,Tiendas
+Max File Size (kB),Tamaño máximo del archivo 
+Exclude URLs,Excluir las URL
+Pages,Páginas
+Products,Productos
+Include products,Incluir productos
+Add Images Titles,Añadir títulos de imágenes
+Record does not exist,No existe registro
+Item has been successfully deleted,artículo se ha eliminado con éxito
+Sitemap was successfully duplicated, mapa del sitio se duplicó con éxito
+Table Rates,tabla de tarifas
+Add Item,Añadir elemento
+Item does not exist,El artículo no existe
+Items(s) were successfully deleted,Los objectos se han eliminado con éxito
+Sitemap has been saved,El mapa del sitio ha sido guardado
+Profile was successfully saved,Perfil se ha guardado con éxito
+Unable to find item to save,No puede encontrar el artículo que desea guarder
+always,Siempre
+hourly,Horario
+daily,Diario
+weekly,Semanal
+monthly,Mensual
+yearly,Anual
+never,Nunca
+With time,Con tiempo
+Without time,Sin tiempo
+We can't save the cron expression.,No podemos guarder la expresión cron
+Please define correct path,"Por favor, defina la ruta correcta"
+Generate,Generar
+Duplicate,Duplicar
+Edit,Editar
+Start Time,Hora de comienzo
+Sitemap Configuration,Configuración del mapa del sitio
+Add Sitemap,Añadir mapa del sitio
+Store View,Vista del tienda
+Delete items,Eliminar artículos
+Delete selected items?,¿Eliminar artículos seleccionados?
+Delete,Eliminar
+ID,ID
+Title,Título
+Path,Ruta
+Url,URL
+Generated At,Generado en
+Are you sure you want to do this?,¿estás seguro de que quieres hacer esto?
+Clear Index,Borrar índica
+Start Optimization Process,Iniciar el proceso de optimización
+Clear index operation completed successfully.,Operación de borrar índice completada con éxito
+Clear index operation failed.,Fallo en la operación de limpieza del índice.
+Scan and reindex operations completed successfully.,Operaciones de escaneo y reindexación completadas con éxito
+Info,Info (Información)
+Image Optimizer,Optimizador de imagen
+About,Sobre
+General,General
+Enabled,Activado
+Enables or disables extension.,Activa o desactiva la extensión
+Batch Size,Tamaño del lote
+Number of images to be optimized per request.,Número de imágenes a optimizer por solicitud
+Paths,Rutas
+Paths to be scanned for images.,Rutas a escanear en busca de imágenes/ para imágenes
+Cron,Cron
+Utility,Utilidad
+GIF Utility,Utilidad GIF
+JPG Utility,Utilidad JPG
+Optimization utility for .jpg files.,Utilidad de optimización para archivos .jpg
+PNG Utility,Utilidad PNG
+Optimization utility for .png files.,Utilidad de optimización para archivos .png
+Options for optimization of .png files.,Opciones para la utilidad de optimización para archivos .png
+Add New Category,Añadir nueva categoría
+Are you sure you want to do this?,¿Estás seguro de que quieres hacer esto?
+Start Import,Iniciar importación
+"Search ""%1""",Buscar “%1”
+Recent Blog Posts,Entradas recientes en el blog
+Manage %1,Administrar %1
+Edit %1,Editar %1
+New %1,Nuevo %1
+Create %1,Crear %1
+%1 has been saved.,% se ha guardado
+Something went wrong while saving this %1. %2,Algo salió mal mientras guardaba esto %1. %2
+We can't delete %1 right now. %2,No podemos eliminar esto/ %1 ahora mismo. %2
+%1 have been deleted.,% se han eliminado
+Please select,"Por favor, elige"
+Related posts,Entradas parecidas
+Posted:,Publicado
+Categories:,Categorías
+Tags:,Etiquetas
+Author:,Escritor:
+We can't find posts matching the selection.,No podemos encontrar entradas que coincidan con la selección
+Read more &#187;,Leer más &#187
+See more,Ver más
+Read %1,Leer %1
+&larr; Previous,&larr; anterior
+Next &rarr;,Próximo &rarr
+Related Posts,Entradas parecidas
+Archive,Archivo
+Archive %s,Archivo %s
+Recent Posts,Entradas recientes
+Default value,valor predeterminado
+Add Fields,Añadir campos
+label,Placa
+'label ' .,‘placa’
+Choose default payment method,Elige una vía de pago por defecto
+%1 [%2],%1 [%2]
+No title [%1],Ningún título
+"You used coupon code ""%1"".",Usó el código de cupón “%1”
+"The coupon code ""%1"" is not valid.",El código de cupón no es válido
+You canceled the coupon code.,Cancelaste el código de cupón
+I have a different billing address,Tengo una dirección de facturación diferente.
+Edit,Editar
+Save in address book,Guardar en la libreta de direcciones
+Billing Address,Dirección de facturación
+Order Comment,Comentario del pedido
+Place Order Now,Realizar pedido ahora
+Ship here:,Enviar aquí
+Add new shipping address,Añadir nueva dirección de envío
+Add to address list,Añadir a la lista de direcciones
+Apply,Aplicar
+Payment Methods,Formas de pago
+Please accept terms & conditions,"Por favor, acepte las políticas generales)"
+Customer comments field,Campo de comentarios de los clientes
+Enable comments ,Habilitar comentarios
+Shopping Cart,Cesta 
+City,Ciudad
+Country,País
+State/Province,Estado/Provincia
+Zip/Postal Code,Código postal
+My Cart (1 item),Mi cesta (1 artículo)
+My Cart (%1 items),Mi cesta (%1 artículos)
+My Cart,Mi cesta
+For delivery questions.,Para preguntas de entrega
+Customer is already registered,El cliente ya está registrado
+Your session has expired,Tu sesión ha finalizado.
+A letter with further instructions will be sent to your email.,Una carta con más instrucciones será enviada a su correo eletrónico
+You used coupon code %1.,Usó el código de cupón %1.
+The coupon code %1 is not valid.,El código de cupón no es válido
+You canceled the coupon code.,Cancelaste el código de cupón
+We cannot apply the coupon code.,No podemos aplicar el código de cupón.
+We can't remove the item.,No podemos eliminar el artículo.
+%1 was updated in your shopping cart.,%1 fue actualizado en su cesta
+We can't update the item right now.,No podemos actualizar el artículo ahora mismo.
+We can't update the shopping cart.,No podemos actualizar la cesta
+One-page checkout is turned off.,proceso de pago de una página está desactivado.
+Guest checkout is disabled.,El pago de invitados está desactivado.
+Checkout,Proceso de pago
+Page not found.,Página no encontrada.
+Please agree to all the terms and conditions before placing the order.,"Por favor, acepte los términos y condiciones antes de
+ realizar el pedido/ hacer el pedido?"
+Something went wrong while processing your order. Please try again later.,"Algo salió mal mientras procesaba su pedido. Por favor, inténtelo de nuevo más tarde."
+Payment Method,Forma de pago
+Payment Page,Página de pago
+We can't find the product.,No podemos encontrar el producto.
+We found an invalid request for adding product to quote.,Encontramos una solicitud inválida para añadir un producto a la cotización.
+The product does not exist.,El producto no existe.
+We don't have some of the products you want.,No tenemos algunos de los productos que usted desea.
+We don't have as many of some products as you want.,No tenemos tantos productos como usted desea.
+Quantity was recalculated from %1 to %2,La cantidad se ha recalculado de %1 a %2
+We adjusted product quantities to fit the required increments.,Hemos ajustado las cantidades de productos para que se ajusten a los incrementos requeridos.
+This quote item does not exist.,Este artículo mencionado no existe.
+An error occurred on the server. Please try to place the order again.,"Se ha producido un error en el servidor. Por favor, intente realizar el pedido de nuevo."
+Shipping address is not set,La dirección de envío no está configurada
+Unable to save shipping information. Please check input data.,"No se puede guardar la información de envío. Por favor, compruebe los datos de entrada."
+Shipping method is not applicable for empty cart,El método de envío no es aplicable para la cesta vacía
+ item,Artículo
+ items,Artículos
+Totals calculation is not applicable to empty cart,El cálculo de los totales no es aplicable a la cesta vacía
+Invalid data,Datos inválidos
+The customer address is not valid.,La dirección del cliente no es válida. /es inválida
+Invalid shipping method,Método de envío inválido
+There are more than one shipping addresses.,Hay más de una dirección de envío.
+Sorry,Lo sentimos
+You must confirm your account. Please check your email for the confirmation link or <a href=%1>click here</a> for a new link.,"Debe confirmar su cuenta. Por favor, revise su correo electrónico para ver el enlace de confirmación o <a href=%1> haga clic </a> aquí para ver un nuevo enlace."
+Load customer quote error,Error al cargar la oferta del cliente
+Error message!,¡Mensaje de error!
+Error!,¡Error!
+Message,Mensaje/ notificación (je nach Zusammenhang)
+Print receipt,Imprimir recibo
+Apply Discount Code,Aplicar código de descuento
+Enter discount code,Introduzca el código de descuento
+Apply Discount,Aplicar descuento
+Cancel Coupon,Cancelar cupón
+Shopping Cart Items,Artículos de la cesta
+Item,Artículo
+Price,Precio
+Qty,Cantidad
+Subtotal,Subtotal
+Continue Shopping,Seguir comprando
+Clear Shopping Cart,vaciar la cesta
+Update Shopping Cart,Actualizar la cesta
+Update Cart,Actualizar la cesta
+See price before order confirmation.,Ver precio antes de la confirmación del pedido.
+Edit item parameters,Editar las características de los artículos
+Edit,Editar
+Remove item,Eliminar artículo
+You have no items in your shopping cart.,Usted no tiene artículos en su cesta.
+Click <a href=%1>here</a> to continue shopping.,Clic <a href=%1>aquí </a> para continuar comprando.
+Estimate Tax,Estimado de IVA
+Estimate Shipping and Tax,Estimado de los gastos de envío e IVA
+Excl. Tax,Excl. IVA
+Loading...,Cargando...
+Order #,Pedido #
+Proceed to Checkout,"Comenzar pedido/
+ Continuar proceso de pago"
+Product Name,Nombre del producto /del artículo
+Incl. Tax,Incl. IVA
+Your order number is: %1.,Su número de pedido es: %1
+Your order # is: <span>%1</span>.,Su pedido # es: <span>%1</span>.
+We'll email you an order confirmation with details and tracking info.,Le enviaremos por correo electrónico una confirmación del pedido con detalles e información de seguimiento.
+Payment Transaction Failed Reminder,Recordatorio: Fallo en la operación de pago
+Payment Transaction Failed,Fallo en la operación de pago
+Reason,Razón
+Checkout Type,Forma de pago
+Customer:,Cliente:
+Items,Artículos
+Total:,Total:
+Billing Address:,Dirección de facturación:
+Shipping Address:,Dirección de envío:
+Shipping Method:,Método de envío:
+Payment Method:,Forma de pago
+Date & Time:,Fecha y hora:
+Sign In,Iniciar sesión
+Email Address,Correo electrónico
+Password,Contraseña
+Forgot Your Password?,¿Ha olvidado su contraseña?
+My billing and shipping address are the same,Mi dirección de facturación y de envío son las mismas
+Update,Actualización /actualizar
+Cancel,Cancelar
+Save in address book,Guardar en la agenda (de direcciones)
+Estimated Total,Importe total estimado
+You can create an account after checkout.,Puede crear una cuenta después de la compra.
+You already have an account with us. Sign in or continue as guest.,Usted ya tiene una cuenta con nosotros. Inicie sesión o continúe como invitado.
+Login,Iniciar sesión
+See Details,Ver detalles
+Options Details,Detalles de las opciones
+Remove,Eliminar
+Cart Subtotal,Subtotal de la cesta
+Payment Information,Información de pago
+No Payment method available.,No hay método de pago disponible.
+You can track your order status by creating an account.,Puede seguir el estado de su pedido creando una cuenta.
+Place Order,Realizar/hacer pedido
+Forgot an Item?,¿Olvidó un artículo?
+Edit Your Cart,Edite su cesta
+Ship here:,Envía aquí:
+Ship To:,Envía aquí:
+edit,editar
+Order Summary,Resumen del pedido
+View and Edit Cart,Ver y editar la cesta
+View Details,Ver detalles
+Field ,Casilla (Formular)
+ is required.,es necesario.
+Provided Zip/Postal Code seems to be invalid.,Código postal (CP) especificado no sea valido.
+ Example: ,Ejemplo:
+If you believe it is the right one you can ignore this notice.,"Si usted cree que es el correcto, puede ignorar este aviso."
+New Address,Nueva dirección
+Are you sure you would like to remove this item from the shopping cart?,¿Está seguro de que desea eliminar este artículo de la cesta?
+Review & Payments,Revisión y pagos
+Select a new payment method,Envío
+Shipping,Seleccione un nuevo método de pago
+Save Address,Guardar dirección
+Please specify a shipping method.,"Por favor, especifique un método de envío."
+Checkout Options,"Formas de pago (für Übersetzung: Zahlungsoptionen)
+ Ansonsten: opciones de pago"
+Enable Onepage Checkout,Activar Onepage Checkout
+Allow Guest Checkout,Permitir pago de invitado
+Display Billing Address On,Visualizar dirección de facturación activada
+Maximum Number of Items to Display in Order Summary,Número máximo de artículos a visualizar en el resumen del pedido
+Quote Lifetime (days),Período de licitación
+After Adding a Product Redirect to Shopping Cart,"Después de añadir un producto, redireccionarlo a la cesta de la compra."
+Number of Items to Display Pager,Número de artículos para mostrar pager
+My Cart Link,Enlace a mi cesta 
+Display Cart Summary,Mostrar el resumen de la cesta
+Shopping Cart Sidebar,Barra lateral de la cesta
+Display Shopping Cart Sidebar,Mostrar barra lateral de la cesta
+Number of Items to Display Scrollbar,Número de elementos/artículos (Zusammenhang) para mostrar
+Maximum Number of Items to Display,Número máximo de artículos a mostrar
+Payment Failed Emails,Fallos en el pago por correo electrónico
+Payment Failed Email Sender,"Fallos en el pago por correo electrónico remitente
+ (Abk. Rte)"
+Payment Failed Email Receiver,Fallos en el pago por correo electrónico destinatario
+Payment Failed Template,Pago fallido patrón
+Email template chosen based on theme fallback when Default option is selected.,La modelo de correo electrónico elegida se basa en el tema fallback cuando se selecciona la opción predeterminado.
+Send Payment Failed Email Copy To,Enviar copia de correo electrónico de pago fallido a
+Separate by ,Separar por
+Send Payment Failed Email Copy Method,Modelo de enviar copia de correo electrónico de pago fallido a
+Summary,Resumen
+Order Total,Total del pedido
+Shipping Address,Dirección de envío
+We'll send your order confirmation here.,Le enviaremos la confirmación de su pedido aquí.
+Payment,Pago
+Not yet calculated,Aún no calculado
+We received your order!,¡Hemos recibido su pedido!
+Thank you for your purchase!,¡Gracias por su compra!
+ optional,Opcional
+Delete Personal Data,Eliminar datos personales
+Send Deletion link To Customer,Enviar enlace de borrado al cliente
+Export GDPR Data,Exportar datos de GDPR
+Are you sure you want to do this?,¿Estás seguro de que quieres hacer esto?
+Privacy Policy Consent,Consentimiento de la declaración de privacidad
+No customer ID provided.,No se ha especificado ningún número de cliente.
+"The account has been successfully deleted, and all orders have been anonymised.","La cuenta ha sido borrada con éxito, y todos los pedidos han sido anonimizados."
+Deletion and Anonymisation link has been successfully sent to the customer.,El enlace de borrado y anonimización se ha enviado con éxito al cliente.
+All selected orders have been successfully anonymised.,Todos los pedidos seleccionados han sido anonimizados con éxito.
+Delete Account,Eliminar Cuenta
+Bottom,"Parte inferior
+ (auch möglich: abajo)"
+Top,Parte superior (auch möglich: arriba)
+Could not save the consent: %1,No se pudo guardar el consentimiento: %1
+Unable to remove choice: %1,No se puede eliminar la opción: %1
+Requested consent doesn't exist,No existe el consentimiento solicitado
+Privacy Policy,Declaración de privacidad
+Consent already exists,El consentimiento ya existe
+Male,Masculino
+Female,Femenino
+Cookie Policy,Política sobre cookies
+Accept,Aceptar
+Decline,Rechazar
+Delete my account,Eliminar mi cuenta
+Sign Up for Our Newsletter:,Suscríbase a nuestro boletín (de noticias):
+Enter your email address,Introduce su e-mail
+Subscribe,Suscríbese
+Privacy Policy Consents,Consentimiento de la declaración de privacidad
+Scommerce Configuration,Configuración Scommerce
+GDPR,GDPR
+General,General
+Enabled,Activado
+Enable Customer Account Deletion / Anonymisation,Activar el borrado / anonimato de cuentas de clientes
+Attention message,Mensaje de atención
+Success message,Mensaje de éxito
+Email Sender,Remitente de E-Mail
+Order anonymisation after (days),Anonimización del pedido después de (días)
+Privacy Settings,Configuraciones de privacidad
+Enable privacy setting,Activar configuraciones de privacidad
+created_at,creado_en
+Created At,Creado en
+updated_at,actualizado_en
+Updated At,Actualizado en
+ID,ID
+Email,E-Mail o: correo electrónico
+Website,Sitio web
+Source,Origen
+Remote Ip,IP remota
+Not use,No usar
+Latest,Úlitmo
+New Arrival,Nueva llegada
+Special,Especial
+Most Popular,Más popular
+Best Seller,Bestseller
+Top Rated,Mejor valorado
+Random,Aleatorio
+Featured,Destacado
+Title,Título
+Image,Imagen
+Category,Categoría
+Class,"Tipo,
+ Clase (Im Sinne von: Sorte)"
+Position,Posición
+Change Image,Cambiar imagen
+Select Image,Seleccionar imagen
+Remove Image,Eliminar imagen
+WYSIWYG Editor,WYSIWYG Editor
+Source for Tab,Origen de la ficha
+Ajax,Ajax
+Disconnect,Desconectar
+Use Code: ,Usar código:
+Day,Día
+Hours,Horas
+Mins,"Minuto
+ Abkürzung: m"
+Secs,"Segundo
+ Abkürzung: s"
+Expired,Expirado
+Prev,Anterior (gibt keine Abk.)
+Next,Siguiente
+View all,Ver todo
+End Date: ,Fecha final:
+New,Nuevo
+Learn More,Descubra más
+Hurry up! Offer ends in:,¡Deprisa! La oferta termina en:
+days,Días
+hrs,"Horas
+ (Abk.: h)"
+mins,m
+secs,s
+Add to Cart,Añadir a la cesta
+In stock,En almacén
+Out of stock,Agotado
+Add to Wish List,Añadir a la lista de deseos
+Add to Compare,Agregar para comparar
+Sign Up for Our Newsletter:,Suscríbase a nuestro boletín (de noticias):
+Enter your email address,Inserte su dirección de correo electrónico/ e-mail
+Subscribe,Suscríbese
+Sign up now !,¡Regístrese ahora!
+Pin It,fijarlo
+Complete (success),Completo (éxito)
+Complete,Completo
+Complete (danger),Completo (peligro)
+Review by ,"Evaluación por
+ (amazon: opiniones de clientes)"
+Posted on ,Publicado en
+Shopping Cart,Cesta
+Show Large Image,Mostrar imagen grande
+Sale,venta 
+Pinterest,Pinterest
+Google Plus,Google Plus
+Youtube,Youtube
+Skype,Skype
+Vimeo,Vimeo
+Instagram,Instagram
+Linkedin,Linkedin
+Amazon,Amazon
+Weibo,Weibo
+Reddit,Reddit
+Vine,Vine
+Whatsapp,Whatsapp
+Foursquare,Foursquare
+Dribbble,Dribbble
+Behance,Behance
+Delicious,Delicious
+Slideshare,Slideshare
+Steam,Steam
+Yelp,Yelp
+Flickr,Flickr
+Share on Facebook,Compartir en Facebook
+Share Facebook,Compartir en Facebook
+Share on Twitter,Compartir en Twitter
+Google,Google
+Tweets by,Tweets de
+Error,Error
+Export,"(Verb: exportar
+ Substantiv: exportación)"
+"Successfully exported to file ""%1""","Exportado con éxito al archivo ""%1""."
+"Can not save export file ""%1"".<br/>""%2""","No se puede guardar (el) archivo de exportación ""%1"".<br/>""%2""."
+Import,"Selbes Problem: Verb oder Substantiv?
+ Importar
+ Importación"
+Import successfully,"Importar con éxito
+ Ansonsten, wenn es kurz sein muss:
+ Importación exitosa"
+Can't import data<br/> %1,No puede importar datos<br/> %1
+.json,.json
+Upload custom file...,Subir archivo personalizado....
+Attribute Set,Conjunto de atributos
+Create Imported Product In Store,Crear producto importado en la tienda
+Import Product From Amazon,Importar producto de Amazon
+Amazon Imported Order Status,Estado del pedido importado de Amazon
+Default store for order sync,Memoria estándar para la sincronización de las órdenes
+Amazon Store Name,Nombre de la tienda (de) Amazon
+Amazon Api Key,Amazon Api Clave
+Attribute Set ID,ID de conjunto de atributos
+Amazon Magento Connect,Amazon Magento Connect
+A total of %1 record(s) have been deleted.,Se ha eliminado un total de %1 registro(s).
+Import To Amazon,Importar a Amazon
+Save & Continue,Guardar y continuar
+You saved the amazon seller account detail.,(Usted) guardó la información de la cuenta de vendedor de Amazon.
+Amazon account details are not correct,(Los) datos de la cuenta de Amazon no son correctos
+Default Website for Amazon Product,Sitio web estándar para el producto Amazon
+Currency Setup For Amazon,Configuración de moneda para Amazon
+Currency Rate,Tipo de cambio
+Currency Rate From Base Currency To Selected Amazon Store Currency like,"Tipo de cambio de la moneda básica a la moneda seleccionada de Amazon, como por ejemplo"
+to Selected Amazon Base Currency,a la moneda básica seleccionada de Amazon
+Invalid Product Authorization Information,Información de autorización de producto no válida
+No Amazon Order(s) Found,No se ha encontrado ningún pedido de Amazon
+Amazon Product Id,ID de producto Amazon/ Número de producto de Amazon
+Store Product Id,Número/ ID de producto de la tienda
+Sync Date,Sincronizar datos
+Amazon Pro Id,Id de Amazon Pro
+Produkttyp,Tipo de producto
+Product Name,Nombre del producto
+Store Category,Categoría de la tienda
+Store Order Id,ID de pedido de tienda
+Amazon Order Id,Id. del pedido de Amazon
+Order Status,estado del pedido
+Name,Nombre
+Type,Tipo
+Sku,SKU
+Do you want to delete selected amazon account(s)?,¿Desea eliminar una o varias cuentas seleccionadas de amazon?
+Product Information,Información del producto
+Product Category,Categoría de productos/del producto
+Description,Descripción
+Short description,Descripción breve
+SKU,SKU
+SKU Available,SKU disponible
+SKU Already Exist,SKU ya existe
+Price,Precio
+Stock,Almacén
+Weight,Peso
+Image,Imagen
+Add other image,Añadir otra imagen
+Back,Atrás
+Save,Guardar
+Cancel,Cancelar
+Remove,Eliminar
+FOR BECOME SELLER CONTACT TO ADMIN,PARA CONVERTIRSE EN VENDEDOR CONTACTAR ADMIN
+Edit Product,Editar producto
+Status,Estado
+Qty. Sold,"Ctd. Vendida/
+ cantidad vendida"
+Earn Amount,Salario
+Action,Acción
+Pending,Pendiente
+Approved,Aprobado
+Delete Magento Product,Eliminar producto Magento
+Sure Want To Delete Magento Product,¿Está seguro de quiere eliminar un producto de Magento?
+FOR BECOME SELLER CONTACT TO ADMIN..,PARA CONVERTIRSE EN VENDEDOR CONTACTAR ADMIN
+Order History,Historial de pedidos
+Unable to download File,No se puede descargar (el) archivo
+Download,Descargar
+From,Desde
+To,Para
+Select Date,Seleccione Fecha
+By,Por
+Order,Pedido
+Next,Próximo
+Previous,Anterior
+Ask Question to Admin,Haga una pregunta al administrador
+Today,Hoy
+Week,Semana
+Month,Mes
+Latest Order,Último pedido
+Latest Comments & Reviews,Últimos comentarios y reseñas
+Value,Valor
+Quality,Calidad
+FeedBack By,"Comentarios de/
+ Opinión de"
+Subject,Tema
+Ask,Preguntar
+Reset,Reiniciar
+Money,Moneda
+Fill all the fields,Rellene todos los campos
+Mail Send,envío postal
+Edit Simple Magento Product,Editar (un) producto simple de Magento
+SKU can\'t be left empty,La SKU no debe dejarse vacía
+Edit Account Information,Editar información de la cuenta
+Account Information,Información de la cuenta
+Partner Email Address,Dirección de correo electrónico del socio
+Change Password,Cambiar contraseña
+Current Password,Contraseña actual
+New Password,Nueva Contraseña
+Confirm New Password,Confirme la nueva contraseña
+Required Fields,campos obligatorios
+Save Account Information,Guardar información de la cuenta
+Profile,Perfil
+Screen name,Nombre de usuario
+Short profile,Perfil breve
+Avatar,Avatar
+Twitter ID,ID Twitter
+Facebook ID,ID Facebook
+Theme : Background Color,Tema : Color del fondo
+Company Banner,Banner de la empresa
+no image,Ninguna imagen
+Company Logo,Logotipo/emblema de la empresa
+Company Locality,Domicilio comercial
+Company Name,Nombre comercial
+Company Description,Descripción de la empresa
+Country Logo,Logotipo del país
+Description in HTML,Descripción en HTML
+Company Profile View,Vista del perfil de la empresa
+Click for profile view,Haga clic para ver el perfil
+Company Store View,Vista de la tienda de la empresa
+Click for store view,Haga clic para ver la tienda
+Company Collection View,Vista de la colleción de la empresa
+Click for collection view,Haga clic para ver la colección
+Save Profile,Guardar perfil
+Payment Mode,Método de pago
+Payment Details,Detalles de pago
+Save Payment,Guardar pago
+Contact Information,Información de contacto
+Company,Empresa
+Telephone,Teléfono
+Fax,Fax
+Address,Dirección
+Street Address,Dirección postal
+Street Address %s,Número de casa
+City,Localidad
+State/Province,Provincia
+"Please select region, state or province","Por favor, seleccione una región, estado o provincia"
+Zip/Postal Code,Código postal
+Country,País
+Default Billing Address,"Dirección de facturación predeterminada/
+ Dirección de facturación estándar (nach der dt. Übersetzung: Standard Rechnungsadresse)"
+Use as My Default Billing Address,Usar como mi dirección de facturación estándar
+Use as My Default Shipping Address,Usar como mi dirección de envoi estándar
+Save Address,Guardar dirección
+My Accounting,Mi contabilidad
+Visit Store,Visitar tienda
+View Store,Ver tienda
+Visit Complete Collection,Visitar toda la colección
+Visit Profile,Visitar perfil
+View Profile,Ver perfil
+Add to Cart,Añadir (a la cesta)
+Out of stock,Agotado
+Add to Wishlist,Añadir a la desiderata
+Add to Compare,Añadir para comparar
+Yes,Sí
+No,No
+Agree as Partner,Aceptar como socio
+Disagree as Partner,Desacuerdo como socio
+Feedback,Feedback
+View Larger Map,Ver mapa más grande
+Latest Product Added,Último producto añadido
+Partner profile page,Página del perfil de socio
+Invalid profile,Perfil inválido
+Store FootPrint,FootPrint de la tienda/ tienda FootPrint
+View Full Collection,Ver toda la colección
+We\'re from,Somos de
+View Map,Ver mapa
+Search,Buscar
+Connect with Us,Conéctese con nosotros
+Send us a message,Envíenos un mensaje
+Find us on Facebook,Encuéntranos en Facebook
+Follow us on Twitter,Síguenos en Twitter
+Write Your Own Feedback,Escribe tu propio feedback
+How do you rate this Store,Cómo valora/califica esta tienda
+star,Estrella
+stars,Estrellas
+Nickname,Apodo
+Summary of Your Review,Resumen de su revisión
+Submit Review,Enviar revisión
+fill the required fields,rellenar los campos obligatorios
+Store Visit,Visita de la tienda
+About US,Sobre nosotros
+Invalid store,"Tienda no válida/
+ Tienda inválida"
+Show,Mostrar
+per page,por página
+View as,Ver como
+Sort By,Ordenar Por
+Ask Que,Haga una pregunta
+Ask Question to me,Hazme una pregunta
+Email,E-Mail
+Edit Magento Product,Editar producto Magento
+My Order History,Mi historial de pedidos
+My Dashboard,Mi dashboard
+My Products List,Mi lista de productos
+Add New Simple Product,Añadir un nuevo producto simple
+Product Name,Nombre del producto
+Sure Want To Delete Magento Product,¿estás seguro de que quieres eliminar el producto Magento?
+FOR BECOME SELLER CONTACT TO ADMIN..,CONTACTO ADMIN PARA CONVERTIRSE EN UN VENDEDOR....
+Order History,historial de pedidos
+Unable to download File,No se puede descargar el archivo
+Download,Descargar
+From,Desde
+To,Para / a
+Select Date,Seleccione Fecha
+By,Por
+Order,Pedido
+Next,Siguiente
+Previous,Anterior
+Dashboard,Dashboard
+Latest Order,Último pedido
+Latest Comments & Reviews,Últimos comentarios y reseñas
+Value,Valor
+Quality,Calidad
+FeedBack By,Feedback de
+Subject,Tema
+Ask,Preguntar
+Reset,Reiniciar
+Money,Moneda
+Fill all the fields,Rellene todos los campos
+Mail Send,Envío de correo
+Edit Simple Magento Product,Editar un producto simple de Magento
+SKU can\'t be left empty,La SKU no se puede dejar vacía
+Edit Account Information,Editar información de la cuenta
+Account Information,Información de la cuenta
+Partner Email Address,"Dirección de correo electrónico del socio
+ /
+ E-Mail del socio"
+Change Password,Cambiar contraseña
+Current Password,Contraseña actual
+New Password,Nueva contraseña
+Confirm New Password,Confirme la nueva contraseña
+Required Fields,Campos obligatorios
+Save Account Information,Guardar información de la cuenta
+Profile,Perfil
+Screen name,"Nombre de usuario/
+ User name"
+Short profile,Perfil breve
+Avatar,Avatar
+Twitter ID,ID Twitter
+Facebook ID,ID Facebook
+Theme : Background Color,Tema : Color de fondo
+Company Banner,Banner de la empresa
+no image,Ninguna imagen
+Company Logo,Logotipo/emblema de la empresa
+Company Locality,Domicilio comercial
+Company Name,Nombre comercial
+Company Description,Descripción de la empresa
+Country Logo,Logotipo del país
+Description in HTML,Descripción en HTML
+Company Profile View,Vista del perfil de la empresa
+Click for profile view,Haga clic para ver el perfil
+Company Store View,Vista de la tienda de la empresa
+Click for store view,Haga clic para ver la tienda
+Company Collection View,Vista de la colleción de la empresa
+Click for collection view,Haga clic para ver la colección
+Save Profile,Guardar perfil
+Payment Mode,Método de pago
+Payment Details,Detalles de pago
+Save Payment,Guardar pago
+Contact Information,Información de contacto
+Company,Empresa
+Telephone,Teléfono
+Fax,Fax
+Address,Dirección
+Street Address,Dirección postal
+Street Address %s,Número de casa
+City,Localidad
+State/Province,Provincia
+"Please select region, state or province","Por favor, seleccione una región, estado o provincia"
+Zip/Postal Code,Código postal
+Country,País
+Default Billing Address,"Dirección de facturación predeterminada/
+ Dirección de facturación estándar (nach der dt. Übersetzung: Standard Rechnungsadresse)"
+Use as My Default Billing Address,Usar como mi dirección de facturación estándar
+Use as My Default Shipping Address,Usar como mi dirección de envoi estándar
+Save Address,Guardar dirección
+My Accounting,Mi contabilidad
+View Collection,Ver colección
+Visit Store,Visitar tienda
+View Store,Ver tienda
+Visit Complete Collection,Visitar toda la colección
+Visit Profile,Visitar perfil
+Add to Cart,Añadir (a la cesta)
+Out of stock,Agotado
+Add to Wishlist,Añadir a la desiderata
+Add to Compare,Añadir para comparar
+Want To Become Partner,¿Quieres ser socio?
+Yes,Sí
+No,no
+Agree as Partner,Aceptar como socio
+Disagree as Partner,Desacuerdo como socio
+Feedback,Feedback
+View Larger Map,Ver mapa más grande
+Latest Product Added,Último producto añadido
+Partner profile page,Página del perfil de socio
+Invalid profile,Perfil inválido
+View Full Collection,Ver toda la colección
+We\'re from,Somos de
+View Map,Ver mapa
+Search,Buscar
+Connect with Us,Conéctese con nosotros
+Send us a message,Envíenos un mensaje
+Find us on Facebook,Encuéntranos en Facebook
+Follow us on Twitter,Síguenos en Twitter
+Write Your Own Feedback,Escribe tu propio feedback
+How do you rate this Store,¿Cómo califica esta tienda?
+star,Estrella
+stars,Estrellas
+Nickname,Apodo
+Summary of Your Review,Resumen de su revisión
+Submit Review,Enviar revisión
+fill the required fields,rellenar los campos obligatorios
+Store Visit,Visita de la tienda
+About US,Sobre nosotros
+Invalid store,"Tienda no válida/
+ Tienda inválida"
+Show,Mostrar
+per page,por página
+View as,Ver como
+Sort By,Ordenar Por
+Set Ascending Direction,Ajustar dirección ascendente
+Set Descending Direction,Ajustar dirección descendente
+Ask Que,Preguntar
+Ask Question to me,Hazme una pregunta
+Email,E-Mail
+Edit Magento Product,Editar producto Magento
+My Order History,Mi historial de pedidos
+Dashboard,Dashboard
+My Products List,Mi lista de productos
+View Customer,Ver cliente
+View Order,Ver pedido
+ID,ID
+Name,Nombre
+Status,Estado
+Commission %,Comisión (de %)
+Total sales,Ventas totales
+Amount Received,Cantidad Recibida
+Amount Remain,Cantidad restante
+Last Pay Amount,Último importe de pago
+Seller Since,Vendedor desde
+Website,Página (web)
+Orders,Pedidos
+Customer Information,Información del cliente
+Account Information,Account Information
+Addresses,Direcciones
+Shopping Cart,Cesta
+Wishlist,Desiderata
+Newsletter,Boletín (de noticias)
+Product Reviews,Reseñas de productos
+Product Tags,Etiquetas de productos
+Payment Information,Información de pago
+Seller Account Information,Información de la cuenta del vendedor
+Seller Commission,Comisión del Vendedor
+Add Product,Añadir artículo
+Remove Product,Eliminar artículo
+Do You Want To Remove This Seller?,¿Desea eliminar este vendedor?
+Do You Want To Make This Customer As Seller?,¿Quieres convertir a este cliente en vendedor?
+marketplace,Mercado
+Seller Information,Información del Vendedor
+Twitter ID,ID Twitter
+Facebook ID,ID Facebook
+Contact Number,Número de contacto
+Shop Title,Título de la tienda
+Company Locality,Localidad de la empresa
+Country,País
+Select Country,Seleccione país
+Company Description,Descripción de la empresa
+Return Policy,Política de Devolución
+Shipping Policy,Política de Envío
+Meta Keywords,Palabras clave del Meta
+Meta Description,Descripción Meta
+Company Banner,Banner de la empresa
+Company Logo,Logotipo de la empresa
+No Record Found.,No se encontró ningún registro.
+Seller Name,Nombre del vendedor
+Price Rating(in star),Clasificación de precios (en estrella)
+Value Rating(in star),Valoración (en estrella)
+Quality Rating(in star),Calificación de calidad (en estrella)
+Feed Summary,Resumen del feed
+Feed Review,Revisión del feed
+Created At,Creado en
+Status,Estado
+UnApproved,No aprobado
+Approved,Aprobado
+Approve,Aprobar
+Unapprove,"No aprobar /
+ Desaprobar"
+Delete,Eliminar
+%s Star,% estrella
+Ordered,Pedido
+Invoiced,Facturado
+Shipped,Enviado
+Canceled,Cancelado
+Refunded,Devuelto
+Pay Seller,Pagar al vendedor
+Item Pending,Artículo Pendiente
+Item Cancelled,Artículo Cancelado
+Item Refunded,Artículo Devuelto
+Already Paid,"Ya se ha pagado/
+ Ya pagó"
+Order#,Pedido #
+Purchased On,Comprado el
+Product Name,Nombre del artículo
+Quantity to be Paid,Cantidad a pagar
+Product Total,Producto total
+Total Tax,IVA total
+Total Seller Amount,Importe total del vendedor
+Total Commission,Comisión total
+Status,Estado
+Paid Status,Estado del pago
+View,Ver
+Pay,Pagar
+Do you want to make this payment?,¿Desea realizar este pago?
+Pending,Pendiente
+Hold,Esperar
+Paid,Pagado
+Voided,Inválido (ungültig)
+Email,E-Mail
+Seller,Vendedor
+Group,Grupo
+Telephone,Teléfono
+Zip,"Código postal
+ (Abk.: CP)"
+Country,País
+State/Province,Estado/Provincia
+Seller Since,Vendedor desde
+Reason,Razón
+Assign Group,Asignar a un grupo
+Download Status,Estado de la descarga
+No Products Found.,no se han encontrado productos.
+Customer Name,Nombre del cliente
+Preview,Vista previa
+Qty. Confirmed,Ctd. Confirmada
+Qty. Pending,Ctd. Pendiente
+Earned,Ganado
+Created,Creado
+Reason,Razón
+Seller Email,E-Mail del vendedor
+Transaction Id,número de operación
+Amount,Cantidad
+Type,Tipo
+Method,Método
+Created At,Creado en
+Seller's Transactions,Transacciones del vendedor
+Sellers Transactions,Transacciones del vendedor
+Manage Seller's Product,Administrar el producto del vendedor
+Manage Products,Administrar productos
+Manage Sellers,Administrar vendedores
+Manage Seller's Commission,Administrar la comisión del vendedor
+Manage Commission,Administrar comisión
+Manage Feedback,Administrar feedback
+Manage Seller's Feedback,Administrar el feedback del vendedor
+Manage Seller's Order,Administrar el pedido del vendedor
+Show Unapproved Only,Mostrar sólo los no aprobados
+%s's Collection,%s colección
+Home,Inicio
+Go to Home Page,Ir a la página de inicio
+%s's Feedback,Feedback del %
+%s's Location,Sitio del %
+Simple Product,"Artículo simple
+ Producto simple"
+Downloadable Product,Producto descargable
+Virtual Product,Producto Virtual
+Configurable Product,Producto configurable
+Grouped Product,Producto agrupado
+Bundle Product,Paquete de productos
+%s Shop,Tienda de %
+Item Manager,Gestor de artículos
+Items Manager,Gestor de artículos
+Total of %d Feedback(s) has been approved.,"Se ha aprobado un total de %d de retroalimentación(es)
+ /feedback(s)"
+Total of %d Feedback(s) has been unapproved.,Total de %d retroalimentación(s) no ha sido aprobada.
+Total of %d Feedback(s) has been deleted.,Se ha eliminado el total de %d retroalimentación(es)/ feedbacks
+Payment has been successfully done for this seller.,El pago se ha realizado con éxito para este vendedor.
+%s has been successfully denied to become seller.,%s ha sido negado con éxito para convertirse en vendedor.
+Seller has been successfully approved.,El vendedor ha sido aprobado con éxito.
+Seller has been successfully unapproved.,Vendedor ha sido no aprobado con éxito.
+%s has been successfully denied to become a seller.,%s ha sido negado con éxito para convertirse en vendedor.
+ has been successfully denied.,ha sido negada con éxito
+Product successfully approved.,Producto aprobado con éxito
+Please select item(s),"Por favor, seleccione el/los artículo(s)"
+Total of %d record(s) were successfully approved,Total de registros %d aprobados con éxito
+This order no longer exists.,Este pedido ya no existe.
+You are not authorize to manage this order.,Usted no está autorizado a gestionar este pedido.
+The message has been sent.,El mensaje ha sido enviado.
+Failed to send the Shipping email.,No se ha podido enviar el correo electrónico de envío.
+Failed to send the order email.,No se ha enviado el correo electrónico del pedido.
+Product Type is Invalid Or Not Allowed,El tipo de producto es inválido o no permitido
+I would like to inform you that recently I have added a new product in the store.,Me gustaría informarles que recientemente he añadido un nuevo producto en la tienda.
+Your product has been Saved successfully.,Su producto ha sido guardado con éxito.
+Your product has been successfully saved,Su producto ha sido guardado con éxito
+Attribute Code already exists.,Código de atributo ya existe.
+Attribute Created Successfully.,Atributo creado con éxito.
+Associate Product created Successfully.,Producto asociado creado con éxito.
+Product has been assigned successfully.,El producto se ha asignado con éxito.
+My Product List,Mi lista de productos
+Your request to become a seller was successfully send to admin.,Su solicitud para convertirse en un vendedor fue enviada con éxito a admin.
+Seller Request Panel,Panel de Solicitud de Vendedor
+Your product has been successfully Updated.,Su producto ha sido actualizado con éxito.
+YOU ARE NOT AUTHORIZE TO DELETE THIS PRODUCT.,USTED NO ESTÁ AUTORIZADO A ELIMINAR ESTE PRODUCTO.
+Your Product Has Been Sucessfully Deleted From Your Account.,Su producto ha sido eliminado exitosamente de su cuenta.
+You are not authorized to delete products with id %s,No está autorizado a eliminar productos con id %s
+Products has been sucessfully deleted from your account,Los productos han sido eliminados con éxito de su cuenta
+My Dashboard,Mi dashboard
+Name has to be completed,El nombre debe ser completado
+Description has to be completed,La descripción debe ser completada
+Short description has to be completed,Debe completarse una breve descripción
+Price should contain only decimal numbers,El precio debe contener sólo números decimals
+Weight should contain only decimal numbers,El peso debe contener sólo números decimals
+Product stock should contain only integer numbers,El stock de productos debe contener sólo números enteros
+Sku Type has to be selected,El tipo de Sku tiene que ser seleccionado
+Price Type has to be selected,La clase de precio tiene que ser seleccionada
+Weight Type has to be selected,Tipo del peso debe ser seleccionado
+Default Title has to be completed,El título por defecto tiene que ser completado
+Your Payment Information Is Successfully Saved.,Su información de pago se ha guardado correctamente.
+Profile information has been saved successfully.,La información del perfil se ha guardado correctamente.
+Cannot save the customer.,No se puede salvar al cliente.
+Profile Information,Información del perfil
+The URL Rewrite has been saved.,La URL reescritura ha sido guardada.
+Twitterid cannot contain space and special characters.,El ID de Twitter no puede contener espacio ni caracteres especiales.
+Facebookid cannot contain space and special characters.,El ID de Facebook no puede contener espacio ni caracteres especiales.
+Invalid Background Color,Color de fondo no válido
+Transactions,Transacciones
+Transaction Details,Detalles de transacción
+medium,Medio
+None,Ninguno
+Transaction Amount,Importe de la transacción
+Comment Message,Mensaje de comentario
+My Orders,Mi pedidos
+The order email has been sent.,El correo electrónico de pedido ha sido enviado.
+Information has been saved.,La información ha sido guardada.
+canceled,Cancelado
+The order has been cancelled.,El pedido ha sido cancelado.
+You are not permitted to cancel this order.,No se le permite cancelar este pedido.
+The order is not cancelled.,El pedido no se cancela.
+Invoice has been created for this order.,Se ha creado una factura para esta orden.
+Can not do shipment as order is in HOLD state.,No se puede hacer el envío ya que el pedido está en estado HOLD.
+Cannot do shipment for the order separately from invoice.,No se puede realizar el envío del pedido por separado de la factura.
+Cannot do shipment for the order.,No se puede hacer el envío de la orden.
+The shipment has been created.,Se ha creado el transporte.
+The shipping label has been created.,Se ha creado la etiqueta de envío.
+You are not permitted to generate shipment for this order.,No se le permite generar envíos para este pedido.
+Can not create invoice as order is in HOLD state.,No se puede crear la factura ya que el pedido está en estado HOLD.
+Cannot create Invoice for this order.,No se puede crear una factura para este pedido.
+Credit memo\'s total must be positive.,El total de abonos debe ser positivo.
+The credit memo has been created.,Se ha creado el abono.
+Cannot save the credit memo.,No se puede grabar el abono.
+Products,Productos
+Total (ex),Total (ex)
+Discount,Descuento
+Qty,"Ctd/
+ Cantidad"
+Tax,IVA
+Total (inc),Total (inc)
+Credit Memo # ,Abono #
+Subtotal,Subtotal
+Invoice # ,Factura #
+Packingslip # ,Descripción del contenido #
+This Shop Name already Exists.,Este nombre de tienda ya existe.
+Enter Shop Name of Customer.,Introduzca el nombre de la tienda del cliente.
+I would like to inform you that recently i have updated a product Please approve it soon.,"Me gustaría informarles que recientemente he actualizado un producto. Por favor, aprovéchenlo pronto."
+Shipping & Handling Charges,Gastos de envío y manejo
+Tax Amount,Monto de impuestos
+Grandtotal,Total general
+Enabled,Activado
+Disabled,Desactivado
+The product is already assigned to another seller.,El producto ya está asignado a otro vendedor.
+Product with id,Producto con identificación
+doesn't exist.,No existe
+Products has been successfully unassigned from seller.,Los productos han sido exitosamente desasignados del vendedor.
+By Seller,Por Vendedor
+What is the reason to deny this seller?,¿Cuál es la razón para negar a este vendedor?
+Cancel,Cancelar
+Deny,Negar
+Seller Payment Information ,Información de pago del vendedor
+Seller Name ,Nombre del vendedor
+Seller Email ,e-mail del vendedir
+Total Amount To Pay ,Cantidad total a pagar
+Add Comment,Añadir comentario
+Reset,Reiniciar
+What is the reason to deny this product?,¿Cuál es la razón para negar este producto?
+By,Por
+wishlist,Desiderata
+Move,Mover
+tax,IVA
+See price before order confirmation.,Ver precio antes de la confirmación del pedido.
+What's this?,¿Qué es esto?
+Seller Request Panel,"Panel de Solicitud de Vendedor/
+ Panel para solicitud de vendedor"
+Save,Guardat
+Shop URL,"URL de la tienda
+ /
+ URL tienda"
+Do you want to become seller / vendor ?,¿Desea convertirse en vendedor / proveedor?
+Waiting for admin approval,Esperando la aprobación de la administración
+Seller's Information,Información del Vendedor
+Search,Buscar
+View Map,Ver mapa
+View Seller's Profile,Ver perfil del vendedor
+SELLER'S COLLECTION,COLECCIÓN DEL VENDEDOR
+Quick Create,Creación rápida
+Reset,Reiniciar
+Name,Nombre
+Visibility,Visibilidad
+Please Select,"Por favor, elige"
+Not Visible Individually,No visible individualmente
+Catalog,Catálogo
+Search,Buscar
+"Catalog, Search","Catálogo, buscar"
+Associated Products,Productos asociados
+Id,Número
+Attribute Set Name,Nombre del conjunto de atributos
+Search by id,Búsqueda por id
+Search by product name,Buscar por nombre de producto
+Select Attribute Set,Seleccionar conjunto de atributos
+Submit,Enviar
+No Product Available,No hay productos disponibles
+Option,Opción
+View,Vista
+Save Associates Products,Guardar productos asociados
+Save Associated Product,Guardar productos asociados
+Required Fields,Campos obligatorios
+ This Combination of attributes already exists. ,Esta combinación de atributos ya existe.
+To Become a Seller Please Contact to Admin.,"Para convertirse en un vendedor, por favor, póngase en contacto con el administrador."
+Do You Want To Become Seller / Vendor?,¿Desea convertirse en vendedor o vendedor?
+Agree as Seller,Aceptar como Vendedor
+ Shop URL For Your Marketplace Shop ,URL de la tienda para su tienda de Marketplace
+This will be used to display your public profile.,Esto se utilizará para mostrar su perfil público.
+Pending,Pendiente
+Refunded,Reembolsado
+Canceled,Cancelado
+View Credit Memo Details,Ver detalles de abono
+Are you sure you want to send credit memo email to customer?,¿Está seguro de que desea enviar un correo electrónico de abono al cliente?
+Send Email To Customer,Enviar correo electrónico al cliente
+Send Email,Enviar E-Mail
+Print,Imorimir
+Credit Memo Information,Información de abono
+Credit Memo #%s - %s | %s,Nota de Crédito #%s - %s | %s
+Order Information,Infromación del pedido
+Order # %s,Pedido # %s
+Order Status,Estado del pedido
+Order Date,Fecha del orden
+Buyer Information,Información del comprador
+Customer Name,Nombre del cliente
+Email,E-Mail
+Shipping Address,Dirección de envío
+Shipping Information,Información de Envío
+No shipping information available,No hay información de envío disponible
+Billing Address,Dirección de facturación
+Payment Method,Forma de pago
+Items to Refund,Artículos a reembolsar
+COD Charges,Cargos de pago a la entrega
+Discount Amount,Importe del descuento
+Row Total,Total de líneas
+Credit Memo Totals,Totales de abono
+Shipping & Handling,Envío y Manejo
+core,Centro
+Adjustment Refund,Ajuste de reembolso
+Adjustment Fee,Cargo por ajuste
+Grand Total,Total general
+Back To My Orders,Volver a Mis Pedidos
+To Become Seller Please Contact to Admin.,"Para convertirse en vendedor, por favor, póngase en contacto con el administrador."
+Add New Downloadable Product,Añadir nuevo producto descargable
+Add Downloadable Product,Añadir producto descargable
+CATEGORIES,CATEGORÍAS
+Short Description,Descripción breve
+Special Price,Precio especial
+Special Price From,Precio especial de
+Special Price To,Precio especial para
+Stock Availability,Disponibilidad de acciones
+In Stock,en almacén
+Out of Stock,Agotado
+Tax Class,Clase de impuestos
+Product Images,Imágenes de productos
+Base image,Imagen base
+Add More Images,Añadir más imágenes
+Downloadable Product,Producto descargable
+Samples,Muestras
+Title,Título
+File,Archivo
+Add New Row,Añadir línea nueva
+Links,Enlaces
+Title :,Título:
+Links can be purchased separately :,Los enlaces se pueden comprar por separado:
+Sample,Muestra
+File,Archivo
+Max. Downloads,Max. Descargas
+Upload,Cargar
+No File Choosen,No se ha elegido ningún archivo
+Unlimited,Ilimitada
+URL,URL
+Are you sure you want to delete this link?,¿Estás seguro de que quieres borrar este enlace?
+Saving,"Guardar/
+ Guardando"
+Invalid extension! Please Upload an image,"Extensión no válida! Por favor, suba una imagen"
+"File type not allowed,Allowed file:","Tipo de archivo no permitido, archivo permitido:"
+Edit Configurable Product,Editar producto configurable
+Associate Products,Productos asociados
+Add Associate Products,Añadir productos asociados
+Edit Product,Editar producto
+Delete Image,eliminar imagen
+Are you sure you want to delete this image?,¿Está seguro de que desea eliminar esta imagen?
+You are not authorize to edit this product.,Usted no está autorizado a editar este producto.
+Edit Downloadable Product,You are not authorized to edit this product.
+Edit Profile Information,Editar información de perfil
+Allow to Display Twitter Icon in Profile Page,Permitir mostrar el icono de Twitter en la página de perfil
+Allow to Display Facebook Icon in Profile Page,Permitir mostrar el icono de Facebook en la página de perfil
+Instagram ID,ID Instagram
+Allow to Display Instagram Icon in Profile Page,Permite mostrar el icono de Instagrama en la página de perfil
+Google Plus ID,ID Google Plus
+Allow to Display Google Plus Icon in Profile Page,Permitir mostrar el icono de Google Plus en la página de perfil
+Youtube ID,ID YouTube
+Allow to Display Youtube Icon in Profile Page,Permitir mostrar el icono de Youtube en la página de perfil
+Vimeo ID,ID Vimeo
+Allow to Display Vimeo Icon in Profile Page,Permitir mostrar el icono de Vimeo en la página de perfil
+Pinterest ID,ID Pinterest
+Allow to Display Pinterest Icon in Profile Page,Permitir mostrar el icono de interés en la página de perfil
+Moleskine ID,ID Moleskine
+Allow to Display Moleskine Icon in Profile Page,Permitir mostrar el icono de Moleskine en la página de perfil
+Enter Mobile Number with country code ex: (123) 456-7890,Ingrese el número de móvil con el código de país ex: (123) 456-7890
+Theme : Background Color,Tema : Color de fondo
+Upload 700px X 100px for better look,Sube 700px X 100px para un mejor aspecto
+no image,sin imagen
+"Enter Meta Keywords Comma(',') Separated..","Introduzca las palabras clave Meta Comma(',) Separado..."
+Edit Your Shop Url,Editar la URL de tu tienda
+Set Your New Shop Url,Establezca la URL de su nueva tienda
+Save Url,Guardar URL
+Profile Page Target Url Path,Página de perfil ruta de la URL de destino
+Profile Page Request Url Path,Página de perfil Solicitud de ruta de URL
+Collection Page Target Url Path,Página de recogida Ruta de la URL de destino
+Collection Page Request Url Path,Página de recogida Ruta de la URL de destino
+Review Page Target Url Path,Revisión de la ruta de la URL de destino de la página
+Review Page Request Url Path,Revisión de la ruta de la URL de la página de solicitud
+Location Page Target Url Path,Localización Página Destino Url Ruta
+Location Page Request Url Path,Localización Página de solicitud Url Ruta
+Edit Payment Information,Editar información de pago
+ Are you sure you want to delete this banner ? ,¿Estás seguro de que quieres eliminar este banner?
+ Are you sure you want to delete this Logo ? ,¿Está seguro de que desea eliminar este logotipo?
+Edit Simple Product,Editar un producto simple
+Edit Virtual Product,Editar producto virtual
+Canceled,Cancelado
+View Invoice Details,Ver detalles de la factura
+Send Email To Customer,Enviar correo electrónico al cliente
+Invoice Slip,Recibo de la factura
+Print Invoice,Imprimir factura
+Invoice Information,Información de la factura
+Invoice #%s - %s | %s,Factura #%s - %s | %s
+Items Invoiced,Posiciones facturadas
+Admin Commission,Comisión Administrativa
+Vendor Total,Proveedor total
+Total Price,Precio total
+COD Charges,Cargos de pago a la entrega
+Total COD Charges,Cargos totales por pago a la entrega
+Total Ordered Amount,Cantidad Total Ordenada
+Total Vendor Amount,Importe total del proveedor
+Total Admin Commission,Total Comisión Administrativa
+View Order Details,Ver Detalles del Pedido
+Cancel Order,Cancelar pedido
+Create Invoice to confirm collected amount from buyer for this order,Crear factura para confirmar el importe cobrado del comprador para este pedido
+Invoice,Factura
+Pay Admin for his commission for this order,Pagar a Admin por su comisión por este pedido
+If you pay admin commission then you can not do refund for buyer in future. Are you sure you want to pay admin for his commission?,Si usted paga la comisión del administrador entonces usted no puede hacer el reembolso para el comprador en el futuro. ¿Estás seguro de que quieres pagarle al administrador por su comisión?
+Pay Admin Commission,Comisión de Administración de Pagos
+Create Credit Memo,Crear bono
+Create Shipment for Order,Crear envío para el pedido
+Are you sure you want to create shipment?,¿Está seguro de que desea crear un envío?
+About This Order:,Sobre este pedido:
+Order Date: %s,Fecha de pedido: %s
+Buyer Information,Información del Comprador
+Carrier,Portador
+Tracking Number,Número de seguimiento
+View Seller's Shop,Ver la tienda del vendedor
+%s Total Products,%s Total Productos
+View Seller's Collection,Ver la colección del vendedor
+View All,Ver todos
+Mein Dashboard,Mi dashboard
+Your Income,Sus/tus ingresos
+ Today ,Hoy
+ Week ,Semana
+ Month ,Mes
+ Total Payout ,Pago total
+ Remaining Amount ,cantidad restante
+Latest Order,Último pedido
+Order Id,Id del pedido
+Date,Fecha
+Search by Order Id,Buscar por Id del pedido
+From: ,De:
+To: ,Para:
+No Order Available,No hay pedidos disponibles
+Customer: ,Cliente:
+Date: ,Fecha:
+Order Total- ,Pedido Total-
+Latest Comments & Reviews,Últimos comentarios y reseñas
+No comment & review available,No hay comentarios y reseñas disponibles
+Your Query,Su consulta
+Reset,Reiniciar
+Ask,Preguntar
+ Mail Send ,Enví de correo
+Search by product name,Buscar por nombre de producto
+Delete Products,Eliminar productos
+ Are you sure you want to edit this product ? ,¿Estás seguro de que quieres editar este producto?
+ No Checkbox is checked ,No se marca ninguna casilla de selección
+ Are you sure you want to delete these product ? ,¿Está seguro de que desea eliminar este producto?
+Marketplace,Mercado
+Seller Profile,Perfil del vendedor
+Create Attribute,Crear Atributo
+New Products,Productos nuevos
+My Products List,Mi lista de productos
+My Dashboard,Mi dashboard
+My Transaction List,Mi lista de transacciones
+My Order History,Mi historial de pedidos
+Become Partner,Conviértase en socio
+Manage Configurable Product's Attribute,Gestionar el atributo de un producto configurable
+Save Attributes,Guardar atributos
+Create Attribute for Configurable Products,Crear atributo para productos configurables
+Attribute Set,Conjunto de atributos
+Attribute Group,Grupo de atributos
+Attribute Code,Código de atributo
+Attribute Label,Etiqueta de atributo
+Catalog Input Type,Clase de entrada de catálogo
+Multiple Select,Selección múltiple
+Dropdown,Dropdown
+Values Required,Valores requeridos
+Admin,admin
+Default Store View,Vista predeterminada de la tienda
+Position,Posición
+Is Default,es el valor predeterminado
+Add Option,Añadir opción
+Select Configurable Attribute,Seleccione Atributo Configurable
+Create Configurable Product,Crear producto configurable
+Configurable Attribute,Atributo configurable
+Add New Configurable Product,Añadir nuevo producto configurable
+Add Configurable Product,Añadir producto configurable
+New Credit Memo for Order #%s,Nuevo abono para el pedido #%s
+Order #%s - %s,pedido #%s - %s
+Order Grand Total,Total general del pedido
+Shipping Refund,Reembolso de envío
+Shipping Amount,Importe del envío
+Refund Amount,Cantidad de reembolso
+Paid Amount,Importe pagado
+Refund Total,Total de devoluciones
+Refund Shipping,Total de devoluciones
+Adjustment Refund,Ajuste de reembolso
+Adjustment Fee,Cargo por ajuste
+Refund Offline,Reembolso offline
+Warning,Advertencia
+Please Complete,"Por favor, complete"
+Add New Product,Añadir nuevo producto
+Continue,Continuar
+Product Type,Tipo de producto
+Recently Added Products,Productos añadidos recientemente
+Top of Page,Inicio de página
+Shipping Policies,Políticas de Envío
+Top of Page,Inicio de página
+About %s,Alrededor de %s
+On the Social Web,En la web social
+Check in Instagram,Registro en Instagram
+Check in Pinterest,Registro en Pinterest
+Check in Facebook,Registro en Facebook
+Check in Twitter,Registro en Twitter
+Check in Google+,Registro en Google+
+Check in Vimeo,Registro en Vimeo
+Check in Youtube,Registro en YouTube
+Check in Moleskine,Registro en Moleskine
+Contact Us,Contáctenos
+Contact Seller,Contactar con el vendedor
+Your Name,Su/tu nombre
+Your Email,Su/tu E-Mail
+Return Policy,Política de devolución
+Shipping Policy,Política de envío
+Seller's Collection,Colección del vendedor
+View Location on Map,Ver ubicación en el mapa
+ Wrong verification number. ,Número de verificación incorrecto.
+ Mail Send ,Envío de correo
+%s 's Rating,%s `s calificación
+Average Rating,Valoración media
+Review,Revisión
+Make a Review,Haga una revisión
+By %s,Por %s
+on,En
+Recent Feedbacks,Comentarios recientes
+Give Feedback,"Dar Feedback
+ Dar Comentarios"
+Write Your Own Feedback,"Escribe tus propios comentarios/
+ Escribe tu propio feedback"
+How do you rate this Store?,¿Cómo califica esta tienda?
+star,Estrella
+stars,Estrellas
+Summary of Your Review,Resumen de su revision
+You need to purchase item(s) first to make a review.,Usted necesita comprar artículo(s) primero para hacer una revisión.
+Login To Give Feedback,Inicie sesión para dar su opinión
+Comments & Reviews,Comentarios y reseñas
+No comment & review available,No hay comentarios y reseñas disponibles
+Browse BY,Buscar por
+SELLER'S CATEGORY,CATEGORÍA DEL VENDEDOR
+Search sellers by shop name from here,Busque vendedores por nombre de la tienda desde aquí
+No Shop Available,No hay tiendas disponibles
+View Shipment Details,Ver detalles del envío
+Send Email To Customer,Enviar correo electrónico al cliente
+Send Tracking Information,Enviar información de seguimiento
+Shipment Slip,Comprobante de envío
+Print Shipment,Imprimir envío
+Shipment Information,Información sobre el envío
+Shipment #%s | %s,Envío #%s | %s
+Shipping and Tracking Information,Información de envío y seguimiento
+Items Shipped,Artículos Enviados
+Add Simple Product,Añadir un producto simple
+Transaction List,Lista de transacciones
+Remaining Transactions:,Transacciones restantes:
+Search by Transaction Id,Buscar por Id. de transacción
+Download .CSV,Descargar.CSV
+No Record Available,No hay registros disponibles
+Transaction Information,Información de la transacción
+Commission,Comisión
+Add New Virtual Product,Añadir nuevo producto virtual
+Add Virtual Product,Añadir producto virtual
+Sold By,Vendido por
+Visit Shop,Visitar Tienda
+Positive Feedback,Comentarios positivos
+%s ratings,%s calificaciones
+Options,Opciones
+Move Product Tax to Seller Account,Mover el impuesto de los productos a la cuenta del vendedor
+Allow Seller to Manage Orders,Permitir que el vendedor administre los pedidos
+Attribute Set ID,ID de conjunto de atributos
+Seller Approval Required,Se requiere aprobación del vendedor
+Product Approval Required,Se requiere aprobación del producto
+Product Update Approval Required,Se requiere aprobación de actualización de producto
+Set Captcha Enable,Activar Captcha
+Allowed Categories for seller to add products,Categorías permitidas para que el vendedor agregue productos
+"e.g Please enter category ids by comma(,) separated","p.ej.: por favor, introduzca las identificaciones de la categoría por comas (,) separadas."
+Admin Email-id,Admin Email-identificación
+Allowed Product Image Type,Tipo de imagen de producto permitido
+"Enter file type separated by comma(,) like jpeg,png,gif,jpg ( For Seller's Products images)","Introduzca el tipo de archivo separado por comas (,) como jpeg, png, gif, jpg (Para las imágenes de los productos del vendedor)"
+Allowed Sample File Type,Tipo de archivo de muestra permitido
+"Enter file type separated by comma(,) like jpeg,png,gif,pdf ( For Downloadable Products )","Introduzca el tipo de archivo separado por comas (,) como jpeg, png, gif, pdf (Para productos descargables)"
+Allowed Link File Type,Tipo de archivo de enlace permitido
+"Enter file type separated by comma(,) like zip,rar,pdf,doc ( For Downloadable Products )","Introduzca el tipo de archivo separado por comas (,) como zip, rar, pdf, doc (para productos descargables)"
+Product Type For Seller,Tipo de producto para el vendedor
+Landing Page Settings,Configuración de la página de destino
+e.g Turn Your Passion Into a Business,"Por ejemplo, convierta su pasión en un negocio"
+Display Banner,Mostrar banner
+Banner Image,Imagen del banner
+Banner Content,Contenido del banner
+Enable Product Hints,Activar sugerencias de productos
+Product Category,Categoría de productos/ del producto
+Product Name,Nombre del producto/ de los productos
+Product Description,Descripción del producto
+Product Short Description,Descripción breve del producto
+Product Sku,Producto Sku
+Product Price,Precio del producto
+Product Special Price,Precio especial del producto
+Product Special Price Start Date,Fecha de inicio del precio especial del product
+Product Special Price End Date,Fecha de finalización del precio especial del product
+Product Quantity,Cantidad del producto
+Product Stock Availability,Disponibilidad de stock de productos
+Product Tax Types,Clases de impuestos del producto
+Product Weight,Peso del producto
+Product Image,Imagen del producto
+Product Enable,Activar producto
+Seller Profile Page Settings,Configuración de la página de perfil del vendedor
+Enable Color Picker,Habilitar el selector de color
+Seller Policies Enable at frontend,Las políticas del vendedor permiten en el frontend
+Rewrite Seller's Shop URL,Reescribir la URL de la tienda del vendedor
+Allow Sellers To Manage their Shop URL,Permitir a los vendedores gestionar la URL de su tienda
+Marketplace Profile Hints,Consejos sobre el perfil del mercado
+Enable Profile Hints,Activar sugerencias de perfil
+Profile Twitter id,Perfil Twitter id
+Profile Facebook id,Perfil Facebook id
+Profile Contact Number,Perfil Número de contacto
+Profile Background Color,Color de fondo del perfil
+Profile Shop Name,Perfil nombre de la tienda
+Profile Shop Banner Image,Perfil tienda banner imagen
+Profile Company Logo,Perfil de la empresa logotipo
+Profile Company Locality,Perfil Empresa Localidad
+Profile Company Description,Perfil Descripción de la empresa
+Return Policy,Política de devolución
+Shipping Policy,Política de envío
+Profile Country,Perfil país
+Profile Meta Keywords,Perfil Meta Palabras clave
+Profile Meta Description,Perfil Meta Descripción
+Profile Payment Information,Información de pago del perfil
+Marketplace Seller Review Settings,Configuración de revisión del vendedor en el mercado
+Make a Review on only Order Purchase,Realice una revisión sólo en la compra de un pedido
+Partner Request,Solicitud de socios
+Partner Approved,Socio Aprobado
+Partner Disapprove,Socio Desaprobar
+Partner Deny,Denegación del socio
+Product Deny,"Denegación de productos/
+ Del producto"
+Product has been Created Successfully,El producto ha sido creado con éxito
+Are you sure you want to delete this sample link,¿Estás seguro de que quieres eliminar este enlace de ejemplo?
+Not Mentioned Yet,No mencionado todavía
+Enter Mobile Number with country code ex: (123) 456-7890,Ingrese el número de móvil con el código de país ex: (123) 456-7890
+Commission Details,Detalles de la Comisión
+Set Commission In Percentage For This Particular Seller,Fijar la comisión en porcentaje para este vendedor en particular
+Total Sale,Venta total
+Total Seller Sale,Venta total del vendedor
+Total Admin Sale,Venta Total Admin
+Current Commission %,Comisión actual
+Assign Product To Seller,Asignar producto al vendedor
+Enter Product ID,Ingrese el ID del producto
+Assigned Product Ids,Ids de productos asignados
+Unassign Product To Seller,Desasignar producto al vendedor
+Unapprove Seller,Vendedor no autorizado
+Unapproved,No aprobado
+Unassigned,Sin asignar
+Seller Status,Estado del vendedor
+View product,Ver producto
+Click to Approve,Haga clic para aprobar
+You sure?,¿Estás seguro?
+View Transaction,Ver Transacción
+Invoices,Facturas
+Shipments,Envíos
+Refunds,Reembolsos
+The product is already assign to other seller.,El producto ya está asignado a otro vendedor.
+Product with id %s doesn't exist.,El producto con id %s no existe.
+Total of %d Feedback(s) were successfully approved,Total de %d Feedback(s) fueron aprobados con éxito
+'Total of %d Feedback(s) were successfully unapproved,Total de %d Feedback(s) fueron exitosamente no aprobados
+Total of %d Feedback(s) were successfully deleted,Total de %d Feedback(s) fueron eliminados con éxito
+Manage Seller's Products,Administrar los productos del vendedor
+Manage Attribute,Administrar Atributo
+Your Product Has Been Successfully Updated,Su producto ha sido actualizado con éxito
+Your Product Has Been Successfully Deleted From Your Account,Su producto ha sido eliminado con éxito de su cuenta
+Creditmemo,Creditmemo
+The creditmemo no longer exists.,El creditmemo ya no existe.
+The order no longer exists.,La orden ya no existe.
+You are not authorize to view this creditmemo.,Usted no está autorizado a ver este creditmemo.
+#%s Order Creditmemo,#%s pedido Creditmemo
+The invoice no longer exists.,La factura ya no existe.
+'You are not authorize to view this invoice.,No está autorizado a ver esta factura.
+The shipment no longer exists.,El transporte ya no existe.
+You are not authorize to view this shipment.,Usted no está autorizado a ver este envío.
+#%s Order Shipment,#%s envío de pedidos
+Print #%s Order,Imprimir #%s pedido
+#%s Order,#%s pedido
+Your Review was successfully saved,Su comentario se ha guardado con éxito
+Notification mail for seller for placed order and invoiced items,Correo de notificación para el vendedor para los pedidos realizados y los artículos facturados
+Please enter shop URL,"Por favor, introduzca la URL de la tienda"
+unavailable,Indisponible
+available,Disponible
+January,Enero
+February,febrero
+March,marzo
+April,Abril
+May,mayo
+June,junio
+July,Julio
+August,Agosto
+September,Septiembre
+October,Octubre
+November,Noviembre
+December,Diciembre
+Shipping Cost,Gastos de envío
+"Sorry, but you can only add maximum %1 quantity of %2 in this cart.","Lo sentimos, pero sólo puede agregar un máximo de %1 cantidad de %2 en este carrito."
+Allowed Product Qty on Product Purchase for Customer,Cantidad de producto permitida en la compra de productos para el cliente
+By default %1 qty will be allowed for customer to add in cart.,Por defecto %1 cantidad será permitida para que el cliente añadir en la cesta.
+Marketplace,Mercado
+General Settings,Opciones generales
+Global Commission Rate,Tasa de comisión global
+Seller Product's Settings,Configuración del producto del vendedor
+Allow seller to add products with sku type,Permitir al vendedor añadir productos con sku type
+Product Sku Prefix,Prefijo de producto Sku
+"e.g if sku prefix = ""xyz"" then your product sku will be as xyz-productsku","p.e. si el prefijo sku = ""xyz"" entonces su producto sku será como xyz-productosku"
+Allowed Product Qty on Product Purchase for Customer,Cantidad de producto permitida en la compra de productos para el cliente
+e.g if set 5 then customer will allowed to add maximum 3 qty of the products in cart.,"Por ejemplo, si se establece 5, el cliente podrá añadir un máximo de 3 unidades de los productos en la cesta."
+Seller Order's Settings,Configuración del pedido del vendedor
+Order Approval Required,Se requiere aprobación del pedido
+Inventory Settings,Parametrizaciones de inventario
+Enable Low Notification,Activar notificación baja
+Allow to send low stock notification mail to sellers,Permitir el envío de correo de notificación de existencias bajas a los vendedores
+Low Stock Quantity,Cantidad de stock baja
+Allow to send low stock notification mail to sellers when product quantity will be equal or less then this quantity,Permitir el envío de correo de notificación de existencias bajas a los vendedores cuando la cantidad de producto será igual o menor que esta cantidad.
+Display Seller Profile,Mostrar el perfil del vendedor
+Allow to automatic create seller public url on seller registration,Permitir la creación automática de la url pública del vendedor en el registro del vendedor
+Allow only authorized buyers to review for seller,Permitir sólo autorizar a los compradores a revisar para el vendedor
+Marketplace Landing Page Layout,Diseño de la página de aterrizaje del mercado
+Marketplace Landing Page Layout2 Button Label,Etiqueta de botones de Marketplace Landing Page Layout 2
+Terms and Conditions URL,Términos y condiciones URL
+Display Seller registration block on customer registration page,Mostrar el bloque de registro del vendedor en la página de registro del cliente
+Cross-Sell Products,Productos de venta cruzada
+Related Products,Productos relacionados
+Related products are shown to customers in addition to the item the customer is looking at.,Los productos relacionados se muestran a los clientes además del artículo que el cliente está mirando.
+Up-Sell Products,Productos en venta
+An up-sell item is offered to the customer as a pricier or higher-quality alternative to the product the customer is looking at.,Se ofrece al cliente un artículo de venta al por mayor como una alternativa más cara o de mayor calidad al producto que el cliente está buscando.
+This order contains Preorder Product(s).,Este pedido contiene productos de pedido anticipado.
+Complete Preorder,Pedido previo completo
+Preorder Pending,Pedido previo pendiente
+Preorder Complete,Pedido previo completo
+Preorder Configuration,Configuración al pedido previo
+Preorder Type,Tipo de pedido previo
+Percent Payment Accept for Preorder,Aceptación de pago porcentual para pedidos previos
+Enable Preorder for,Activar el pedido previo para
+Enable Preorder for these Products,Activar el pedido previo para estos productos
+Disable Preorder for these Products,Desactivar el pedido previo para estos productos
+Custom Message to display on preorder product,Mensaje personalizado para mostrar en el producto pedido por adelantado
+Send email to customer when product is in stock,Enviar correo electrónico al cliente cuando el producto está en stock
+Preorder Quantity,Cantidad del pedido previo
+Buyer Specification,Especificaciones del comprador
+Preorder Management,Gestión de pedidos previos
+Configuration,Configuración
+Preorder Configuration,Configuración del pedido previo
+Preorder Orders,Pedidos del pedido previo
+Order Id,Número de pedido
+Date,Fecha
+Notification Status,Status de notificación
+Search by order Id,Buscar por número de pedido
+Notified,Notificado
+Unnotified,Sin notificar
+Submit,Enviar
+Send Email,Enviar E-mail
+Product,Producto
+Purchased On,Comprado el
+Paid Amount,Cantidad pagada
+Remaining Amount,Cantidad/ saldo restante
+Action,Acción
+Complete,Completar
+Bill to Name,Factura a nombre
+Ship to Name,Envío a nombre
+Send Stock Notification Email,Enviar notificación de stock por E-Mail
+Are you sure you want to send email?,¿Estás seguro de que quieres enviar un correo electrónico?
+Pay %1% as Preorder.,Pagar %1% como pre-pedido.
+Configure Ads,Configurar anuncios
+there is some error in saving ads settings.,hay algún error al guardar la configuración de los anuncios.
+Something went wrong while editing the pricing.,Algo salió mal mientras editaba el precio.
+Edit Item with id %1,Editar elemento con id %1
+New Pricing,"Nueva determinación de precios/
+ Nuevos precios"
+Pricing,"Tarificación/
+ precios"
+Manage Pricings,Gestionar precios
+Pricing Created.,Determinación de precio creada.
+Something went wrong while saving the pricing. %1,Algo salió mal mientras guardaba los precios. %1
+"this ad position is already max sold out, please book other","este puesto ya está agotado, por favor reserve otro"
+item already added to the cart,artículo ya añadido a la cesta
+unable to add product to the cart,no puede añadir productos a la cesta
+Ad Position,Posición del anuncio
+Valid Days,Días de validez
+Block,Bloquear
+unable to add the product in cart,No se puede añadir el producto en la cesta
+successfully disabled,desactivado con éxito
+successfully enabled,Habilitado/activado con éxito
+no block provided to delete,no hay bloque para eliminar
+block(s) with id %1 deleted successfully,bloque(s) con id %1 eliminado con éxito
+ads block saved,bloque de anuncios guardado
+Unable to remove block record with id %1,No se puede eliminar el registro de bloque con id %1
+home seller ads page top,página de inicio vendedor anuncio página arriba
+home seller popup ads,página de inicio vendedor popup anuncio
+home seller ads page bottom container,página de inicio vendedor anuncio abajo container
+Unable to remove pricing record with id %1,No se puede eliminar el registro de precios con id %1
+"This product cannot be added to your cart, please try from here","Este producto no puede ser añadido a su cesta, por favor, inténtelo desde aquí."
+This product cannot be added from here,Este producto no se puede añadir desde aquí
+Edit,Editar
+label,Etiqueta
+Valid for,Válido para
+Number of ads,Número de anuncios
+Width,Ancho
+Full width,Anchura total
+Custom width in pixels,Ancho personalizado en píxeles
+For width add suffix with px,Para con sufijo añadido con px
+Height,Altura
+For height in percent input suffix with % for pixel suffix with px,Para altura en porcentaje sufijo de entrada con % para sufijo de píxel con px
+Disable Ads Demo,Desactivar Demo de Anuncios
+Enable Ads Demo,Habilitar/activar Demo de Anuncios
+Ads Plans,Planes de anuncios
+there is no plans available yet,no hay planes disponibles todavía
+Price,Precio
+%1 days,%1 días
+Ad Blocks,Bloques de anuncios
+Book,Reservar
+Booked,Reservado
+"This position has maximum %1 ads, and %2 ads has already been booked","Este puesto tiene un máximo de %1 anuncios, y %2 anuncios ya han sido reservados"
+Block Form,Formulario de bloque
+Save,Guardar
+Delete,Eliminar
+Title,Título
+Content,Contenido
+Ads Blocks,Bloques de anuncios
+Block Title,Título del bloque
+Search by product name,Buscar por nombre de producto
+Submit,Enviar
+Delete Ad Blocks,Borrar bloques de anuncios
+Id,"Id/
+ Número"
+Created At,Creado en
+Updated At,Actualizado en
+No ad blocks added yet,Aún no se han añadido bloques de anuncios
+this ad is already booked,este anuncio ya está reservado
+this ad is open to book,este anuncio está abierto al public
+Ads Block,Bloque de anuncios
+Advertise,Anunciar
+price for this position already added,precio para esta posición ya añadida
+There is some error in processing,Hay algún error en el procesamiento
+Save Ads Settings,Guardar configuración de anuncios
+Close,Cerrar
+settings successfullyt saved,ajustes guardados con éxito
+Disable Ads Demo,Desactivar Demo de Anuncios
+not able to switch status,no puede cambiar de estado
+Marketplace Landing Page Layout2 Button Label,Posiciones de anuncios en el Mercado
+Demo Information,Información de la demo
+back,Atrás
+Save And Continue,Guardar y continuar
+Ads Pricing,Precios de los anuncios
+Block Position,Posición del bloque
+Add Pricing Plans,Añadir planes de precios
+ID,ID
+Created,Creado
+Modified,Modificado
+Amazon information saved successfuly.,La información de Amazon se ha guardado con éxito.
+Invalid request.,Solicitud no válida.
+Amazon Credentials are not valid,Las credenciales de Amazon no son válidas
+Amazon Configuration,Configuración de Amazon
+Amazon Origion Country,País de origen de Amazon
+Amazon Marketplace Id,Amazon Marketplace Id
+Amazon Access key Id,Id. de clave de acceso de Amazon
+Amazon Secret Key,clave Secreta Amazonas
+Amazon Seller Id,Vendedor Amazon Id
+Currency Rate (base currency to amazon store currency),Tasa de cambio (moneda base a la moneda de la tienda de Amazon)
+Back,Atrás
+Amazon Product Import,Importación de productos de Amazon
+Amazon Configuration',Configuración de Amazon
+Amazon Connect,Amazon Co
+Amazon Sync Product,Producto Amazon Sync
+Amazon Unassigned Product,Amazon Producto no asignado
+Amazon Magento Sync Products,Productos de sincronización Amazon Magento
+Product Name,Nombre del artículo/ producto
+Search,Busar
+Import Products From Amazon,Importar productos de Amazon
+Amazon Product Id,Id. de producto de Amazon
+Product Type,Tipo de producto
+Action,Acción
+No Product Available,No hay productos disponibles
+Generate Report,Generar informe
+Run Profiler,Run Profiler
+Amazon Client Does not Initialize.,Cliente de Amazon no inicializa.
+Product report haven'\t ready yet,El informe del producto aún no está listo
+Run Profiler,Run Profiler
+Starting Execution,Inicio de la ejecución
+Please don't close or refresh the window while importing product(s).,No cierre ni actualice la ventana mientras importe los productos.
+Total ,Total
+ product(s) to import,producto(s) a importar
+ Importing ,Importación
+ No product to import.,No hay productos para importar.
+ Finsihed Execution.,Ejecución finalizada.
+ Data not found,Datos no encontrados
+ Finished Execution.,Ejecución finalizada.
+ Imported Product,Producto importado
+  product(s) imported in your store from amazon,producto(s) importado(s) en su tienda de Amazon
+  Report id already generated,Id. de informe ya generado
+  Search by product name,Buscar por nombre de producto
+ Are you sure you want to delete map record ? ,¿Está seguro de que desea eliminar el registro de mapa?
+  Are you sure you want to edit this product ? ,¿Estás seguro de que quieres editar este producto?
+  Edit,Editar
+  Delete Map,Eliminar mapa
+  You don'\t have authorization to access the product,No tiene autorización para acceder al product
+  Product successfully deleted.,Producto eliminado con éxito.
+Assign Imported Product,Asignar producto importado
+Product Category,Categoría de productos
+CATEGORIES,CATEGORÍAS
+Assign Product To Category,Asignar producto a categoría
+Product,"Producto/
+ Artículo"
+Amazon Product Id,Id. de producto de Amazon
+Product Type,Tipo de producto
+Action,Acción
+Magento Product Id,Identificación del producto Magento
+Sync product assign to category successfuly.,Sincronizar la asignación de producto a la categoría con éxito.
+Export Product,Producto de exportación
+Export Product To Amazon,Exportar producto a Amazon
+Unique Identifier Code,Código de identificación único
+Unique Identifier,Identificador único
+Run Profiler For Export Product,Run Profiler para el producto de exportación
+Please don't close or refresh the window while exporting product(s) to amazon.,"Por favor, no cierre o refresque la ventana mientras exporta productos a Amazon."
+ product(s) to export to amazon,producto(s) a exportar a la Amazonia
+ Importing ,Importación
+ No product to import.,No hay productos para importar.
+ Finsihed Execution.,Ejecución Finalizada.
+ Update Status of Exported Product(s),Actualización del estado de los productos exportados
+ Update Status,Estado de actualización
+ Amazon Mapped Product,Producto mapeado de Amazon
+ Error Message,Mensaje de error
+ Check Error,Error de comprobación
+ Status,Estado
+ Sync From Amazon,Sincronización desde Amazon
+ Import Product,Importar producto
+ Run Profiler,Run Profiler
+ Export Product,Producto de exportación
+ Generate Report,Generar informe
+ Create Imported Product(s),Crear producto(s) importado(s)
+ Export Product,Producto de exportación
+ Amazon Marketplace,"Amazon Marketplace/
+ Amazon mercado"
+ select attribute set,seleccionar conjunto de atributos
+ Something went wrong,Algo salió mal
+ Revise amazon product on product update.,Revisar el producto amazon en la actualización del producto.
+ Revise Amazon Product,Revisar el producto de Amazon
+ Magento Order Id,Id. de pedido de Magento
+ Amazon Order Id,Id. de orden de Amazon
+ Amazon Order Status,Estado del pedido en Amazon
+ View,Ver
+ Store Order Id,Identificador de pedido de tienda
+ Run Profiler For Order,Run profiler para pedido
+ Please don't close or refresh the window while importing order(s).,"Por favor, no cierre ni actualice la ventana mientras importe el/los pedido(s)."
+ order(s) to import,Pedido(s) de importación
+ No order to import.,No hay orden de importación.
+ Finsihed Execution.,Ejecución finalizada.
+ Amazon Order(s),Pedido(s) de Amazon
+Do you want to delete selected template(s)?,¿Desea eliminar las plantillas seleccionadas?
+Notification Templates,Plantillas de notificación
+Save Template,Guardar plantilla
+Please upload logo.,"Por favor, cargue el logotipo."
+Please upload logo.,"Por favor, cargue el logotipo."
+You saved the template.,Ha grabado la plantilla.
+Something went wrong while saving the template. %1,Algo salió mal mientras guardaba la plantilla. %1
+Requested banner doesn\'t exist,El banner solicitado no existe
+Edit Template with id %1,Editar plantilla con id %1
+New Template,Plantilla nueva
+Registered Users,Usuarios Registrados
+User Token,Ficha de usuario
+Created At,Creado en
+Browser,Navegador
+Id,"Id/
+ Número"
+A total of %1 record(s) have been deleted.,Se ha eliminado un total de 1 registro(s) %1.
+Are you sure to use selected template to sent notification,¿Está seguro de utilizar la plantilla seleccionada para enviar la notificación?
+Push Notification,Notificación push
+General,General
+Server Key,Clave de Servidor
+Sender Id,Id del remitente
+Push notification(s) has been sent,Se han enviado notificaciones push
+Template Information,Información de la plantilla
+Registered Users For Push Notification,Usuarios registrados para la notificación push
+Delete Users,Eliminar usuarios
+Delete,Eliminar
+No Registered User(s) Available,No hay usuario(s) registrado(s) disponible(s)
+No Checkbox is checked,No Casilla de verificación marcada
+Are you sure you want to delete these user(s),¿Está seguro de que desea eliminar a estos usuarios?
+Are you sure you want to delete this user,¿Estás seguro de que quieres borrar a este usuario?
+Warning,Advertencia
+Record has been deleted successfully,El registro ha sido borrado con éxito
+Templates List,Lista de plantillas
+Title,Título
+Date,Fecha
+Delete Template,Eliminar plantilla
+Message,Mensaje
+No Template(s) Available,No hay plantillas disponibles
+Are you sure you want to delete these Template(s) ? ,¿Está seguro de que desea eliminar estas plantillas?
+Are you sure you want to delete this templates ?,¿Estás seguro de que quieres eliminar esta plantilla?
+Template(s) List,Lista de plantilla(s)
+Are you sure you want to edit this templates ?,¿Estás seguro de que quieres editar estas plantillas?
+Save Template,Guardar plantilla
+Template is saved successfully.,La plantilla se guarda correctamente.
+Something Went Wrong.,Algo salió mal.
+Edit Template,Editar plantilla
+Are you sure you want to delete this logo ?,¿Está seguro de que desea eliminar este logotipo?
+Template is updated successfully.,La plantilla se actualiza con éxito.
+Templates View,Vista de Plantillas
+Complete View Of Template,Vista completa de la plantilla
+Template Information,Información de la plantilla
+Are you sure you want to send notification ?,¿Estás seguro de que quieres enviar una notificación?
+Mp Push Notification,Notificación Mp Push
+Title/Message,Título/mensaje
+SELLER COUPON MANAGER,GESTOR DE CUPONES DE VENDEDOR
+Code Prefix,Prefijo de código
+Coupon Value,Valor del cupón
+Quantity,Cantidad
+Expire Date,Fecha de caducidad
+Delete Coupons,Eliminar cupones
+Search by coupon code,Buscar por código de cupón
+Generate,Generar
+Active,Activo
+Used,Usado
+Expired,Expirado
+Submit,Enviar
+Used Description,Usado Descripción
+Created At,Creado en
+"Expired At"".""Expired At","Vencido a"". ""Vencido a"""
+Status,estado
+Used At,Usado en
+Action,Acción
+No Coupons Available,No hay cupones disponibles
+Your Coupons was successfully generated,Sus cupones fueron generados con éxito
+Delete,Eliminar
+Are you sure you want to delete this coupon ? ,¿Estás seguro de que quieres borrar este cupón?
+ Are you sure you want to delete these coupons ? ,¿Estás seguro de que quieres borrar estos cupones?
+ No Checkbox is checked ,No Casilla de verificación marcada
+Successfully coupon removed,Cupón eliminado con éxito
+Coupons Deleted Successfully,Cupones eliminados con éxito
+Seller Discount Codes,Códigos de descuento del vendedor
+Select Shop,Seleccione/elige tienda
+Select seller,Seleccionar vendedor
+Enter your coupon code,Ingrese su código de cupón
+Apply Coupon,Aplicar cupón
+Coupon code has been expired.,El código de cupón ha caducado.
+Coupon has been applied successfully,El cupón se ha aplicado con éxito
+Invalid coupon Code.,Código de cupón no válido.
+Applied Coupons,Cupones aplicados
+Cancel Credits,Cancelar Créditos
+Coupon Discount,Descuento de cupón
+Seller Coupons Manager,Gestor de Cupones de Vendedor
+seller(s) coupon deleted succesfully.,cupón de vendedor(es) borrado con éxito.
+Coupon removed successfully,Cupón eliminado con éxito
+Vacation setting successfully updated,La configuración de las vacaciones se ha actualizado con éxito
+Vacation setting is not saved yet,La configuración de vacaciones aún no se ha guardado
+Seller vacation Settings,Configuración de vacaciones del vendedor
+Sellers Vacations,Vendedores Vacaciones
+Vacation Setting,Configuraciones de vacaciones
+Vacation Message,Mensaje de vacaciones
+Vacation Date From,Fecha de Vacaciones Desde
+Vacation Date To,Fecha de Vacaciones A
+Vacation Status,Estado de Vacaciones
+Vacation Settings,Ajustes de vacaciones
+'Revenues',‘ingresos’
+Total Items Sold,Total de artículos vendidos
+Total Orders,Pedidos total
+Date,Fecha
+id,Id
+Totals,Totales
+invalid request,solicitud no válida
+see error log for details,ver el log de errores para más detalles
+Service unavailable,Servicio no disponible
+Marketplace Seller Report Dashboard,Cuadro de mando de informes de vendedores en el mercado
+Marketplace Advance Report System,Sistema de informes de avance del mercado
+January,Enero
+February,febrero
+March,marzo
+April,Abril
+May,mayo
+June,junio
+July,Julio
+August,Agosto
+September,Septiembre
+October,Octubre
+November,Noviembre
+December,Diciembre
+Advance Report,Informe de Avance
+Sales and Orders,Ventas y Pedidos
+Choose categories,Elegir categorías
+Choose Order Status,Seleccione Estado de la orden
+Generate Reports,Generar informes
+Day,Día
+Week,Semana
+Month,Mes
+Year,Año
+Start On Date,Fecha de inicio
+End On Date,End On Date
+Filter Result,Resultado del filtro
+Top On Charts,Top en las listas
+Sales By GeoLocation,Ventas por GeoLocalización
+Top Selling Products,Productos más vendidos
+Best Customers,Los mejores clientes
+Customer,Cliente
+Date Of Registration,Fecha de registro
+Last Purchase Date,Fecha de la última compra
+Total Orders,Total de pedidos
+Total Spendings,Total de gastos
+Select Seller,Eligir vendedor
+Start date must be prior than end date.,La fecha de inicio debe ser anterior a la fecha de finalización.
+Choose categories (%1),Elegir categorías (%1)
+Choose Order Status (%1),Seleccione Status de pedido (%1)
+Wallet Amount,Monto de la billetera
+Wallet System,Sistema de billetera
+Wallet system details,Detalles del sistema de billetera
+%1's details,Detalles %1s
+Now total remaining amount in your wallet is: %1,Ahora la cantidad total restante en su billetera es: %1
+Now total remaining amount in his/her wallet is: %1,Ahora la cantidad total restante en su billetera es: %1
+"Applied"".""Applied","Aplicado"", ""Aplicado"
+Pending,Pendiente
+You can not add more than %1 amount to your wallet.,Usted no puede agregar más de %1 cantidad a su billetera.
+You can not add less than %1 amount to your wallet.,Usted no puede agregar menos de %1 cantidad a su billetera.
+"You can not add other products with wallet product, and vise versa.","No se pueden añadir otros productos con el producto de la cartera, y viceversa."
+You can not update wallet product's quantity.,No se puede actualizar la cantidad de productos de la billetera.
+"There is a Refund of amount %1 on order Order Id:#%2 has processed. So, amount %3 has been credited to your wallet.","Hay un reembolso de la cantidad %1 en la orden Id:#%2 ha procesado. Por lo tanto, la cantidad %3 ha sido acreditada a su billetera."
+" get amount %1 credited in his/her wallet, because of refund has been processed on order order id: #%2","obtener la cantidad %1 acreditada en su billetera, debido a que el reembolso ha sido procesado en la orden de identificación: #%2"
+You can not other product with wallet product,Usted no puede otro producto con el producto de la billetera
+You can not add wallet product with other product,No se puede añadir el producto de la cartera con otro product
+You have made an order Order Id:#%1 in which you have used %2 amount from your wallet,Usted ha hecho un pedido Id:#%1 en el que ha utilizado %2 cantidad de su billetera
+" have made an order, Order Id:#%1 in which he used %2 amount from his/her wallet","ha hecho un pedido, Identificador de pedido:#%1 en el que ha utilizado %2 de la cantidad de su cartera"
+You have made an order Order Id:#%1 in which you have added %2 amount in your wallet,Usted ha hecho un pedido Id:#%1 en el que ha añadido %2 cantidad en su cartera
+" have made an order, Order Id:#%1 in which he is added %2 amount in his/her wallet","ha hecho un pedido, Id. de pedido:#%1 en el que se le añade %2 de importe en su monedero"
+Wallet Details,Detalles de la billetera
+Your wallet Balance,El saldo de su billetera
+Enter Amount to be Added in wallet,Ingrese el monto a agregar en la billetera
+Add Money To Wallet,Añadir dinero a la cartera
+Last Transactions,Últimas transacciones
+Description,Descripción
+Debit,Débito
+Credit,Crédito
+Status,Estado
+Order id: ,Id. de pedido
+Applied,Aplicado
+Pending,Pendiente
+No records found!,¡No se han encontrado registros!
+Payment method is not enabled.,El método de pago no está habilitado.
+Payment By Your Wallet,Pago con su billetera
+Payment to be Made,Pago a realizar
+Left Amount to be Pay,Cantidad restante a pagar
+Remaining: ,Restante:
+No Amount available in wallet,No Cantidad disponible en la billetera
+Please Select Customers To Adjust Wallet Amount.,"Por favor, seleccione clientes para ajustar la cantidad de la billetera."
+Are you sure you want to update amount in wallet?,¿Estás seguro de que quieres actualizar la cantidad en la billetera?
+Wallet system Credit Rule,Sistema de billetera Regla de crédito
+General Information,Información general
+Credit Rule Based,Basado en la regla de crédito
+On Product,en el producto
+On Cart,En cesta
+Amount,Cantidad
+Minimum Amount,Cantidad Mínima
+Start From Date,Inicio desde la fecha
+End Date,Fecha de finalización
+Rule Status,Estado de la regla
+Enabled,Activado
+Disabled,Desactivado
+Save Credit Rule,Grabar regla de crédito
+Save and Continue Edit,Guardar y continuar editar
+Delete Rule,Eliminar regla
+Edit Rule '%1',Editar Regla '%1
+New Rule,Regla nueva
+Adjust Amount To Wallet,Ajustar la cantidad a la billetera
+Enter amount,Introduzca la cantidad
+Action want to perform on amount,Acción que se desea realizar en la cantidad
+Credit Amount,Importe del crédito
+Debit Amount,Cantidad de débito
+Note for the transaction,Nota para la transacción
+Customer ID,ID de cliente
+Customer Name,Nombre del cliente
+Email ID,E-Mail ID
+Remaining Wallet Amount,Cantidad restante de la billetera
+Total Wallet Amount,Monto total de la billetera
+Add Wallet Amount,Añadir importe de billetera
+Add Amount,Añadir importe
+Are you want to add amount?,¿Desea añadir una cantidad adicional?
+Adjust Amount,Ajustar importe
+A Total of %1 record(s) successfully updated.,Un total de %1 registro(s) actualizado con éxito.
+Something went wrong while Updating the data.,Algo salió mal mientras actualizaba los datos.
+A total of %1 record(s) have been deleted.,Se ha eliminado un total de 1 registro(s) %1.
+Something went wrong while Deleting the data.,Algo salió mal mientras Borraba los datos.
+This rule no longer exists.,Esta regla ya no existe.
+Edit Wallet Credit Rule,Editar la regla de crédito de la billetera
+Update Credit Rule,Actualizar regla de crédito
+Add Wallet Credit Rule,Regla para Añadir Crédito a la Cartera
+Add Credit Rule,Añadir regla de crédito
+Wallet system Credit Rules,Sistema de billetera Reglas de crédito
+Credit Rule successfully deleted.,Regla de crédito borrada con éxito.
+Credit Rule Successfully saved.,Regla de crédito guardada con éxito.
+Something went wrong while saving the data.,Algo salió mal mientras guardaba los datos.
+Amount is successfully added in customer's wallet.,El importe se añade con éxito en la cartera del cliente.
+Please Enter a valid amount to add.,"Por favor, introduzca un importe válido para añadir."
+Please select Customers to add amount.,"Por favor, introduzca un importe válido para añadir."
+Respective amount is not available in customer's wallet to subtract,La cantidad respectiva no está disponible en la billetera del cliente para restar
+Amount %1ed by Admin,Importe %1ed by Admin
+%1 amount %2ed by Admin. Admin added a note for the transaction: %3,%1 cantidad %2ed by Admin. Admin añadió una nota para la transacción: %3
+Total of %1 Customer(s) wallet are updated,Total de %1 Cartera de cliente(s) actualizada
+Respective amount is not available in customer's wallet with customer id %1 to subtract,La cantidad respectiva no está disponible en la billetera del cliente con el número de identificación del cliente %1 para restar
+Maximum wallet amount should be %1,La cantidad máxima de billetera debe ser %1
+Minimum wallet amount should be %1,La cantidad mínima de billetera debe ser %1
+Product based,Basado en el producto
+Cart Based,Basado en cesta
+Fixed,Fijo
+Percent,Porcentaje
+Order id : %1 Cash Back Amount,Id. de pedido : %1 Monto de reembolso
+Are you sure? you want to delete Wallet Amount product?,¿Está seguro? ¿Desea eliminar el producto Monto de la billetera?
+"There is some error during executing this process, please try again later.","Hay algún error durante la ejecución de este proceso, por favor inténtelo de nuevo más tarde."
+My Wallet,Mi Billetera
+Transfer Amount,Importe de la transferencia
+"Session expired for this transaction, please try again","La sesión ha caducado para esta transacción, por favor inténtelo de Nuevo"
+Code has been sent to your email id.,El código ha sido enviado a su ID de correo electrónico.
+You don't have enough amount in your wallet.,No tienes suficiente cantidad en tu billetera.
+Please try again with valid data.,"Por favor, inténtelo de nuevo con datos válidos."
+"Code Session Expired, please try again","La sesión de código ha caducado, por favor inténtelo de nuevo."
+Verification Code,Código de verificación
+Transaction note,Nota de transacción
+Transaction At,Transacción a
+Reciver,Receptor
+Type,Tipo
+Action,Acción
+Amount,Cantidad
+Reference,Referencia
+Sender,Remitente
+Enter code,Introducir código
+Send amount,Enviar importe
+Resend Code,Reenviar código
+Please Select a payee,"Por favor, elige un beneficiario"
+Transfer Money to Customer,Transferir dinero al cliente
+Note,Nota
+No Customer is available,Ningún cliente está disponible
+Manage Wallet Amount,Administrar el monto de la billetera
+Transfer Wallet Amount,Monto de la billetera de transferencia
+Adding To Wallet,Añadir a la billetera
+Wallet Holder's Name,Nombre del titular de la billetera
+Current Amount,Importe actual
+"Something went wrong, please try again.","Algo salió mal. Inténtalo de nuevo, por favor."
+Transaction status is updated.,Se actualiza el status de la operación.
+Bank Transfer Details,Detalles de la transferencia bancaria
+Wallet System Transaction View,Vista de transacciones del sistema de billetera
+Amount is successfully updated in customer's wallet.,El importe se actualiza con éxito en la cartera del cliente.
+Transfer to %1,Transferencia/ transferir a %1
+Transfer by %1,Transferencia/ transferir en %1
+Amount transferred successfully,Importe/ cantidad transferido con éxito
+Incorrect code,Código incorrecto
+"Either code session is expired, or amount is already transferred.",La sesión de código ha caducado o ya se ha transferido el importe.
+"%1, Amount is transferred by customer to bank account","%1, Importe transferido por el deudor a la cuenta bancaria"
+Amount transfer request has been sent!,¡Se ha enviado la solicitud de transferencia de importe!
+Wallet Transaction,Transacción de billetera
+Product Credit Amount,Importe del crédito de producto
+Rules amount,Importe de las reglas
+You can not add other product with wallet product,No se puede añadir otro producto con la billetera del product
+Order id : %1 credited amount,Id. de pedido : %1 importe abonado
+Order id : %1 debited amount,Id. de pedido : %1 importe cargado
+"Order id : %1, %2ed amount","Order id : %1, %2ed amount"
+"You can not generate credit memo of this order, refunded amount is not available in customer's wallet","No se puede generar abono de este pedido, el importe del reembolso no está disponible en la cartera del cliente."
+"You can not do online refund for this order, do the offline refund all the refunded amount will be transferred to customer's wallet","Usted no puede hacer el reembolso en línea para este pedido, haga el reembolso fuera de línea todo el importe del reembolso se transferirá a la cartera del cliente"
+Wallet amount transferred to bank,Monto de la billetera transferido al banco
+Wallet amount order refund,Reembolso de la cantidad de la billetera
+Wallet refund order amount,Importe del pedido de reembolso de la billetera
+Wallet cashback,Reembolso de la billetera
+Wallet Order debit,Orden de débito de billetera
+Wallet Order credit,Crédito para pedidos de billetera
+Wallet Customer debit,Cartera Débito de cliente
+Wallet Customer credit,Cartera Crédito de cliente
+Wallet Admin debit,Débito del administrador de billetera
+Wallet Admin credit,Crédito de administrador de billetera
+Are you sure to update status of Transaction?,¿Está seguro de actualizar el estado de la transacción?
+Update Transfer Transaction Status,Actualizar el status de la transacción de transferencia
+Update Transaction Status,Actualizar el estado de la transacción
+View Transaction,Ver Transacción
+Are you sure you want to delete rules?,¿Está seguro de que desea eliminar reglas?
+Delete rates,eliminar tasas
+Delete,Eliminar
+Edit,Editar
+Individual Details,Detalles Individuales
+Wallet System Cash Back,Sistema de Cartera Cash Back
+Cash Back Calculation Based On,Cálculo de la devolución de efectivo basado en
+Cash back calculation should be based on cart value or on product value.,El cálculo de la devolución de dinero debe basarse en el valor de la cesta o en el valor del producto.
+Price Calculation Based on,Determinación de tarifas basada en
+"In percent type calculation, if in a rule having cashback amount more then 100%, then cashback amount is calculated to 100%.","En el cálculo del tipo de porcentaje, si en una regla que tiene una cantidad de devolución de dinero superior al 100%, entonces la cantidad de devolución de dinero se calcula al 100%."
+Adding amount in wallet settings,Adición de cantidades en la configuración de la billetera
+Allow To use Discount while adding amount in wallet,Permitir el uso del Descuento mientras se agrega una cantidad en la billetera
+Allow customer to apply discount when customer adding wallet amount in his wallet,Permitir que el cliente aplique el descuento cuando el cliente agrega la cantidad de la billetera en su billetera
+Transfer Amount Settings,Configuración del importe de la transferencia
+Enable validation while transfer,Activar la validación durante la transferencia
+If set yes then a verification code sent to email id.,"Si la respuesta es afirmativa, se enviará un código de verificación a la identificación del correo electrónico."
+Duration of code usage,Duración del uso del código
+"Enter duration in seconds, eg(30)","Introduzca la duración en segundos, por ejemplo (30)"
+Prefix for transactions,Prefijo de las transacciones
+Prefix for credited amount by admin,Prefijo de la cantidad acreditada por el administrador
+Prefix for debited amount by admin,Prefijo de la cantidad cargada por admin
+Prefix for amount transferred by customer,Prefijo del importe transferido por el cliente
+Prefix for amount transferred to customer,Prefijo del importe transferido al cliente
+Prefix for wallet recharge,Prefijo para recarga de billetera
+Prefix for used wallet amount,Prefijo de la cantidad de billetera usada
+Prefix for cashback amount,Prefijo para el importe de reembolso
+Prefix for refund of an order,Prefijo para el reembolso de un pedido
+Prefix for refund of wallet recharge order,Prefijo para el reembolso del pedido de recarga de billetera
+Prefix for bank transfer amount,Prefijo del importe de la transferencia bancaria
+Cron Job Settings,Configuración de la tarea de cronómetro
+Enable cron job for monthly statement,Activar cron job para el estado de cuenta mensual
+If set yes then every customer will get monthly statement of wallet transaction on date 1 of each month.,"Si la respuesta es afirmativa, cada cliente recibirá un estado de cuenta mensual de la transacción de la billetera en la fecha 1 de cada mes."
+Webkul Wallet System,Sistema de billetera Webkul
+Enable this Payment Method,Activar esta forma de pago
+Payment Method Title,Método de pago Título
+Minimum Amount To add In wallet,Cantidad Mínima Para agregar en la billetera
+Maximum Amount To add In wallet,Cantidad máxima para agregar en la billetera
+Payment from Applicable Countries,Pago desde los países aplicables
+Payment from Specific Countries,Pago desde países específicos
+Allow Payment methods to add amount in wallet,Permitir que los métodos de pago añadan una cantidad en la billetera
+Sort Order,Orden de clasificación
+Admin credit,Crédito administrativo
+Admin debit,Débito administrativo
+Transfer by customer,Transferencia por cliente
+Transfer to customer,Transferencia a cliente
+Recharge wallet,Cartera de recarga
+Use wallet,Usar la billetera
+Cashback,Cashback
+Refund order,Orden de reembolso
+Update status if amout is transferred,Actualizar el status si se transfiere el importe
+Update amount to wallet,Actualizar cantidad a la billetera
+Transaction Status,Estado de la transacción
+Transfer Amount to bank account,Transferencia Importe a cuenta bancaria
+Account Details,Detalles de la cuenta
+Receiver,Receptor
+Bank Details,Datos bancarios
+Your Wallet Balance,El saldo de su billetera
+Credited Amount,Importe abonado
+%1's Wallet,%1's Billetera
+If you placed this order then total amount %1 will be credited in your wallet.,Si usted hizo este pedido entonces la cantidad total %1 será acreditada en su billetera.
+Wallet System Payee Details,Detalles del Sistema de Billetera del Beneficiario
+Payee is added in your list,El beneficiario se agrega a su lista
+Payee is successfully deleted,El receptor del pago se elimina con éxito
+Payee is not validate,El receptor del pago no es válido
+Are you sure to update status of selected Payees?,¿Está seguro de actualizar el estado de los beneficiarios seleccionados?
+Update Payee Status,Actualizar el estado del beneficiario
+Are you sure you want to delete selected payees?,¿Está seguro de que desea eliminar beneficiarios seleccionados?
+Delete Payee,Eliminar receptor del pago
+Payee Customer Name,Nombre del cliente del beneficiario
+Payee Customer Id,Identificador de cliente del beneficiario
+Payee Customer Email,Email del cliente del beneficiario
+Wallet System Payee List,Lista de beneficiarios del sistema de billetera
+Reciever not exists,El receptor no existe
+"Are you sure, you want to delete payee?",¿Está seguro de que desea borrar el receptor del pago?
+"Are you sure, you want to delete Wallet Amount product?",¿Está seguro de que desea eliminar el producto monto de la billetera?
+Select Payee To Whom You want to transfer Amount,Seleccione el beneficiario al que desea transferir el importe
+Wirecard Payment Gateway,Pasarela de pago de Wirecard
+Wirecard Payment Gateway Pay now.,Pasarela de pago de Wirecard Pague ahora.
+General Information regarding Wirecard Shop Plugins,Información general sobre los plugins de Wirecard Shop
+Credentials,Credenciales
+Base Url,URL base
+Http User,Usuario Http
+Http Password,Contraseña Http
+Test Credentials,Credenciales de prueba
+Please check your credentials.,"Por favor, compruebe sus credenciales."
+An error occurred during the payment process. Please try again.,"Se ha producido un error durante el proceso de pago. Por favor, inténtalo de nuevo."
+Credentials correct.,Credenciales correctas.
+Settings,Ajustes
+Default Currency,Moneda por defecto
+Wirecard Payment Gateway PayPal,Pasarela de pagos de Wirecard PayPal
+Enabled,Activado
+Merchant Account Id,Id. de cuenta de comerciante
+Secret Key,Clave Secreta
+Final state of transaction could not be determined.,No se pudo determinar el estado final de la transacción.
+Invalid request to success redirect page.,Petición inválida a la página de redirección de éxito.
+No such order.,No existe tal orden.
+The payment process was not finished successful.,El proceso de pago no ha terminado con éxito.
+You have canceled the payment process.,Ha cancelado el proceso de pago.
+Authorize,Autorizar
+Capture,Captura
+An error occurred loading the credit card form. Please try again.,"Se ha producido un error al cargar el formulario de la tarjeta de crédito. Por favor, inténtalo de nuevo."
+An error occurred submitting the credit card form.,Se ha producido un error al enviar el formulario de la tarjeta de crédito.
+SEPA Direct Debit Mandate Form,Formulario de Mandato de Adeudo Directo SEPA
+Creditor,Acreedor
+Creditor ID:,ID de acreedor:
+Mandate reference:,Referencia del mandato:
+Debtor,Deudor
+Account owner,Titular de la cuenta
+Birthdate:,Fecha de nacimiento:
+Bank Account IBAN,Cuenta bancaria IBAN
+IBAN:,IBAN:
+Bank BIC,BIC de banco
+BIC:,BIC:
+I authorize the creditor ,Autorizo al acreedor
+ to send instructions to my bank to collect one single direct debit from my account. At the same time I instruct my bank to debit my account in accordance with the instructions from the creditor ,"para enviar instrucciones a mi banco para cobrar un solo débito directo de mi cuenta. Al mismo tiempo, instruyo a mi banco para que cargue en mi cuenta de acuerdo con las instrucciones del acreedor."
+sepamandatetextextra,Sepamandatetextextra
+"Note: As part of my rights, I am entitled to a refund under the terms and conditions of my agreement with my bank. A refund must be claimed within 8 weeks starting from the date on which my account was debited.","Nota: Como parte de mis derechos, tengo derecho a un reembolso bajo los términos y condiciones de mi acuerdo con mi banco. Un reembolso debe ser reclamado dentro de 8 semanas a partir de la fecha en que mi cuenta fue cargada."
+"I irrevocably agree that, in the event that the direct debit is not honored, or objection against the direct debit exists, my bank will disclose to the creditor %s my full name, address and date of birth.","Estoy irrevocablemente de acuerdo en que, en el caso de que la domiciliación bancaria no se cumpla, o de que exista una objeción contra la domiciliación bancaria, mi banco revelará al acreedor %s mi nombre completo, dirección y fecha de nacimiento."
+I have read and accepted the SEPA Direct Debit Mandate information.,He leído y aceptado la información del Mandato de Adeudo Directo SEPA.
+Amount:,Cantidad:
+Date:,Fecha:
+The maximum order amount in your default currency to initialize Non 3-D Secure transactions.,El monto máximo del pedido en su divisa predeterminada para inicializar las transacciones que no son seguras en 3-D.
+"The minimum order amount in your default currency to initialize 3-D Secure transactions.<br /><a href=""https://github.com/wirecard/magento2-ee/wiki/Credit-Card%3A-3D-Secure-and-SSL"">Overview: Non 3-D Secure Max Limit and 3-D Secure Min Limit</a>","El importe mínimo de pedido en su divisa predeterminada para inicializar transacciones seguras en 3-D. <br /><a href=""https://github.com/wirecard/magento2-ee/wiki/Credit-Card%3A-3D-Secure-and-SSL"">Overview: Límite máximo de seguridad en 3-D y límite mínimo de seguridad en 3-D </a>>"
+The elastic engine base url. (e.g. https://api.wirecard.com),"La base del motor elástico url. (p.ej., https://api.wirecard.com)"

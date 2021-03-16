@@ -1,0 +1,72 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpMassUpload
+ * @author    Webkul
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+// @codingStandardsIgnoreFile
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$isPartner= $helper->isSeller();
+$magentoCurrentUrl = $block->getCurrentUrl();
+$allow_pro_type=$helper->getAllowedProductType();
+$isSellerGroup = $helper->isSellerGroupModuleInstalled();
+?>
+<?php if ($isPartner): ?>
+    <?php if (($isSellerGroup && ($helper->isAllowedAction('mpmassupload/product/view') || $helper->isAllowedAction('mpmassupload/product/export') || $helper->isAllowedAction('mpmassupload/dataflow/profile'))) || !$isSellerGroup) { ?>
+        <?php
+        if (strpos($magentoCurrentUrl, 'mpmassupload/product') || strpos($magentoCurrentUrl,'mpmassupload/dataflow')) {
+            $currentClass = "current active";
+        } else {
+            $currentClass = "";
+        } ?>
+        <li class="wk-mp-item-massupload level-0 <?php echo $currentClass?>" id="wk-mp-menu-massupload">
+            <a href="#" onclick="return false;" class="">
+                <span><?php echo __('Mass Upload')?></span>
+            </a>
+            <div class="wk-mp-submenu">
+                <strong class="wk-mp-submenu-title"><?php echo __('Mass Upload')?></strong>
+                <a href="#" class="action-close _close" data-role="wk-mp-close-submenu"></a>
+                <ul>
+                    <li data-ui-id="menu-webkul-massupload-menu" class="item-menu parent level-1">
+                        <strong class="wk-mp-submenu-group-title">
+                            <span><?php echo __('Menu')?></span>
+                        </strong>
+                        <div class="wk-mp-submenu">
+                            <ul>
+                                <?php if(($isSellerGroup && $helper->isAllowedAction('mpmassupload/product/view')) || !$isSellerGroup) { ?>
+                                    <li class="level-2">
+                                        <a href="<?php echo $block->getUrl('mpmassupload/product/view', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                            <span><?php echo __('Mass Upload Product') ?></span>
+                                        </a>
+                                    </li>
+                                <?php } ?>
+                                <?php if(($isSellerGroup && $helper->isAllowedAction('mpmassupload/product/export')) || !$isSellerGroup) { ?>
+                                    <li class="level-2">
+                                        <a href="<?php echo $block->getUrl('mpmassupload/product/export', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                            <span><?php echo __('Mass Upload Product Export') ?></span>
+                                        </a>
+                                    </li>
+                                <?php } ?>
+                                <?php if(($isSellerGroup && $helper->isAllowedAction('mpmassupload/dataflow/profile')) || !$isSellerGroup) {
+                                    if(strpos($allow_pro_type,'configurable') !== false){ ?>
+                                        <li class="level-2">
+                                            <a href="<?php echo $block->getUrl('mpmassupload/dataflow/profile', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                <span><?php echo __('Mass Upload Dataflow Profile') ?></span>
+                                            </a>
+                                        </li>
+                                        <?php
+                                    }
+                                } ?>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    <?php } ?>
+<?php endif; ?>

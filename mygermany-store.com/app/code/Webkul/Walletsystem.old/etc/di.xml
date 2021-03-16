@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Webkul Software
+ *
+ * @category Webkul
+ * @package Webkul_Walletsystem
+ * @author Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license https://store.webkul.com/license.html
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- overwrite cart customerdata to display wallet amount product in minicart -->
+    <preference for="Magento\Checkout\CustomerData\Cart" type="Webkul\Walletsystem\Rewrite\CustomerData\Cart" />
+    <!-- Overwrite quote item model to manage wallet product amount -->
+    <preference for="Magento\Quote\Model\Quote\Item" type="Webkul\Walletsystem\Model\Quote\Item"/>
+    <!-- repository -->
+    <preference for="Webkul\Walletsystem\Api\WalletCreditRepositoryInterface" type="Webkul\Walletsystem\Model\CreditRepository" />
+    <!-- Plugin to hide wallet amount product in admin -->
+    <type name="Magento\Catalog\Model\ResourceModel\Product\Collection">
+        <plugin name="Webkul_Walletsystem::arroundProductCollection" type="Webkul\Walletsystem\Model\Plugin\Product" sortOrder="1" />
+    </type>
+    <!-- plugin to manage wallet amount product amount when currency is changed -->
+    <type name="Magento\Directory\Controller\Currency\SwitchAction">
+        <plugin name="Webkul_Walletsystem::arroundCurrencySwitch" type="Webkul\Walletsystem\Controller\Plugin\Currency\SwitchAction" sortOrder="1" />
+    </type>
+    <!-- plugin to manage wallet amount product amount when store is changed -->
+    <type name="Magento\Store\Controller\Store\SwitchAction">
+        <plugin name="Webkul_Walletsystem::arroundStoreSwitch" type="Webkul\Walletsystem\Controller\Plugin\Store\SwitchAction" sortOrder="1" />
+    </type>
+    <!-- To manage credit memo amount by wallet if creadit memo is online -->
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Creditmemo\Save">
+        <plugin name="Webkul_Walletsystem::beforeCreditMemoSave" type="Webkul\Walletsystem\Controller\Plugin\Order\Creditmemo\Save" sortOrder="1" />
+    </type>
+    <!-- plugin to manage wallet payment method for order total 0 -->
+    <type name="Magento\Payment\Model\Checks\ZeroTotal">
+        <plugin name="Webkul_Walletsystem::afterZeroTotal" type="Webkul\Walletsystem\Model\Plugin\Checks\ZeroTotal" sortOrder="1" />
+    </type>
+    <!-- plugin to manage exception when adding other product with wallet product -->
+    <type name="Magento\Checkout\Model\Cart">
+        <plugin name="Webkul_Walletsystem::beforeAddtoCart" type="Webkul\Walletsystem\Model\Plugin\Cart" sortOrder="1" />
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="waletsystem_wallet_details_data_source" xsi:type="string">Webkul\Walletsystem\Model\ResourceModel\Walletrecord\Grid\Collection</item>
+                <item name="waletsystem_wallet_individual_details_data_source" xsi:type="string">Webkul\Walletsystem\Model\ResourceModel\Wallettransaction\Grid\Collection</item>
+                <item name="wallesystem_creditrules_data_source" xsi:type="string">Webkul\Walletsystem\Model\ResourceModel\Walletcreditrules\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Webkul\Walletsystem\Model\ResourceModel\Walletrecord\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">wk_ws_wallet_record</argument>
+            <argument name="eventPrefix" xsi:type="string">walletsystem_walletrecord_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">walletrecord_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\Walletsystem\Model\ResourceModel\Walletrecord</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Webkul\Walletsystem\Model\ResourceModel\Wallettransaction\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">wk_ws_wallet_transaction</argument>
+            <argument name="eventPrefix" xsi:type="string">wallet_transaction_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">wallettransaction_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\Walletsystem\Model\ResourceModel\Wallettransaction</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Webkul\Walletsystem\Model\ResourceModel\Walletcreditrules\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">wk_ws_credit_rules</argument>
+            <argument name="eventPrefix" xsi:type="string">wallet_creditrules_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">walletcreditrules_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\Walletsystem\Model\ResourceModel\Walletcreditrules</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Email\Model\Source\Variables">
+        <plugin name="mageSetupEmailSourceVariables" type="Webkul\Walletsystem\Plugin\Email\Model\Source\Variables"/>
+    </type>
+</config>

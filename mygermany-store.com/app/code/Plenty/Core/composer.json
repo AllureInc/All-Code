@@ -1,0 +1,36 @@
+{
+    "name": "plenty/core",
+    "description": "PlentyMarkets Magento connector. Core plugin.",
+    "require": {
+        "php": "~7.1.3||~7.2.0",
+        "magento/framework": "102.0.*",
+        "magento/module-backend": "101.0.*",
+        "magento/module-store": "101.0.*",
+        "magento/module-ui": "101.1.*",
+        "magento/magento-composer-installer": "*"
+    },
+    "suggest": {
+
+    },
+    "type": "magento2-module",
+    "version": "0.1.0",
+    "license": [
+
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Plenty\\Core\\": ""
+        }
+    },
+    "extra": {
+        "map": [
+            [
+                "*",
+                "Plenty/Core"
+            ]
+        ]
+    }
+}

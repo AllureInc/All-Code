@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/*
+ * File is used for Observer module in Magento 2
+ * Mangoit Customobserver
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <cataloginventory>
+            <item_options>
+                <custom_email_template>cataloginventory_item_options_custom_email_template</custom_email_template>
+            </item_options>
+        </cataloginventory>
+    </default>
+</config>

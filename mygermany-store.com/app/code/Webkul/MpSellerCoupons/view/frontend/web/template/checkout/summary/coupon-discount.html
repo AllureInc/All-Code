@@ -1,0 +1,18 @@
+<!-- 
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpSellerCoupons
+ * @author    Webkul Software Private Limited 
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */ -->
+<!-- ko if: isDisplayedCoupondiscountTotal() -->
+<tr class="totals coupon-discount excl">
+   <th class="mark" colspan="1" scope="row" data-bind="text: coupondiscount_total"></th>
+   <td class="amount">
+       <span class="price" data-bind="text: getCoupondiscountTotal(), attr: {'data-th': coupondiscount_total}"></span>
+   </td>
+</tr>
+<!-- /ko -->

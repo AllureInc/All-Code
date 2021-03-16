@@ -1,0 +1,22 @@
+<!--@subject Compliance Check | {{trans "%order_id" order_id=$data.order_id}} @-->
+<!--@vars {
+"var data.order_id":"Order Id",
+"var data.name":"Vendor Name"
+} @-->
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">Hi {{trans "%name" name=$data.name}},</p>
+
+<table style="width:100%; padding: 10px;">
+    <tr>
+        <td style="padding: 10px 10px 10px 0px; width: 100%;">
+            Thank you for placing the order.
+            As we have checked that you have use different email id for paypal login.
+            So right now, your order is in compliance check.
+
+            We will inform your once we confirmed about your payment.
+        </td><br/>
+    </tr>
+</table>
+
+{{template config_path="contact/email/email_footer_template_seller"}}

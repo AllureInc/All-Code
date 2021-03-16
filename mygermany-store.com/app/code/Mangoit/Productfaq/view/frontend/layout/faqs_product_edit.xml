@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <head>
+        <title>Edit Faq</title>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Mangoit\Productfaq\Block\Productfaqedit" name="faq_products_edit" template="Mangoit_Productfaq::productfaqedit.phtml" />
+        </referenceContainer>
+    </body>
+</page>

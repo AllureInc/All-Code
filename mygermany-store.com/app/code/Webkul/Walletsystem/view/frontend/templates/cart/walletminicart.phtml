@@ -1,0 +1,9 @@
+<?php
+	$creditedAmount = $block->getCreditRuleData();
+	if ($creditedAmount > 0) {
+		$formattedPrice = $block->getFormattedPrice($creditedAmount);
+?>
+<div class="wk_credited_highlight">
+    <span><?php /* @escapeNotVerified */echo __('If you placed this order then total amount %1 will be credited in your wallet.', $formattedPrice);?></span>
+</div>
+<?php } ?>

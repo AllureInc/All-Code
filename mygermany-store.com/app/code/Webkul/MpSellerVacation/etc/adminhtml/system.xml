@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Webkul Software
+*
+* @category  Webkul
+* @package   Webkul_MpSellervacation
+* @author    Webkul
+* @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+* @license   https://store.webkul.com/license.html
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="mpsellervacation" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Seller Vacation Setting</label>
+            <!-- Assign section to tab -->
+            <tab>webkul</tab>
+            <resource>Webkul_MpSellerVacation::config_mpsellervacation</resource>
+            <!-- create group for fields in section -->
+           <group id="vacation_settings" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Vacation Settings</label>
+                    <field id="vacation_mode" translate="label comment" sortOrder="1" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                          <label>Seller Product Disable Type</label>
+                          <source_model>Webkul\MpSellerVacation\Model\Vacation\Mode</source_model>
+                    </field>
+                     <field  id="label_for_disabled_pro" translate="label comment" sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                         <label>Add To Cart Lable For Close Shop</label>
+                         <comment>label can be maximum 30 characters long</comment>
+                         <validate>validate-length maximum-length-30</validate>
+                         <depends>
+                                <field id="vacation_mode">add_to_cart_disable</field>
+                         </depends>
+                    </field>
+                     <field id="product_disable_instr" translate="label comment" sortOrder="3" type="hidden" showInDefault="1" showInWebsite="1" showInStore="1">
+                                <label>NOTE</label>
+                                <comment>You have to set cron execution on the server , without it product will not enabled automatically when vacation end. cron execute at 1:00 AM Daily</comment>
+                                <depends>
+                                    <field id="vacation_mode">product_disable</field>
+                                </depends>
+                    </field>
+                    <field  id="label_for_cart_pro" translate="label comment" sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Cart Page Lable For Close Shop</label>
+                        <comment>label can be maximum 30 characters long</comment>
+                        <validate>required-entry validate-length maximum-length-30</validate>
+                   </field>
+                </group>
+        </section>
+    </system>
+</config>

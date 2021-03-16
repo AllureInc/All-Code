@@ -1,0 +1,39 @@
+Legend
+
++ Features
+- Bugs
+
+-------------------------------- Version 3.0.0 --------------------------------------
+
+		+ Implement push notification using FCM 
+
+-------------------------------- Version 2.1.0 --------------------------------------
+
+		+ Made Compatible with Magento-2.3.x
+		
+-------------------------------- Version 2.0.2 --------------------------------------
+
+		+ Made compatible with Magento-2.2.x & Marketplace-2.1.x
+		+ Subscriber name column added in Subscriber grid
+
+-------------------------------- Version 2.0.1 --------------------------------------
+
+		+ minor issues Fixed.
+
+-------------------------------- Version 2.0.0 --------------------------------------
+
+		+ Works well in Chrome and Mozilla.
+		+ Designed to work with the SSL certificate websites.
+		+ User needs to opt-in the pop-up that reflects at the time of visiting the website.
+			With clicking, the user gets the access to view the push notifications until there are any manual changes from admin end.
+		+ With every notification, admin can send a web link. Web push notifications are    clickable as clicking on notification redirects user to the site.
+		+ The view of push notification is in the form of an alert.
+		+ Admin can create different templates(notification data) which can be choose while  sending notifications.
+		+ Admin can select subscriber ids to whom notification will be sent.
+			Functionality to filter subscribers on the basis of browser and date of subscription is available.
+		+ An option of selecting a title, message, redirect URL and icon at the time of creation of template is available.
+		+ Seller can create, edit  and delete notification templates.
+		+ Seller can also set redirect url , title , message and icon for the template
+		+ Seller can send push notification to registered users.
+		+ Seller can filter subscribed users by their browser and created date fields.
+		+ Seller can filter templates by their title , message and created time.

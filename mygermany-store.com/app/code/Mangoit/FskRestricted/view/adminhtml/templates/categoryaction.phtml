@@ -1,0 +1,235 @@
+<!-- Last edit 29-Jan-2019 -->
+<style type="text/css">
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+} 
+.confirm {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+} 
+.modal-confirm {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+#remove-country{
+    background-color: #eb5202;
+    border-color: #eb5202;
+    /*border: 1px solid;
+    border-radius: 0;
+    display: inline-block;*/
+    color: #fff;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.25);
+    font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1.36;
+    /*padding: .6rem 1em .6rem;*/
+    text-align: center;
+    /*vertical-align: baseline;*/
+}
+
+.wait {
+  display: none;
+  margin: 10% auto;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 60px;
+  height: 60px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+<?php 
+$categoryData = $block->getCategoriesList();
+$categoryData->addAttributeToSelect('*');
+$cateogoryFilter = [0,1];
+$categoryData->addAttributeToFilter('level',['nin' => $cateogoryFilter]);
+?>
+<select class="mis-country-restriction" style="width: 12%">
+    <option value=""><?php echo __('Select Action');?></option>
+    <option class="remove-country" value="remove"><?php echo __('Remove All Countries');?></option>
+    <option class="add-country" value="add"><?php echo __('Add/Edit Countries');?></option>
+</select>  
+<form method="post" action="<?php echo $block->getSaveUrl();?>" id="mis_country_res" >
+    <input type="hidden" name="form_key" value="<?php echo $block->getformKey();?>">
+    <div class="admin__data-grid-wrap" data-role="grid-wrapper">
+        <table class="data-grid data-grid-draggable" data-role="grid">
+            <tr class="data-row _odd-row">
+                <th class="data-grid-th _sortable _draggable">  
+                    <input type="checkbox" name="selectAll" id="checkall"><span>Selece All</span>
+                </th>
+                <th class="data-grid-th _sortable _draggable">
+                    <?php echo __('Category Id');?>
+                </th>
+                <th class="data-grid-th _sortable _draggable">
+                    <?php echo __('Category Name');?>
+                </th class="data-grid-th _sortable _draggable">
+                <th>
+                    <?php echo __('Restricted in countries');?>
+                </th class="data-grid-th _sortable _draggable">
+            </tr>
+            <?php foreach ($categoryData as $category): ?>
+                <tr>
+                    <td ><input type="checkbox" name="selected[]" class="selectbox" value="<?php echo $category->getEntityId(); ?>"></td>
+                    <td><?php echo $category->getEntityId(); ?></td>
+                    <td><?php echo $category->getName(); ?></td>
+                    <?php 
+                    $country = $block->getRestrictedCountries($category->getEntityId());
+                    $country = str_replace(',', ', ', $country);
+                    ?>
+                    <td><?php echo $country; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    </div>
+</form>
+<script type="text/javascript">
+    requirejs(['jquery'], function( $ ) {
+        jQuery(window).load(function(){
+            jQuery('select').prop('selectedIndex', 0);
+        });
+
+        jQuery(document).on('click','#checkall', function(){
+            jQuery('input:checkbox').not(this).prop('checked', this.checked);
+        });
+
+        jQuery(document).on('click', '.close', function(){
+            jQuery("#myModal").css('display', 'none');
+            jQuery("#myConfirm").css('display', 'none');
+        });
+
+        jQuery(document).on('click', '#no', function(){
+            jQuery("#myConfirm").css('display', 'none');
+            jQuery('select').prop('selectedIndex', 0);
+        });
+
+        jQuery(document).on('change', '.mis-country-restriction', function(){
+            var restrictionVal = jQuery(".mis-country-restriction :selected").val();
+            console.log(restrictionVal);
+            if (restrictionVal == 'add') {
+                if( !(jQuery('.selectbox:checkbox:checked').length > 0) ) {
+                    event.preventDefault();
+                    jQuery("#myModal").css('display', 'block');
+                } else {
+                    console.log('submit');
+                    $('#mis_country_res').submit();
+                }
+
+            } else if (restrictionVal == 'remove') {
+                event.preventDefault();
+                if( !(jQuery('.selectbox:checkbox:checked').length > 0) ) {
+                    event.preventDefault();
+                    jQuery("#myModal").css('display', 'block');
+                } else {
+                    jQuery("#myConfirm").css('display', 'block');
+                    console.log('confirm box');
+                }
+            }
+        });
+
+        jQuery(document).on('click', '#yes', function(){
+            jQuery("#myConfirm").css('display', 'none');
+            var ajaxurl = "<?php echo $this->getUrl('fskrestricted/category/unrestrictcategory') ?>";
+            var catIdArray = [];
+            jQuery('.selectbox:checkbox:checked').each(function(){
+                catIdArray.push(jQuery(this).val());
+            });
+
+            jQuery.ajax({
+                type: "POST",
+                data : {catIdArray},
+                async : true,
+                url: ajaxurl,
+                showLoader : true,
+                success: function (response) {                            
+                    if (response == 'true') {
+                        location.reload();
+                    }
+                },
+                error: function (response) {
+                    console.log('err'+response);
+                    
+                }
+            });
+        });
+
+    });
+</script>
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Please select atleast one checkbox.</p>
+</div>
+</div>
+
+<div id="myConfirm" class="confirm">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Are you sure you want to remove restrictions ?.</p>
+    <input type="button" name="yes" value="yes" id="yes">
+    <input type="button" name="no" value="No" id="no">
+</div>
+</div>
+
+
+
+
+

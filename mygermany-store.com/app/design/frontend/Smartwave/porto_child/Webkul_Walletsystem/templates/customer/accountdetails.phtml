@@ -1,0 +1,150 @@
+<?php
+/**
+* Webkul Software
+*
+* @category Webkul
+* @package Webkul_Walletsystem
+* @author Webkul
+* @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+* @license https://store.webkul.com/license.html
+*/
+?>
+<style type="text/css">
+    .wallet-error { text-align: left; color: #e02b27; font-size: 1.2rem; display: none;}
+</style>
+<?php 
+$helper = $this->helper('Webkul\Walletsystem\Helper\Data');
+$accountDataColection = $block->getUserAccountData();
+?>
+<div style="width:44%;float:left; height:100%; border-right:1px solid#c0c0c0; padding:0 20px">
+    <form id="walletsystem_add_payee" method="post" action="<?php echo $block->getUrl('walletsystem/transfer/accountdetails')?>" data-mage-init='{"validation": {}}'>
+        <input type="hidden" name="customer_id" value="<?php echo $helper->getCustomerId();?>">
+        <div class="fieldset">
+            <div class="wk_msg_notification">
+                <h4><?php echo __("Add New Account Details"); ?></h4>
+            </div>
+            <div>
+                <label for="holdername"><?php echo __('A/c Holder Name'); ?></label>
+                <input type="text" id="holdername" name="holdername" class="holdername" data-validate="{required:true}">
+                <p class="holdername_err wallet-error"><?php echo __("This field is required.")?></p>
+            </div>
+            <div>
+                <label for="bankname"><?php echo __('Bank Name');?></label>
+                <input type="text" id="bankname" name="bankname" class="bankname" data-validate="{required:true}" >
+                <p class="bankname_err wallet-error"><?php echo __("This field is required.")?></p>
+            </div>
+            <div>
+                <label for="bankcode"><?php echo __('Bank Code');?></label>
+                <input type="text" id="bankcode" name="bankcode" class="bankcode" data-validate="{required:true}" >
+                <p class="bankcode_err wallet-error"><?php echo __("This field is required.")?></p>
+            </div>
+            <div>
+                <label for="additional"><?php echo __('Additional Information');?></label>
+                <textarea id="additional" name="additional" class="additional" data-validate="" maxlength="100"></textarea>
+                <p class="additional_err wallet-error"><?php echo __("This field is required.")?></p>
+            </div>
+            <div>
+                <button type="submit" class="wk_ws_sub_add_payee button action primary">
+                    <?php echo __('Submit Bank Details');?>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<div style="width:49%;float:right; height:450px;overflow-y:scroll;">
+    <div class="info">
+        <div class="fieldset">
+            <div class="wk_msg_notification">
+                <h4><?php echo __("Saved Account Details"); ?></h4>
+            </div>
+            <?php if ($accountDataColection->getSize()): ?>
+                <?php foreach($accountDataColection as $accountData): ?>
+                <div class="wk-mp-row">
+                    <div>
+                        <strong><?php echo __('A/c Holder Name'); ?>: </strong>
+                        <span><?php echo $accountData->getHoldername();?></span>
+                    </div>
+                    <div>
+                        <strong><?php echo __('Bank Name');?>: </strong>
+                        <span><?php echo $accountData->getBankname();?></span>
+                    </div>
+                    <div>
+                        <strong><?php echo __('Bank Code');?>: </strong>
+                        <span><?php echo $accountData->getBankcode();?></span>
+                    </div>
+                    <div>
+                        <strong><?php echo __('Additional Information');?>: </strong>
+                        <span><?php echo $accountData->getAdditional();?></span>
+                    </div>
+                    <a href="<?php echo $block->getUrl('walletsystem/transfer/requestdelete');?>id/<?php echo $accountData->getEntityId();?>"><?php echo __("Request delete"); ?></a>
+                </div>
+                <hr />
+                <?php endforeach;?>
+            <?php else: ?>
+                <p><?php echo __('No Data Found');?></p>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+<script type="text/x-magento-init">
+    {
+        "#walletsystem_add_payee": {
+            "validation": {}
+        }
+    }
+</script>
+<script type="text/javascript">
+function stopSubmit()
+{
+    event.preventDefault();
+}    
+require([
+    'jquery',
+    'mage/mage'
+], function($){
+
+   var dataForm = $('#walletsystem_add_payee');
+   dataForm.mage('validation', {});
+
+   /*$('.wk_ws_sub_add_payee').on('click', function(event){
+       if ($(".holdername").val() ==  "" && $(".bankname").val() ==  "" && $(".bankcode").val() ==  "" && $(".additional").val() ==  "") {
+            $(".holdername_err").show();
+            $(".bankname_err").show();
+            $(".bankcode_err").show();
+            $(".additional_err").show();
+            stopSubmit();
+       } else if ($(".holdername").val() == "") {
+            $(".holdername_err").show();
+            stopSubmit();
+       } else if ($(".bankname").val() == "") {
+            $(".bankname_err").show();
+            stopSubmit();
+       } else if ($(".bankcode").val() == "") {
+            $(".bankname_err").show();
+            stopSubmit();
+       } else if ($(".additional").val() == "") {
+            $(".additional_err").show();
+            stopSubmit();
+       }else if ($(".holdername").val() != "") {
+            $(".holdername_err").hide();
+            stopSubmit();
+       } else if ($(".bankname").val() != "") {
+            $(".bankname_err").hide();
+            stopSubmit();
+       } else if ($(".bankcode").val() != "") {
+            $(".bankname_err").hide();
+            stopSubmit();
+       } else if ($(".additional").val() != "") {
+            $(".additional_err").hide();
+            stopSubmit();
+       } else {
+            $(".holdername_err").hide();
+            $(".bankname_err").hide();
+            $(".bankcode_err").hide();
+            $(".additional_err").hide();
+       }
+
+   });*/
+
+});
+</script>

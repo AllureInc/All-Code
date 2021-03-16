@@ -1,0 +1,38 @@
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://cedcommerce.com/license-agreement.txt
+ *
+ * @category Ced
+ * @package Ced_Productfaq
+ * @author CedCommerce Core Team
+ * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license http://cedcommerce.com/license-agreement.txt
+ */
+#p_scents > p {
+  background: #f1f1f1 none repeat scroll 0 0;
+  border: 1px solid #d7d7d7;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+#p_scents label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+#p_scents label input {
+  border-color: #d7d7d7;
+  height: 35px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+#p_scents label textarea {
+  border-color: #d7d7d7;
+  height: 160px;
+  width: 100%;
+}

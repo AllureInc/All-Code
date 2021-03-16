@@ -1,0 +1,93 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MarketplacePreorder
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+?>
+<?php
+    $flag = 0;
+    $helper = $this->helper('Webkul\MarketplacePreorder\Helper\Data');
+    $cartHelper = $this->helper('Magento\Checkout\Helper\Cart');
+    $preorderCompleteProductId = $helper->getPreorderCompleteProductId();
+    $options = $helper->getPreorderCompleteOptions();
+    $_order = $block->getOrder();
+    $_items = $_order->getItemsCollection();
+    $info = [];
+    $incrementId = "#".$_order->getIncrementId();
+    $product = $helper->getProduct($preorderCompleteProductId);
+    $url = $cartHelper->getAddUrl($product);
+    $count = 0;
+    $sellerId = 0;
+    $wkproduct_id = 0;
+    $wkPreorderUrl = '';
+?>
+<?php foreach ($_items as $_item): ?>
+    <?php
+        $quoteItemId = $_item->getQuoteItemId();
+        $itemId = $_item->getId();
+        $productId = $_item->getProductId();
+        if($productId == $preorderCompleteProductId)
+        {
+            $item = $helper->getPreorderCompleteData('quote_item_id', $quoteItemId, 'eq');
+            if ($item) {
+                $itemId = $item['order_item_id'];
+                $field = 'item_id';
+                $item = $helper->getPreorderItemData('item_id', $itemId, 'eq');                
+                if ($item) {
+                    // $wkproduct_name = $helper->getProduct($item['product_id'])->getName();
+                    $wkPreorderUrl = $block->getUrl('sales/order/view', ['order_id' => $item['order_id']]);
+                }
+            }
+        }
+        if ($_item->getParentItem()) {
+            $parentId = $_item->getParentItem()->getProductId();
+            $key = $count-1;
+            $info[$key]['item_id'] = $itemId;
+            $info[$key]['product_id'] = $productId;
+            $info[$key]['parent_id'] = $parentId;
+            if($helper->isPreorderOrderedItem($_order->getId())) {
+                $preorderItemData = $helper->getPreorderItemCollectionData(['item_id', 'order_id'], [$itemId, $_order->getId()]);
+                if (!is_bool($preorderItemData)) {
+                    $sellerId = $preorderItemData->getSellerId();
+                }
+                $flag = 1;
+                $info[$key]['preorder'] = $helper->getPreorderStatus($itemId);
+                if($helper->isConfigAvailable($productId, $qty, $parentId)) {
+                    $info[$key]['available'] = 1;
+                }
+            }
+        } else {
+            $qty = $_item->getQtyOrdered();
+            $name = $_item->getName();
+            $iteminfo = array('available' => 0, 'preorder' => 0, 'item_id' => $itemId, 'parent_id' => 0 ,'product_id' => $productId, 'product_name' => $name, 'qty' => $qty);
+            if($helper->isPreorderOrderedItem($_order->getId())) {
+                $preorderItemData = $helper->getPreorderItemCollectionData(['item_id', 'order_id'], [$itemId, $_order->getId()]);
+                if (!is_bool($preorderItemData)) {
+                    $sellerId = $preorderItemData->getSellerId();
+                }
+                $flag = 1;
+                $iteminfo['preorder'] = $helper->getPreorderStatus($itemId);
+                if($helper->isAvailable($productId, $qty)) {
+                    $iteminfo['available'] = 1;
+                }
+            }
+            $info[$count] = $iteminfo;
+            $count++;
+        }
+    ?>
+<?php endforeach; ?>
+<?php 
+$orderid = $_order->getId();
+$data = json_encode(["option" => $options, "info" => $info, "flag" => $flag, 'sellerid' => $sellerId, "orderid" => $orderid, "incrementId" => $incrementId, "url" => $url, "preorderCompleteProductId" => $preorderCompleteProductId,'orderurl'=>$wkPreorderUrl]); ?>
+<script type="text/x-magento-init">
+    {
+        "body": {
+            "Webkul_MarketplacePreorder/js/order-items": <?php echo $data ?>
+        }
+    }
+</script>

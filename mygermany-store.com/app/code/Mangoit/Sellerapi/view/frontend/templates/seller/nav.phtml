@@ -1,0 +1,30 @@
+<?php 
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpAdvertisementManager
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */ 
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$isPartner= $helper->isSeller();
+$isSellerGroup = $helper->isSellerGroupModuleInstalled();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$urlInterface = $objectManager->create('Magento\Framework\UrlInterface');
+$magentoCurrentUrl = $urlInterface->getCurrentUrl();
+if ($isPartner) { ?>
+    <?php if(($magentoCurrentUrl == $urlInterface->getUrl('sellerapi/seller/index/')) ) { ?>
+        <li class="nav itemm current mis_strong">
+            <strong><?php echo __('Seller API') ?></strong>
+        </li> 
+    <?php } else {?>
+         <li class="nav item "> 
+             <a href="<?php echo $block->getUrl('sellerapi/seller/index',['_secure' => $this->getRequest()->isSecure()]);?>">
+                <?php  /* @escapeNotVerified */ echo __('Seller API') ?>
+            </a>  
+        </li>
+    <?php } ?>
+<?php } ?> 
+

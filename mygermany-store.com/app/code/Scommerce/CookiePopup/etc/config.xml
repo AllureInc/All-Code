@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <scommerce_cookie_popup>
+            <general>
+                <enable>0</enable>
+                <modal_title>Cookie Preferences</modal_title>
+                <button_text>Save Choice</button_text>
+                <list_header>Cookies are used by</list_header>
+                <link_text>Cookie Settings</link_text>
+                <use_gtm>0</use_gtm>
+                <use_datalayers>0</use_datalayers>
+                <accept_all_text>Accept All</accept_all_text>
+                <accept_button_text>Accept</accept_button_text>
+                <cookie_message_link_text>Cookie Settings</cookie_message_link_text>
+            </general>
+            <style>
+                <border>1</border>
+                <border_color>EEEEEE</border_color>
+                <header_background_color>EEEEEE</header_background_color>
+                <header_font_color>0A075C</header_font_color>
+                <footer_background_color>EEEEEE</footer_background_color>
+                <footer_font_color>333333</footer_font_color>
+                <header_bottom_border>1</header_bottom_border>
+                <header_bottom_border_color>CCCCCC</header_bottom_border_color>
+                <footer_top_border>1</footer_top_border>
+                <footer_top_border_color>CCCCCC</footer_top_border_color>
+                <active_tab_background>DDDDDD</active_tab_background>
+                <tab_active_color>333333</tab_active_color>
+                <tab_header_color>333333</tab_header_color>
+                <custom_button>0</custom_button>
+                <custom_button_border>1px solid #DDDDDD</custom_button_border>
+                <custom_button_background_color>999999</custom_button_background_color>
+                <custom_button_font_color>FFFFFF</custom_button_font_color>
+                <number_tabs>0</number_tabs>
+                <accept_button_background>32D248</accept_button_background>
+                <accept_button_text_color>FFFFFF</accept_button_text_color>
+            </style>
+        </scommerce_cookie_popup>
+    </default>
+</config>

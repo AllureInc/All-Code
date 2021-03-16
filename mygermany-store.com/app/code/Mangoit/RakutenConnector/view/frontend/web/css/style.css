@@ -1,0 +1,134 @@
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */
+/* process bar profiler */
+#mass-delete-butn-amazon {
+    line-height : 2!important;
+    float : right;
+}
+.wk-mu-error-msg-container{
+    max-height : 200px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.wk-first-error{
+    width:14%;
+}
+.wk-msg-box{
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-align: center;
+}
+.wk-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    clear: both;
+}
+.message-error{
+    color:#e74c3c;
+}
+.wk-mu-sample-files {
+    display: inline-block;
+    font-size: 12px;
+    margin-bottom: 25px;
+    width: 100%;
+}
+.wk-mu-sample-files > a {
+    margin-right: 15px;
+}
+.wk-mu-progress-bar {
+    border: 1px solid #28cb6e;
+    display: inline-block;
+    height: 15px;
+    margin-top: 5px;
+    width: 100%;
+    margin-bottom: 30px;
+}
+.wk-mu-progress-bar-current {
+    background: none repeat scroll 0 0 #61d896;
+    display: inline-block;
+    height: 15px;
+    width: 0px;
+}
+.wk-mu-info-bar {
+    color: #3c763d;
+    font-weight: bold;
+    margin-top: 30px;
+}
+.wk-mu-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+.wk-mu-note {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+.wk-mu-notice {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+.wk-mu-error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+.wk-mu-box {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-weight: bold;
+}
+
+/* navigation */
+.mp-rakuten-connect{
+    position: relative;
+}
+.mp-rakuten-connect ul.nav{
+    display:none;
+    top: 0px;
+    position: absolute;
+    background-color: #f5f5f5;
+    margin-left: 55%;
+    border: 1px solid rgb(204, 204, 204);
+    width:185px;
+    z-index: 999;
+}
+.mp-rakuten-connect:hover ul.nav{
+    display:block;
+}
+.block-collapsible-nav .mp-rakuten-connect.current .item a {
+    font-weight: normal;
+    border-left:none;
+}
+/* sync product list*/
+.amazon-sync-products #form-productlist-filter input
+{
+    width: 70%;
+}
+.amazon-sync-products #loader-image {
+    visibility: hidden;
+    vertical-align: middle;
+}
+.amazon-sync-products #loader-image.show{
+    visibility: visible;
+}
+
+/* unassigned products list */
+.ebay-unassigned-products .category {
+    float: left;
+    width:48%;
+    max-height: 200px;
+    margin-bottom:10px;
+}
+.mp-edit, .mp-delete{
+    cursor: pointer;
+}

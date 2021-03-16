@@ -1,0 +1,86 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<section id="marketplace" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+			<tab>webkul</tab>
+			<!-- <resource>Mangoit_VendorPayments::config_mangoit_vendorpayments</resource> -->
+			<group id="general_settings" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+				<field id="allow_invoice_in" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>Allow Invoice Generation In (Days)</label>
+					<validate>validate-digits validate-greater-than-zero</validate>
+					<comment>Please enter number of days here.</comment>
+    			</field>
+                <field id="generate_invoice_now" translate="label" type="button" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Generate Invoice Now</label>
+                        <frontend_model>Mangoit\VendorPayments\Block\System\Config\GenerateButton</frontend_model>
+                        <comment>This will run the weekly and monthly invoice generation cron.</comment>
+                </field>
+				<field id="vendor_invoice_email_template" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Vendor Invoice Email Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+				<field id="vendor_invoice_email_template_vendor_copy" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Vendor Invoice Email Template (Vendor Email)</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+				<field id="cancel_order_invoice_email_vendor_paypal" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Cancel Order Invoice Vendor Email Template (Paypal)</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+				<field id="cancel_order_invoice_email_admin_paypal" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Cancel Order Invoice Admin Email Template (Paypal)</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+				<field id="cancel_order_invoice_email_vendor_bank" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Cancel Order Invoice Vendor Email Template (Bank)</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+				<field id="cancel_order_invoice_email_admin_bank" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Cancel Order Invoice Admin Email Template (Bank)</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+				<field id="cancel_order_invoice_email_approval_vendor" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Cancel Order Request Approval Email Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="cancel_order_chrg_in_p" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>Cancel Order Charge (in percent)</label>
+					<!-- <validate>validate-digits validate-greater-than-zero</validate> -->
+					<validate>validate-digits</validate>
+					<comment>Please enter number without "%" sign here.</comment>
+				</field>
+                <field id="cancel_order_chrg_fxd" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>Cancel Order Charge (fixed amount)</label>
+					<validate>validate-digits</validate>
+					<comment>Please enter fixed Cancel Order Charge (EUR) here.</comment>
+				</field>
+			</group>
+			<group id="cancel_order_settings" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+				<label>Cancel Order Charges Settings</label>
+				<field id="is_sand" translate="label comment" sortOrder="3" type="select" showInDefault="1">
+                    <label>Sandbox</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="cancel_rq_notify_days" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Cancel Request Notify Days (Bank)</label>
+                    <!-- <config_path>marketplace/cancel_order_settings/client_id_sand</config_path> -->
+                    <!-- <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model> -->
+                </field>
+                <field id="cancel_order_admin_notify" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Cancel Order Admin Notify Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+				<field id="client_id_sand" translate="label" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Paypal App Client Id (sandbox)</label>
+                    <config_path>marketplace/cancel_order_settings/client_id_sand</config_path>
+                    <!-- <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model> -->
+                </field>
+                <field id="client_id_prod" translate="label" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Paypal App Client Id (Prod)</label>
+                    <config_path>marketplace/cancel_order_settings/client_id_prod</config_path>
+                    <!-- <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model> -->
+                </field>
+			</group>
+		</section>
+	</system>
+</config>

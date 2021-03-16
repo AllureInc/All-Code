@@ -1,0 +1,135 @@
+<!-- last edited 29-Jan-2019 -->
+<style type="text/css">
+.enable-ads-demo, .book-plan
+{
+    text-transform: capitalize !important;
+}
+</style>
+<?php 
+
+$isAdsDemoEnable = $block->getIsAdsDemoEnable();    
+$adsPlans = $block->getAdsPlans();
+$jsonConfig = $block->getJsJosnConfig();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$priceHelper = $objectManager->create('Magento\Framework\Pricing\Helper\Data');
+$catalogHelper = $objectManager->create('Magento\Catalog\Helper\Data');
+$productRepository =  $objectManager->create('Magento\Catalog\Api\ProductRepositoryInterface');
+$advProduct = $productRepository->get('wk_mp_ads_plan');
+?>
+<div class="wk-mp-design mpads-block-manager-cont" >
+    <fieldset class="fieldset info wk-mp-fieldset">
+        <legend class="legend">
+            <span><?php echo __('Buy Advertisement Positions') ?></span>
+        </legend>
+        <div class="actions-toolbar wk-enable-demo-action">
+            <div class="primary">
+                <?php if ($isAdsDemoEnable) {
+                    ?>
+                    <button data-status="1" class="action primary enable-ads-demo"><?php echo __("Disable Ads Demo"); ?></button>
+                    <?php
+
+                } else {
+                    ?>
+                    <button data-status="0" class="action primary enable-ads-demo"><?php echo __("Enable Ads Demo"); ?></button>
+                    <?php 
+                } 
+                ?>
+            </div>
+        </div>
+        <div class="fieldset ads-container">
+            <div class="ads-plans-container"> 
+                <div class="title">
+                    <?php if($adsPlans->getSize() <= 0) {  ?>
+                        <note><?php echo __("there is no plans available yet"); ?></note>
+                    <?php } else { ?>
+                        <?php foreach($adsPlans as $plan) { 
+                            $isAdsCanBeBooked = $block->isAddCanBeBooked($plan->getBlockPosition()); 
+                            $blockType = $block->getBlockType($plan->getBlockPosition());
+                            if ($blockType == 'External') {     ?>
+                                <div class="plan-items <?php echo $isAdsCanBeBooked?'':'ads-sold-out' ?>">
+                                    <form id="plan-form-<?php echo $plan->getBlockPosition(); ?>" action="<?php echo $block->getAddToCartAction(); ?>" method="post" data-mage-init='{"validation":{}}'>
+                                        <fieldset class="wk-plan-fieldset fieldset">
+                                            <input type="hidden" name="book[<?php  echo $plan->getBlockPosition(); ?>][block_position]" value="<?php  echo $plan->getBlockPosition(); ?>" />
+
+                                            <input type="hidden" value="<?php echo $plan->getBlockPosition(); ?>" name="blockId" />
+
+                                            <?php  echo $this->getBlockHtml('seller.formkey')?>
+                                            <?php echo $this->getBlockHtml('formkey')?>
+
+                                            <?php
+                                            $final_price = $catalogHelper->getTaxPrice($advProduct, $plan->getPrice(), true);
+
+                                            $getPrice = $priceHelper->currency($plan->getPrice(), false);
+                                            ?>
+                                            <input type="hidden" name="book[<?php echo $plan->getBlockPosition(); ?>][price]" value="<?php echo $getPrice; ?>" />
+                                            <input type="hidden" name="book[<?php echo $plan->getBlockPosition(); ?>][base_price]" value="<?php echo $plan->getPrice(); ?>" />
+
+                                            <div class="legend">               
+                                                <div class="control"><?php echo $block->getPositionLabel($plan->getBlockPosition()); ?><span class="step" title = "Remaining Ads on the Block"><?php echo $block->remainingAdsOnParticularBlock($plan->getBlockPosition());  ?></span></div>
+                                            </div>
+                                            <div class="field">
+                                                <label class="label"><span><?php echo __("Content Type") ?></span></label>
+                                                <div class="control">
+                                                    <?php 
+                                                    $blockPositionId = $plan->getBlockPosition();
+                                                    $contentName = $block->getContentName($blockPositionId);
+                                                    ?>
+                                                    <p><?php echo __($contentName)?></p>
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label class="label"><span><?php echo __("Price") ?></span></label>
+                                                <div class="ads-price control"><?php 
+                                                echo $block->getFormattedPrice($final_price ); ?></div>
+                                            </div>
+                                            <div class="field">
+                                                <label class="label"><span><?php  echo __("Valid Days") ?></span></label>
+                                                <div class="control">
+                                                    <?php echo __("%1 days", $block->getDays($plan->getBlockPosition())); ?>
+                                                    <input type="hidden" class="input-text" name="book[<?php  echo $plan->getBlockPosition(); ?>][days]" value="<?php echo $block->getDays($plan->getBlockPosition()); ?>" />
+                                                </div>
+                                            </div>
+                                            <?php
+                                            $contentId = $this->getContentId($blockPositionId);
+                                            $adsData = $block->getSellerBlocks($contentId);
+                                            if (count($adsData->getData()) > 0) { ?>
+                                                <div class="field required">
+                                                    <label class="label"><span><?php  echo __("Ad Blocks") ?></span></label>
+                                                    <div class="ads-block control" style="display: block !important;">
+                                                        <select name="book[<?php  echo $plan->getBlockPosition(); ?>][block]" class="ads-block-select select" <?php echo $isAdsCanBeBooked?'':'disabled' ?> data-validate='{"required":true}' >
+                                                            <option value=""><?php echo __('Select');?></option>
+                                                            <?php
+                                                            foreach($block->getSellerBlocks($contentId) as $adsBlock) { ?>
+                                                                <option value="<?php  echo $adsBlock->getId(); ?>"><?php  echo $block->escapeHtml($adsBlock->getTitle()); ?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                                </div>    
+                                                <button <?php echo $isAdsCanBeBooked?'':'disabled' ?> type="submit" class="book-plan action primary"><?php  echo $isAdsCanBeBooked?__('Book'):__('Booked') ?></button>
+                                            <?php } else { ?>
+                                                <div>
+                                                    <label class="label"><span><?php echo __('Please create "'.$contentName.'" type ad block.');?></span></label>
+                                                </div>
+                                            <?php } ?>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            <?php } 
+                        }
+                        ?>
+                    <?php } ?>
+
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*":{
+        "wkadvertise":{
+        "advertiseData": {"data": <?php echo $jsonConfig; ?>}
+    }
+}
+}
+</script>

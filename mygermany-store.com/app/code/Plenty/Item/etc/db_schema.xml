@@ -1,0 +1,935 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="plenty_item_export_category" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="profile_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="category_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="parent_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="text" name="system_path" nullable="true"/>
+        <column xsi:type="text" name="category_path" nullable="true"/>
+        <column xsi:type="int" name="category_level" padding="11" unsigned="false" nullable="true" identity="false"/>
+        <column xsi:type="int" name="children_count" padding="11" unsigned="false" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="category_name" nullable="true" length="64"/>
+        <column xsi:type="longtext" name="category_entries" nullable="true"/>
+        <column xsi:type="int" name="plenty_category_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="plenty_category_parent_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="plenty_category_level" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="boolean" name="plenty_category_has_children" nullable="false"/>
+        <column xsi:type="varchar" name="plenty_category_type" nullable="true" length="32"/>
+        <column xsi:type="varchar" name="plenty_category_name" nullable="true" length="255"/>
+        <column xsi:type="text" name="plenty_category_path" nullable="true"/>
+        <column xsi:type="longtext" name="plenty_category_entries" nullable="true"/>
+        <column xsi:type="varchar" name="status" nullable="true" length="16"/>
+        <column xsi:type="text" name="message" nullable="true"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="processed_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PLENTY_ITEM_EXPORT_CTGR_PROFILE_ID_PLENTY_CORE_PROFILE_ENTT_ID"
+                    table="plenty_item_export_category" column="profile_id" referenceTable="plenty_core_profile" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_ITEM_EXPORT_CATEGORY_PROFILE_ID_CATEGORY_ID">
+            <column name="profile_id"/>
+            <column name="category_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_EXPORT_CATEGORY_PROFILE_ID" indexType="btree">
+            <column name="profile_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_EXPORT_CATEGORY_CATEGORY_ID" indexType="btree">
+            <column name="category_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_EXPORT_CATEGORY_CATEGORY_NAME" indexType="btree">
+            <column name="category_name"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_EXPORT_CATEGORY_PLENTY_CATEGORY_ID" indexType="btree">
+            <column name="plenty_category_id"/>
+        </index>
+    </table>
+    <table name="plenty_item_export_product" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="profile_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="product_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="sku" nullable="true" length="64"/>
+        <column xsi:type="varchar" name="name" nullable="true" length="64"/>
+        <column xsi:type="int" name="item_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="variation_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="main_variation_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="type" nullable="true" length="32"/>
+        <column xsi:type="varchar" name="product_type" nullable="true" length="32"/>
+        <column xsi:type="varchar" name="attribute_set" nullable="true" length="32"/>
+        <column xsi:type="varchar" name="visibility" nullable="true" length="32"/>
+        <column xsi:type="varchar" name="status" nullable="true" length="16"/>
+        <column xsi:type="longtext" name="entries" nullable="true"/>
+        <column xsi:type="text" name="message" nullable="true"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="processed_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PLENTY_ITEM_EXPORT_PRD_PROFILE_ID_PLENTY_CORE_PROFILE_ENTT_ID" table="plenty_item_export_product"
+                    column="profile_id" referenceTable="plenty_core_profile" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_ITEM_EXPORT_PRODUCT_PROFILE_ID_PRODUCT_ID">
+            <column name="profile_id"/>
+            <column name="product_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_EXPORT_PRODUCT_PROFILE_ID" indexType="btree">
+            <column name="profile_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_EXPORT_PRODUCT_PRODUCT_ID" indexType="btree">
+            <column name="product_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_EXPORT_PRODUCT_SKU" indexType="btree">
+            <column name="sku"/>
+        </index>
+    </table>
+    <table name="plenty_item_import_attribute" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="profile_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="profile_attribute_id" nullable="true" length="64"/>
+        <column xsi:type="varchar" name="type" nullable="true" length="32"/>
+        <column xsi:type="int" name="position" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="attribute_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="property_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="manufacturer_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="attribute_code" nullable="true" length="32"/>
+        <column xsi:type="varchar" name="property_code" nullable="true" length="32"/>
+        <column xsi:type="int" name="property_group_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="value_type" nullable="true" length="32"/>
+        <column xsi:type="longtext" name="entries" nullable="true"/>
+        <column xsi:type="longtext" name="names" nullable="true"/>
+        <column xsi:type="longtext" name="values" nullable="true"/>
+        <column xsi:type="longtext" name="value_names" nullable="true"/>
+        <column xsi:type="longtext" name="selections" nullable="true"/>
+        <column xsi:type="longtext" name="maps" nullable="true"/>
+        <column xsi:type="longtext" name="group" nullable="true"/>
+        <column xsi:type="longtext" name="market_components" nullable="true"/>
+        <column xsi:type="longtext" name="message" nullable="true"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PLENTY_ITEM_IMPORT_ATTR_PROFILE_ID_PLENTY_CORE_PROFILE_ENTT_ID"
+                    table="plenty_item_import_attribute" column="profile_id" referenceTable="plenty_core_profile" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_ITEM_IMPORT_ATTRIBUTE_PROFILE_ATTRIBUTE_ID">
+            <column name="profile_attribute_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_IMPORT_ATTRIBUTE_PROFILE_ID" indexType="btree">
+            <column name="profile_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ATTRIBUTE_ATTRIBUTE_ID" indexType="btree">
+            <column name="attribute_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ATTRIBUTE_PROPERTY_ID" indexType="btree">
+            <column name="property_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ATTRIBUTE_MANUFACTURER_ID" indexType="btree">
+            <column name="manufacturer_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ATTRIBUTE_ATTRIBUTE_CODE" indexType="btree">
+            <column name="attribute_code"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ATTRIBUTE_PROPERTY_CODE" indexType="btree">
+            <column name="property_code"/>
+        </index>
+    </table>
+    <table name="plenty_item_import_category" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="profile_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="category_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="mage_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="parent_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="level" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="boolean" name="has_children" nullable="false"/>
+        <column xsi:type="varchar" name="type" nullable="true" length="32"/>
+        <column xsi:type="varchar" name="name" nullable="true" length="255"/>
+        <column xsi:type="text" name="path" nullable="true"/>
+        <column xsi:type="text" name="original_path" nullable="true"/>
+        <column xsi:type="text" name="preview_url" nullable="true"/>
+        <column xsi:type="varchar" name="status" nullable="true" length="16"/>
+        <column xsi:type="longtext" name="details" nullable="true"/>
+        <column xsi:type="longtext" name="message" nullable="true"/>
+        <column xsi:type="varchar" name="updated_by" nullable="true" length="64"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="processed_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PLENTY_ITEM_IMPORT_CTGR_PROFILE_ID_PLENTY_CORE_PROFILE_ENTT_ID"
+                    table="plenty_item_import_category" column="profile_id" referenceTable="plenty_core_profile" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_ITEM_IMPORT_CATEGORY_PROFILE_ID_CATEGORY_ID">
+            <column name="profile_id"/>
+            <column name="category_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_IMPORT_CATEGORY_PROFILE_ID" indexType="btree">
+            <column name="profile_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_CATEGORY_CATEGORY_ID" indexType="btree">
+            <column name="category_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_CATEGORY_MAGE_ID" indexType="btree">
+            <column name="mage_id"/>
+        </index>
+    </table>
+    <table name="plenty_item_import_item" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="profile_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="item_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="variation_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="external_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="sku" nullable="true" length="64"/>
+        <column xsi:type="varchar" name="status" nullable="true" length="16"/>
+        <column xsi:type="boolean" name="is_active" nullable="false"/>
+        <column xsi:type="varchar" name="item_type" nullable="true" length="16"/>
+        <column xsi:type="varchar" name="product_type" nullable="true" length="16"/>
+        <column xsi:type="varchar" name="bundle_type" nullable="true" length="16"/>
+        <column xsi:type="smallint" name="stock_type" padding="6" unsigned="false" nullable="false" identity="false" default="0"/>
+        <column xsi:type="varchar" name="attribute_set" nullable="true" length="32"/>
+        <column xsi:type="smallint" name="flag_one" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="smallint" name="flag_two" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="smallint" name="position" padding="5" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="varchar" name="custom_tariff_no" nullable="true" length="16"/>
+        <column xsi:type="smallint" name="revenue_account" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="smallint" name="condition" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="smallint" name="condition_api" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="owner_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="manufacturer_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="manufacturer_country_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="smallint" name="store_special" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="smallint" name="coupon_restriction" padding="5" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="int" name="max_order_qty" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="boolean" name="is_subscription" nullable="false"/>
+        <column xsi:type="int" name="rakuten_category_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="boolean" name="is_shipping_package" nullable="false"/>
+        <column xsi:type="boolean" name="is_serial_number" nullable="false"/>
+        <column xsi:type="smallint" name="amazon_fba_platform" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="boolean" name="is_shippable_by_amazon" nullable="false"/>
+        <column xsi:type="smallint" name="amazon_product_type" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="smallint" name="age_restriction" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="smallint" name="feedback" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="text" name="free1" nullable="true"/>
+        <column xsi:type="text" name="free2" nullable="true"/>
+        <column xsi:type="text" name="free3" nullable="true"/>
+        <column xsi:type="text" name="free4" nullable="true"/>
+        <column xsi:type="text" name="free5" nullable="true"/>
+        <column xsi:type="text" name="free6" nullable="true"/>
+        <column xsi:type="text" name="free7" nullable="true"/>
+        <column xsi:type="text" name="free8" nullable="true"/>
+        <column xsi:type="text" name="free9" nullable="true"/>
+        <column xsi:type="text" name="free10" nullable="true"/>
+        <column xsi:type="text" name="message" nullable="true"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="processed_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PLENTY_ITEM_IMPORT_ITEM_PROFILE_ID_PLENTY_CORE_PROFILE_ENTITY_ID" table="plenty_item_import_item"
+                    column="profile_id" referenceTable="plenty_core_profile" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_ITEM_IMPORT_ITEM_PROFILE_ID_ITEM_ID">
+            <column name="profile_id"/>
+            <column name="item_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_PROFILE_ID" indexType="btree">
+            <column name="profile_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_ITEM_ID" indexType="btree">
+            <column name="item_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_VARIATION_ID" indexType="btree">
+            <column name="variation_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_SKU" indexType="btree">
+            <column name="sku"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_EXTERNAL_ID" indexType="btree">
+            <column name="external_id"/>
+        </index>
+    </table>
+    <table name="plenty_item_import_item_attribute_value" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="item_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="variation_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="external_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="sku" nullable="true" length="64"/>
+        <column xsi:type="int" name="attribute_value_set_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="attribute_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="value_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="boolean" name="is_linked_to_image" nullable="false"/>
+        <column xsi:type="varchar" name="attribute_backend_name" nullable="true" length="64"/>
+        <column xsi:type="int" name="attribute_position" padding="10" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="text" name="value_backend_name" nullable="true"/>
+        <column xsi:type="int" name="value_position" padding="10" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="boolean" name="is_surcharge_percentage" nullable="false"/>
+        <column xsi:type="varchar" name="amazon_attribute" nullable="true" length="64"/>
+        <column xsi:type="varchar" name="fruugo_attribute" nullable="true" length="64"/>
+        <column xsi:type="int" name="pixmania_attribute" padding="10" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="varchar" name="otto_attribute" nullable="true" length="64"/>
+        <column xsi:type="varchar" name="google_shopping_attribute" nullable="true" length="64"/>
+        <column xsi:type="int" name="neckermann_at_ep_attribute" padding="10" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="varchar" name="type_of_selection_in_online_store" nullable="true" length="16"/>
+        <column xsi:type="int" name="la_redoute_attribute" padding="10" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="boolean" name="is_groupable" nullable="false"/>
+        <column xsi:type="text" name="value_image" nullable="true"/>
+        <column xsi:type="text" name="value_comment" nullable="true"/>
+        <column xsi:type="text" name="amazon_value" nullable="true"/>
+        <column xsi:type="text" name="otto_value" nullable="true"/>
+        <column xsi:type="text" name="neckermann_at_ep_value" nullable="true"/>
+        <column xsi:type="text" name="la_redoute_value" nullable="true"/>
+        <column xsi:type="text" name="tracdelight_value" nullable="true"/>
+        <column xsi:type="int" name="percentage_distribution" padding="10" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="longtext" name="attribute" nullable="true"/>
+        <column xsi:type="longtext" name="attribute_value" nullable="true"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="attribute_updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="value_updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_18D2CDD4D04A4BECA1B7FB8BE2E0A7D9" table="plenty_item_import_item_attribute_value"
+                    column="item_id" referenceTable="plenty_item_import_item" referenceColumn="item_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_ITEM_IMPORT_ITEM_ATTR_VAL_VARIATION_ID_ATTR_ID_VAL_ID">
+            <column name="variation_id"/>
+            <column name="attribute_id"/>
+            <column name="value_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_ATTRIBUTE_VALUE_ITEM_ID" indexType="btree">
+            <column name="item_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_ATTRIBUTE_VALUE_VARIATION_ID" indexType="btree">
+            <column name="variation_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_ATTRIBUTE_VALUE_EXTERNAL_ID" indexType="btree">
+            <column name="external_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_ATTRIBUTE_VALUE_SKU" indexType="btree">
+            <column name="sku"/>
+        </index>
+    </table>
+    <table name="plenty_item_import_item_barcode" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="barcode_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="item_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="variation_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="external_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="sku" nullable="true" length="64"/>
+        <column xsi:type="varchar" name="code" nullable="true" length="64"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_85FD6C3F762B41BB9EFB8C321A91EC92" table="plenty_item_import_item_barcode" column="item_id"
+                    referenceTable="plenty_item_import_item" referenceColumn="item_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_ITEM_IMPORT_ITEM_BARCODE_VARIATION_ID_BARCODE_ID">
+            <column name="variation_id"/>
+            <column name="barcode_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_BARCODE_ITEM_ID" indexType="btree">
+            <column name="item_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_BARCODE_VARIATION_ID" indexType="btree">
+            <column name="variation_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_BARCODE_EXTERNAL_ID" indexType="btree">
+            <column name="external_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_BARCODE_SKU" indexType="btree">
+            <column name="sku"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_BARCODE_CODE" indexType="btree">
+            <column name="code"/>
+        </index>
+    </table>
+    <table name="plenty_item_import_item_bundle" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="variation_bundle_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="item_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="variation_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="external_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="sku" nullable="true" length="64"/>
+        <column xsi:type="int" name="component_variation_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="component_qty" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_65DD9AF2033D688BB81F8604CB934E63" table="plenty_item_import_item_bundle" column="item_id"
+                    referenceTable="plenty_item_import_item" referenceColumn="item_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_ITEM_IMPORT_ITEM_BUNDLE_VARIATION_BUNDLE_ID">
+            <column name="variation_bundle_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_BUNDLE_ITEM_ID" indexType="btree">
+            <column name="item_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_BUNDLE_VARIATION_ID" indexType="btree">
+            <column name="variation_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_BUNDLE_EXTERNAL_ID" indexType="btree">
+            <column name="external_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_BUNDLE_SKU" indexType="btree">
+            <column name="sku"/>
+        </index>
+    </table>
+    <table name="plenty_item_import_item_category" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="category_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="item_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="variation_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="external_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="sku" nullable="true" length="64"/>
+        <column xsi:type="int" name="position" padding="10" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="boolean" name="is_neckermann_primary" nullable="false"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_85CAB3C62A81F6696D2B9B8334719A2D" table="plenty_item_import_item_category" column="item_id"
+                    referenceTable="plenty_item_import_item" referenceColumn="item_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_ITEM_IMPORT_ITEM_CATEGORY_VARIATION_ID_CATEGORY_ID">
+            <column name="variation_id"/>
+            <column name="category_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_CATEGORY_ITEM_ID" indexType="btree">
+            <column name="item_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_CATEGORY_VARIATION_ID" indexType="btree">
+            <column name="variation_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_CATEGORY_EXTERNAL_ID" indexType="btree">
+            <column name="external_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_CATEGORY_SKU" indexType="btree">
+            <column name="sku"/>
+        </index>
+    </table>
+    <table name="plenty_item_import_item_crosssells" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="item_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="variation_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="external_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="sku" nullable="true" length="64"/>
+        <column xsi:type="int" name="item_crosssells_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="relationship" nullable="true" length="16"/>
+        <column xsi:type="smallint" name="is_dynamic" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_3B8A77426A2A4D9AF189F497413A5D3D" table="plenty_item_import_item_crosssells" column="item_id"
+                    referenceTable="plenty_item_import_item" referenceColumn="item_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="UNQ_9EDD3158C785EC4A923116BA46AD0DE5">
+            <column name="variation_id"/>
+            <column name="item_crosssells_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_CROSSSELLS_ITEM_ID" indexType="btree">
+            <column name="item_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_CROSSSELLS_VARIATION_ID" indexType="btree">
+            <column name="variation_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_CROSSSELLS_EXTERNAL_ID" indexType="btree">
+            <column name="external_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_CROSSSELLS_SKU" indexType="btree">
+            <column name="sku"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_CROSSSELLS_ITEM_CROSSSELLS_ID" indexType="btree">
+            <column name="item_crosssells_id"/>
+        </index>
+    </table>
+    <table name="plenty_item_import_item_market_number" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="plenty_entity_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="item_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="variation_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="external_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="sku" nullable="true" length="64"/>
+        <column xsi:type="int" name="country_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="type" nullable="true" length="16"/>
+        <column xsi:type="int" name="position" padding="10" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="text" name="value" nullable="true"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_6FA9B766F10FB10CCD6BB4A090AF70D4" table="plenty_item_import_item_market_number"
+                    column="item_id" referenceTable="plenty_item_import_item" referenceColumn="item_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="UNQ_53BB97FE4B159626FA4FF8AA3C4DE32B">
+            <column name="variation_id"/>
+            <column name="plenty_entity_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_MARKET_NUMBER_ITEM_ID" indexType="btree">
+            <column name="item_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_MARKET_NUMBER_VARIATION_ID" indexType="btree">
+            <column name="variation_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_MARKET_NUMBER_EXTERNAL_ID" indexType="btree">
+            <column name="external_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_MARKET_NUMBER_SKU" indexType="btree">
+            <column name="sku"/>
+        </index>
+    </table>
+    <table name="plenty_item_import_item_media" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="item_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="variation_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="external_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="sku" nullable="true" length="64"/>
+        <column xsi:type="int" name="media_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="media_type" nullable="true" length="16"/>
+        <column xsi:type="boolean" name="is_linked_to_variation" nullable="false"/>
+        <column xsi:type="varchar" name="type" nullable="true" length="32"/>
+        <column xsi:type="varchar" name="file_type" nullable="true" length="32"/>
+        <column xsi:type="text" name="path" nullable="true"/>
+        <column xsi:type="int" name="position" padding="10" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="text" name="md5_checksum" nullable="true"/>
+        <column xsi:type="text" name="md5_checksum_original" nullable="true"/>
+        <column xsi:type="int" name="width" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="height" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="size" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="storage_provider_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="text" name="clean_image_name" nullable="true"/>
+        <column xsi:type="text" name="url" nullable="true"/>
+        <column xsi:type="text" name="url_middle" nullable="true"/>
+        <column xsi:type="text" name="url_preview" nullable="true"/>
+        <column xsi:type="text" name="url_secondary_preview" nullable="true"/>
+        <column xsi:type="text" name="document_upload_path" nullable="true"/>
+        <column xsi:type="text" name="document_upload_path_preview" nullable="true"/>
+        <column xsi:type="text" name="document_upload_preview_width" nullable="true"/>
+        <column xsi:type="text" name="document_upload_preview_height" nullable="true"/>
+        <column xsi:type="longtext" name="availabilities" nullable="true"/>
+        <column xsi:type="longtext" name="names" nullable="true"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_FFDD6DC5D3EB185CDE31B137B0D1DBE3" table="plenty_item_import_item_media" column="item_id"
+                    referenceTable="plenty_item_import_item" referenceColumn="item_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_ITEM_IMPORT_ITEM_MEDIA_MEDIA_ID_VARIATION_ID">
+            <column name="media_id"/>
+            <column name="variation_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_MEDIA_ITEM_ID" indexType="btree">
+            <column name="item_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_MEDIA_VARIATION_ID" indexType="btree">
+            <column name="variation_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_MEDIA_EXTERNAL_ID" indexType="btree">
+            <column name="external_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_MEDIA_SKU" indexType="btree">
+            <column name="sku"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_MEDIA_MEDIA_ID" indexType="btree">
+            <column name="media_id"/>
+        </index>
+    </table>
+    <table name="plenty_item_import_item_property" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="item_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="variation_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="external_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="sku" nullable="true" length="64"/>
+        <column xsi:type="int" name="plenty_entity_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="property_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="property_selection_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="longtext" name="names" nullable="true"/>
+        <column xsi:type="longtext" name="property_selection" nullable="true"/>
+        <column xsi:type="longtext" name="property" nullable="true"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_9BB321A99A619769841B39EEE3EB1909" table="plenty_item_import_item_property" column="item_id"
+                    referenceTable="plenty_item_import_item" referenceColumn="item_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_ITEM_IMPORT_ITEM_PROPERTY_PLENTY_ENTITY_ID">
+            <column name="plenty_entity_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_PROPERTY_ITEM_ID" indexType="btree">
+            <column name="item_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_PROPERTY_VARIATION_ID" indexType="btree">
+            <column name="variation_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_PROPERTY_EXTERNAL_ID" indexType="btree">
+            <column name="external_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_PROPERTY_SKU" indexType="btree">
+            <column name="sku"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_PROPERTY_PROPERTY_ID" indexType="btree">
+            <column name="property_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_PROPERTY_PROPERTY_SELECTION_ID" indexType="btree">
+            <column name="property_selection_id"/>
+        </index>
+    </table>
+    <table name="plenty_item_import_item_sales_price" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="sales_price_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="item_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="variation_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="external_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="sku" nullable="true" length="64"/>
+        <column xsi:type="decimal" name="price" scale="4" precision="12" unsigned="false" nullable="false" default="0"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_E87BC0379FC227EA5E92D23AF8D41606" table="plenty_item_import_item_sales_price" column="item_id"
+                    referenceTable="plenty_item_import_item" referenceColumn="item_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_ITEM_IMPORT_ITEM_SALES_PRICE_VARIATION_ID_SALES_PRICE_ID">
+            <column name="variation_id"/>
+            <column name="sales_price_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_SALES_PRICE_ITEM_ID" indexType="btree">
+            <column name="item_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_SALES_PRICE_VARIATION_ID" indexType="btree">
+            <column name="variation_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_SALES_PRICE_EXTERNAL_ID" indexType="btree">
+            <column name="external_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_SALES_PRICE_SKU" indexType="btree">
+            <column name="sku"/>
+        </index>
+    </table>
+    <table name="plenty_item_import_item_shipping_profile" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="item_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="variation_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="external_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="sku" nullable="true" length="64"/>
+        <column xsi:type="int" name="plenty_entity_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="profile_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_97FCE6E2FEC03BD11B488D1729CBD36F" table="plenty_item_import_item_shipping_profile"
+                    column="item_id" referenceTable="plenty_item_import_item" referenceColumn="item_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_ITEM_IMPORT_ITEM_SHPP_PROFILE_VARIATION_ID_PLENTY_ENTT_ID">
+            <column name="variation_id"/>
+            <column name="plenty_entity_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_SHIPPING_PROFILE_ITEM_ID" indexType="btree">
+            <column name="item_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_SHIPPING_PROFILE_VARIATION_ID" indexType="btree">
+            <column name="variation_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_SHIPPING_PROFILE_EXTERNAL_ID" indexType="btree">
+            <column name="external_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_SHIPPING_PROFILE_SKU" indexType="btree">
+            <column name="sku"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_SHIPPING_PROFILE_PROFILE_ID" indexType="btree">
+            <column name="profile_id"/>
+        </index>
+    </table>
+    <table name="plenty_item_import_item_stock" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="item_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="variation_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="external_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="sku" nullable="true" length="64"/>
+        <column xsi:type="int" name="warehouse_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="decimal" name="purchase_price" scale="4" precision="12" unsigned="false" nullable="false" default="0"/>
+        <column xsi:type="int" name="reserved_listing" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="reserved_bundles" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="physical_stock" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="reserved_stock" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="net_stock" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="reorder_level" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="delta_reorder_level" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="decimal" name="goods_value" scale="4" precision="12" unsigned="false" nullable="false" default="0"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_8500B33D1C324B7AAFD4E611C16F7062" table="plenty_item_import_item_stock" column="item_id"
+                    referenceTable="plenty_item_import_item" referenceColumn="item_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_ITEM_IMPORT_ITEM_STOCK_VARIATION_ID_WAREHOUSE_ID">
+            <column name="variation_id"/>
+            <column name="warehouse_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_STOCK_ITEM_ID" indexType="btree">
+            <column name="item_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_STOCK_VARIATION_ID" indexType="btree">
+            <column name="variation_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_STOCK_EXTERNAL_ID" indexType="btree">
+            <column name="external_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_STOCK_SKU" indexType="btree">
+            <column name="sku"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_STOCK_WAREHOUSE_ID" indexType="btree">
+            <column name="warehouse_id"/>
+        </index>
+    </table>
+    <table name="plenty_item_import_item_supplier" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="item_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="variation_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="external_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="sku" nullable="true" length="64"/>
+        <column xsi:type="int" name="plenty_entity_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="supplier_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="decimal" name="purcahse_price" scale="4" precision="12" unsigned="false" nullable="false" default="0"/>
+        <column xsi:type="int" name="minimum_purchase" padding="10" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="text" name="item_number" nullable="true"/>
+        <column xsi:type="timestamp" name="last_price_query" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="int" name="delivery_time_in_days" padding="10" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="int" name="discount" padding="10" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="boolean" name="is_discountable" nullable="false"/>
+        <column xsi:type="int" name="packaging_unit" padding="10" unsigned="true" nullable="false" identity="false" default="1"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_E19D2DC732E0DDE4A15B08A8BE0776C1" table="plenty_item_import_item_supplier" column="item_id"
+                    referenceTable="plenty_item_import_item" referenceColumn="item_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_ITEM_IMPORT_ITEM_SUPPLIER_VARIATION_ID_PLENTY_ENTITY_ID">
+            <column name="variation_id"/>
+            <column name="plenty_entity_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_SUPPLIER_ITEM_ID" indexType="btree">
+            <column name="item_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_SUPPLIER_VARIATION_ID" indexType="btree">
+            <column name="variation_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_SUPPLIER_EXTERNAL_ID" indexType="btree">
+            <column name="external_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_SUPPLIER_SKU" indexType="btree">
+            <column name="sku"/>
+        </index>
+    </table>
+    <table name="plenty_item_import_item_texts" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="item_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="variation_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="external_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="sku" nullable="true" length="64"/>
+        <column xsi:type="int" name="plenty_entity_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="lang" nullable="true" length="8"/>
+        <column xsi:type="text" name="name" nullable="true"/>
+        <column xsi:type="text" name="name2" nullable="true"/>
+        <column xsi:type="text" name="name3" nullable="true"/>
+        <column xsi:type="longtext" name="short_description" nullable="true"/>
+        <column xsi:type="longtext" name="description" nullable="true"/>
+        <column xsi:type="longtext" name="technical_data" nullable="true"/>
+        <column xsi:type="text" name="url_path" nullable="true"/>
+        <column xsi:type="longtext" name="meta_description" nullable="true"/>
+        <column xsi:type="longtext" name="meta_keywords" nullable="true"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_50BBE9C27AE174456D887AFAEBA538C2" table="plenty_item_import_item_texts" column="item_id"
+                    referenceTable="plenty_item_import_item" referenceColumn="item_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_ITEM_IMPORT_ITEM_TEXTS_VARIATION_ID_LANG">
+            <column name="variation_id"/>
+            <column name="lang"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_TEXTS_ITEM_ID" indexType="btree">
+            <column name="item_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_TEXTS_VARIATION_ID" indexType="btree">
+            <column name="variation_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_TEXTS_EXTERNAL_ID" indexType="btree">
+            <column name="external_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_TEXTS_SKU" indexType="btree">
+            <column name="sku"/>
+        </index>
+    </table>
+    <table name="plenty_item_import_item_warehouse" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="item_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="variation_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="int" name="external_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="sku" nullable="true" length="64"/>
+        <column xsi:type="int" name="warehouse_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="warehouse_zone_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="text" name="storage_location_type" nullable="true"/>
+        <column xsi:type="int" name="reorder_level" padding="10" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="int" name="max_stock" padding="10" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="int" name="stock_turnover_in_days" padding="10" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="int" name="storage_location" padding="10" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="int" name="stock_buffer" padding="10" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="boolean" name="is_batch" nullable="false"/>
+        <column xsi:type="boolean" name="is_best_before_date" nullable="false"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_0CC49806217C7830EA6D8BA2381F7B29" table="plenty_item_import_item_warehouse" column="item_id"
+                    referenceTable="plenty_item_import_item" referenceColumn="item_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_ITEM_IMPORT_ITEM_WAREHOUSE_VARIATION_ID_WAREHOUSE_ID">
+            <column name="variation_id"/>
+            <column name="warehouse_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_WAREHOUSE_ITEM_ID" indexType="btree">
+            <column name="item_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_WAREHOUSE_VARIATION_ID" indexType="btree">
+            <column name="variation_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_WAREHOUSE_EXTERNAL_ID" indexType="btree">
+            <column name="external_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_WAREHOUSE_SKU" indexType="btree">
+            <column name="sku"/>
+        </index>
+    </table>
+    <table name="plenty_item_import_item_variation" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="item_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="variation_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="main_variation_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="external_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="sku" nullable="true" length="64"/>
+        <column xsi:type="text" name="name" nullable="true"/>
+        <column xsi:type="varchar" name="status" nullable="true" length="16"/>
+        <column xsi:type="boolean" name="is_main" nullable="false"/>
+        <column xsi:type="boolean" name="is_active" nullable="false"/>
+        <column xsi:type="int" name="category_variation_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="market_variation_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="client_variation_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="sales_price_variation_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="supplier_variation_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="warehouse_variation_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="int" name="property_variation_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="smallint" name="position" padding="6" unsigned="false" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="model" nullable="true" length="64"/>
+        <column xsi:type="smallint" name="parent_variation_id" padding="6" unsigned="false" nullable="true" identity="false"/>
+        <column xsi:type="smallint" name="parent_variation_qty" padding="6" unsigned="false" nullable="true" identity="false"/>
+        <column xsi:type="smallint" name="availability" padding="6" unsigned="false" nullable="true" identity="false"/>
+        <column xsi:type="smallint" name="flag_one" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="smallint" name="flag_two" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="estimated_available_at" nullable="true" length="16"/>
+        <column xsi:type="decimal" name="purchase_price" scale="4" precision="12" unsigned="false" nullable="false" default="0"/>
+        <column xsi:type="timestamp" name="related_updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="int" name="price_calculation_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="decimal" name="picking" scale="4" precision="12" unsigned="false" nullable="false" default="0"/>
+        <column xsi:type="smallint" name="stock_limitation" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="boolean" name="is_visible_if_net_stock_is_positive" nullable="false"/>
+        <column xsi:type="boolean" name="is_invisible_if_net_stock_is_not_positive" nullable="false"/>
+        <column xsi:type="boolean" name="is_available_if_net_stock_is_positive" nullable="false"/>
+        <column xsi:type="boolean" name="is_unavailable_if_net_stock_is_not_positive" nullable="false"/>
+        <column xsi:type="int" name="main_warehouse_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="smallint" name="max_order_qty" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="smallint" name="min_order_qty" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="smallint" name="interval_order_qty" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="available_until" nullable="true" length="16"/>
+        <column xsi:type="timestamp" name="released_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="smallint" name="unit_combination_id" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="weight_g" nullable="true" length="8"/>
+        <column xsi:type="varchar" name="weight_net_g" nullable="true" length="8"/>
+        <column xsi:type="varchar" name="width_mm" nullable="true" length="8"/>
+        <column xsi:type="varchar" name="length_mm" nullable="true" length="8"/>
+        <column xsi:type="varchar" name="height_mm" nullable="true" length="8"/>
+        <column xsi:type="decimal" name="extra_shipping_charges1" scale="4" precision="12" unsigned="false" nullable="false" default="0"/>
+        <column xsi:type="decimal" name="extra_shipping_charges2" scale="4" precision="12" unsigned="false" nullable="false" default="0"/>
+        <column xsi:type="smallint" name="units_contained" padding="5" unsigned="true" nullable="false" identity="false" default="1"/>
+        <column xsi:type="smallint" name="pallet_type_id" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="smallint" name="packing_units" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="smallint" name="packing_units_type_id" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="decimal" name="transportation_costs" scale="4" precision="12" unsigned="false" nullable="false" default="0"/>
+        <column xsi:type="decimal" name="storage_costs" scale="4" precision="12" unsigned="false" nullable="false" default="0"/>
+        <column xsi:type="decimal" name="customs" scale="4" precision="12" unsigned="false" nullable="false" default="0"/>
+        <column xsi:type="decimal" name="operation_costs" scale="4" precision="12" unsigned="false" nullable="false" default="0"/>
+        <column xsi:type="int" name="vat_id" padding="10" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="bundle_type" nullable="true" length="16"/>
+        <column xsi:type="smallint" name="auto_client_visibility" padding="5" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="boolean" name="is_hidden_in_category_list" nullable="false"/>
+        <column xsi:type="decimal" name="default_shipping_costs" scale="4" precision="12" unsigned="false" nullable="false" default="0"/>
+        <column xsi:type="boolean" name="can_show_unit_price" nullable="false"/>
+        <column xsi:type="decimal" name="moving_average_price" scale="4" precision="12" unsigned="false" nullable="false" default="0"/>
+        <column xsi:type="smallint" name="auto_list_visibility" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="boolean" name="is_visible_in_list_if_net_stock_is_positive" nullable="false"/>
+        <column xsi:type="boolean" name="is_invisible_in_list_if_net_stock_is_not_positive" nullable="false"/>
+        <column xsi:type="smallint" name="single_item_count" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="smallint" name="sales_rank" padding="5" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="longtext" name="variation_clients" nullable="true"/>
+        <column xsi:type="longtext" name="variation_markets" nullable="true"/>
+        <column xsi:type="longtext" name="variation_default_category" nullable="true"/>
+        <column xsi:type="longtext" name="variation_skus" nullable="true"/>
+        <column xsi:type="longtext" name="variation_additional_skus" nullable="true"/>
+        <column xsi:type="longtext" name="variation_unit" nullable="true"/>
+        <column xsi:type="longtext" name="message" nullable="true"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="collected_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="timestamp" name="processed_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_3E7976A373979AF82ADCEFBEB4ABF32D" table="plenty_item_import_item_variation" column="item_id"
+                    referenceTable="plenty_item_import_item" referenceColumn="item_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="PLENTY_ITEM_IMPORT_ITEM_VARIATION_VARIATION_ID">
+            <column name="variation_id"/>
+        </constraint>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_VARIATION_ITEM_ID" indexType="btree">
+            <column name="item_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_VARIATION_EXTERNAL_ID" indexType="btree">
+            <column name="external_id"/>
+        </index>
+        <index referenceId="PLENTY_ITEM_IMPORT_ITEM_VARIATION_SKU" indexType="btree">
+            <column name="sku"/>
+        </index>
+    </table>
+</schema>

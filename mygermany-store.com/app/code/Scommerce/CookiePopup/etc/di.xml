@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Scommerce\CookiePopup\Api\ChoiceRepositoryInterface" type="Scommerce\CookiePopup\Model\ChoiceRepository" />
+    <preference for="Scommerce\CookiePopup\Api\ChoiceRegistryInterface" type="Scommerce\CookiePopup\Model\ChoiceRegistry" />
+    <preference for="Scommerce\CookiePopup\Api\Data\ChoiceInterface" type="Scommerce\CookiePopup\Model\Data\Choice" />
+    <preference for="Scommerce\CookiePopup\Api\Data\LinkInterface" type="Scommerce\CookiePopup\Model\Data\Link" />
+    <preference for="Scommerce\CookiePopup\Api\Data\ChoiceSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="scommerce_cookie_popup_manage_listing_data_source"
+                      xsi:type="string">Scommerce\CookiePopup\Model\ResourceModel\Choice\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <!--
+    <virtualType name="Scommerce\CookiePopup\Model\ResourceModel\Choice\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">scommerce_cookie_popup_choice</argument>
+            <argument name="resourceModel" xsi:type="string">Scommerce\CookiePopup\Model\ResourceModel\Choice</argument>
+            <argument name="eventPrefix" xsi:type="string">scommerce_cookie_popup_choice_grid_collection_event</argument>
+            <argument name="eventObject" xsi:type="string">scommerce_cookie_popup_choice_grid_collection</argument>
+        </arguments>
+    </virtualType>
+    -->
+    <type name="Scommerce\CookiePopup\Model\ResourceModel\Choice\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">scommerce_cookie_popup_choice</argument>
+            <argument name="eventPrefix" xsi:type="string">cookie_popup_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">popup_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Scommerce\CookiePopup\Model\ResourceModel\Choice</argument>
+        </arguments>
+    </type>
+
+    <type name="Scommerce\Gdpr\Model\Service\Export">
+        <plugin name="scommerce_cookipopup_customer_export" type="Scommerce\CookiePopup\Plugin\ExportPlugin" sortOrder="1" />
+    </type>
+
+<!--
+    <preference for="Magento\Framework\DB\LoggerInterface" type="Magento\Framework\DB\Logger\File"/>
+    <type name="Magento\Framework\DB\Logger\File">
+        <arguments>
+            <argument name="logAllQueries" xsi:type="boolean">true</argument>
+            <argument name="debugFile" xsi:type="string">log/sql.log</argument>
+        </arguments>
+    </type>
+-->
+</config>

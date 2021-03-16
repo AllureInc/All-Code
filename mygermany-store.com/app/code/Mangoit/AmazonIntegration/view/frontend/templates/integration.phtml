@@ -1,0 +1,73 @@
+
+<?php
+    $integrationDetails = $block->getCustomerDetails();
+    $accDetails = $block->getAmazonAccountDetail();
+    $accSellerId = '';
+    $accAccessKey = '';
+    $accSecretKey = '';
+    $entity_id = 0;
+    $default_cate = '';
+    $categoryList = $block->getCategoryList();
+    if (!empty($accDetails->getData())) {
+        $accDetailMain = $accDetails->getData();
+        $accSellerId = $accDetailMain['seller_id'];
+        $accAccessKey = $accDetailMain['access_key_id'];
+        $accSecretKey = $accDetailMain['secret_key'];
+        $entity_id = $accDetailMain['entity_id'];
+        $store_name = $accDetailMain['store_name'];
+        $default_cate = $accDetailMain['default_cate'];
+
+    }
+    $sellerId = $integrationDetails->getFirstItem()->getSellerId();
+?>
+
+<div class="mis_amazon_integration">
+    <h2 class="block-title"><?php echo __('Amazon Account Information')?></h2>
+    <div class="mit_acc">
+        <form action="<?php echo $this->getUrl('amazon/account/save'); ?>" method="post" id="mis_amazon_form" data-mage-init='{"validation":{}}'>
+            <?php echo $block->getBlockHtml('formkey');?>
+            <fieldset class="fieldset">
+                <?php /*<div class="field required">
+                    <label class="label"><?php echo __('Store name');?>:</label>
+                </div> */?>
+                <div class="field required">
+                    <label class="label"><?php echo __('Seller ID');?>:</label>
+                    <input type="text" name="seller_id" class="required-entry" value="<?php echo $accSellerId;?>" />
+                </div>
+                <div class="field required">
+                    <label class="label"><span><?php echo __('Access Key Id');?>:</span></label>
+                    <input type="text" name="access_key_id" class="required-entry" value="<?php echo $accAccessKey;?>"/>
+                </div>
+                <div class="field required">
+                    <label class="label"><span><?php echo __('Secret Key');?>:</span></label>
+                    <input type="text" name="secret_key" class="required-entry" value="<?php echo $accSecretKey;?>"/>
+                </div>
+                <div class="field required">
+                    <label class="label"><span><?php echo __('Default Category');?>:</span></label>
+                    <select name="default_cate" class="required-entry">
+                        <?php foreach ($categoryList as $value): ?>
+                            <option value="<?php echo $value['value'] ?>" <?php echo ($value['value'] == $default_cate ? 'selected':'' ); ?>><?php echo $value['label'] ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <input type="hidden" name="default_store_view" value="7">
+                <input type="hidden" name="product_create" value="1">
+                <input type="hidden" name="default_website" value="1">
+                <input type="hidden" name="order_status" value="pending">
+                <input type="hidden" name="attribute_set" value="4">
+                <input type="hidden" name="marketplace_id" value="A21TJRUUN4KGV">
+                <input type="hidden" name="store_name" value="<?php echo $store_name;?>"/>
+                <!-- <input type="hidden" name="store_name" class="required-entry" value="<?php //echo $store_name;?>"/> -->
+                <?php if ($entity_id > 0): ?>
+                    <input type="hidden" name="entity_id" value="<?php echo $entity_id ?>">
+                <?php endif; ?>
+                <input type="hidden" name="magento_seller_id" value="<?php echo $sellerId ?>">
+                <br/>
+                <!-- <p class="deviceErrorMsg" style="display: none; color:red; font-size: 13px;"></p> -->
+                <button class="mis_submit_button" type="submit">
+                    <span><?php echo __('Save') ?></span>
+                </button>
+            </fieldset>
+        </form>
+    </div>
+</div>

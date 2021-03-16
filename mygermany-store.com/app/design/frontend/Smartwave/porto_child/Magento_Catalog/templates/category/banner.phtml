@@ -1,0 +1,21 @@
+<?php
+    $_category_desc = $this->helper('Smartwave\Porto\Helper\Data')->getConfig('porto_settings/category/category_description');
+    $_helper    = $this->helper('Magento\Catalog\Helper\Output');
+    $_category  = $block->getCurrentCategory();
+    $_imgHtml   = '';
+    $_imgUrl = $_category->getImageUrl();
+?>
+<?php if ($_imgUrl): ?>
+	<div class="mis_category_page">
+		<div class="mis_cateogy_image">
+			<img class="test" src="<?php echo $_imgUrl;?>"/>
+		</div>
+		<?php /*if ($_category_desc == "full_width" && $_description = $block->getCurrentCategory()->getDescription()): ?>
+		    <div class="category-description no-margin">
+		        <?php echo $this->helper('Magento\Catalog\Helper\Output')->categoryAttribute($block->getCurrentCategory(), $_description, 'description') ?>
+		    </div>
+		<?php endif; */?>
+		
+	</div>
+<?php endif; ?>
+

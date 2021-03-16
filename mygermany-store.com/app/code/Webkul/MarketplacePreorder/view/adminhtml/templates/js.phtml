@@ -1,0 +1,95 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MarketplacePreorder
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+$flag = 0;
+$helper = $this->helper('Webkul\MarketplacePreorder\Helper\Data');
+$preorderCompleteProductId = $helper->getPreorderCompleteProductId();
+$_order = $block->getOrder();
+$_items = $_order->getItemsCollection();
+$info = [];
+$count = 0;
+$wkPreorderUrl = '';
+?>
+<?php foreach ($_items as $_item): ?>
+    <?php
+        $quoteItemId = $_item->getQuoteItemId();
+        $itemId = $_item->getId();
+        $productId = $_item->getProductId();
+        if($productId == $preorderCompleteProductId)
+        {
+            $item = $helper->getPreorderCompleteData('quote_item_id', $quoteItemId, 'eq');
+            if ($item) {
+                $itemId = $item['order_item_id'];
+                $field = 'item_id';
+                $item = $helper->getPreorderItemData('item_id', $itemId, 'eq');
+                              
+                if ($item) {
+                    // $wkproduct_name = $helper->getProduct($item['product_id'])->getName();
+                    $wkPreorderUrl = $block->getUrl('adminhtml/sales_order/view', ['order_id' => $item['order_id']]);
+                }
+            }
+        }
+        if ($_item->getParentItem()) {
+            $parentId = $_item->getParentItem()->getProductId();
+            $key = $count-1;
+            if($helper->isPreorderOrderedItem($_order->getId())) {
+                $preorderItemData = $helper->getPreorderItemCollectionData(['item_id', 'order_id'], [$itemId, $_order->getId()]);
+                $flag = 1;
+                $info[$key]['preorder'] = $helper->getPreorderStatus($itemId);
+            }
+        } else {
+            $iteminfo = [];
+            if($helper->isPreorderOrderedItem($_order->getId())) {
+                $preorderItemData = $helper->getPreorderItemCollectionData(['item_id', 'order_id'], [$itemId, $_order->getId()]);
+                $flag = 1;
+        		$iteminfo['preorder'] = $helper->getPreorderStatus($itemId);
+            }
+            $info[$count] = $iteminfo;
+            $count++;
+        }
+    ?>
+<?php endforeach; 
+$info = json_encode(["info" => $info,'orderurl' => $wkPreorderUrl]);
+?>
+<script>
+
+require([
+	"jquery",
+	"mage/translate"
+	], function ($) {
+    	'use strict';
+    	var flag = "<?php echo $flag; ?>";
+    	var infoo = <?php echo $info; ?>;
+        var preorderUrl = '<?php echo $wkPreorderUrl; ?>';
+    	if (flag == 1) {
+            var msgBox = $('<div/>').addClass("wk-msg-box wk-info").text($.mage.__("This order contains Preorder Product(s)."));
+            $("#order-messages").append(msgBox);
+        }
+        var count = 0;
+        var info = infoo.info;
+        console.log(preorderUrl);
+        if(preorderUrl){
+                var msgBox = $('<div/>').addClass("wk-msg-box wk-info").append($('<a/>').attr('href',preorderUrl).text($.mage.__("Check Order Reference.")));
+                $("#order-messages").append(msgBox);
+        }
+        $(".edit-order-table tbody").each(function (i, v) {
+        	 if ($.type(info[count]) !== "undefined" && info[count].preorder == 1) {
+                $(this).find("tr td.col-product").append("<span class='order-status'><strong>"+$.mage.__("Preorder Pending")+"</strong></span>");
+            }
+            if ($.type(info[count]) !== "undefined" && info[count].preorder == 2) {
+                $(this).find("tr td.col-product").append("<span class='order-status'><strong>"+$.mage.__("Preorder Complete")+"</strong></span>");
+            }
+            if($(this).hasClass("even") || $(this).hasClass("odd")){
+                count++;
+            }
+        });
+	})
+</script>

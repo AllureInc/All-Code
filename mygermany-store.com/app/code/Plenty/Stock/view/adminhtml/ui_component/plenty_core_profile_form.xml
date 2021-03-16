@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <!--htmlContent name="html_content">
+        <block class="Plenty\Core\Block\Adminhtml\Profile\Edit\Tab\Config" name="profile_config" acl="Plenty_Core::plenty_core_profile"/>
+    </htmlContent-->
+</form>

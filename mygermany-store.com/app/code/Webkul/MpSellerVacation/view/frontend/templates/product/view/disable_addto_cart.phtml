@@ -1,0 +1,30 @@
+<?php
+/**
+* Webkul Software
+*
+* @category  Webkul
+* @package   Webkul_MpSellervacation
+* @author    Webkul
+* @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+* @license   https://store.webkul.com/license.html
+*/
+$vacation = $block->getSellerVacationStatus();
+if($vacation){
+$status = $block->getAddToCartStatus($vacation);
+ if($status == 'add_to_cart_disable' && $block->getIsOnVacation($vacation)){
+ 	$storeCloseMsg = $block->getAddToCartButtonLabel();
+?>
+	<script>
+	var label = '<?php echo $storeCloseMsg ?>';
+     require([
+          "jquery",
+     ], function($){
+     	$("#product-addtocart-button").attr('disabled',true);
+     	$("#product-addtocart-button span").html(label);
+      $("#product-addtocart-button").addClass('disabled');
+       });
+</script>
+<?php
+ }
+}
+ ?>

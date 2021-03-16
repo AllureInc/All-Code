@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <htmlContent name="cookie_choice_content">
+        <block class="Scommerce\CookiePopup\Block\Adminhtml\CookieChoiceTab" name="cookie_choice" after="wishlist" />
+    </htmlContent>
+</form>

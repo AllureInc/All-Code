@@ -1,0 +1,126 @@
+<!-- last edited 30-Jan-2019 -->
+<?php
+$_helper = $this->helper('Smartwave\Porto\Helper\Data');
+$wb_helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$loggedIn = false;
+if ($wb_helper->isCustomerLoggedIn()) {
+    $email = $wb_helper->getCustomer()->getEmail();
+    $loggedIn = true;
+}
+?>
+<div class="block newsletter">
+    <div class="content">
+        <form class="form subscribe"
+        novalidate
+        action="<?php echo $block->getFormActionUrl() ?>"
+        method="post"
+        data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+        id="newsletter-validate-detail">
+        <div class="field newsletter">
+            <label class="label" for="footer_newsletter"><span><?php echo __('Sign Up for Our Newsletter:') ?></span></label>
+            <div class="control">
+                <input name="email" type="email" id="footer_newsletter"
+                data-validate="{required:true, 'validate-email':true}" placeholder="<?php echo __('Email Address');?>"/>
+            </div>
+        </div>
+        <div class="actions">
+            <button class="action subscribe primary" title="<?php echo __('Subscribe') ?>" type="submit">
+                <span><?php echo __('Subscribe') ?></span>
+            </button>
+        </div>
+    </form>
+</div>
+</div>
+<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('newsletter-ssl-message')->toHtml(); ?>
+<span><?php echo __('Want to unsubscribe? ');?><a href="javascript:void(0)" class="mis-uns"><?php echo __('Click Here');?></a></span>
+<div id="nwsletter-guest-block" class="blockk newsletterr" style="display: none;">
+    <form class="form subscribe"
+    novalidate
+    action="<?php echo $block->getFormActionUrl() ?>"
+    method="post"
+    data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+    id="mis-newsletter-validate-detail">
+    <div class="field newsletter">
+        <label class="label" for="mis_footer_newsletter"><span><?php echo __('Unsubscribe newsletter:') ?></span></label>
+        <div class="control">
+            <input name="email" type="email" id="mis_footer_newsletter"
+            data-validate="{required:true, 'validate-email':true}" placeholder="<?php echo __('Email Address');?>"/>
+        </div>
+    </div>
+    <div class="actions">
+        <button class="action subscribe primary" title="<?php echo __('Unsubscribe') ?>" type="submit">
+            <span><?php echo __('Unsubscribe') ?></span>
+        </button>
+    </div>
+</form>
+</div>
+<script>
+require ([
+    "jquery", 
+    "jquery/ui"
+    ], function($){
+        $('#mis-newsletter-validate-detail').on('submit', function(event){
+            event.preventDefault();
+            if($('#mis-newsletter-validate-detail').valid()){
+                ajaxSubmit(false);
+            }
+        });
+
+        $('.mis-uns').on('click',function(){
+            var loggedIn = "<?php echo $loggedIn?>";
+            if (loggedIn) {
+                ajaxSubmit(true);
+            } else {
+                $.fancybox({
+                    'padding': '0px',
+                    'wrapCSS': 'dfagsdfgsdfg',
+                    'autoScale': true,
+                    'transitionIn': 'fade',
+                    'transitionOut': 'fade',
+                    'type': 'inline',
+                    'href': '#nwsletter-guest-block',
+                    'tpl': { 
+                        closeBtn: '<a title="Close" class="fancybox-item fancybox-close fancybox-newsletter-close" href="javascript:;"></a>' 
+                    },
+                    'helpers': {
+                        overlay: {
+                            locked: false
+                        }
+                    }
+                });
+            }
+        });
+
+        function ajaxSubmit(isLoggedIn) {
+            var url = "<?php echo $this->getUrl('marketplce/newsletter/unsubscribe') ?>";
+            var param = 1;
+            var refresh = false;
+            if (isLoggedIn) {
+                param = 1;
+                refresh = true;
+
+            } else{
+                param = $('#mis_footer_newsletter').val();
+            }
+            $.ajax({
+                type: "POST",
+                url: url,
+                async : true,
+                showLoader : true,
+                data : {logged:param},
+                success: function(data)
+                {
+                    if (data == '404') {
+                        $.fancybox.close();    
+                    } else{
+                        if (refresh) {
+                            setTimeout(function(){location.reload(); }, 1000);
+                            
+                        }
+                    }
+                    window.scrollTo(0, 0);
+                }
+            }); 
+        }
+    }); 
+</script>

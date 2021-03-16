@@ -1,0 +1,80 @@
+<?php
+/**
+ * @category   Webkul
+ * @package    Webkul_MpAmazonConnector
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c)  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */ 
+
+// @codingStandardsIgnoreFile
+$_helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$isPartner= $_helper->isSeller();
+$magentoCurrentUrl = $block->getCurrentUrl();
+$allow_pro_type=$_helper->getAllowedProductType();
+$isSellerGroup = $_helper->isSellerGroupModuleInstalled();
+?>
+<nav data-mage-init='{"Webkul_Marketplace/js/sellerNavigation": {}}' class="wk-mp-menu wk-mp-main">
+    <ul id="wk-mp-nav">
+        <?php 
+        if($isPartner){ ?>
+            <?php if(($isSellerGroup && $_helper->isAllowedAction('mpamazonconnect/account/index')) || ($isSellerGroup && $_helper->isAllowedAction('mpamazonconnect/product/index')) || ($isSellerGroup && $_helper->isAllowedAction('mpamazonconnect/product/unassigned')) || ($isSellerGroup && $_helper->isAllowedAction('mpamazonconnect/producttoamazon/index')) || !$isSellerGroup) { ?>
+                <li class="wk-mp-item-amazon-connect level-0 <?php echo strpos($magentoCurrentUrl,'mpamazonconnect/product/')? "current active":"";?>" id="wk-mp-menu-amazon-connect">
+                    <a href="#" onclick="return false;" class="">
+                        <span><?php echo __('Amazon Connect')?></span>
+                    </a>
+                    <div class="wk-mp-submenu">
+                        <strong class="wk-mp-submenu-title"><?php echo __('Amazon Connect')?></strong>
+                        <a href="#" class="action-close _close" data-role="wk-mp-close-submenu"></a>
+                        <ul>
+                            <li data-ui-id="menu-webkul-mpamazonconnect-menu" class="item-menu  parent  level-1">
+                                <strong class="wk-mp-submenu-group-title">
+                                    <span><?php echo __('Menu')?></span>
+                                </strong>
+                                <div class="wk-mp-submenu">
+                                    <ul>
+                                        <?php if(($isSellerGroup && $_helper->isAllowedAction('mpamazonconnect/account/index')) || !$isSellerGroup) { ?>
+                                            <li class="level-2">
+                                                <a href="<?php echo $block->getUrl('mpamazonconnect/account/index', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                    <span><?php echo __('Manage Account') ?></span>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+                                        <?php if(($isSellerGroup && $_helper->isAllowedAction('mpamazonconnect/product/index')) || !$isSellerGroup) { ?>
+                                            <li class="level-2">
+                                                <a href="<?php echo $block->getUrl('mpamazonconnect/product/index', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                    <span><?php echo __('Mapped Product') ?></span>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+                                        <?php if(($isSellerGroup && $_helper->isAllowedAction('mpamazonconnect/product/unassigned')) || !$isSellerGroup) { ?>
+                                            <li class="level-2">
+                                                <a href="<?php echo $block->getUrl('mpamazonconnect/product/unassigned', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                    <span><?php echo __('Unassigned Product') ?></span>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+                                        <?php if(($isSellerGroup && $_helper->isAllowedAction('mpamazonconnect/producttoamazon/index')) || !$isSellerGroup) { ?>
+                                            <li class="level-2">
+                                                <a href="<?php echo $block->getUrl('mpamazonconnect/producttoamazon/index', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                    <span><?php echo __('Export Product') ?></span>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+                                        <?php if(($isSellerGroup && $_helper->isAllowedAction('mpamazonconnect/order/index')) || !$isSellerGroup) { ?>
+                                            <li class="level-2">
+                                                <a href="<?php echo $block->getUrl('mpamazonconnect/order/index', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                    <span><?php echo __('Mapped Order') ?></span>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            <?php } ?>
+    <?php } ?>
+    </ul>
+</nav>

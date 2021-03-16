@@ -1,0 +1,103 @@
+<?php
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$storeObj = $objectManager->create('Magento\Store\Model\StoreManager')->getStore();
+$codes = $storeObj->getAvailableCurrencyCodes(true);
+$currencies = [];
+// echo "<pre>";
+// print_r(get_class_methods($storeObj->getBaseCurrency()));
+// print_r($storeObj->getBaseCurrency()->getData());
+
+$allCurrencies = $objectManager->create('Magento\Framework\Locale\Bundle\CurrencyBundle')->get(
+		    $objectManager->create('Magento\Framework\Locale\ResolverInterface')->getLocale()
+		)['Currencies'];
+
+$storeBaseCurrCode = $storeObj->getBaseCurrency()->getCurrencyCode();
+$storeBaseCurrTitle = $allCurrencies[$storeBaseCurrCode][1] ? : $storeBaseCurrCode;
+
+if (is_array($codes) && count($codes) >= 1) {
+    foreach ($codes as $code) {
+            $currencies[$code]['title'] = $allCurrencies[$code][1] ?: $code;
+            $currencies[$code]['symbol'] = $objectManager->create('Magento\Framework\Locale\CurrencyInterface')->getCurrency($code)->getSymbol();
+            // print_r(get_class_methods($objectManager->create('Magento\Framework\Locale\CurrencyInterface')->getCurrency($code)));
+
+    }
+}
+
+$exchangeFeeArr = $this->getExchangeCharges();//->getCollection();
+$exchangeFeeArr = array_column($exchangeFeeArr, 'charge_percent', 'base_to_target_currency');
+?>
+
+<form id="eschange_rate_charges_form" data-mage-init='{"validation": {}}' method="post" action="<?php /* @escapeNotVerified */ //echo $formUrl ?>">
+    <div data-area-active="true">
+        <div class="fieldset-wrapper" data-level="0">
+            <div class="fieldset-wrapper-title" tabindex="-1">
+                <strong class="title">
+                    <span><?php echo __('Currencies'); ?></span>
+                </strong>
+            </div>
+            <?php foreach ($currencies as $currencyCode => $currency) { ?>
+            	<?php
+            		if($currencyCode == $storeBaseCurrCode){
+            			continue;
+            		}
+            		$chargeKey = $storeBaseCurrCode.'_'.$currencyCode;
+            		$label = $storeBaseCurrTitle.' ('.$storeBaseCurrCode.') < > '.$currency['title'].' ('.$currencyCode.')';
+            		$value = number_format((isset($exchangeFeeArr[$chargeKey]))?$exchangeFeeArr[$chargeKey]:1, 2, '.', '');
+            	?>
+	            <div class="admin__fieldset-wrapper-content _hide" >
+	                <fieldset class="admin__fieldset">
+	                    <div class="admin__field" data-index="prefix">
+	                        <label class="admin__field-label cust_admin__field-label-main">
+	                            <span><?php echo $label ?></span>
+	                        </label>
+	                        <div class="admin_custom_field admin__field-control">
+	                            <input class="admin__control-text" type="text" name="charge[<?php echo $chargeKey;  ?>]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $value; ?>">
+	                            <span>%</span>
+	                        </div>
+	                    </div>
+	                </fieldset>
+	            </div>
+            <?php } ?>
+        </div>
+        <div class="page-actions-buttons">
+            <button id="save_vendorpayments" type="button" class="action- scalable save primary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+                <span class="ui-button-text">
+                    <span>Save</span>
+                </span>
+            </button>
+        </div>
+    </div>
+</form> 
+<style type="text/css">
+    .admin_custom_field {
+        width: 20% !important;
+        margin-top: auto !important;
+    }
+    .cust_admin__field-label-main {
+        width: 35% !important;
+    }
+    .admin_custom_field input{ width: 90% !important; }
+</style>
+<script type="text/javascript">
+    require([
+            'jquery',        
+        ],  function ($) { 
+            $('#save_vendorpayments').on('click', function(e) {
+                e.preventDefault();
+                if ($("#eschange_rate_charges_form").valid()) {
+                    $.ajax({
+                        type: 'post',
+                        url: '<?php echo $block->getUrl('vendorpayments/index/savecharges')?>',
+                        data: $('#eschange_rate_charges_form').serialize(),
+                        showLoader: true,
+                        dataType: 'json',
+                        success: function (data) {
+                            // console.log(data);
+                            location.reload();
+                        }
+                    });
+                }
+            });
+        });
+</script>

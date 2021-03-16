@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+      <css src="Mangoit_MisTooltip::css/style.css"/>
+    </head>
+    <referenceContainer name="content">        
+        <block class="Mangoit\MisTooltip\Block\Adminhtml\Tool\Index" name="manage_tooltip" template="Mangoit_MisTooltip::tool/manage_tooltip.phtml" />
+    </referenceContainer>   
+</layout>

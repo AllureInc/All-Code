@@ -1,0 +1,248 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MarketplacePreorder
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+$paramData = $this->getRequest()->getParams();
+$filterorder = '';
+$filterStatus = '';
+$filterDateFrom = '';
+$filterDateTo = '';
+if (isset($paramData['order_id'])) {
+    $filterorder = $paramData['order_id'] != '' ? $paramData['order_id'] : '';
+}
+if (isset($paramData['status'])) {
+    $filterStatus = $paramData['status'] != '' ? $paramData['status'] : '';
+}
+if (isset($paramData['from_date'])) {
+    $filterDateFrom = $paramData['from_date'] != '' ? $paramData['from_date'] : '';
+}
+if (isset($paramData['to_date'])) {
+    $filterDateTo = $paramData['to_date'] != '' ? $paramData['to_date'] : '';
+}
+$_collection = $block->getPreordersCollection();
+?>
+<div class="wk-mp-design">
+	<fieldset class="fieldset info wk-mp-fieldset">
+		<legend class="legend">
+			<span><?php echo __('Preorder List') ?></span>
+		</legend>
+		<div class="grid">
+			<div class="hor-scroll">
+				<form action="<?php echo $block->getUrl('mppreorder/seller/orders', ['_secure' => $this->getRequest()->isSecure()])?>" method="get" id="form-productlist-filter"  name="formProductlistFilter" data-mage-init='{"validation":{}}'>
+					<div class="mis_orders_list">
+						<table cellspacing="0" class="border wk-mp-list-table">
+					    <thead>
+					        <tr id="wk-mp-tr-heading">
+					            <th><span><?php echo __('Order Id') ?></span></th>
+					            <th><span><?php echo __('Date') ?></span></th>
+					            <th><span><?php echo __('Notification Status') ?></span></th>
+					            <th><span><?php echo __('Action') ?></span></th>
+					        </tr>
+					    </thead>
+					    <tbody class="wk-mp-body">
+					    	<tr>
+					    		<td>
+					    			<input type="text" class="input-text" name="order_id" placeholder='<?php echo __('Search by order Id') ?>' value="<?php echo $filterorder?>"/>
+					    		</td>
+					    		<td>
+					    			<span class="wk-mp-td-span">
+					    				<?php //echo __('From: ') ?>
+					    				<input name="from_date" id="special-from-date" class="input-text" value="<?php echo $filterDateFrom?>" placeholder='<?php echo __('From') ?>' type="text"/>
+					    			</span>
+					    			<span class="wk-mp-td-span">
+					    				<?php //echo __('To: ') ?>
+					    				<input name="to_date" id="special-to-date" class="input-text" value="<?php echo $filterDateTo?>" placeholder='<?php echo __('To') ?>' type="text"/>
+					    			</span>
+					    		</td>
+					    		<td>
+				    				<select name="status" class="input-text">
+				    					<option value=""><?php echo __('All') ?></option>
+					    				<option value="1" <?php if($filterStatus == 1) echo 'selected="selected"'?>>
+					    					<?php echo __('Notified') ?>
+					    				</option>
+					    				<option value="2" <?php if($filterStatus == 2) echo 'selected="selected"'?>>
+					    					<?php echo __('Unnotified') ?>
+					    				</option>
+					    			</select>
+					    		</td>
+					    		<td>
+					    			<button class="button" title="Save" type="submit">
+										<span><span><span><?php echo __('Submit') ?></span></span></span>
+									</button>
+					    		</td>
+					    	</tr>
+					    </tbody>
+					</table>
+					</div>
+				</form>
+				<?php if ($_collection && count($_collection)): ?>
+					<form action="<?php echo $block->getUrl('mppreorder/seller/sendmail', ['_secure' => $this->getRequest()->isSecure()]) ?>" method="post" id="form-order-massemail" name="formProductlistMassdelete" data-mage-init='{"validation":{}}'>
+						<?php echo $block->getBlockHtml('formkey')?>
+      			<?php echo $block->getBlockHtml('seller.formkey')?>
+						<button class="button" title="<?php echo __('Send Email') ?>" type="submit" style="float: left;padding: 5px 5px 5px 0;"  id="mass-send-butn">
+							<span><span><?php echo __('Send Email') ?></span></span>
+						</button>
+						<div class="mis_orders_list_new">
+							<table cellspacing="0" class="border wk-mp-list-table wk-mp-list-container-table">
+						    <thead>
+						    	<tr class="wk-content">
+						        	<th class="wk-check-first-td">
+						    			<span>
+											<input type="checkbox" name="mpselecctall" value="all" id="mpselecctall"/>
+										</span>
+						    		</th>
+						    		<th class="wk-first-td">
+						    			<span class="label name">
+											<?php echo __('Product')?>
+										</span>
+						    		</th>
+						    		<th>
+						    			<span class="label pro-status">
+											<?php echo __('Order Id')?>
+										</span>
+						    		</th>
+						    		<th>
+						    			<span class="label pro-status">
+											<?php echo __('Status')?>
+										</span>
+						    		</th>
+						    		<th class="wk-list-th-display">
+						    			<span class="label qty">
+											<?php echo __('Purchased On')?>
+										</span>
+						    		</th>
+						    		<th class="wk-list-th-display">
+						    			<span class="label qty">
+											<?php echo __('Notified')?>
+										</span>
+						    		</th>
+						    		<th class="wk-list-th-display">
+						    			<span class="label qty">
+											<?php echo __('Paid Amount')?>
+										</span>
+						    		</th>
+						    		<th class="wk-list-th-display1">
+						    			<span class="label">
+											<?php echo __('Remaining Amount')?>
+										</span>
+						    		</th>
+						    	</tr>
+						    </thead>
+						    <tbody>
+						    	<?php
+						    	$i = 0;
+								foreach($block->getPreordersCollection() as $preorder){
+									$product = $block->getProductData($preorder->getProductId());
+									if (empty($block->getAllProducts()) == 1) {
+										$count = 0;
+									} else {
+										$count = count($block->getAllProducts());
+									}
+								?>
+									<tr class="wk-row-view 
+									<?php echo $class = ($i == $count) ? 'wk-last_tr':''?>"
+									>
+							    		<td class="wk-check-first-td">
+							    			<span>
+												<input <?php echo ($product->getId())?'enabled="enabled"':'disabled="disabled"' ?> type="checkbox" name="product_mass_email[]" class="mpcheckbox" value="<?php echo $preorder->getId(); ?>"/>
+											</span>
+							    		</td>
+							    		<td class="wk_product_link_td">
+							    			<span>
+							    				<a href="<?php echo $product->getProductUrl(); ?>" target="_blank"><?php echo $product->getName(); ?></a>
+							    			</span>
+							    		</td>
+							    		<td>
+											<span class="label pro-status">
+												<a  href="<?php echo $block->getUrl('marketplace/order/view', ['id'=>$preorder->getOrderId(), '_secure' => $this->getRequest()->isSecure()])?>">
+												<?php echo $block->getIncrementId($preorder->getOrderId());?>
+												</a>
+											</span>
+										</td>
+										<?php
+							    		if($preorder->getStatus()==1) {	?>
+							    			<td>
+												<span class="label pro-status">
+													<?php echo __('Complete')?>
+												</span>
+											</td>
+										<?php } else { ?>
+										<td>
+											<span class="label pro-status">
+												<?php echo __('Pending')?>
+											</span>
+										</td>
+										<?php } ?>
+										<td>
+							    			<span class="label wk_date">
+												<?php 
+												/*echo date_format(date_create($block->formatDate($preorder->getTime(), \IntlDateFormatter::LONG)), "m/d/y h:i:s") ; */ 
+												echo date_format(date_create($preorder->getTime()), "d.m.Y"); 
+												?>
+											</span>
+							    		</td>
+							    		<td>
+							    			<span class="label wk_notified">
+												<?php if($preorder->getNotify()==0){
+														echo __('No');
+													}else{
+														echo __('Yes');
+													} ?>
+											</span>
+							    		</td>
+							    		<td>
+							    			<span class="label wk_paid">
+												<?php
+												$paid = $preorder->getPaidAmount() * $preorder->getQty();
+												echo $block->getOrder($preorder->getOrderId())->formatPrice($paid); ?>
+											</span>
+							    		</td>
+							    		<td>
+							    			<span class="label wk_remaining">
+												<?php
+												$remaining = $preorder->getRemainingAmount() * $preorder->getQty();
+												echo $block->getOrder($preorder->getOrderId())->formatPrice($remaining); ?>
+											</span>
+							    		</td>
+						    		</tr>
+								<?php } ?>
+						    </tbody>
+					    </table>
+						</div>
+				    </form>
+			    <?php else: ?>
+			    	<div>
+			    		<button class="button" title="<?php echo __('Reset Filters')?>" type="button">
+			    			<span><a class="preorder-reset-btn" href="<?php echo $this->getUrl('mppreorder/seller/orders');?>"><?php echo __('Reset Filters')?></a></span>
+			    		</button>
+			    	</div>
+					<div class="wk-emptymsg">
+						<?php echo __('No Orders Available') ?>
+					</div>
+				<?php endif ?>
+			</div>
+		</div>
+		<?php if ($block->getPagerHtml()): ?>
+	        <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+	    <?php endif ?>
+	</fieldset>
+	<div class="buttons-set">
+		<p class="back-link">
+			<a href="javascript:;" onclick="javascript: window.history.back();" class="left">&laquo; <?php echo __('Back') ?></a>
+		</p>
+	</div>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "sellerPreorderList": {}
+        }
+    }
+</script>

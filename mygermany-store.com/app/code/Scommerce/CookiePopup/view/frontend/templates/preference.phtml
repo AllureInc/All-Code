@@ -1,0 +1,253 @@
+<?php
+/**
+ * @var \Magento\Framework\View\TemplateEngine\Php $this
+ * @var \Scommerce\CookiePopup\Block\Preference $block
+ */
+$helper = $block->getHelper();
+$choices = $block->getChoiceList();
+?>
+
+<style>
+    .modal-popup.cookie-popup .modal-header {
+        color: #<?= $helper->getHeaderFontColor() ?>;
+        background-color: #<?= $helper->getHeaderBackgroundColor() ?>;
+    }
+
+    .modal-popup.cookie-popup .modal-footer {
+        display: none !important;
+    }
+
+    <?php if ($helper->getStyleFlag('border')): ?>
+    .modal-popup.cookie-popup .modal-inner-wrap {
+        border: 1px solid #<?= $helper->getStyleValue('border_color') ?>;
+    }
+    <?php else: ?>
+    .modal-popup.cookie-popup .modal-inner-wrap {
+        border: none;
+    }
+    <?php endif; ?>
+
+    #cookiePopupWrapper .actions {
+        color: #<?= $helper->getFooterFontColor() ?>;
+        background-color: #<?= $helper->getFooterBackgroundColor() ?>;
+    }
+
+    <?php if ($helper->getStyleFlag('header_bottom_border')): ?>
+    .modal-popup.cookie-popup .modal-header {
+        border-bottom-color: #<?php echo $helper->getStyleValue('header_bottom_border_color'); ?>;
+    }
+    <?php else: ?>
+    .modal-popup.cookie-popup .modal-header {
+        border-bottom: none;
+    }
+    <?php endif; ?>
+
+    <?php if ($helper->getStyleFlag('footer_top_border')): ?>
+    #cookiePopupWrapper .actions {
+        border-top: 1px solid #<?php echo $helper->getStyleValue('footer_top_border_color'); ?>;
+    }
+    <?php else: ?>
+    #cookiePopupWrapper .actions {
+        border-top: none;
+    }
+    <?php endif; ?>
+
+    #cookiePopupWrapper ul.tab-header > li.active {
+        background-color: #<?php echo $helper->getStyleValue('active_tab_background'); ?>;
+    }
+
+    #cookiePopupWrapper ul.tab-header > li.active a {
+        color: #<?php echo $helper->getStyleValue('tab_active_color'); ?>;
+    }
+
+    #cookiePopupWrapper .tab-item-header {
+        color: #<?php echo $helper->getStyleValue('tab_header_color'); ?>;
+    }
+
+    <?php if ($helper->getStyleValue('close_image')): ?>
+    .modal-popup.cookie-popup .modal-header .action-close {
+        background-image: url('<?php echo $helper->getMediaUrl() . $helper->getStyleValue('close_image') ?>');
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+    .modal-popup.cookie-popup .modal-header .action-close:before {
+        content: "";
+    }
+    <?php endif; ?>
+
+    <?php if ($helper->getStyleValue('font_family')): ?>
+    .modal-popup.cookie-popup  {
+        font-family: "<?php echo $helper->getStyleValue('font_family') ?>";
+    }
+    <?php endif; ?>
+
+    <?php if ($helper->getStyleFlag('custom_button')): ?>
+    #cookiePopupWrapper #cookieSaveChoice,
+    #cookiePopupWrapper #cookieAllowAll
+    {
+        border: <?php echo $helper->getStyleValue('custom_button_border'); ?>;
+        background-color: #<?php echo $helper->getStyleValue('custom_button_background_color'); ?>;
+        color: #<?php echo $helper->getStyleValue('custom_button_font_color'); ?>;
+        border-radius: 0;
+    }
+    <?php endif; ?>
+
+    <?php if ($helper->getStyleValue('header_logo')): ?>
+    .modal-popup.cookie-popup .modal-header {
+        background-image: url('<?php echo $helper->getMediaUrl() . $helper->getStyleValue('header_logo') ?>');
+    }
+
+    .modal-popup.cookie-popup .modal-header .modal-title {
+        padding-left: 40px;
+    }
+    <?php endif; ?>
+
+    <?php if ($helper->getStyleValue('custom_css')): ?>
+    <?php echo $helper->getStyleValue('custom_css'); ?>
+    <?php endif; ?>
+
+    <?php if ($helper->getStyleFlag('custom_checkbox')): ?>
+    #cookiePopupWrapper .checkbox-container .checkmark {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 25px;
+        width: 40px;
+        background-image: url('<?php echo $helper->getMediaUrl() . $helper->getStyleValue('custom_checkbox_off') ?>');
+    }
+
+    /* On mouse-over, add a grey background color */
+    #cookiePopupWrapper .checkbox-container:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    #cookiePopupWrapper .checkbox-container input:checked ~ .checkmark {
+        background-image: url('<?php echo $helper->getMediaUrl() . $helper->getStyleValue('custom_checkbox_on') ?>');
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    #cookiePopupWrapper .checkbox-container .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    #cookiePopupWrapper .checkbox-container input:checked ~ .checkmark:after {
+        display: block;
+        background-image: url('<?php echo $helper->getMediaUrl() . $helper->getStyleValue('custom_checkbox_on') ?>');
+    }
+    <?php endif; ?>
+
+    <?php if ($helper->getStyleFlag('number_tabs')): ?>
+    #cookiePopupWrapper .tab-header > li {
+        list-style-type: decimal;
+    }
+    <?php endif; ?>
+
+</style>
+
+
+<div id="cookiePopupWrapper" style="display: none">
+    <div data-bind="scope: 'scommerce_cookie_popup'" class="popup-content">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <ul class="tab-header">
+            <?php if ($helper->hasFirstTab()): ?>
+                <li class="first active"><a href="#tab_first" class="popup-tab-link"><span data-bind="text: getChoiceName(false)"></span> <?php echo $helper->getFirstTabTitle() ?></a></li>
+            <?php endif; ?>
+            <!-- ko foreach: {data: choicesData, as: 'choice'} -->
+            <li><a data-bind="{attr: {href: '#' + choice.cookie_name}, text: $parent.getChoiceName($data)}" class="popup-tab-link"></a></li>
+            <!-- /ko -->
+            <?php if ($helper->hasLastTab()): ?>
+                <li class="more-info-link"><a href="<?php echo $helper->getMoreInfoLink() ?>"><?php echo $helper->getMoreInfoTitle() ?></a></li>
+            <?php endif; ?>
+        </ul>
+
+        <div class="tab-content-wrapper">
+            <form action="<?php echo $block->getSaveUrl() ?>" method="post" id="cookiePopupForm">
+                <input type="hidden" name="save_all" value="" />
+                <?php if ($helper->hasFirstTab()): ?>
+                    <div class="tab-item active" id="tab_first">
+                        <div class="tab-item-header"><?php echo $helper->getFirstTabTitle(); ?></div>
+                        <div class="choice-description"><?php echo $helper->getFirstTabText(); ?></div>
+                    </div>
+                <?php endif; ?>
+                <!-- ko foreach: {data: choicesData, as: 'choice'} -->
+                <div class="tab-item" data-bind="attr: {id: choice.cookie_name}, css: { required: choice.required == 1 }">
+                    <div class="tab-item-header"><span data-bind="text: choice.choice_name"></span> <?php if ($helper->getStyleValue('required_cookie_option_text')): ?><span class="always-text" data-bind="visible: choice.required == 1"><?php echo $helper->getStyleValue('required_cookie_option_text') ?></span><?php endif; ?>
+                        <?php if($helper->useCustomCheckbox()): ?>
+                            <label class="checkbox-container" data-bind="visible: $parent.isCheckVisible($parent, $data)">
+                        <?php endif; ?>
+                        <input
+                            class="cookie-choice-check"
+                            type="checkbox"
+                            data-bind="attr: {name: choice.cookie_name}, click: function() { $parent.checkClick($parent); return true; }, checked: choice.checked, enable: choice.required == '0', visible: $parent.isCheckVisible($parent, $data)"
+                        />
+                        <?php if ($helper->useCustomCheckbox()): ?>
+                                <span class="checkmark"></span>
+                            </label>
+                        <?php endif; ?>
+                    </div>
+                    <div class="choice-description" data-bind="text: choice.choice_description"></div>
+                    <!-- ko if: choice.list -->
+                        <div class="choice-list-wrapper">
+                            <div class="choice-list-header"><?php echo $helper->getListHeader(); ?></div>
+                            <ul class="choice-list">
+                                <!-- ko foreach: choice.used_by_list -->
+                                    <li data-bind="text: $data"></li>
+                                <!-- /ko -->
+                            </ul>
+                        </div>
+                    <!-- /ko -->
+                </div>
+                <!-- /ko -->
+            </form>
+        </div>
+
+        <div style="clear: both; display: table;"></div>
+
+        <div class="actions">
+            <button data-bind="visible: canAddAll(), click: addAll" style="display: none" type="button" title="<?php echo __($helper->getAcceptAllText()) ?>"
+                    class="action primary" id="cookieAllowAll">
+                <span><?php echo __($helper->getAcceptAllText()) ?></span>
+            </button>
+
+            <button data-bind="visible: canAdd(), click: add" style="display: none" type="button" title="<?php echo __($helper->getSaveChoiceText()) ?>"
+                    class="action primary" id="cookieSaveChoice">
+                <span><?php echo __($helper->getSaveChoiceText()) ?></span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "scommerce_cookie_popup": {
+                        "component": "Scommerce_CookiePopup/js/model/choice",
+                        "element": ".js-cookie-settings",
+                        "setting": <?= json_encode($block->getConfig()) ?>
+                    }
+                 }
+            }
+        }
+    }
+</script>
+<script>
+<?php if($helper->isUseDataLayers()): ?>
+    window.dataLayer = window.dataLayer || [];
+    dataLayer.push({
+    'preferences' :
+    [
+    <?php foreach ($choices as $choice): ?>
+        <?php $layer = array($choice->getCookieName() =>
+            $choice->getIsRequired() || $choice['checked'] ? "1" : "0"); ?>
+        <?php echo json_encode($layer) . ", "; ?>
+    <?php endforeach; ?>
+    ]
+    });
+<?php endif; ?>
+</script>

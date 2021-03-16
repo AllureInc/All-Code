@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="Webkul\Marketplace\Observer\SalesOrderSaveCommitAfterObserver" type="Mangoit\VendorPayments\Observer\Salesordersavecommitafterobserver" />
+	<preference for="Webkul\Marketplace\Block\Transaction\History" type="Mangoit\VendorPayments\Block\Webkul\Transaction\History" />
+	<preference for="Webkul\Marketplace\Block\Transaction\View" type="Mangoit\VendorPayments\Block\Webkul\Transaction\View" />
+	<preference for="Webkul\Marketplace\Controller\Adminhtml\Order\MassPayseller" type="Mangoit\VendorPayments\Controller\Webkul\Order\MassPayseller" />
+    <!-- add create ticket button to order view -->
+    <type name="Magento\Sales\Block\Adminhtml\Order\View">
+        <plugin name="addApproveCancelRequestButton" type="Mangoit\VendorPayments\Plugin\AddApproveCancelRequestButton"/>
+    </type>
+	<preference for="Webkul\Marketplace\Controller\Order\Cancel" type="Mangoit\VendorPayments\Controller\Webkul\Order\Cancel" />
+</config>

@@ -1,0 +1,19 @@
+<!--@subject Order Has Been Processed | {{trans "%order_id" order_id=$data.order_id}} @-->
+<!--@vars {
+"var data.order_id":"Order Id",
+"var data.name":"Sender Name"
+} @-->
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">Hi {{trans "%name" name=$data.name}},</p>
+
+<table style="width:100%; padding: 10px;">
+    <tr>
+        <td style="padding: 10px 10px 10px 0px; width: 100%;">
+            Thank you for processing the order.
+            You will get an email notification once your order will be received at myGermany.
+        </td><br/>
+    </tr>
+</table>
+
+{{template config_path="contact/email/email_footer_template_seller"}}

@@ -1,0 +1,267 @@
+<?php 
+$items = $this->getInvoiceItems();
+
+$sellerPriceArray = $this->getHelper()->getSellerPriceArray($items);
+
+$currentInvoice = $this->getCurrentInvoiceData();
+
+$date = $this->getHelper()->date->gmtDate('d.m.Y', $currentInvoice->getCreatedAt());
+$invoiceNumber = $currentInvoice->getInvoiceNumber();
+
+$sellerData = $this->marketplaceHelper->getSellerDataBySellerId($currentInvoice->getSellerId())->getData();
+$sellerData = $sellerData[0];
+$sellerName = $sellerData['name'];
+// echo "<pre>";
+// print_r($sellerData);die;
+$statusesOpts = $this->getHelper()->getVendorInvoiceStatuses();
+
+/* RMA Working */
+$returnRequestedItems = $this->getReturnRequestedItems();
+$hasReturnRequest = false;
+$returnRequestedOrderIds = '';
+if (!empty($returnRequestedItems)) {
+    $returnRequestedOrderIds = implode(', ', array_unique($returnRequestedItems));
+    $hasReturnRequest = true;
+}
+/* RMA Working ends*/
+
+?>
+
+<div id="popup-mpdal" class="return_request_div" style="display: none;">
+    <p><?php echo __('The orders those are in return process or returned, has been excluded from this invoice. Order Id: '.$returnRequestedOrderIds);?></p>
+</div>
+<div class="page-actions">
+    <div class="page-actions-inner">
+        <div class="page-actions-buttons">
+            <button id="print" title="Print" type="button" class="action-default scalable print" onclick="setLocation('<?php echo $this->getUrl('*/*/download',['id' => $currentInvoice->getId()]); ?>')">
+                <span><?php echo __('Download PDF'); ?></span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="mits_vendor_invoice_main">
+    <div class="mits_invoce_actions">
+        
+    </div>
+    <div class="mits_invoice_tables">
+        <table style="width: 100%">
+            <tbody>
+                <tr>
+                    <td style="text-align: left;">
+                        <div style="color: grey;margin-bottom: 20px;">Gutschriftadresse</div>
+                        <br/> 
+                        <div>
+                            <div>
+                                <span>
+                                    <strong><?php echo $sellerData['shop_title'] ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo $sellerName ?></span></div>
+                            <div><span><?php echo $sellerData['company_locality'] ?></span></div>
+                            <div><span><?php echo __('Deutschland') ?></span></div>
+                            <br/>
+                            <div><span><?php echo __('SteuerNr %1', $sellerData['taxvat']) ?></span></div>
+                            <div><span><?php echo __('USTNr %1', $sellerData['taxvat']) ?></span></div>
+                            <div><span><?php echo __('Regisitrierungsnummer %1', $sellerData['seller_id']) ?></span></div>
+                            <div><span><?php echo __('Telefonnummer %1', $sellerData['contact_number']) ?></span></div>
+                        </div>
+                    </td>
+                    <td style="text-align: right;">
+                        <div>
+                            <div>
+                                <span>
+                                    <strong><?php echo __('myGermany GmbH') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo __('Nordstrasse 5') ?></span></div>
+                            <div><span><?php echo __('99427 Weimar') ?></span></div>
+                            <div><span><?php echo __('Deutschland') ?></span></div>
+                            <br/>
+                            <div>
+                                <span>
+                                    <strong><?php echo __('Steuernummer') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo __('162/114/05590') ?></span></div>
+                            <br/>
+                            <div>
+                                <span>
+                                    <strong><?php echo __('Umsatzsteuernummer') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo __('DE293153410') ?></span></div>
+                            <div style="width: 100%;display: inline-block;">
+                                <span style="
+                                    text-align:  right;
+                                    float:  right;
+                                ">.......................................................</span>
+                            </div>
+                            <br/>
+                            <div>
+                                <span>
+                                    <strong><?php echo __('Rechnungsnummer') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo $invoiceNumber ?></span></div>
+                            <br/>
+                            <div>
+                                <span>
+                                    <strong><?php echo __('Kundennummer') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo $sellerData['seller_id'] ?></span></div>
+                            <br/>
+                            <div>
+                                <span>
+                                    <strong><?php echo __('Ausstellungsdatum') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo $date ?></span></div>
+                            <br/>
+                            <div>
+                                <span>
+                                    <strong><?php echo __('Rechnungsstatus') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo $statusesOpts[$currentInvoice->getInvoiceStatus()] ?></span></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="50%">
+                        <div style="width:95%;margin:30px auto;">
+                            <span style="font-size: 20px;">
+                                <strong><?php echo __('GUTSCHRIFT') ?></strong>
+                            </span>
+                        </div>
+                    </td>
+                    <td width="50%"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="data-table edit-order-table">
+            <thead>
+                <tr class="headings">
+                    <th class="col-product"><span><?php echo __('Bestell datum/ Order Date'); ?></span></th>
+                    <th class="col-status"><span><?php echo __('Artikelname/ Product Name'); ?></span></th>
+                    <th class="col-price-original"><span><?php echo __('Bestell nummer/ Order ID'); ?></span></th>
+                    <th class="col-price"><span><?php echo __('Bestellung/ Order'); ?></span></th>
+                    <th class="col-ordered-qty"><span><?php echo __('Versandkosten/ Shipping Costs'); ?></span></th>
+                    <th class="col-subtotal"><span><?php echo __('Verkaufsgebühr/ Commission'); ?></span></th>
+                    <th class="col-tax-amount"><span><?php echo __('Bezahldienstleister/ Payment Provider'); ?></span></th>
+                    <th class="col-tax-percent"><span><?php echo __('Währungsum rechnung/ Exchange Fee'); ?></span></th>
+                    <th class="col-tax-percent"><span><?php echo __('DHL Fee'); ?></span></th>
+                </tr>
+            </thead>
+            <tbody class="even">
+                <?php
+                    $tableContent = '';
+                    $totalAmountArray= [];
+                    $totalFeeArray= [];
+                    foreach ($items as $perRow) {
+                        // $rowData = array_merge($perRow, array_values($dummyColumns));
+
+                        if(isset($perRow['dhl_fees']) && $perRow['dhl_fees'] > 0) {
+                            $sellerPriceArray[$perRow['magerealorder_id']] = 0;
+                        }
+                        $tableContent .= '<tr>';
+                        $tableContent .= '<td>'.$this->getHelper()->date->gmtDate('d.m.Y', $perRow['created_at']).'</td>';
+                        $tableContent .= '<td>'.$perRow['magepro_name'].'</td>';
+                        $tableContent .= '<td>'.$perRow['magerealorder_id'].'</td>';
+                        $tableContent .= '<td>'.$block->getHelper()->getFormatedPrice($perRow['total_amount']).'</td>';
+                        // var_dump((float)$sellerPriceArray[$perRow['magerealorder_id']]);
+                        $tableContent .= '<td>'.$block->getHelper()->getFormatedPrice((float)$sellerPriceArray[$perRow['magerealorder_id']]).'</td>';
+                        $tableContent .= '<td>'.$block->getHelper()->getFormatedPrice($perRow['total_commission']).'</td>';
+                        $tableContent .= '<td>'.$block->getHelper()->getFormatedPrice($perRow['mits_payment_fee_amount']).'</td>';
+                        $tableContent .= '<td>'.$block->getHelper()->getFormatedPrice($perRow['mits_exchange_rate_amount']).'</td>';
+                        $tableContent .= '<td>'.$block->getHelper()->getFormatedPrice($perRow['dhl_fees']).'</td>';
+
+
+                        $totalAmountArray[] = number_format($perRow['total_amount'], 2, '.', '');
+                        $totalAmountArray[] = number_format((float)$sellerPriceArray[$perRow['magerealorder_id']], 2, '.', ' ');
+                        $totalFeeArray[] = number_format($perRow['total_commission'], 2, '.', '');
+                        $totalFeeArray[] = number_format($perRow['mits_payment_fee_amount'], 2, '.', '');
+                        $totalFeeArray[] = number_format($perRow['mits_exchange_rate_amount'], 2, '.', '');
+                        $totalFeeArray[] = number_format($perRow['dhl_fees'], 2, '.', '');
+
+                        $sellerPriceArray[$perRow['magerealorder_id']] = '';
+
+                        $tableContent .= '</tr>';
+                    }
+                    $netTotal = (array_sum($totalAmountArray) - array_sum($totalFeeArray));
+                    $totalInclVat = number_format(((array_sum($totalAmountArray)-array_sum($totalFeeArray))*19)/100, 2, '.', '');
+                    $totalToBePaid = number_format($netTotal + $totalInclVat, 2, '.', '');
+                    echo $tableContent;
+                ?>
+            </tbody>
+        </table>
+        <table style="width:100%;">
+            <tbody>
+                <tr>
+                    <td width="40%">&nbsp;</td>
+                    <td width="60%" style="float: right;">
+                        <table style="width: 95%">
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: left;"><?php echo __('Gesamt Betrag / Total Amount') ?></td>
+                                    <td style="text-align: right;"><?php echo $block->getHelper()->getFormatedPrice(array_sum($totalAmountArray)) ?></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;"><?php echo __('Gesamt Gebühren / Total Fees') ?></td>
+                                    <td style="text-align: right;"><?php echo $block->getHelper()->getFormatedPrice(array_sum($totalFeeArray)) ?></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;"><?php echo __('Gesamtsumme (netto) / Total (net)') ?></td>
+                                    <td style="text-align: right;"><?php echo $block->getHelper()->getFormatedPrice((array_sum($totalAmountArray)-array_sum($totalFeeArray))) ?></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;"><?php echo __('zzgl. 19% USt. / incl. VAT') ?></td>
+                                    <td style="text-align: right;"><?php echo $block->getHelper()->getFormatedPrice($totalInclVat) ?></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;"><?php echo __('Gesamtsumme / Total') ?></td>
+                                    <td style="text-align: right;"><?php echo $block->getHelper()->getFormatedPrice($totalToBePaid) ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    window.setLocation = function (url) {
+        window.location.href = url;
+    };
+</script>
+<script>
+var hasReturnRequest = "<?php echo $hasReturnRequest; ?>";
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Attention'                   
+            };
+            var popup = modal(options, $('#popup-mpdal'));
+            if (hasReturnRequest) {
+                setTimeout(
+                function(){
+                    $("#popup-mpdal").modal("openModal");                        
+                }, 5000);
+            }
+            
+
+        }
+    );
+</script>

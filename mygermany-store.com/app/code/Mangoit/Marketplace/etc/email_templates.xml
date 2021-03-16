@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Mangento_Email:etc/email_templates.xsd">
+	<template id="marketplace_email_seller_profile_approval" label="Seller Profile Approval" file="seller_profile_approval.html" type="html" module="Mangoit_Marketplace" area="frontend"/>
+	<template id="marketplace_email_fsk_approval" label="FSK Approval" file="fsk_approval.html" type="html" module="Mangoit_Marketplace" area="adminhtml"/>
+	<template id="marketplace_email_fsk_approval" label="FSK Approval" file="fsk_confirmed.html" type="html" module="Mangoit_Marketplace" area="adminhtml"/>
+	<template id="marketplace_email_return_order_customer" label="Order Return by Customer" file="return_order_customer.html" type="html" module="Mangoit_Marketplace" area="frontend"/>
+	<template id="marketplace_email_afterpay_email_to_admin" label="Payment Return By Seller Email" file="afterpay_email_to_admin.html" type="html" module="Mangoit_Marketplace" area="frontend"/>
+	<template id="marketplace_email_return_order_vendor" label="Order Return by Customer Email to Vendor" file="marketplace_email_return_order_vendor.html" type="html" module="Mangoit_Marketplace" area="adminhtml"/>
+	<template id="marketplace_email_return_paid_order_vendor" label="Order Return by Customer Email to Paid Vendor" file="marketplace_email_return_paid_order_vendor.html" type="html" module="Mangoit_Marketplace" area="adminhtml"/>
+	<template id="marketplace_email_header_template" label="Header Template" file="marketplace_email_header_template.html" type="html" module="Mangoit_Marketplace" area="adminhtml"/>
+	<template id="marketplace_email_footer_template" label="Footer Template" file="marketplace_email_footer_template.html" type="html" module="Mangoit_Marketplace" area="adminhtml"/>
+	<template id="marketplace_email_preorder_in_stock_notify" label="Product In Stock" file="notify.html" type="html" module="Webkul_MarketplacePreorder" area="frontend"/>
+	<template id="marketplace_email_order_process_notification_to_seller" label="Order Process Notification For Seller" file="marketplace_email_order_process_notification_to_seller.html" type="html" module="Mangoit_Marketplace" area="adminhtml"/>
+
+	<template id="marketplace_email_package_slip_notification" label="Package Slip Notification For Seller" file="marketplace_email_package_slip_notification.html" type="html" module="Mangoit_Marketplace" area="frontend"/>
+
+	<template id="marketplace_email_dhl_package_slip_notification" label="DHL Package Slip Notification For Seller" file="marketplace_email_dhl_package_slip_notification.html" type="html" module="Mangoit_Marketplace" area="frontend"/>
+
+	<template id="marketplace_email_product_save_notification" label="Product Saved Notification to Seller" file="marketplace_email_product_save_notification.html" type="html" module="Mangoit_Marketplace" area="frontend"/>
+
+	<template id="marketplace_email_order_processed_notification" label="Order Processed Notification To Seller" file="marketplace_email_order_processed_notification.html" type="html" module="Mangoit_Marketplace" area="frontend"/>
+	<template id="marketplace_email_order_processed_notification_to_admin" label="Order Processed Notification To Admin" file="marketplace_email_order_processed_notification_to_admin.html" type="html" module="Mangoit_Marketplace" area="frontend"/>
+    
+    <template id="marketplace_email_compliance_check_admin_notification" label="Compliance Check Notification To Admin" file="marketplace_email_compliance_check_admin_notification.html" type="html" module="Mangoit_Marketplace" area="frontend"/>
+    
+    <template id="marketplace_email_compliance_check_customer_notification" label="Compliance Check Notification To Customer" file="marketplace_email_compliance_check_customer_notification.html" type="html" module="Mangoit_Marketplace" area="frontend"/>
+
+
+
+</config>

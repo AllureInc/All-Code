@@ -1,0 +1,31 @@
+<!--@subject Return order @-->
+<!--@vars {
+"var data.order_id":"order_id",
+"var data.seller_email":"Sender Email",
+"var data.total_paid_amount":"Sender Total Amout",
+"var data.return_by":"Return By",
+"var data.transaction_id":"Transaction ID",
+"var data.invoice_number":"Invoice Number",
+"var data.seller_name":"Sender Name"
+} @--> 
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">Hi {{trans "%seller_name" seller_name=$data.seller_name}},</p>
+
+<table style="width:60%; padding: 10px;">
+	<tr>
+		<td style="padding: 10px 10px 10px 0px; width: 100%;">
+			<p>We have returned the order {{trans "%order_id" order_id=$data.order_id}}.</p>
+
+			<p>As per your generated invoice {{trans "%invoice_number" invoice_number=$data.invoice_number}}, the amount for the same order has been already paid to you.</p>
+			<p>The total amount {{trans "%total_paid_amount" total_paid_amount=$data.total_paid_amount}} was paid by the admin to you.</p>
+			<p>Transaction id: {{trans "%transaction_id" transaction_id=$data.transaction_id}}</p>	
+		</td><br/>
+	</tr>
+	<tr>
+		<td style="padding: 10px 10px 10px 0px; width: 100%;">
+			<p>Kindly <a href='{{trans "%url" url=$data.pay_url}}'>{{trans 'click here'}}</a> to pay back the amount.</p>
+		</td><br/>
+	</tr>
+</table>
+{{template config_path="design/email/footer_template"}}

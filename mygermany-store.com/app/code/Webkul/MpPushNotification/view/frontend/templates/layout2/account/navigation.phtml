@@ -1,0 +1,58 @@
+<?php
+/**
+ * @category   Webkul
+ * @package    Webkul_MpPushNotification
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+
+$_helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$isPartner= $_helper->isSeller();
+$magentoCurrentUrl = $block->getCurrentUrl();
+$allow_pro_type=$_helper->getAllowedProductType();
+$isSellerGroup = $_helper->isSellerGroupModuleInstalled();
+?>
+<nav data-mage-init='{"Webkul_Marketplace/js/sellerNavigation": {}}' class="wk-mp-menu wk-mp-main">
+    <ul id="wk-mp-nav">
+        <?php
+        if ($isPartner) { ?>
+            <?php if (($isSellerGroup && $_helper->isAllowedAction('mppushnotification/users/index')) || ($isSellerGroup && $_helper->isAllowedAction('mppushnotification/templates/index')) || !$isSellerGroup) { ?>
+                <li class="wk-mp-item-pushnotification-connect level-0 <?php /* @noEscape */ echo strpos($magentoCurrentUrl, 'mppushnotification/users/')? "current active":"";?>" id="wk-mp-menu-pushnotification-connect">
+                    <a href="#" onclick="return false;" class="">
+                        <span><?php /* @noEscape */ echo __('Push Notification')?></span>
+                    </a>
+                    <div class="wk-mp-submenu">
+                        <strong class="wk-mp-submenu-title"><?php /* @noEscape */ echo __('Push Notification')?></strong>
+                        <a href="#" class="action-close _close" data-role="wk-mp-close-submenu"></a>
+                        <ul>
+                            <li data-ui-id="menu-webkul-mppushnotificationconnect-menu" class="item-menu  parent  level-1">
+                                <strong class="wk-mp-submenu-group-title">
+                                    <span><?php /* @noEscape */ echo __('Menu')?></span>
+                                </strong>
+                                <div class="wk-mp-submenu">
+                                    <ul>
+                                        <?php if (($isSellerGroup && $_helper->isAllowedAction('mppushnotification/users/')) || !$isSellerGroup) { ?>
+                                            <li class="level-2">
+                                                <a href="<?php /* @noEscape */ echo $block->getUrl('mppushnotification/users/index', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                    <span><?php /* @noEscape */ echo __('Registered Users') ?></span>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+                                        <?php if (($isSellerGroup && $_helper->isAllowedAction('mppushnotification/templates/index')) || !$isSellerGroup) { ?>
+                                            <li class="level-2">
+                                                <a href="<?php /* @noEscape */ echo $block->getUrl('mppushnotification/templates/index', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                                                    <span><?php /* @noEscape */ echo __('Notification Templates') ?></span>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            <?php } ?>
+    <?php } ?>
+    </ul>
+</nav>

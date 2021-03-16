@@ -1,0 +1,82 @@
+<?php
+/**
+* Webkul Software
+*
+* @category Webkul
+* @package Webkul_Walletsystem
+* @author Webkul
+* @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+* @license https://store.webkul.com/license.html
+*/
+?>
+<?php
+$helper = $this->helper('Webkul\Walletsystem\Helper\Data');
+if ($helper->getWalletenabled()) {
+    $status = 0;
+    $customerId = $helper->getCustomerId();
+    $currency_code = $helper->getCurrentCurrencyCode();
+    $customerCollection = $block->getCustomerCollection();
+    ?>
+    <div class="wk_ws_main">
+        <div class='wk_ws_main_head'>
+            <div class="wk_ws_sub_head1">
+                <img src='<?php /* @escapeNotVerified */echo $block->getViewFileUrl('Webkul_Walletsystem::images/wallet.png');?>' width="70px" height="55px">
+            </div>
+            <div class="wk_ws_sub_head2">
+                <h2><?php /* @escapeNotVerified */echo __('Wallet Details');?></h2>
+                <h3><span class="wk_ws_price"><?php echo $block->getWalletRemainingTotal($customerId)?></span>
+                    <?php /* @escapeNotVerified */echo "(".$currency_code.")"?>
+                </h3>
+                <span><?php /* @escapeNotVerified */echo __("Your Wallet Balance")?></span>
+            </div>
+        </div>
+        <div class='wk_ws_body'>
+            <?php if ($customerCollection->getSize()) { ?>
+                <form action="<?php /* @escapeNotVerified */echo $block->getUrl('walletsystem/transfer/sendCode/')?>" enctype="multipart/form-data" method="post" id="transfer-form-data" class="form">
+                    <input type="hidden" name="sender_id" value="<?php echo $customerId?>"/>
+                    <fieldset class='wk_ws_fieldset fieldset'>
+                        <label class="error"></label>
+                        <?php /* @escapeNotVerified */echo $block->getBlockHtml('formkey')?>
+                        <div class='field required'>
+                            <label class="label" for="reciever_id"><span>Select Customer To Whom You want to transfer Amount</span></label>
+                            <select name="reciever_id" class="required">
+                                <option value=""><?php /* @escapeNotVerified */echo __("Please Select a customer")?></option>
+                                <?php foreach ($customerCollection as $customer) { ?>
+                                    <option value="<?php /* @escapeNotVerified */echo $customer->getEntityId()?>"><?php /* @escapeNotVerified */echo $customer->getFirstname()." ".$customer->getLastname() ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="field required">
+                            <label class="label" for="amount"><span><?php /* @escapeNotVerified */echo __("Amount")?></span></label>
+                            <div class="control">
+                                <input type="text" name="amount" class="required validate-greater-than-zero">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="amount"><span><?php /* @escapeNotVerified */echo __("Note")?></span></label>
+                            <div class="control">
+                                <textarea name="walletnote"></textarea>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="submit" title="Add to Cart" class="button wk_ws_add_payment">
+                                <span><span><?php /* @escapeNotVerified */echo __("Transfer Money to Customer")?></span></span>
+                            </button>
+                        </div>
+                    </fieldset>
+                </form>
+            <?php } else { ?>
+                <span><?php echo __("No Customer is available")?></span>
+                <?php }?>
+            </div>
+        </div>
+    <?php }?>
+    <script>
+	    require([
+	        "jquery",
+	        "mage/mage"
+	    ], function($){
+	        var dataForm = $('#transfer-form-data');
+	        dataForm.mage('validation', {});
+	    });
+	</script>

@@ -1,0 +1,53 @@
+<?php
+/**
+ * Mangoit AmazonIntegration.
+ *
+ * @category  Mangoit
+ * @package   Mangoit_AmazonIntegration
+ * @author    Mangoit
+ */
+
+$_helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$_localHelper = $this->helper('Mangoit\AmazonIntegration\Helper\Data');
+$amazonAccDetail = $_localHelper->getAmazonAccount();
+$isPartner= $_helper->isSeller();
+$magentoCurrentUrl = $block->getCurrentUrl();
+?>
+<?php
+if($isPartner){ ?>
+    <li class="nav item mis-main-menu <?php echo strpos($magentoCurrentUrl,'amazon/account/integration')? "current":"";?>">
+        <a href="<?php echo $block->getUrl('amazon/account/integration', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+            <?php /* @escapeNotVerified */ echo __('Integrate Amazon Account') ?>
+        </a>
+    <div style="" id="amazon_links_block" class="amazon_block amazon-block"></div>
+        <script id="amazonintegration" type="text/x-magento-template">
+            <div class="sub-menu">
+                <?php if (!empty($amazonAccDetail)): ?>
+                    <li class="nav item">
+                        <a target="_blank" href="<?php echo $block->getUrl('amazon/account/importproduct', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                            <strong><?php echo __('Import Product From Amazon') ?></strong>  
+                        </a>
+                    </li>
+                    <li class="nav item">
+                        <a target="_blank" href="<?php echo $block->getUrl('amazon/account/importorder', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                            <strong><?php echo __('Import Order From Amazon') ?></strong>  
+                        </a>
+                    </li>
+                    <li class="nav item">
+                        <a target="_blank" href="<?php echo $block->getUrl('amazon/account/exportproduct', ['id'=> $amazonAccDetail->getEntityId(), '_secure' => $this->getRequest()->isSecure()]); ?>">
+                            <?php echo __('Export Product To Amazon') ?>
+                        </a>   
+                    </li>
+                <?php endif; ?>
+            </div> 
+        </li> 
+    </script>
+<?php } ?>
+<script type="text/x-magento-init">
+{
+    "*" : {
+            "amazonintegration": ""
+    }
+}
+
+</script>

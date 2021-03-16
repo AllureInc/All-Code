@@ -1,0 +1,12 @@
+1. Enable magento2 Developer mode
+    - activate the display_errors setting in app/bootstrap.php
+    - php bin/magento deploy:mode:set developer
+
+2. Enable new module
+    - php bin/magento module:enable Solrbridge_Custom
+    - php bin/magento setup:upgrade
+    
+3. Clear caches
+    - bin/magento cache:clean
+
+Layout file name format: [route]_[controller]_[action].xml

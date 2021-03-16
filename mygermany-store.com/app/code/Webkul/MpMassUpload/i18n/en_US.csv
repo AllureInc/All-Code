@@ -1,0 +1,59 @@
+Mass Upload,Mass Upload
+Run Profile,Run Profile
+Select Seller,Select Seller
+Select Profile,Select Profile
+Manage Mass Upload,Manage Mass Upload
+Profile Information,Profile Information
+Downloadable,Downloadable
+Attribute Set,Attribute Set
+Save Product,Save Product
+Upload Csv,Upload Csv
+Upload Images Zip,Upload Images Zip
+Upload Link Files,Upload Link Files
+Total %1 Product(s) Imported.,Total %1 Product(s) Imported.
+Invalid Profile.,Invalid Profile.
+Your zip file was uploaded and unpacked.,Your zip file was uploaded and unpacked.
+Something went wrong.,Something went wrong.
+Run Profile,Run Profile
+Marketplace Mass Upload,Marketplace Mass Upload
+There is some problem in uploading image zip file.,There is some problem in uploading image zip file.
+There is some problem in uploading link files.,There is some problem in uploading link files.
+There are some files in zip which are not image.,There are some files in zip which are not image.
+There is some problem in uploading csv file.,There is some problem in uploading csv file.
+Skipped row %1. product name can not be empty.,Skipped row %1. product name can not be empty.
+Skipped row %1. product description can not be empty.,Skipped row %1. product description can not be empty.
+Skipped row %1. error in importing product.,Skipped row %1. error in importing product.
+Skipped row %1. sku can not be empty.,Skipped row %1. sku can not be empty.
+Skipped row %1. sku %2 already exist.,Skipped row %1. sku %2 already exist.
+Skipped row %1. link file not found or invalid file type.,Skipped row %1. link file not found or invalid file type.
+Skipped row %1. Super attribute value is not valid,Skipped row %1. Super attribute value is not valid
+Skipped row %1. Some of super attributes are not valid.,Skipped row %1. Some of super attributes are not valid.
+Skipped row %1. %2,Skipped row %1. %2
+Skipped row %1. Unable to create associated products.,Skipped row %1. Unable to create associated products.
+Please Select Seller.,Please Select Seller.
+Please Select Profile.,Please Select Profile.
+Sample Simple Type Csv File,Sample Simple Type Csv File
+Sample Downloadable Type Csv File,Sample Downloadable Type Csv File
+Sample Configurable Type Csv File,Sample Configurable Type Csv File
+Sample Virtual Type Csv File,Sample Virtual Type Csv File
+Starting Execution...,Starting Execution...
+Please don't close or refresh the window while importing products.,Please don't close or refresh the window while importing products.
+Total %1 Product(s) to import.,Total %1 Product(s) to import.
+No Product to import.,No Product to import.
+Finished Execution.,Finished Execution.
+Completed,Completed
+Upload Profile,Upload Profile
+Select Attribute Set,Select Attribute Set
+Skipped row %1. error in importing product.,Skipped row %1. error in importing product.
+Importing,Importing
+Is Downloadable,Is Downloadable
+Configurable Super Attributes,Configurable Super Attributes
+Attribute Set,Attribute Set
+Images Zip,Images Zip
+Csv,Csv
+Configurable Super Attribute Options,Configurable Super Attribute Options
+Options,Options
+No attribute is selected.,No attribute is selected.
+Select Attribute,Select Attribute
+Attribute Info,Attribute Info
+CSV column name for custom attribute,CSV column name for custom attribute

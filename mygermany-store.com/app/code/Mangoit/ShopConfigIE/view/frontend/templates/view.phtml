@@ -1,0 +1,158 @@
+<?php
+/* Last updated 29-jan-2019*/
+$tooltipHelper = $this->helper('Mangoit\MisTooltip\Helper\Data');
+$imgHelper = $this->helper('Webkul\Marketplace\Helper\Data');
+$section_id = 'import_shop_config';
+$import_shop_config_id = 'import_shop_config_msg';
+$store_id = $tooltipHelper->getStoreId();
+$import_shop_configToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $import_shop_config_id);
+$helper = $this->helper("Webkul\MpMassUpload\Helper\Data");
+$isPartner = $this->helper('Webkul\Marketplace\Helper\Data')->isSeller(); ?>
+<?php if($isPartner == 1): ?>
+    <?php
+    $attributeSetCollection = $block->getAttributeSetCollection();
+    $profiles = $helper->getProfiles();
+    $attributeProfiles = $helper->getAttributeProfiles();
+    /* Get allowed product status */
+    $isSimpleAllowed = $helper->isProductTypeAllowed('simple');
+    $isVirtualAllowed = $helper->isProductTypeAllowed('virtual');
+    $isDownloadableAllowed = $helper->isProductTypeAllowed('downloadable');
+    $isConfigurableAllowed = $helper->isProductTypeAllowed('configurable');
+
+    if ($isDownloadableAllowed) {
+        $row = "<div id='link_file' class='field required'><label for='link_files' class='label'><span>";
+        $row .= __("Upload Link Files");
+        $row .="</span></label><div class='control'><input type='file' data-validate='{required:true}' class='input-text required-entry' title='Upload Link Files' name='link_files' id='link_files' aria-required='true'></div></div>";
+        $row .= "<div id='is_link_sample' class='field'><div class='control'><input type='checkbox' class='input-text' name='is_link_samples' id='is_link_samples'>".__("Is Links have samples")."</div></div>";
+        $row .= "<div id='is_sample' class='field'><div class='control'><input type='checkbox' class='input-text' name='is_samples' id='is_samples'>".__("Is Samples Available")."</div></div>";
+
+        $linkSampleRow = "<div id='link_sample_file' class='field required'><label for='link_sample_files' class='label'><span>";
+        $linkSampleRow .= __("Upload Link Sample Files");
+        $linkSampleRow .="</span></label><div class='control'><input type='file' data-validate='{required:true}' class='input-text required-entry' title='Upload Link Files' name='link_sample_files' id='link_sample_files' aria-required='true'></div></div>";
+        $sampleRow = "<div id='sample_file' class='field required'><label for='sample_files' class='label'><span>";
+        $sampleRow .= __("Upload Sample Files");
+        $sampleRow .="</span></label><div class='control'><input type='file' data-validate='{required:true}' class='input-text required-entry' title='Upload Link Files' name='sample_files' id='sample_files' aria-required='true'></div></div>";
+    } else {
+        $row = '';
+        $linkSampleRow = '';
+        $sampleRow = '';
+    }
+    $sampleCsv = $helper->getSampleCsv();
+    $sampleXml = $helper->getSampleXml();
+    $sampleXls = $helper->getSampleXls();
+    $url = $block->getUrl('mpmassupload/product/options/');
+    $customAttributeCodes = $helper->getAttributeCodes();
+    $attributeSetInfo = $helper->getAttributeSetsInfo();
+    $attributeDetails = $helper->getAttributeDetails();
+    $data = [
+        "attributeSetInfo" => $attributeSetInfo,
+        "attributeDetails" => $attributeDetails,
+        "defaultUrl" => $block->getUrl('mpmassupload/product/profile').'id/',
+        "infoUrl" => $url,
+        "row" => $row,
+        "linkSampleRow" => $linkSampleRow,
+        "sampleRow" => $sampleRow
+    ];
+
+    $data = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($data);
+    $groups = $helper->getCustomerGroups();
+    $websites = $helper->getAllWebsites();
+
+    $shopConfigSample = [];
+
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $mediaDirectory = $objectManager->get('Magento\Store\Model\StoreManagerInterface')
+    ->getStore()
+    ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+    $url = $mediaDirectory.'mangoit/shopconfig/samples/';
+    $shopConfigSample[] = $url.'shop_config_sample.csv';
+    $shopConfigSample[] = $url.'shop_config_sample.json';
+    $shopConfigSample[] = $url.'shop_config_sample.xlsx';
+    $shopConfigSample[] = $url.'shop_config_sample.xml';
+    $shopConfigSample[] = $url.'shop_config_images.zip';
+    ?>
+    <div class="wk-mp-design">
+       <fieldset class="fieldset info wk-mp-fieldset">
+        <div  class="wk-mp-page-title legend">
+            <span><?php echo __('Import Shop Configuration') ?></span>
+            <span></span>
+        </div>
+        <div style="margin-top: 10px; margin-bottom: 10px;">
+            <?php echo ( (count($import_shop_configToolTip) > 0) ? $import_shop_configToolTip[0]['tooltip_text'] : '');?>
+        </div>
+        <div class="wk-mu-sample-files" style="margin-bottom:0;">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="padding: 5px;">
+                        <a href="<?php echo $shopConfigSample[0]; ?>"><?php echo __("Sample Shop Config Csv File"); ?></a>
+                    </td>
+                    <td style="padding: 5px;">
+                        <a href="<?php echo $shopConfigSample[4]; ?>"><?php echo __("Sample Shop Config Images Zip File"); ?></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 5px;">
+                        <a href="<?php echo $shopConfigSample[1]; ?>"><?php echo __("Sample Shop Config JSON File"); ?></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 5px;">
+                        <a href="<?php echo $shopConfigSample[2]; ?>"><?php echo __("Sample Shop Config XLS File"); ?></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 5px;">
+                        <a href="<?php echo $shopConfigSample[3]; ?>"><?php echo __("Sample Shop Config XML File"); ?></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <form method="post" action="<?php echo $block->getUrl('mitsshopconfig/shopconfig/upload'); ?>" id="wk_massupload_form" enctype="multipart/form-data" class="wk-massupload-container" data-mage-init='{"validation":{}}'>
+            <fieldset class="fieldset">
+                <?php echo $block->getBlockHtml('formkey') ?>
+                <?php echo $block->getBlockHtml('seller.formkey')?>
+                <?php if ($isDownloadableAllowed) { ?>
+                <?php } ?>
+                <div class="field required">
+                    <label for="massupload_csv1" class="label">
+                        <span><?php echo __("Upload CSV/XML/XLS/JSON File"); ?></span>
+                    </label>
+                    <div class="control">
+                        <input type="file" data-validate="{required:true}" class="input-text required-entry" title="<?php echo __("CSV/XML/XLS/JSON"); ?>" name="massupload_csv" id="massupload_csv1" aria-required="true" accept=".csv,.xml,.xls,.xlsx,.json">
+                    </div>
+                </div>
+                <div class="field required">
+                    <label for="massupload_image" class="label">
+                        <span><?php echo __("Upload Images Zip"); ?></span>
+                    </label>
+                    <div class="control">
+                        <input type="file" data-validate="{required:true}" class="input-text required-entry" title="<?php echo __("Images Zip"); ?>" name="massupload_image" id="massupload_image" aria-required="true">
+                    </div>
+                </div>
+                <button class="button wk-mp-btn" type="submit">
+                    <span><span><?php echo __("Import"); ?></span></span>
+                </button>
+            </fieldset>
+        </form>
+    </fieldset>
+</div>
+<?php if ($isConfigurableAllowed) {
+    $superAttributes = $helper->getSuperAttributes();
+    $attributeInfo =  implode(", ", $superAttributes);
+    ?>
+    <?php
+} ?>
+<?php if($helper->canSaveCustomAttribute()): ?>
+<?php endif; ?>
+<script type="text/x-magento-init">
+    {
+        "body": {
+        "Webkul_MpMassUpload/js/view": <?php echo $data ?>
+    }
+}
+</script>
+<?php else: ?>
+    <h2 class="wk-mp-error-msg">
+        <?php echo __("To Become Seller Please Contact to Admin."); ?>
+    </h2>
+<?php endif; ?>

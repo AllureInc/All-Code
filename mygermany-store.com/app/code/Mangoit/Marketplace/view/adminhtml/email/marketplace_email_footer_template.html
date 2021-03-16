@@ -1,0 +1,45 @@
+<!--@subject Footer Template @-->
+<!-- End Content -->
+</td>
+</tr>
+<tr>
+    <td class="footer">
+        <table>
+            <tr>
+                <td>
+                    <p>
+                        <p><a href="{{config path='web/secure/base_url'}}information-about-mygermany?___store={{var store.getCode()}}">{{trans "About Us"}}</a></p>
+
+                        <p><a href="{{config path='web/secure/base_url'}}contact?___store={{var store.getCode()}}">{{trans "Customer Service"}}</a></p>
+
+                        <p><a href="{{config path='web/secure/base_url'}}legal-notice?___store={{var store.getCode()}}">Legal Notice / Impressum</a></p>
+                        <p><a href="mailto:service.store@mygermany.com">service.store@mygermany.com</a></p>
+                    </td>
+                    <td>
+                        {{depend store_phone}}
+
+                        <p class="phone">
+                            {{trans '<a href="tel:%store_phone">%store_phone</a>' store_phone=$store_phone |raw}}
+                        </p>
+                        {{/depend}}
+                        {{depend store_hours}}
+                        <p class="hours">
+                            {{trans 'Hours of Operation:<br /><span class="no-link">%store_hours</span>.' store_hours=$store_hours |raw}}
+                        </p>
+                        {{/depend}}
+                    </td>
+                    <td>
+                        <p class="address">
+                            {{var store.getFormattedAddress()|raw}}
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</td>
+</tr>
+</table>
+
+</body>

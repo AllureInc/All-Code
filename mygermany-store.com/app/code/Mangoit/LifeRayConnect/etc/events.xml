@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+	<event name="customer_register_success">
+		<observer instance="Mangoit\LifeRayConnect\Observer\Customer\RegisterSuccess" name="mangoit_liferayconnect_observer_customer_registersuccess_customer_register_success"/>
+	</event>
+</config>

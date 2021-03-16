@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Plenty_Core:etc/profile_types.xsd">
+    <type name="stock"
+          label="Stock"
+          sortOrder="60">
+        <adapter>
+            <item name="import"
+                  label="Stock Import"
+                  modelInstance="Plenty\Stock\Profile\Import\Entity\Inventory"
+                  modelRouter="plenty_stock/import_inventory" />
+        </adapter>
+    </type>
+</config>

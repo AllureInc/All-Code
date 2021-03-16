@@ -1,0 +1,128 @@
+<?php
+$data = $block->getLoggedInCustomer();
+$seller_id = null;
+if (isset($data['customer_id'])) {
+    $seller_id = $data['seller_id'];
+} else {
+    $url = $this->getUrl('customer/account/login');
+    header("Location: ".$url);
+exit();
+}
+?>
+<style type="text/css">
+#loader_div{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 500;
+    text-align: center;
+}
+#loader_img{
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    margin-top: -25px;
+    margin-left: -25px;
+}
+.btn-a{
+    text-decoration: none;
+    color: white;
+    height: auto;
+    width: auto;
+    margin: 10px;
+    font-size: 12px; 
+    } 
+</style>
+<form class="form seller-api-form" action="<?php echo $this->getUrl('sellerapi/seller/generatetoken');?>" id="contact-form" method="post" data-hasrequired="* Required Fields">
+    <input type="hidden" name="site-baseurl" class="site-baseurl" value="<?php echo $this->getBaseUrl()?>">
+	<fieldset class="fieldset">
+        <input type="hidden" name="seller_id" value="<?php echo $seller_id;?>">
+        <legend class="legend"> 
+            <span><?php echo __("Seller's API");?></span>
+        </legend>
+		<div class="field token_id">
+			<label class="label" for="token_id"><span><?php echo __('Token ID:');?></span></label>
+			<div class="control">
+        		<div class="mis_copy_div">
+        			<div class="pre-wrap">
+        				<div class="highlight token_id_data copy-to-clipboard">
+                            <input type="hidden" name="token_id_data" id="token_id_data" 
+                            value="<?php echo $block->getSellerAuthorizedToken();?>"
+                            >
+        					<?php echo (strlen(trim($block->getSellerAuthorizedToken())) == 0) ? "<?php echo __('Generate token');?>" : $block->getSellerAuthorizedToken();?>
+        				</div>
+                        <!-- <div class="btn btn-generate-token">
+                            <input type="submit" name="" value="<?php echo __('Generate token');?>">
+                        </div> -->
+                        <div class="btn btn-generate-token"><a class="btn-a" href="<?php echo $this->getUrl('sellerapi/seller/generatetoken');?>"><?= /* @escapeNotVerified */$block->escapeHtml(__('Generate token')) ?></a></div>
+                        
+        			</div>
+        		</div>
+			</div>
+		</div>
+	        <div class="field category_data_api">
+			<label class="label" for="category_data_api"><span><?php echo __('Category Data API:');?></span></label>
+			<div class="control">
+                <div class="mis_copy_div">
+        			<div class="pre-wrap">
+        				<div class="highlight category_data_api_data copy-to-clipboard">
+                        <input type="hidden" name="category_data_api_data" id="category_data_api_data" 
+                            value="<?php echo $this->getBaseUrl()."rest/V1/sellers-categories/seller_id/".$seller_id;?>">
+        					<?php echo $this->getBaseUrl()."rest/V1/sellers-categories/seller_id/".$seller_id;?>
+        				</div>
+        			</div>
+        		</div>
+			</div>
+		</div>
+        <div class="field product_data">
+            <label class="label" for="product_data">
+                <span><?php echo __('Product Attributes Data:');?></span>
+            </label>
+            <div class="control">
+                <div class="mis_copy_div">
+                    <div class="pre-wrap">
+                        <div class="highlight product_attribute_api_data copy-to-clipboard">
+
+                        <input type="hidden" name="product_attribute_api_data" id="product_attribute_api_data" 
+                            value="<?php echo $this->getBaseUrl().'rest/V1/sellers-categories/seller_id/'.$seller_id;?>">
+
+                            <?php echo $this->getBaseUrl()."rest/V1/sellers-attributes/seller_id/".$seller_id;
+                            ?>
+                        </div>
+                        <!-- <div class="btn btn-docs">Read Document</div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    	<div class="field product_data">
+    		<label class="label" for="product_data">
+    			<span><?php echo __('Product Data:');?></span>
+    		</label>
+    		<div class="control">
+        		<div class="mis_copy_div">
+        			<div class="pre-wrap">
+        				<div class="highlight product_api_data copy-to-clipboard">
+                        <input type="hidden" name="product_api_data" id="product_api_data" 
+                            value="<?php echo $this->getBaseUrl().'rest/V1/sellers-categories/seller_id/'.$seller_id;?>">
+        					<?php echo $this->getBaseUrl()."rest/V1/sellers-product/seller_id/".$seller_id."/product/";
+                            ?>
+        				</div>
+        			</div>
+        		</div>
+    		</div>
+    	</div>
+        <div>
+            <span><?php echo __('For more help please follow the document.');?></span>
+            <span>
+                <!-- <div class="btn btn-docs"></div> -->
+                <a class="btn btn-docs" target="_blank" href="<?php echo $this->getBaseUrl().'pub/media/sellerapi/seller_api_help_doc.pdf';?>" id="doc_file"><?php echo __('Read Document')?></a>
+            </span>
+        </div>
+	</fieldset>
+</form>
+<div id="loader_div" style="display: none;">
+    <img id="loader_img" src="<?php echo $this->getViewFileUrl('Mangoit_Sellerapi::images/loader.gif'); ?>" />
+</div>

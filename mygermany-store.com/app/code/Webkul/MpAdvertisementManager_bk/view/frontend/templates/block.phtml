@@ -1,0 +1,73 @@
+<!-- 
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpAdvertisementManager
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */	
+-->
+ <?php
+	$currentAds = $block->getCurrentAds();
+	$maxAdsAtThisPosition = $block->getAdsCount();
+	$adsCount = count($currentAds);
+	$carousalId = "slideshow_".$block->getPosition();
+	$position = $block->getPosition();
+	$width = 0;
+	$height = $block->getHeightConfig()==""?'150px':$block->getHeightConfig();
+	$autoplaytime = $block->getAutoPlayTime()==""?'5000':$block->getAutoPlayTime();
+?>
+<?php if (!$block->isAdsDemoEnabled()) { ?>
+	<?php if ($adsCount > 1) { ?>
+	<div style="width:100%" class="owl-carousel" id="<?php echo $carousalId; ?>">
+			<?php 
+				foreach ($currentAds as $currentAd) {
+					?>
+					<div class="" style="height:<?php echo $height;?>;width:100%;background:#4DC7A0;text-align:center;">
+						<a href="<?php echo $currentAd['url']; ?>">
+							<img style="height:<?php echo $height;?>;" src="<?php echo $block->getMediaUrl().'webkul/MpAdvertisementManager/'.$currentAd['seller_id'].'/'.$currentAd['id'].'/'.$currentAd['image_name']; ?>"/>
+						</a>
+					</div>
+					<?php
+				} 
+			?>
+	</div>
+	<?php } elseif($adsCount == 1) { ?>
+	<div style="width:100%" class="owl-carousel" id="<?php echo $carousalId; ?>">
+			<?php foreach ($currentAds as $currentAd) { ?>
+					<div class="" style="height:<?php echo $height;?>;width:100%;background:#4DC7A0;text-align:center;">
+						<a href="<?php echo $currentAd['url']; ?>">
+							<img style="height:<?php echo $height;?>;" src="<?php echo $block->getMediaUrl().'webkul/MpAdvertisementManager/'.$currentAd['seller_id'].'/'.$currentAd['id'].'/'.$currentAd['image_name']; ?>"/>
+						</a>
+					</div>
+			<?php	} ?>
+	</div>
+	<?php } ?>
+<?php } else { ?>
+	<div class="single-ad-container-demo">
+		<div class="single-ad-demo">
+			<div class="ads-demo-title"><h2><?php echo __($block->getPositionLabel()); ?></h2></div>
+			<span class="ads-demo-text">
+				<?php echo __("This position has maximum %1 ads, and %2 ads has already been booked", $maxAdsAtThisPosition, $adsCount);  ?>
+			</span>
+		</div>
+	</div>
+<?php } ?>
+
+<script type="text/x-magento-init">
+    {
+        "*":{
+            "adsCarousal":{
+                "carousalData": {
+                	"carousalId":"#<?php echo $carousalId; ?>",
+                	"width":"<?php echo $width; ?>",
+                	"position":"<?php echo $position; ?>",
+                	"adscount":"<?php echo $adsCount; ?>",
+                	"autoplaytime":"<?php echo $autoplaytime; ?>"
+                }
+            }
+        }
+    }
+</script>

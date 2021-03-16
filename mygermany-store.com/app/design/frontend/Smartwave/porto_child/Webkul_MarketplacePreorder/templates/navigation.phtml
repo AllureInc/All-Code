@@ -1,0 +1,128 @@
+<?php
+    /**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MarketplacePreorder
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+ ?>
+<?php 
+$_helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$isPartner = $_helper->isSeller();
+$magentoCurrentUrl = $block->getCurrentUrl();
+$isSellerGroup = $_helper->isSellerGroupModuleInstalled();
+/* if ($isPartner) {
+?>
+<?php if(($isSellerGroup && $_helper->isAllowedAction('mppreorder/seller/configuration')) || !$isSellerGroup) { ?>
+    <li class="nav item preorder-nav ">
+        <a onClick="javascript:void(0)">
+            <?php
+                echo __("Preorder Management");
+            ?>
+        </a>
+        <ul
+        class="preorder-sub-nav preorder-child-menu"
+        <?php
+            if (
+                    strpos(
+                        $magentoCurrentUrl,
+                        'mppreorder/seller/'
+                    ) !== false
+                ) {
+                    echo "style=\"display:block\"";
+            }
+        ?>
+        >
+            <li
+                class="nav item
+                <?php
+                    echo strpos(
+                        $magentoCurrentUrl,
+                        'mppreorder/seller/configuration'
+                    ) !== false ? "current":"";
+                ?>"
+            >
+                <?php
+                if ( 
+                    strpos(
+                        $magentoCurrentUrl,
+                        'mppreorder/seller/configuration'
+                    ) !== false
+                ) {
+                ?>
+                    <strong>
+                    <?php
+                        echo __('Configuration')
+                    ?>
+                    </strong>
+                <?php
+                } else {
+                ?>
+                    <a href="<?php echo $block->getUrl(
+                                'mppreorder/seller/configuration',
+                                ['_secure' => $this->getRequest()->isSecure()]
+                            );
+                        ?>"
+                    >
+                        <?php  echo __('Configuration') ?>
+                    </a>
+                <?php
+                }
+                ?>
+            </li>
+        
+            <li
+                class="nav item
+                <?php 
+                    echo strpos(
+                        $magentoCurrentUrl,
+                        'mppreorder/seller/orders'
+                    ) !== false ? "current":"";
+                ?>"
+            >
+                <?php
+                if ( 
+                    strpos(
+                        $magentoCurrentUrl,
+                        'mppreorder/seller/orders'
+                    ) !== false
+                ) {
+                ?>
+                    <strong>
+                    <?php 
+                        echo __('Orders')
+                    ?>
+                    </strong>
+                <?php
+                } else {
+                ?>
+                    <a href="<?php echo $block->getUrl(
+                                'mppreorder/seller/orders',
+                                ['_secure' => $this->getRequest()->isSecure()]
+                            );
+                        ?>"
+                    >
+                        <?php   echo __('Orders') ?>
+                    </a>
+                <?php
+                }
+                ?>
+            </li>
+        <?php } ?>
+
+        </ul>
+    </li>
+
+ 
+    </script>
+<?php } */ ?>
+<!-- <script type="text/x-magento-init">
+{
+    "*" : {
+            "preorderLink": ""
+    }
+}
+</script> -->

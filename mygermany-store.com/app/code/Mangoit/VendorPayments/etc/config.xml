@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <marketplace>
+            <general_settings>
+                <allow_invoice_in>14</allow_invoice_in>
+                <vendor_invoice_email_template>marketplace_general_settings_vendor_invoice_email_template</vendor_invoice_email_template>
+                <vendor_invoice_email_template_vendor_copy>marketplace_general_settings_vendor_invoice_email_template_vendor_copy</vendor_invoice_email_template_vendor_copy>
+                <cancel_order_invoice_email_vendor_paypal>marketplace_general_settings_cancel_order_invoice_email_vendor_paypal</cancel_order_invoice_email_vendor_paypal>
+                <cancel_order_invoice_email_admin_paypal>marketplace_general_settings_cancel_order_invoice_email_admin_paypal</cancel_order_invoice_email_admin_paypal>
+                <cancel_order_invoice_email_vendor_bank>marketplace_general_settings_cancel_order_invoice_email_vendor_bank</cancel_order_invoice_email_vendor_bank>
+                <cancel_order_invoice_email_admin_bank>marketplace_general_settings_cancel_order_invoice_email_admin_bank</cancel_order_invoice_email_admin_bank>
+                <cancel_order_invoice_email_approval_vendor>marketplace_general_settings_cancel_order_invoice_email_approval_vendor</cancel_order_invoice_email_approval_vendor>
+                <cancel_order_chrg_in_p>2</cancel_order_chrg_in_p>
+                <cancel_order_chrg_fxd>10</cancel_order_chrg_fxd>
+            </general_settings>
+            <cancel_order_settings>
+                <cancel_order_admin_notify>marketplace_cancel_order_settings_cancel_order_admin_notify</cancel_order_admin_notify>
+                <cancel_rq_notify_days>7</cancel_rq_notify_days>
+            </cancel_order_settings>
+        </marketplace>
+    </default>
+</config>

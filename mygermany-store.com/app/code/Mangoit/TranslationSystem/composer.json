@@ -1,0 +1,22 @@
+{
+    "name": "mangoit/module-translationsystem",
+    "description": "",
+    "type": "magento2-module",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "email": "info@mangoitsolutions.com",
+            "name": "Mangoit"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Mangoit\\TranslationSystem\\": ""
+        },
+        "files": [
+            "registration.php"
+        ]
+    }
+}

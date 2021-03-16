@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mangoit Software.
+ *
+ * @category  Mangoit
+ * @package   Mangoit_ShopConfigIE
+ * @author    Mangoit
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="seller_account_navigation">
+            <block class="Mangoit\ShopConfigIE\Block\Link"  name="vendor_account_deactivate" before="-" template="Mangoit_Marketplace::account/navigation.phtml" />
+        </referenceBlock>
+        <referenceBlock name="customer_account_navigation">
+            <referenceBlock name="customer-account-navigation-my-credit-cards-link" remove="true"/>
+            <referenceBlock name="customer-account-navigation-billing-agreements-link" remove="true"/>
+            <!-- Downloadable product link -->
+        	<referenceBlock name="customer-account-navigation-downloadable-products-link" remove="true"/>
+            <!-- Account link -->
+            <referenceBlock name="customer-account-navigation-account-link" remove="true"/>
+            <!-- Account edit link -->
+            <referenceBlock name="customer-account-navigation-account-edit-link" remove="true"/>
+            <!-- Remove Address Book-->
+            <referenceBlock name="customer-account-navigation-address-link" remove="true"/>
+
+        </referenceBlock>
+        <referenceBlock name="customer-account-navigation-orders-link">
+            <arguments>
+                <argument name="label" xsi:type="string">Orders</argument>
+            </arguments>
+        </referenceBlock>
+
+        <referenceBlock name="customer-account-navigation-wish-list-link">
+            <arguments>
+                <argument name="label" xsi:type="string">Wishlist</argument>
+            </arguments>
+        </referenceBlock>
+
+        <referenceBlock name="customer-account-navigation-product-reviews-link">
+            <arguments>
+                <argument name="label" xsi:type="string">Product Reviews</argument>
+            </arguments>
+        </referenceBlock>
+
+        <referenceBlock name="customer-account-navigation-newsletter-subscriptions-link">
+            <arguments>
+                <argument name="label" xsi:type="string">Newsletter</argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

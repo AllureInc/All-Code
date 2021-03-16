@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+		<update id="MagePrashant_Core::core" title="MagePrashant Extensions" module="MagePrashant_DeleteOrder" sortOrder="80" resource="MagePrashant_DeleteOrder::menu"/>
+		<add id="MagePrashant_DeleteOrder::deleteorder" title="Delete Order" module="MagePrashant_DeleteOrder" sortOrder="10" parent="MagePrashant_Core::core" dependsOnModule="MagePrashant_DeleteOrder" resource="MagePrashant_DeleteOrder::deleteorder"/>
+		<add id="MagePrashant_DeleteOrder::settings" title="Settings" module="MagePrashant_DeleteOrder" sortOrder="50" resource="MagePrashant_DeleteOrder::config_deleteorder" action="adminhtml/system_config/edit/section/deleteorder" parent="MagePrashant_DeleteOrder::deleteorder"/>
+    </menu>
+</config>

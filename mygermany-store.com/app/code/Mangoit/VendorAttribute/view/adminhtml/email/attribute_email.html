@@ -1,0 +1,18 @@
+<!--@subject Your custom attribute name has been changed.  @-->
+<!--@vars {
+"var data.newattr":"New Attribute Name",
+"var data.attribute":"Attribute Name",
+"var data.name":"Vendor Name"
+} @-->
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">Hi “{{trans "%name" name=$data.name}}”,</p>
+
+<table style="width:60%; padding: 10px;">
+	<tr>
+		<td style="padding: 10px 10px 10px 0px; width: 100%;">
+		Your custom attribute “{{trans "%attribute" attribute=$data.attribute}}” has been replaced with “{{trans "%newattribute" newattribute=$data.newattr}}”.
+		</td><br/>
+	</tr>
+</table>
+{{template config_path="design/email/footer_template"}}

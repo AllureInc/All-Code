@@ -1,0 +1,63 @@
+<?php
+/**
+ * @category   Webkul
+ * @package    Webkul_MpPushNotification
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+
+
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$template = $block->getTemplateData();
+$isPartner = $this->helper('Webkul\Marketplace\Helper\Data')->isSeller();
+
+?>
+<?php if ($isPartner == 1) : ?>
+<div class="wk-mp-design">
+    <fieldset class="fieldset info wk-mp-fieldset">
+        <legend class="legend"><span><?php /* @noEscape */ echo __('Complete View Of Template') ?></span></legend>
+        <div class="wk-mp-order-info-box wk-mp-push-info-box">
+            <div>
+                <div class="box">
+                    <div class="box-title">
+                        <h2><?php /* @noEscape */ echo __('Template Information') ?></h2>
+                    </div>
+                    <div class="box-content">
+                        <div class="wk_row">
+                            <strong class="label"><?php /* @noEscape */ echo __('Title')?> : </strong>
+                            <span class="value"><?php /* @noEscape */ echo $template['title']; ?></span>
+                        </div>
+                        <div class="wk_row">
+                            <strong class="label"><?php /* @noEscape */ echo __('Message')?> : </strong>
+                            <span class="value"><?php /* @noEscape */ echo $template['message']; ?></span>
+                        </div>
+                        <div class="wk_row">
+                            <strong class="label"><?php /* @noEscape */ echo __('Redirect Url')?> : </strong>
+                            <span class="value"><?php /* @noEscape */ echo $template['url']; ?></span>
+                        </div>
+                        <div class="wk_row">
+                            <strong class="label"><?php /* @noEscape */ echo __('Tags')?> : </strong>
+                            <span class="value"><?php /* @noEscape */ echo $template['tags']; ?></span>
+                        </div>
+                        <div class="wk_row">
+                            <strong class="label"><?php /* @noEscape */ echo __('Date')?> : </strong>
+                            <span class="value"><?php /* @noEscape */ echo $template['created_at']; ?></span>
+                        </div>
+                        <div class="wk_row wk_row_logo ">
+                            <strong class="label"><?php /* @noEscape */ echo __('Logo')?> : </strong>
+                            <span class="value">
+                                <img src="<?php /* @noEscape */ echo $block->getImageView($template['logo']); ?>" height="100px" width="100px" />
+                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+<?php else : ?>
+    <h2 class="wk-mp-error-msg">
+        <?php /* @noEscape */ echo __("To Become Seller Please Contact to Admin."); ?>
+    </h2>
+<?php endif; ?>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Catalog\Block\Product\View" type="Mangoit\Fskverified\Block\View" />
+    <preference for="Magento\Store\Model\Store" type="Mangoit\Fskverified\Model\Store" />
+    <!-- <preference for="Magento\Store\Model\Website" type="Mangoit\Fskverified\Model\Website" /> -->
+	<!-- <preference for="Magento\Framework\Mail\Template\TransportBuilder" type="Mangoit\Fskverified\Mail\Template\TransportBuilder" /> -->
+
+</config>

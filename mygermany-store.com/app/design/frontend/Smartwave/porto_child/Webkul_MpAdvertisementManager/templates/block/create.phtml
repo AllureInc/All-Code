@@ -1,0 +1,471 @@
+<?php 
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpAdvertisementManager
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+$product->getName();
+$product->getStatus();
+$product->getProductUrl();
+<?php echo $data['product']['description']?> for editor
+
+ */
+?>
+<?php
+    $contentTypeSaved = 0;
+    $htmlData = '';
+    $currentProduct = 0;
+    $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $cusBlock = $_objectManager->create('Mangoit\Advertisement\Block\Adminhtml\Advcontent');
+    $helper = $_objectManager->create('Mangoit\Advertisement\Helper\Data');
+    $baseUrl = $helper->getPreviousUrl();
+    $previousUrl = $baseUrl.'mpads/block/index/';
+    $selectedProduct = $_objectManager->create('Webkul\MpAdvertisementManager\Model\Block');
+
+    $editorHelper  = $_objectManager->create('Webkul\Marketplace\Block\Product\Create');
+    // echo "<pre>";
+    $productModel = $cusBlock->getProductList();
+    $productModel->addAttributeToSelect('*');
+    // print_r($productModel->getData());
+    $productIds = $helper->getProductList();
+    /*foreach ($productModel as $product) {
+
+        if (in_array($product->getId(), $productIds)) {
+            echo "<br> product ID ".$product->getId();
+            echo "<br> product Name ".$product->getName();
+            echo "<br> product Status ".$product->getStatus();
+            echo "<br> product Url ".$product->getProductUrl();
+        }
+    }
+    die("<br>11");*/
+    $blockData = $block->getCurrentBlock();
+    $blockId = $blockData->getId() == null?null:$blockData->getId();
+    // echo "blockId ".$blockId;
+    if ($blockId >= 1) {
+        $selectedProduct->load($blockId);
+        $contentTypeSaved = $selectedProduct->getContentType();
+        // echo "<br> product Id = ".$selectedProduct->getProductId();
+        if ($selectedProduct->getProductId() != 'null') {
+            $currentProduct = $selectedProduct->getProductId();
+            # code...
+        }
+
+        if ($selectedProduct->getContentType() == 4) {
+            $htmlData = $selectedProduct->getImageName();
+            # code...
+        }
+    }
+    // die();
+    $requiredClassForFileUploadInput = "required-entry input-text required-entry _required";
+    $mediaUrl = "";
+    if (strlen($htmlData) == 0) {
+        if ($blockId) {
+            $requiredClassForFileUploadInput = "";
+            $mediaUrl = $block->getMediaUrl().'webkul/MpAdvertisementManager/'.$blockData['seller_id'].'/'.$blockData['id'].'/'.trim(str_replace(" ","_", $blockData['image_name']));
+        }
+        # code...
+    }
+
+    $height = $block->getHeightConfig()==""?'300px':$block->getHeightConfig();
+?>
+<style type="text/css">
+.saved_img{
+
+}
+.cancel_img
+{
+    float: right;
+    color: blue;
+    font-weight: bold;
+    border: 2px solid blue;
+    border-radius: 50%;
+}
+    /*.upload_img_div
+    {
+        display: table !important;
+    }*/
+    .image{
+        /*height: 150px !important;*/
+        /*width: 100% !important;*/
+        float: none !important;
+        /*margin: 0 !important;*/
+    }
+    /*.image.image-placeholder:before{
+        top: 50px !important;
+        background-size: auto 100%;
+    }*/
+    #content-error{
+        display: none;
+    }
+    #ads_url{
+        /*margin-bottom: 15px;*/
+    }
+    /*#imgDiv
+    {
+        display: none;
+    }*/
+</style>
+<script type="text/javascript">
+require([
+'jquery',
+'jquery/ui',
+'jquery/validate',
+'mage/validation'
+], function($){ 
+    $(document).ready(function() {
+        console.log( "ready!" );
+        var contentTypeSaved = "<?php echo $contentTypeSaved;?>";
+        var productCurrent = "<?php echo $currentProduct?>";
+        var htmlContent = "<?php echo strlen($htmlData)?>";
+        if (contentTypeSaved == 1) {
+            $('#contentType').val(1);
+            $('#contentType').attr('selected', true);
+
+            $('#html_editor').val('');
+            $('#html_editor').css('display','none');
+            $("#html_editor").children().attr("disabled","disabled");
+
+            $('#product-list').val(0);
+            $('#productDiv').css('display', 'none');
+            $("#productDiv").children().attr("disabled","disabled");
+
+            $("#imgDiv").children().removeAttr("disabled");
+            $('#imgDiv').css('display', 'block');
+
+        }
+        if (!(htmlContent > 0)) {
+            if (productCurrent > 0) { 
+                       $('#contentType').val(2);
+                       $('#html_editor').val('');
+                       $('#contentType').attr('selected', true);
+                       $('#product-list').val(productCurrent);
+                       $('#product-list').attr('selected', true);
+                       $("#imgDiv").children().removeAttr("disabled");
+                       $('#imgDiv').css('display', 'block');
+                       $("#productDiv").children().removeAttr("disabled");
+                       $('#productDiv').css('display', 'block');
+            }
+            
+        }
+
+        if (htmlContent > 0) { 
+                   $('#contentType').val(4);
+                   $('#contentType').attr('selected', true);
+                   $("#htmlDiv").children().removeAttr("disabled");
+                   $('#htmlDiv').css('display', 'block');
+                   // jQuery('#product-list').val(0);
+                   $('#productDiv').val(0);
+                   $('#imgDiv').css('display', 'none');
+                   $('#productDiv').css('display', 'none');
+                   $("#imgDiv").children().attr("disabled","disabled");
+                   $("#productDiv").children().attr("disabled","disabled");
+        }
+    });
+});
+</script>
+<form 
+    action="<?php 
+        echo $block->getUrl(
+            'mpads/block/save', 
+            ['_secure' => $this->getRequest()->isSecure()]
+        ) ?>" 
+    enctype="multipart/form-data" 
+    method="post" 
+    id="block-form" 
+    data-mage-init='{"validation":{}}'
+>
+    <div>
+        <input
+            type="hidden"
+            name="id"
+            value="<?php echo $blockId; ?>"
+        >
+    </div>
+    <div class="wk-mp-design">
+        <fieldset class="fieldset info wk-mp-fieldset">
+            <legend class="legend">
+                <span><?php echo __('Create Ads blocks') ?></span>
+                <button 
+                    id="saveBtn" 
+                    class="button primary action wk-mp-btn" 
+                    title="Save" 
+                    type="submit"
+                >
+                <span><span><?php echo __('Save') ?></span></span>
+                </button>
+                <?php if ($blockId) { ?>
+                <a 
+                    class="button primary action wk-mp-btn" 
+                    title="Delete"
+                    href="<?php 
+                        echo $block->getUrl(
+                            'mpads/block/delete', 
+                            [
+                            'blockId' => $blockData->getId(),
+                            '_secure' => $this->getRequest()->isSecure()
+                            ]
+                        ); 
+                        ?>" 
+                >
+                    <span><span><?php echo __('Delete') ?></span></span>
+                </a>
+                <?php } ?>
+            </legend>
+            <?php echo $block->getBlockHtml('seller.formkey')?>
+            <?php echo $block->getBlockHtml('formkey')?>
+            <div class="field required">
+                <label class="label"><?php echo __('Title') ?></label>
+                <div class="control">
+                    <input 
+                        name="title" 
+                        id="title" 
+                        class="required-entry input-text required-entry _required" 
+                        type="text"
+                        value="<?php echo $blockData->getTitle() == null?'':$blockData->getTitle(); ?>" />
+                </div>
+            </div>
+            <div class="field required">
+                <label class="label"><?php echo __('Content Type:')?></label>
+                <div class="control">
+                    <select id="contentType" name="contentType" class="contentType required-entry input-select validate-select">
+                        <option value=""><?php echo __('Select')?></option>
+                        <option value="1"><?php echo __('Image/Banner')?></option>
+                        <option value="2"><?php echo __('Product')?></option>
+                        <option value="4"><?php echo __('HTML Editor')?></option>
+                    </select>
+                </div>
+                <div for="contentType" generated="true" class="mage-error" id="content-error"><?php echo __('Please select content type')?></div> 
+            </div>
+<!--            <div class="field required">
+                <label class="label"><?php //echo __('Content') ?></label>
+                <div class="control">
+                <input type="">
+                    <textarea 
+                        name="content" 
+                        id="content" 
+                        class="required-entry input-text required-entry _required"
+                    ><?php //echo $blockData->getContent() == null?'':$blockData->getContent(); ?>
+                    </textarea> 
+                </div>
+            </div>           -->
+            <div class="field required advfield" id="imgDiv" >
+                <label class="label"><?php echo __('Image') ?></label>
+                <div class="control" >
+
+                <?php if(strlen($mediaUrl) > 1) { ?>
+                <div>
+                    <input type="file" name="content" id="content" accept="image/*" class="  required-file <?php //echo $requiredClassForFileUploadInput ; ?>" /> 
+                    <div>
+                        <img src="<?php echo $mediaUrl ;?>" class="saved_img" style="height: <?php echo $height;?>;">
+                    </div>
+                </div>
+
+                <?php } else { ?>
+                    <input type="file" name="content" id="content" accept="image/*" class=" required-file <?php// echo $requiredClassForFileUploadInput ; ?>"/>   
+                
+                <?php } ?>
+                <div class="admin__field-note">
+                    <span><?php echo __("For better appearance please upload image of width ").$height ?></span>
+                </div>
+                </div>
+            </div>  
+            <div class="field required advfield" id="productDiv" style="display: none;">
+                <label class="label" for="product-list">
+                    <span ><?php echo __('Product: (only approved product)')?></span>
+                </label>
+                <div class="control">
+                    <select id="product-list" name="product" class="product required-entry input-select required-entry validate-select">
+                        <option value=""><?php echo __('-- Select Product --')?></option>
+                        <?php
+                            foreach ($productModel as $item) { 
+                                if (in_array($item->getId(), $productIds)) { ?>
+                            <option value="<?php echo $item->getEntityId()?>" data-url="<?php echo $item->getProductUrl()?>"><?php echo $item->getName()?></option>
+                        <?php   }
+                            }
+                        ?>
+                    </select>
+                    <span id="product-select-err" class="err-msg"></span>
+                </div>
+            </div>  
+            <div class="field required advfield" id="htmlDiv" style="display: none;">
+                <label class="label" for="html-editor">
+                    <span ><?php echo __('HTML Editor')?></span>
+                </label>
+                <div class="control">
+                    <!-- <textarea name="editor" class="required-entry input-text" id="editor" rows="5" cols="75" ></textarea> -->
+                    <textarea id="html_editor" name="html_editor" class="required-entry input-text required-entry _required"><?php echo $htmlData?></textarea>
+                    <script type="text/javascript">
+                            require([
+                                "jquery",
+                                "mage/translate",
+                                "mage/adminhtml/events",
+                                "mage/adminhtml/wysiwyg/tiny_mce/setup"
+                            ], function(jQuery) {
+                                wysiwygHtmlEditor = new wysiwygSetup("html_editor", {
+                                    "width" : "100%",
+                                    "height" : "200px",                  
+                                    "plugins" : [{"name":"image"},{"name":"code"}],
+                                    "tinymce4" : {
+                                        "toolbar":"formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | link table charmap","plugins":"advlist autolink lists link charmap media noneditable table contextmenu paste code help table",
+                                    },
+                                    theme_advanced_buttons2: "code"
+                                });
+                                wysiwygHtmlEditor.setup("exact");
+                            });
+                    </script>
+                    <!-- <script type="text/javascript">
+                        require([
+                                    'jquery',
+                                    'mage/adminhtml/wysiwyg/tiny_mce/setup'
+                                ], function(jQuery){
+                             
+                                var config = {}, 
+                                    editor;
+                             
+                                jQuery.extend(config, {
+                                    settings: {
+                                        theme_advanced_fonts : 'Andale Mono=andale mono,times;Oswald=Oswald;Open Sans=open sans;Arial=arial,helvetica,sans-serif;Arial Black=arial black,avant garde;Book Antiqua=book antiqua,palatino;Comic Sans MS=comic sans ms,sans-serif;Courier New=courier new,courier;Georgia=georgia,palatino;Helvetica=helvetica;Impact=impact,chicago;Symbol=symbol;Tahoma=tahoma,arial,helvetica,sans-serif;Terminal=terminal,monaco;Times New Roman=times new roman,times;Trebuchet MS=trebuchet ms,geneva;Verdana=verdana,geneva;Webdings=webdings;Wingdings=wingdings,zapf dingbats',
+                                        theme_advanced_buttons1 : 'bold,italic,|,justifyleft,justifycenter,justifyright,|,' +
+                                                                    'fontselect,fontsizeselect,|,forecolor,backcolor,|,link,unlink,image,|,bullist,numlist,|,code',
+                                        theme_advanced_buttons2: null,
+                                        theme_advanced_buttons3: null,
+                                        theme_advanced_buttons4: null
+                                    }
+                                });
+                                editor = new tinyMceWysiwygSetup(
+                                    'html_editor',
+                                    config
+                                );
+                                editor.turnOn();
+                                jQuery('#html_editor')
+                                    .addClass('wysiwyg-editor')
+                                    .data(
+                                        'wysiwygEditor',
+                                        editor
+                                    );
+                            });
+                    </script> -->
+                </div>
+            </div>
+
+            <div class="field required">
+                <label class="label"><?php echo __('Url') ?></label>
+                <div class="control">
+                <input type="text" name="url" id="ads_url" class="required-entry input-text required-entry validate-url urlcls" value="<?php echo $blockData->getUrl() == null?'':$blockData->getUrl(); ?>" data-validate="{required:true, 'validate-url':true}"/>
+                </div>
+                <!-- <small id="url-err" style="display: none;"><?php //echo __(' Url Incorrect ')?></small> -->
+            </div>
+        </fieldset>
+    </div>
+</form>
+
+<a style="margin-top: 10px;" href="<?php echo $previousUrl;?>"><span>&#60;&#60;</span><?php echo __(' Back')?></a>
+
+<script type="text/x-magento-init">
+    {
+        "*":{
+            "adsManager":{
+                "blockEditData": {
+                    "wysywygConfig":<?php echo $block->getWysiwygConfig(); ?>
+                }
+            }
+        }
+    }
+</script>
+<script type="text/javascript">
+function urlonly(url){
+    var patt = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+    if (patt.test(url) ) {
+        console.log(patt.test(url));
+        return true;
+    } else {
+        console.log(patt.test(url));
+        return false;
+    }
+}
+
+
+
+</script>
+<script type="text/javascript">
+    // //<![CDATA[
+     require([
+        'jquery',
+        'jquery/ui',
+        'jquery/validate',
+        'mage/validation'
+        ], function($){ 
+
+        $(document).on('click', '#saveBtn', function(event){
+            var contentTypeVal = $('#contentType.contentType').val();
+            var titleVal = $('#title').val();
+            var urlVal = $('#ads_url').val();
+
+            console.log('contentType '+contentTypeVal);
+            if (contentType == 0 && (titleVal == '') && (urlVal == '') ) {
+                event.preventDefault();
+                $('#content-error').css('display', 'block');
+            } else {
+                if (contentType != 0) {
+                    $('#content-error').css('display', 'none');                
+                }
+            }
+        });
+
+        $(document).on('change', '#contentType', function(){
+        var dropVal = $(this).val();
+        console.log('dropVal '+dropVal);
+        switch($(this).val()) {
+            case '1':
+                /*jQuery('.category').css('display', 'none');*/
+                $('#htmlDiv').css('display', 'none');
+                $('#productDiv').css('display', 'none');
+                $('#productDiv').val(0);
+                $('#html_editor').val('');
+                $('#ads_url').val('');
+
+                $("#htmlDiv").children().attr("disabled","disabled");
+                $("#productDiv").children().attr("disabled","disabled");
+                $("#imgDiv").children().removeAttr("disabled");
+
+                $('#imgDiv').css('display', 'block');
+                break;
+            case '2':
+                // jQuery('.urlcls').val('');
+                $('#html_editor').val('');
+                $('#ads_url').val('');
+                $('#imgDiv').css('display', 'block');
+                $('#htmlDiv').css('display', 'none');
+                $("#htmlDiv").children().attr("disabled","disabled");
+                $("#productDiv").children().removeAttr("disabled");
+                $('#productDiv').css('display', 'block');
+                break;
+            case '4':
+                // jQuery('.urlcls').val('');
+                $('#ads_url').val('');
+                $('#productDiv').val(0);
+                $('#imgDiv').css('display', 'none');
+                $('#productDiv').css('display', 'none');
+                $("#imgDiv").children().attr("disabled","disabled");
+                $("#productDiv").children().attr("disabled","disabled");
+                $("#htmlDiv").children().removeAttr("disabled");
+                $('#htmlDiv').css('display', 'block');
+                break;
+            default:
+                $('.advfield').css('display', 'none');
+        }
+
+        $(document).on('change', '#product-list', function(){
+            var productUrl = this.options[this.selectedIndex].getAttribute('data-url');
+            $('#ads_url').val('');
+            $('#ads_url').val(productUrl);
+        });
+    });
+
+        
+     });
+//]]>
+</script>

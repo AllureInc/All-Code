@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="Magento\Catalog\Pricing\Price\RegularPrice" type="Mangoit\Vendorcommission\Pricing\Price\RegularPrice" />
+<!--     <preference for="Amasty\GeoipRedirect\Plugin\Action"
+                type="Mangoit\Vendorcommission\Plugin\Action" /> -->
+    <!-- <preference for="Webkul\Marketplace\Observer\CustomerRegisterSuccessObserver" type="Mangoit\Vendorcommission\Observer\CustomerRegisterSuccessObserver" /> -->
+</config>

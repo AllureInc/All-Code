@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- LOGGER -->
+    <virtualType name="PlentyCustomerVirtualLogger" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="debug" xsi:type="object">Plenty\Customer\Model\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Plenty\Customer\Model\Logger">
+        <arguments>
+            <argument name="logger" xsi:type="object">PlentyCustomerVirtualLogger</argument>
+        </arguments>
+    </type>
+</config>

@@ -1,0 +1,167 @@
+<?php
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */ 
+
+// @codingStandardsIgnoreFile
+
+
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$paramData = $this->getRequest()->getParams();
+$filter = '';$statusClass = '';$tempTableStatus = null;$exportedProStatus = null;
+$orderCollection = $block->getOrderList();
+
+if (isset($paramData['s'])) {
+    $filter = $paramData['s'] != '' ? $paramData['s'] : '';
+}
+?>	
+
+<div class="wk-mp-design rakuten-sync-products">
+	<fieldset class="fieldset info wk-mp-fieldset">
+		<legend class="legend">
+			<span><?php echo  /* @escapeNotVerified */ __('Rakuten Magento Sync Order(s)') ?></span>
+		</legend>
+		<div class="grid">
+			<div class="hor-scroll">
+					<table cellspacing="0" class="border wk-mp-list-table">
+					    <thead>
+					        <tr id="wk-mp-tr-heading">
+					            <th><span><?php echo  /* @escapeNotVerified */ __('Store Order Id') ?></span></th>
+					            <th><span>&nbsp;</span></th>
+					        </tr>
+					    </thead>
+					    <tbody class="wk-mp-body">
+					    	<tr>
+					    		<td>
+						    		<form action="<?php echo  /* @escapeNotVerified */  $block->getUrl('rakutenconnect/order/index/', ['_secure' => $this->getRequest()->isSecure()])?>" method="get" id="form-productlist-filter"  
+						    			name="formOrderlistFilter" data-mage-init='{"validation":{}}'>
+						    			<input type="text" class="input-text" name="s" placeholder='<?php echo  /* @escapeNotVerified */  __('Search by store order id') ?>' value="<?php echo  /* @escapeNotVerified */  $filter?>"/>
+						    			<button class="button" title="Save" type="submit">
+											<span><span><span><?php echo  /* @escapeNotVerified */  __('Search') ?></span></span></span>
+										</button>
+									</form>
+					    		</td>
+					    		<td>
+						    		<button class="button" id="rakuten-order-import"  title="<?php echo   __('Import Order(s) From Rakuten') ?>" type="button" <?php echo   $statusClass ?>>
+										<span><span><span>
+											<?php echo   __('Import Order(s)') ?>
+										</span></span></span>
+									</button>
+					    			<button class="button" id="run-order-profiler" title="<?php echo   __('Create Imported Order') ?>" type="button" <?php echo   $tempTableStatus ?>>
+										<span><span><span>
+											<?php echo   __('Create Imported Order') ?>
+										</span></span></span>
+									</button>
+					    		</td>
+					    	</tr>
+					    </tbody>
+					</table>
+				<!---->
+				<?php if ($orderCollection && $orderCollection->getSize()): ?>
+					<form action="<?php echo   $block->getUrl('rakutenconnect/order/massdelete', ['_secure' => $this->getRequest()->isSecure()]) ?>" method="post" id="form-orderlist-massdisable" name="formOrderlistMassDisable" data-mage-init='{"validation":{}}'>
+						<?php echo   $block->getBlockHtml('formkey')?>
+						<table cellspacing="0" class="border wk-mp-list-table wk-mp-list-container-table">
+						    <thead>
+						        <tr class="wk-content">
+						    		<th class="wk-first-td name">
+						    			<span class="label">
+											<?php echo  /* @escapeNotVerified */  __('Magento Order Id')?>
+										</span>
+						    		</th>
+						    		<th class="wk-first-td">
+						    			<span class="label">
+											<?php echo  /* @escapeNotVerified */  __('Rakuten Order Id')?>
+										</span>
+						    		</th>
+						    		<th class="wk-first-td">
+						    			<span class="label name">
+											<?php echo  /* @escapeNotVerified */  __('Rakuten Order Status')?>
+										</span>
+						    		</th>
+									<th class="wk-first-error">
+						    			<span class="label">
+											<?php echo  /* @escapeNotVerified */  __('Sync Date')?>
+										</span>
+						    		</th>
+									<th class="wk-first-error">
+						    			<span class="label">
+											<?php echo  /* @escapeNotVerified */  __('Purchase Date')?>
+										</span>
+						    		</th>
+						    		<th class="wk-first-td">
+						    			<span class="label name">
+											<?php echo  /* @escapeNotVerified */  __('Action')?>
+										</span>
+						    		</th>    		
+						    	</tr>
+						    </thead>
+						    <tbody>
+						    	<?php 
+						    	$i = 0;
+								foreach($orderCollection as $orderRow){
+									$i++;
+									?>
+							    	<tr class="wk-row-view <?php echo  /* @escapeNotVerified */  $i == $orderCollection->getSize()? 'wk-last_tr':''?>">
+							    		<td class="wk-first_td">
+                                            <span>
+	                                            <?php echo   '#'.$orderRow->getMageOrderId()?>
+											</span>
+							    		</td>
+							    		<td class ="wk-first_td">
+											<?php echo   $orderRow->getRakutenOrderId()?>
+                                        </td>
+							    		<td class ="wk-first_td">
+											<?php echo   $orderRow->getStatus(); ?>
+										</td>
+										
+							    		<td class ="wk-first_td">
+											<?php echo   $orderRow->getCreatedAt(); ?>
+										</td>
+
+							    		<td class ="wk-first_td">
+											<?php echo   $orderRow->getPurchaseDate(); ?>
+										</td>
+							    		<td>
+											<a href="<?php echo $block->getOrderViewUrl($orderRow->getMageOrderId())?>" title="<?php echo __('view') ?>">
+												<?php echo __('View') ?>
+											</a>
+							    		</td>	    		
+							    	</tr>
+							    	<?php
+							    }?>
+						    </tbody>
+						</table>
+					</form>				
+				<?php else: ?>
+					<div class="wk-emptymsg">
+						<?php echo  /* @escapeNotVerified */  __('No Product Available') ?>
+					</div>
+				<?php endif ?>	
+			</div>
+		</div>
+		<?php if ($block->getPagerHtml()): ?>
+	        <div class="order-products-toolbar toolbar bottom"><?php echo  $block->getPagerHtml(); ?></div>
+	    <?php endif ?>	
+	</fieldset>	
+	<br>
+<div class="buttons-set">
+		<p class="back-link">
+			<a href="javascript:;" onclick="javascript: window.history.back();" class="left">&laquo; <?php /* @escapeNotVerified */ echo __('Back') ?></a>
+		</p>
+	</div>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "rktnOrderSync": {
+            	"importUrl":"<?php echo $block->getImportUrl()?>",
+            	"profilerUrl":"<?php echo $block->getProfilerUrl()?>",
+                "reportUrl":"<?php echo $block->getReportUrl()?>"
+            }
+        }
+    }
+</script>

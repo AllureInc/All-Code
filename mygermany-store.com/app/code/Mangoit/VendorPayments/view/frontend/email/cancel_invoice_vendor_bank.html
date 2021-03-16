@@ -1,0 +1,19 @@
+<!--
+/*
+ * File is used for Email Template module in Magento 2
+ * Mangoit Customobserver
+ */
+-->
+<!--@subject {{trans "Order cancellation requested"}} @-->
+<!--@vars {
+"var data.id":"Product Id",
+"var data.name":"Product Name",
+"var data.url":"Product Url"} 
+@-->
+
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">{{trans "Hello %sellername" sellername=$data.sellername}}</p>
+<p>{{trans "Your request to cancel the order #%order_id has been submitted." order_id=$data.order_id}}</p>
+<p>{{trans "Your request will be approved once your payment via Bank Transfer is verified by myGermany Admin."}}</p>
+{{template config_path="design/email/footer_template"}}

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="admin">
+        <route id="solrbridgecustom" frontName="solrbridgecustom">
+            <module name="Solrbridge_Custom" before="Magento_Backend" />
+        </route>
+    </router>
+</config>

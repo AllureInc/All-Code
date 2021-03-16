@@ -1,0 +1,18 @@
+<!--@subject Packaging Slip Notification @-->
+<!--@vars {
+"var data.orderid":"Sender Order Id",
+"var data.name":"Sender Name"
+} @-->
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">Hi {{trans "%name" name=$data.name}}</p>
+
+<table style="width:60%; padding: 10px;">
+    <tr>
+        <td style="padding: 10px 10px 10px 0px; width: 100%;">
+            This is the packagin slip of the order #{{trans "%orderid" orderid=$data.orderid}}.
+            Please download and print it.
+        </td><br/>
+    </tr>
+</table>
+{{template config_path="design/email/footer_template"}}

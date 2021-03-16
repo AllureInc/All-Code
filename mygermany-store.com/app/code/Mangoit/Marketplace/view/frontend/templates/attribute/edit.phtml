@@ -1,0 +1,90 @@
+<?php
+
+    $attributeId = $this->getAttributeid();
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $attributeModel = $objectManager->create('Mangoit\VendorAttribute\Model\Attributemodel');
+    $eavConfig = $objectManager->create('\Magento\Eav\Model\Config');
+
+    $customerSession = $objectManager->create('Magento\Customer\Model\Session');
+    $customerId = $customerSession->getCustomer()->getId();
+    $collection = $attributeModel->getCollection()->addFieldToFilter('vendor_id', ['eq'=> $customerId])->addFieldToFilter('is_visible', ['eq'=> 1]);
+?>
+<?php foreach ($collection->getData() as $key => $value): ?>
+    <?php if ($value["attribute_id"] == $attributeId): ?>
+        <form action="<?php echo $block->getUrl('marketplace/product_attribute/save', ['_secure' => $this->getRequest()->isSecure()]) ?>" enctype="multipart/form-data" method="POST"  id="form-customer-attr-edit" data-mage-init='{"validation":{}}' >
+            <?php echo $block->getBlockHtml('formkey')?>
+            <div class="wk-mp-design">
+                <fieldset class="info wk-mp-fieldset fieldset" id="associate-product">
+                    <legend class="legend">
+                        <span><?php echo __('Edit Products Attribute') ?></span>
+                    </legend>
+                    <input type="hidden" name="attribute_id" value="<?php echo $attributeId ?>">
+                    <input type="hidden" name="attribute_type" value="<?php echo $value['attribute_type'] ?>">
+                    <input type="hidden" name="attribute_code" value="<?php echo $value['attribute_code'] ?>">
+                    <input type="hidden" name="deleted_options" class="deleted_options" value="">
+                    <div class="fieldset form-list" id="cust">
+                        <div class="field required">
+                            <label class="label"><?php echo __('Attribute Code:') ?></label>
+                            <div class="control">
+                                <input type="text" class="validate-code validate-length maximum-length-30 input-text required-entry" name="attribute_code" value="<?php echo $value['attribute_code'] ?>" disabled/>
+                            </div>
+                        </div>
+                        <div class="field required">
+                            <label class="label"><?php echo __('Attribute Label:') ?></label>
+                            <div class="control">
+                                <input type="text" class="required-entry widthinput input-text" name="attribute_label" value="<?php echo $value['attribute_label'] ?>" />
+                            </div>
+                        </div>
+                    <?php if ($value['attribute_type'] == 'select' || $value['attribute_type'] == 'multiselect'): ?>
+                        <?php
+                            $attribute = $eavConfig->getAttribute('catalog_product', $value['attribute_code']);
+                            $options = $attribute->getSource()->getAllOptions();
+                        ?>
+                        <div class="wk-mp-option-box">
+                            <ul class="wk-mp-headcus ul_first">
+                                <li>Options</li>
+                                <li>
+                                    <button type="button" value="Add Option" title="Add Option" class="attroptions button">
+                                        <span><span>Add Option</span></span>
+                                    </button>
+                                </li>
+                            </ul>
+                            <?php foreach ($options as $option): ?>
+                                <?php if ($option['label'] != ' '): ?>
+                                    <ul class="wk-mp-headcus">
+                                        <li>
+                                            <input type="text" class="required-entry widthinput" value='<?php echo $option["label"]?>' name='attroptions[<?php echo $option["value"]?>]'>
+                                        </li>
+                                        <li>
+                                            <button type="button" value=" Delete Row" title="Delete Row" class="mis_delete_option deletecusopt button" data-attr="<?php echo $option["value"]?>">
+                                                <span><span>Delete</span></span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                    </div>
+                </fieldset>
+            </div>
+        </form>
+    <?php endif; ?>
+<?php endforeach; ?>
+<script>
+    require(
+    [
+        'jquery'
+    ],
+    function($) {
+        $(".attroptions").on('click',function(){
+            var i = jQuery(".attroptions").parent().parent().parent().children('ul').length;
+            var html = '<ul class="wk-mp-headcus"><li><input type="text" class="required-entry widthinput" name="attroptions['+i+']"></li><li><button type="button" value=" Delete Row" title="Delete Row" class="deletecusopt button"><span><span>Delete</span></span></button></li></ul>';
+            $(".wk-mp-option-box").append(html);
+        });
+        $(document).on('click',".deletecusopt",function(){
+            $(this).parent().parent().remove();
+        });
+       
+    });
+</script>

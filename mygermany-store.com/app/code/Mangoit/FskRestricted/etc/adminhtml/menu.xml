@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+    	<add id="Mangoit_FskRestricted::fskrestricted" title="Country Wise Restriction" module="Mangoit_FskRestricted" sortOrder="20" resource="Mangoit_FskRestricted::fskrestricted"/>
+    	<add id="Mangoit_FskRestricted::product" title="Restricted Products" module="Mangoit_FskRestricted" sortOrder="10" parent="Mangoit_FskRestricted::fskrestricted" action="fskrestricted/product"  resource="Mangoit_FskRestricted::fskrestricted"/>
+    	<add id="Mangoit_FskRestricted::categories" title="Restricted Categories" module="Mangoit_FskRestricted" sortOrder="20" parent="Mangoit_FskRestricted::product" action="fskrestricted/category"  resource="Mangoit_FskRestricted::fskrestricted"/>
+    </menu>
+</config>

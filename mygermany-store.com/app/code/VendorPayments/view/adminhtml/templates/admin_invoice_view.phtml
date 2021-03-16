@@ -1,0 +1,211 @@
+<?php 
+$items = $this->getInvoiceItems();
+$sellerPriceArray = $this->getHelper()->getSellerPriceArray($items);
+
+$currentInvoice = $this->getCurrentInvoiceData();
+
+$date = $this->getHelper()->date->gmtDate('d.m.Y', $currentInvoice->getCreatedAt());
+$invoiceNumber = $currentInvoice->getInvoiceNumber();
+
+$sellerData = $this->marketplaceHelper->getSellerDataBySellerId($currentInvoice->getSellerId())->getData();
+$sellerData = $sellerData[0];
+$sellerName = $sellerData['name'];
+
+
+?>
+
+<div class="page-main-actions">
+    <div class="page-actions-placeholder"></div>
+    <div class="page-actions" data-ui-id="page-actions-toolbar-content-header">
+        <div class="page-actions-inner">
+            <div class="page-actions-buttons">
+                <button id="back" title="Back" type="button" class="action-default scalable back" onclick="setLocation('<?php echo $this->getUrl('*/*/index'); ?>')">
+                    <span><?php echo __('Back'); ?></span>
+                </button>
+                <!-- <button id="send_notification" title="Send Email" type="button" class="action-default scalable send-email" onclick="confirmSetLocation()" data-ui-id="sales-invoice-view-send-notification-button">
+                    <span>Send Email</span>
+                </button> -->
+                <button id="print" title="Print" type="button" class="action-default scalable print" onclick="setLocation('<?php echo $this->getUrl('*/*/download',['id' => $currentInvoice->getId()]); ?>')" data-ui-id="sales-invoice-view-print-button">
+                    <span><?php echo __('Download Pdf'); ?></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mits_vendor_invoice_main">
+    <div class="mits_invoce_actions">
+        
+    </div>
+    <div class="mits_invoice_tables">
+        <table style="width: 100%">
+            <tbody>
+                <tr>
+                    <td style="text-align: left;">
+                        <div style="color: grey;margin-bottom: 20px;">Gutschriftadresse</div>
+                        <br/> 
+                        <div>
+                            <div>
+                                <span>
+                                    <strong><?php echo $sellerData['shop_title'] ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo $sellerName ?></span></div>
+                            <div><span><?php echo $sellerData['company_locality'] ?></span></div>
+                            <div><span><?php echo __('Deutschland') ?></span></div>
+                            <br/>
+                            <div><span><?php echo __('SteuerNr %1', $sellerData['taxvat']) ?></span></div>
+                            <div><span><?php echo __('USTNr %1', $sellerData['taxvat']) ?></span></div>
+                            <div><span><?php echo __('Regisitrierungsnummer %1', $sellerData['seller_id']) ?></span></div>
+                            <div><span><?php echo __('Telefonnummer %1', $sellerData['contact_number']) ?></span></div>
+                        </div>
+                    </td>
+                    <td style="text-align: right;">
+                        <div>
+                            <div>
+                                <span>
+                                    <strong><?php echo __('myGermany GmbH') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo __('Nordstrasse 5') ?></span></div>
+                            <div><span><?php echo __('99427 Weimar') ?></span></div>
+                            <div><span><?php echo __('Deutschland') ?></span></div>
+                            <br/>
+                            <div>
+                                <span>
+                                    <strong><?php echo __('Steuernummer') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo __('162/114/05590') ?></span></div>
+                            <br/>
+                            <div>
+                                <span>
+                                    <strong><?php echo __('Umsatzsteuernummer') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo __('DE293153410') ?></span></div>
+                            <div style="width: 100%;display: inline-block;">
+                                <span style="
+                                    text-align:  right;
+                                    float:  right;
+                                ">.......................................................</span>
+                            </div>
+                            <br/>
+                            <div>
+                                <span>
+                                    <strong><?php echo __('Rechnungsnummer') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo $invoiceNumber ?></span></div>
+                            <br/>
+                            <div>
+                                <span>
+                                    <strong><?php echo __('Kundennummer') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo $sellerData['seller_id'] ?></span></div>
+                            <br/>
+                            <div>
+                                <span>
+                                    <strong><?php echo __('Ausstellungsdatum') ?></strong>
+                                </span>
+                            </div>
+                            <div><span><?php echo $date ?></span></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="50%">
+                        <div style="width:95%;margin:30px auto;">
+                            <span style="font-size: 20px;">
+                                <strong><?php echo __('GUTSCHRIFT') ?></strong>
+                            </span>
+                        </div>
+                    </td>
+                    <td width="50%"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="data-table admin__table-primary edit-order-table">
+            <thead>
+                <tr class="headings">
+                    <th class="col-product"><span><?php echo __('Bestelldatum/ Order Date'); ?></span></th>
+                    <th class="col-status"><span><?php echo __('Artikelname/ Product Name'); ?></span></th>
+                    <th class="col-price-original"><span><?php echo __('Bestellnummer/ Order ID'); ?></span></th>
+                    <th class="col-price"><span><?php echo __('Bestellung/ Order'); ?></span></th>
+                    <th class="col-ordered-qty"><span><?php echo __('Versandkosten/ Shipping Costs'); ?></span></th>
+                    <th class="col-subtotal"><span><?php echo __('Verkaufsgebühr/ Commission'); ?></span></th>
+                    <th class="col-tax-amount"><span><?php echo __('Bezahldienstleister/ Payment Provider'); ?></span></th>
+                    <th class="col-tax-percent"><span><?php echo __('Währungsumrechnung/ Exchange Fee'); ?></span></th>
+                </tr>
+            </thead>
+            <tbody class="even">
+                <?php
+                    $tableContent = '';
+                    $totalAmountArray= [];
+                    $totalFeeArray= [];
+                    foreach ($items as $perRow) {
+                        // $rowData = array_merge($perRow, array_values($dummyColumns));
+                        $tableContent .= '<tr>';
+                        $tableContent .= '<td>'.$this->getHelper()->date->gmtDate('d.m.Y', $perRow['created_at']).'</td>';
+                        $tableContent .= '<td>'.$perRow['magepro_name'].'</td>';
+                        $tableContent .= '<td>'.$perRow['magerealorder_id'].'</td>';
+                        $tableContent .= '<td>'.number_format($perRow['total_amount'], 2, '.', '').'</td>';
+                        // var_dump((float)$sellerPriceArray[$perRow['magerealorder_id']]);
+                        $tableContent .= '<td>'.number_format((float)$sellerPriceArray[$perRow['magerealorder_id']], 2, '.', ' ').'</td>';
+                        $tableContent .= '<td>'.number_format($perRow['total_commission'], 2, '.', '').'</td>';
+                        $tableContent .= '<td>'.number_format($perRow['mits_payment_fee_amount'], 2, '.', '').'</td>';
+                        $tableContent .= '<td>'.number_format($perRow['mits_exchange_rate_amount'], 2, '.', '').'</td>';
+
+
+                        $totalAmountArray[] = number_format($perRow['total_amount'], 2, '.', '');
+                        $totalAmountArray[] = number_format((float)$sellerPriceArray[$perRow['magerealorder_id']], 2, '.', ' ');
+                        $totalFeeArray[] = number_format($perRow['total_commission'], 2, '.', '');
+                        $totalFeeArray[] = number_format($perRow['mits_payment_fee_amount'], 2, '.', '');
+                        $totalFeeArray[] = number_format($perRow['mits_exchange_rate_amount'], 2, '.', '');
+
+                        $sellerPriceArray[$perRow['magerealorder_id']] = '';
+
+                        $tableContent .= '</tr>';
+                    }
+                    $netTotal = (array_sum($totalAmountArray) - array_sum($totalFeeArray));
+                    $totalInclVat = number_format(((array_sum($totalAmountArray)-array_sum($totalFeeArray))*19)/100, 2, '.', '');
+                    $totalToBePaid = number_format($netTotal + $totalInclVat, 2, '.', '');
+                    echo $tableContent;
+                ?>
+            </tbody>
+        </table>
+        <table style="width:95%;">
+            <tbody>
+                <tr>
+                    <td width="40%">&nbsp;</td>
+                    <td width="60%" style="float: right;">
+                        <table style="width: 95%">
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: left;"><?php echo __('Gesamt Betrag / Total Amount') ?></td>
+                                    <td style="text-align: right;"><?php echo array_sum($totalAmountArray) ?></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;"><?php echo __('Gesamt Gebühren / Total Fees') ?></td>
+                                    <td style="text-align: right;"><?php echo array_sum($totalFeeArray) ?></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;"><?php echo __('Gesamtsumme (netto) / Total (net)') ?></td>
+                                    <td style="text-align: right;"><?php echo (array_sum($totalAmountArray)-array_sum($totalFeeArray)) ?></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;"><?php echo __('zzgl. 19% USt. / incl. VAT') ?></td>
+                                    <td style="text-align: right;"><?php echo $totalInclVat ?></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;"><?php echo __('Gesamtsumme / Total') ?></td>
+                                    <td style="text-align: right;"><?php echo $totalToBePaid ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

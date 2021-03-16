@@ -1,0 +1,48 @@
+<script>
+    require([
+        'jquery',
+        'Magento_Ui/js/modal/modal',
+        'prototype'
+    ], function(jQuery, $, modal){
+
+        var url = "<?php echo $block->getAjaxSyncUrl();?>";
+        console.log('== Generate Invoice ===');
+
+        var collectSpan = jQuery('#collect_span');
+        jQuery('#generate_invoice_now').click(function () {
+             console.log('== Generate Invoice clicked ===');
+            var params = {};
+            new Ajax.Request('<?php echo $block->getAjaxSyncUrl() ?>', {
+                parameters:     params,
+                loaderArea:     false,
+                asynchronous:   true,
+                onCreate: function() {
+                    collectSpan.find('.processing').show();
+                },
+                onSuccess: function(response) {
+                    console.log(response);
+                    collectSpan.find('.processing').hide();
+                    location.reload();
+
+
+                    /*var resultText = '';
+                    if (response.status > 200) {
+                        resultText = response.statusText;
+                    } else {
+                        resultText = 'Success';
+                    }*/
+                }
+            });
+        });
+
+    });
+</script>
+
+<?php echo $block->getButtonHtml() ?>
+<span class="collect-indicator" id="collect_span">
+    <div data-role="spinner" class="admin__form-loading-mask processing" style="display: none;">
+            <div class="spinner">
+                <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+    </div>
+</span>

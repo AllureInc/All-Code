@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://cedcommerce.com/license-agreement.txt
+ *
+ * @category Ced
+ * @package Ced_Productfaq
+ * @author CedCommerce Core Team
+ * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license http://cedcommerce.com/license-agreement.txt
+ */
+ -->
+    <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="../../../Backend/etc/system_file.xsd">
+        <system>
+            <tab id="faq" translate="label" sortOrder="200">
+                <label>Cedcommerce</label>
+            </tab>
+            <section id="faq" translate="label" sortOrder="1" showInDefault="1" 
+    showInWebsite="1" showInStore="1">
+                <label>Product FAQ's</label>
+                <tab>faq</tab>
+                <resource>Ced_Productfaq::system_config</resource>
+                <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" 
+    showInWebsite="1" showInStore="1">
+                    <label>General Settings</label>
+                    <field id="enable_in_frontend" translate="label" type="select" sortOrder="1" 
+    showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enable Module</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="sender_email" translate="label comment" type="text" sortOrder="2" 
+    showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sender Email</label>
+                    </field>
+                    <field id="sender_name" translate="label comment" type="text" sortOrder="3" 
+    showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sender Name</label>
+                    </field>
+                </group>
+            </section>
+        </system>
+    </config>

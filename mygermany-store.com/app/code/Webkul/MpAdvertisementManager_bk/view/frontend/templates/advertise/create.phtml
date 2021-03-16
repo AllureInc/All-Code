@@ -1,0 +1,105 @@
+<!-- /**
+* Webkul Software.
+*
+* @category  Webkul
+* @package   Webkul_MpAdvertisementManager
+* @author    Webkul
+* @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+* @license   https://store.webkul.com/license.html
+*/ -->
+<?php 
+	$isAdsDemoEnable = $block->getIsAdsDemoEnable(); 	
+	$adsPlans = $block->getAdsPlans();
+	$jsonConfig = $block->getJsJosnConfig();
+?>
+<div class="actions-toolbar wk-enable-demo-action">
+	<div class="primary">
+		<?php if ($isAdsDemoEnable) {
+			?>
+				<button data-status="1" class="action primary enable-ads-demo"><?php /* @escapeNotVerified */ echo __("Disable Ads Demo"); ?></button>
+			<?php
+
+			} else {
+				?>
+				<button data-status="0" class="action primary enable-ads-demo"><?php /* @escapeNotVerified */ echo __("Enable Ads Demo"); ?></button>
+		<?php 
+			} 
+		?>
+	</div>
+</div>
+
+<div class="fieldset ads-container">
+
+	<div class="ads-plans-container">
+		
+		<legend class="legend"><?php /* @escapeNotVerified */ echo __("Ads plans"); ?></legend>
+	
+
+		<div class="title">
+			<?php if($adsPlans->getSize() <= 0) {  ?>
+				<note><?php /* @escapeNotVerified */ echo __("there is no plans available yet"); ?></note>
+			<?php } else { ?>
+				<?php foreach($adsPlans as $plan) { $isAdsCanBeBooked = $block->isAddCanBeBooked($plan->getBlockPosition()); ?>
+					<div class="plan-items <?php echo $isAdsCanBeBooked?'':'ads-sold-out' ?>">
+						<form id="plan-form-<?php /* @escapeNotVerified */ echo $plan->getBlockPosition(); ?>" action="<?php /* @escapeNotVerified */ echo $block->getAddToCartAction(); ?>" method="post">
+							<fieldset class="wk-plan-fieldset fieldset">
+								<input type="hidden" name="book[<?php /* @escapeNotVerified */ echo $plan->getBlockPosition(); ?>][block_position]" value="<?php /* @escapeNotVerified */ echo $plan->getBlockPosition(); ?>" />
+
+								<input type="hidden" value="<?php /* @escapeNotVerified */ echo $plan->getBlockPosition(); ?>" name="blockId" />
+
+								<?php /* @escapeNotVerified */ echo $this->getBlockHtml('seller.formkey')?>
+								<?php /* @escapeNotVerified */ echo $this->getBlockHtml('formkey')?>
+
+								<input type="hidden" name="book[<?php /* @escapeNotVerified */ echo $plan->getBlockPosition(); ?>][price]" value="<?php /* @escapeNotVerified */ echo $plan->getPrice(); ?>" />
+
+								<div class="legend">
+								
+									<div class="control"><?php /* @escapeNotVerified */ echo $block->getPositionLabel($plan->getBlockPosition()); ?><span class="step" title = "Remaining Ads on the Block"><?php echo $block->remainingAdsOnParticularBlock($plan->getBlockPosition());  ?></span></div>
+								</div>
+
+								<div class="field">
+									<label class="label"><span><?php /* @escapeNotVerified */ echo __("Price") ?></span></label>
+									<div class="ads-price control"><?php /* @escapeNotVerified */ echo $block->getFormattedPrice($plan->getPrice()); ?></div>
+								</div>
+
+								<div class="field">
+									<label class="label"><span><?php /* @escapeNotVerified */ echo __("Valid Days") ?></span></label>
+									<div class="control">
+										<?php echo __("%1 days", $block->getDays($plan->getBlockPosition())); ?>
+										<input type="hidden" class="input-text" name="book[<?php /* @escapeNotVerified */ echo $plan->getBlockPosition(); ?>][days]" value="<?php /* @escapeNotVerified */ echo $block->getDays($plan->getBlockPosition()); ?>" />
+									</div>
+								</div>
+
+								<div class="field">
+									<label class="label"><span><?php /* @escapeNotVerified */ echo __("Ad Blocks") ?></span></label>
+									<div class="ads-block control">
+										<select name="book[<?php /* @escapeNotVerified */ echo $plan->getBlockPosition(); ?>][block]" class="ads-block-select select" <?php echo $isAdsCanBeBooked?'':'disabled' ?>>
+											<?php foreach($block->getSellerBlocks() as $adsBlock) { ?>
+												<option value="<?php /* @escapeNotVerified */ echo $adsBlock->getId(); ?>"><?php /* @escapeNotVerified */ echo $block->escapeHtml($adsBlock->getTitle()); ?></option>
+											<?php } ?>
+										</select>
+									</div>
+								</div>
+								
+								
+								<button <?php echo $isAdsCanBeBooked?'':'disabled' ?> type="submit" class="book-plan action primary"><?php /* @escapeNotVerified */ echo $isAdsCanBeBooked?__('Book'):__('Booked') ?></button>
+
+							</fieldset>
+						</form>
+					</div>
+				<?php } ?>
+			<?php } ?>
+
+		</div>
+	</div>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "*":{
+            "wkadvertise":{
+                "advertiseData": {"data": <?php /* @escapeNotVerified */ echo $jsonConfig; ?>}
+            }
+        }
+    }
+</script>

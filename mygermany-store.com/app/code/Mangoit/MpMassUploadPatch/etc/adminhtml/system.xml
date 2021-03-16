@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Marketplace
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="marketplace" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+            <!-- Assign section to tab -->
+            <tab>webkul</tab>
+            <resource>Webkul_Marketplace::config_marketplace</resource>
+            <!-- create group for fields in section -->
+            <group id="product_cat_type" translate="label" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Product Category type options value</label>
+                <field id="electronics_type" translate="Electronics" sortOrder="5" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Electronic option value</label>
+                    <comment>e.g Please enter option value in number only</comment>
+                </field>
+                <field id="non_electronics_type" translate="Non Electronics" sortOrder="5" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Non Electronic option value</label>
+                    <comment>e.g Please enter option value in number only</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

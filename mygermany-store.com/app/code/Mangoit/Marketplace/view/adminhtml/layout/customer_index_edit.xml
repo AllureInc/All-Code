@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mangoit Software.
+ *
+ * @category  Mangoit
+ * @package   Mangoit_Marketplace
+ * @author    Mangoit
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="styles"/>
+    <head>
+        <css src="Webkul_Marketplace::css/style.css"/>
+    </head>
+    <body>
+        <referenceBlock name="customer_form">
+            <block class="Mangoit\Marketplace\Block\Adminhtml\View\Sellerapproval" name="mis_seller_approval" />            
+        </referenceBlock>    
+        <referenceBlock name="content">
+            <block class="Mangoit\Marketplace\Block\Adminhtml\Customer\Removetabs" name="mis_remove_tabs"/>
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,178 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\Wishlist\Block\Customer\Sharing $block */
+?>
+<style type="text/css">
+    #email_address-error{ display: none; }
+</style>
+<form class="form wishlist share"
+      action="<?= $block->escapeUrl($block->getSendUrl()) ?>"
+      id="form-validate-wish"
+      method="post"
+      data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+      data-mage-init='{"validation":{},"misWishListJs":{}}'>
+    <fieldset class="fieldset">
+        <?= $block->getBlockHtml('formkey') ?>
+        <legend class="legend"><span><?= $block->escapeHtml(__('Sharing Information')) ?></span></legend><br />
+        <div class="field emails required">
+            <label class="label" for="email_address"><span><?= $block->escapeHtml(__('Email addresses, separated by commas')) ?></span></label>
+            <div class="control">
+                <textarea name="emails" cols="60" rows="5" id="email_address" data-validate="{required:true,'mis-validate-emails':true}"><?= /* @noEscape */ $block->getEnteredData('emails') ?></textarea>
+            </div>
+            <!-- <div for="email_address" generated="true" class="mage-error" id="email_address-error"><?php //echo __('Please enter valid email addresses, separated by commas. For example, johndoe@domain.com, johnsmith@domain.com.');?></div> -->
+        </div>
+        <div class="field text">
+            <label class="label" for="message"><span><?= $block->escapeHtml(__('Message')) ?></span></label>
+            <div class="control">
+                <textarea id="message" name="message" cols="60" rows="5"><?= /* @noEscape */ $block->getEnteredData('message') ?></textarea>
+            </div>
+        </div>
+        <?php if ($this->helper('Magento\Wishlist\Helper\Rss')->isRssAllow()): ?>
+            <div class="field choice rss">
+                <input type="checkbox" name="rss_url" id="rss_url" value="1" title="<?= $block->escapeHtmlAttr(__('Check here to link an RSS feed to your Wish List.')) ?>" class="checkbox">
+                <label class="label" for="rss_url">
+                    <span>
+                        <?= $block->escapeHtml(__('Check here to link an RSS feed to your Wish List.')) ?>
+                    </span>
+                </label>
+            </div>
+        <?php endif; ?>
+    </fieldset>
+    <?= $block->getChildHtml('captcha'); ?>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="submit" title="<?= $block->escapeHtmlAttr(__('Share Wish List')) ?>" class="action submit primary">
+                <span><?= $block->escapeHtml(__('Share Wish List')) ?></span>
+            </button>
+        </div>
+        <div class="secondary">
+            <a class="action back" href="<?= $block->escapeUrl($block->getBackUrl()) ?>"><span><?= $block->escapeHtml(__('Back')) ?></span></a>
+        </div>
+    </div>
+</form>
+<script type="text/x-magento-init">
+   {
+       "*": {
+            "Mangoit_SortMenu/js/misWishListJs": {}
+       }
+   }
+</script>
+<!-- <script type="text/javascript">
+require([
+    'jquery',
+    'mage/mage'
+], function($){
+ 
+   var dataForm = $('#form-validate-wish');
+   dataForm.mage('validation', {});
+ 
+});
+</script>
+<script type="text/javascript">
+define([
+    'jquery',
+    'underscore',
+    './utils',
+    'moment',
+    'tinycolor',
+    'jquery/validate',
+    'jquery/ui',
+    'mage/translate'
+], function ($, _, utils, moment, tinycolor) {
+
+    $.validator.addMethod(
+        'mis-validate-emails', function (value) {
+            var validRegexp, emails, i;
+
+            if (utils.isEmpty(value)) {
+                return true;
+            }
+            validRegexp = /^[a-z0-9\._-]{1,30}@([a-z0-9_-]{1,30}\.){1,5}[a-z]{2,4}$/i;
+            emails = value.split(/[\s\n\,]+/g);
+
+            for (i = 0; i < emails.length; i++) {
+                if (!validRegexp.test(emails[i].strip())) {
+                    return false;
+                }
+            }
+
+            return true;
+        },
+        $.mage.__('MIS Please enter valid email addresses, separated by commas. For example, johndoe@domain.com, johnsmith@domain.com.')
+    );
+
+    /*'validate-emails': [
+            function (value) {
+                var validRegexp, emails, i;
+
+                if (utils.isEmpty(value)) {
+                    return true;
+                }
+                validRegexp = /^[a-z0-9\._-]{1,30}@([a-z0-9_-]{1,30}\.){1,5}[a-z]{2,4}$/i;
+                emails = value.split(/[\s\n\,]+/g);
+
+                for (i = 0; i < emails.length; i++) {
+                    if (!validRegexp.test(emails[i].strip())) {
+                        return false;
+                    }
+                }
+
+                return true;
+            },
+            $.mage.__('Please enter valid email addresses, separated by commas. For example, johndoe@domain.com, johnsmith@domain.com.')
+        ]*/
+});
+
+require([
+    "jquery",
+    "vesallFancybox",
+    "mage/mage",
+    "jquery/validate",
+    "mage/validation"
+], function($){
+    /*'validate-emails': [
+            function (value) {
+                var validRegexp, emails, i;
+
+                if (utils.isEmpty(value)) {
+                    return true;
+                }
+                validRegexp = /^[a-z0-9\._-]{1,30}@([a-z0-9_-]{1,30}\.){1,5}[a-z]{2,4}$/i;
+                emails = value.split(/[\s\n\,]+/g);
+
+                for (i = 0; i < emails.length; i++) {
+                    if (!validRegexp.test(emails[i].strip())) {
+                        return false;
+                    }
+                }
+
+                return true;
+            },
+            $.mage.__('Please enter valid email addresses, separated by commas. For example, johndoe@domain.com, johnsmith@domain.com.')//eslint-disable-line max-len
+        ],*/
+
+
+   /*$('#submit').on('click', function(event){
+      var email_address = $('#email_address').val();
+      console.log(email_address);
+      validRegexp = /^[a-z0-9\._-]{1,30}@([a-z0-9_-]{1,30}\.){1,5}[a-z]{2,4}$/i;
+      emails = email_address.split(/[\s\n\,]+/g);
+      for (i = 0; i < emails.length; i++) {
+        if (!validRegexp.test(emails[i].strip())) {
+            $('#email_address-error').css('display', 'block');
+            event.preventDefault();
+        } else {
+            $('#email_address-error').css('display', 'none');
+        }
+      }
+
+   });*/
+});
+
+</script> -->

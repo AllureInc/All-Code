@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="attribute_listing_data_source" xsi:type="string">Mangoit\VendorAttribute\Model\ResourceModel\Attributemodel\Collection</item>
+			</argument>
+		</arguments>
+	</type>
+	<virtualType name="Mangoit\VendorAttribute\Model\ResourceModel\Attributemodel\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">vendor_attributes</argument>
+            <argument name="resourceModel" xsi:type="string">Mangoit\VendorAttribute\Model\ResourceModel\Attributemodel</argument>
+        </arguments>
+    </virtualType>
+	<preference for="Webkul\Marketplace\Controller\Product\Attribute\Save" type="Mangoit\VendorAttribute\Controller\Product\Attribute\Save" />
+	<preference for="Magento\ConfigurableProduct\Ui\DataProvider\Attributes" type="Mangoit\VendorAttribute\Ui\DataProvider\Attributes" />
+</config>

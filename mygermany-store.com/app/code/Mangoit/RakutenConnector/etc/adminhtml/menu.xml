@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Package
+ * @package    Package_RakutenConnector
+ * @author     Author
+ * @copyright  Copyright (c)  Author
+ * @license    license
+ */  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Mangoit_RakutenConnector::amazon_menu" title="Rakuten Menu" module="Mangoit_RakutenConnector"
+            sortOrder="10" resource="Mangoit_RakutenConnector::amazon_menu" parent="Webkul_Marketplace::marketplace"/>
+        <add id="Mangoit_RakutenConnector::manage_account" title="Manage Rakuten Account" module="Mangoit_RakutenConnector"
+            sortOrder="1" parent="Mangoit_RakutenConnector::amazon_menu" action="rakutenconnect/accounts/"
+            resource="Mangoit_RakutenConnector::manage_account"/>
+    </menu>
+</config>
+

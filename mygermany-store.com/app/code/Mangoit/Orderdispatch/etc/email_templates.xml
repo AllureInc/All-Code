@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Mangento_Email:etc/email_templates.xsd">
+	<template id="marketplace_email_order_received" label="Order Received" file="order_received.html" type="html" module="Mangoit_Orderdispatch" area="adminhtml"/>
+	<template id="marketplace_email_order_notification_to_sender" label="Order Notification To Seller" file="order_notification_sender.html" type="html" module="Mangoit_Orderdispatch" area="adminhtml"/>
+</config>

@@ -1,0 +1,307 @@
+<?php
+$_helper = $this->helper('Smartwave\Porto\Helper\Data');    
+$shipping_method_text = __("Shipping Method");
+$popup = $_helper->getConfig('porto_settings/newsletter');
+if($popup['enable']) {
+    $delay = $popup["delay"];
+    ?>
+    <script type="text/javascript">
+        require([
+            'jquery',
+            'jquery/jquery.cookie',
+            "vesallFancybox"
+            ], function ($) {
+                $(document).ready(function(){
+                    <?php if($popup['enable'] == 1): ?>
+
+                        console.log('=== popup enabled ===');
+
+                        if($("body").hasClass("cms-index-index")) {
+                        <?php endif; ?>
+                        var check_cookie = $.cookie('newsletter_popup');
+
+                        console.log('=== check_cookie ===');
+                        console.log(check_cookie);
+
+                        if(window.location!=window.parent.location){
+                            $('#newsletter_popup').remove();
+                            console.log('=== newsletter_popup remove ===');
+                        } else {
+
+                            if(check_cookie == null || check_cookie == 'shown') {
+
+                                console.log('=== No Cookie for NewsLetter ===');
+
+                                setTimeout(function(){
+                                    beginNewsletterForm();
+                                }, <?php echo $delay; ?>);
+                            }
+
+                            $('#newsletter_popup_dont_show_again').on('change', function(){
+                                console.log('=== newsletter_popup_dont_show_again checked ===');
+                                if($(this).length){     
+                                    var date = new Date();
+                                    date.setTime(date.getTime() + 24 * 60 * 60 * 1000); 
+
+                                    console.log('Cookie Date: ');
+                                    console.log(date);
+
+                                    var check_cookie = $.cookie('newsletter_popup');
+
+                                    console.log('Current Cookie: ');
+                                    console.log(check_cookie);
+
+                                    if(check_cookie == null || check_cookie == 'shown') {
+                                        $.cookie('newsletter_popup','dontshowitagain', {expires: date});        
+                                        console.log('after disabled Cookie: ');
+                                        console.log($.cookie('newsletter_popup'));    
+                                    }
+                                    else
+                                    {
+                                        $.cookie('newsletter_popup','shown');
+                                        console.log('=== Newsletter POPUP Shown ===');
+                                        console.log($.cookie('newsletter_popup'));
+                                        beginNewsletterForm();
+                                    }
+                                } else {
+                                    $.cookie('newsletter_popup','shown');
+                                    console.log('=== Newsletter POPUP Shown 2 ===');
+                                        console.log($.cookie('newsletter_popup'));
+                                }
+                            });
+                        }
+                        <?php if($popup['enable'] == 1): ?>
+                        }
+                    <?php endif; ?>
+                });
+                
+                function beginNewsletterForm() {
+                    $.fancybox({
+                        'padding': '0px',
+                        'autoScale': true,
+                        'transitionIn': 'fade',
+                        'transitionOut': 'fade',
+                        'type': 'inline',
+                        'href': '#newsletter_popup',
+                        'onComplete': function() {
+                            $.cookie('newsletter_popup', 'shown');
+                        },
+                        'tpl': { 
+                            closeBtn: '<a title="<?php echo __('Close');?>" class="fancybox-item fancybox-close fancybox-newsletter-close" href="javascript:;"></a>' 
+                        },
+                        'helpers': {
+                            overlay: {
+                                locked: false
+                            }
+                        }
+                    });
+                    $('#newsletter_popup').trigger('click');
+                }
+            });
+        </script>
+        <style type="text/css">
+        <?php
+        if($popup["custom_style"]){
+            echo $popup["custom_style"];
+        }
+        ?>
+        #newsletter_popup{
+            <?php
+            if($popup["width"]){
+                echo "width:".$popup["width"].";";
+            }
+            if($popup["height"]){
+                echo "height:".$popup["height"].";";
+            }
+            if($popup["bg_color"]){
+                echo "background-color:".$popup["bg_color"].";";
+            }
+            if(isset($popup["bg_image"]) && $popup["bg_image"]){
+                $folderName = \Smartwave\Porto\Model\Config\Backend\Image\Newsletterbg::UPLOAD_DIR;
+                $path = $folderName . '/' . $popup["bg_image"];
+                $imageUrl = $_helper->getBaseUrl() . $path;
+                ?>
+                background-image:url(<?php echo $imageUrl;?>);
+                <?php
+            }
+            ?>
+        }
+    </style>
+    <div class="newsletter" id="newsletter_popup" style="display: none;">
+        <div class="block-content">
+            <?php
+            if(isset($popup["logo_src"]) && $popup["logo_src"]){
+                $folderName = \Smartwave\Porto\Model\Config\Backend\Image\Newsletterlogo::UPLOAD_DIR;
+                $path = $folderName . '/' . $popup["logo_src"];
+                $logoUrl = $_helper->getBaseUrl() . $path;
+                ?>
+                <img src="<?php echo $logoUrl; ?>" alt="" />
+                <?php
+            }
+            ?>
+            <?php echo $popup["content"]; ?>
+            <form class="form subscribe"
+            novalidate
+            action="<?php echo $block->getFormActionUrl() ?>"
+            method="post"
+            data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+            id="newsletter-validate-detail_popup">
+            <div class="field newsletter">
+                <div class="control">
+                    <input name="email" type="email" id="footer_newsletter_popup"
+                    data-validate="{required:true, 'validate-email':true}"/>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="action subscribe primary" title="<?php echo __('Go') ?>" type="submit" >
+                    <span><?php echo __('Go') ?></span>
+                </button>
+            </div>
+        </form>
+        <div class="subscribe-bottom">
+            <input type="checkbox" id="newsletter_popup_dont_show_again"/>
+            <label for="newsletter_popup_dont_show_again"><?php echo __("Don't show this popup again"); ?></label>
+        </div>
+    </div>
+    <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('newsletter-ssl-message')->toHtml(); ?>
+</div>
+<div id="verify-form" style="display: none;">
+    <form class="form" id="uploadForm" action="<?php echo $this->getUrl('fskverified/fsk/fskdoc') ?>" method="post" enctype="multipart/form-data" >
+        <fieldset class="fieldset">
+            <legend class="legend"><span><?php echo __('Upload Passport/ Identity Card.') ?></span></legend>
+            <input name="form_key" type="hidden" value="<?php echo $block->getformKey();?>">
+            <br>
+            <div class="field required">
+                <label for="number" class="label">
+                    <span><?php echo __('Upload File') ?></span>
+                </label>
+                <div class="control">
+                    <input type="file" id="customer-file"
+                    name="uploadFile"
+                    class="input-file">
+                </div>
+                <span id="file_error"></span>
+            </div>
+        </fieldset>
+        <input type="hidden" name="post_product_id" class="post_product_id">
+        <input type="hidden" name="post_product_qty" class="post_product_qty">
+        <input type="hidden" name="post_wishlist" class="post_wishlist" value="0">
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button type="submit" class="action submit primary" id="submit-btn">
+                    <span><?php echo __('Submit') ?></span>
+                </button>
+            </div>
+        </div>
+
+    </form>
+</div>
+<?php
+}
+?>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'jquery/jquery.cookie',
+        'mage/translate',
+        "vesallFancybox"
+        ], function ($) {
+
+        var shipping_method_title = "<?php //echo __('Shipping Method')?>";
+        var shipping_method_text = "<?php //echo $shipping_method_text; ?>";
+        setTimeout(function(){ 
+            $('.shippingmethods_page').text(shipping_method_text);
+            $('.shippingmethods_page').attr("title",$.mage.__(shipping_method_text));
+            $('body #newsletter_popup .actions').css("margin", "none !important");
+            $('#newsletter_popup .actions').css("margin-left", "none !important");
+        }, 2000);
+        setTimeout(function(){ 
+           $('.checkout-shipping-address .step-title .title-number span').text(2);
+           $('.checkout-shipping-method .step-title').html('<span class="title-number"><span>3</span></span>'+shipping_method_title);
+           $('.payment-group .step-title .title-number span').text(4);
+           $(".shipping-address-item").trigger('click');
+            $('.shippingmethods_page').text(shipping_method_text);
+            $('.shippingmethods_page').attr("title",shipping_method_text);
+        }, 4000);
+        setTimeout(function(){ 
+           $(".shipping-address-item").trigger('click');
+           $('.checkout-shipping-address .step-title .title-number span').text(2);
+           $('.payment-group .step-title .title-number span').text(4);
+           $('.checkout-shipping-method .step-title').html('<span class="title-number"><span>3</span></span>'+shipping_method_title);
+            $('.shippingmethods_page').text(shipping_method_text);
+            $('.shippingmethods_page').attr("title",shipping_method_text);
+        }, 7000);
+        setTimeout(function(){ 
+            $('.checkout-shipping-address .step-title .title-number span').text(2);
+           $('.checkout-shipping-method .step-title').html('<span class="title-number"><span>3</span></span>'+shipping_method_title);
+            $('.shippingmethods_page').text(shipping_method_text);
+            $('.shippingmethods_page').attr("title",shipping_method_text);
+        }, 15000);
+
+        /* ######## Check file size start ######## */
+        var fileSize = 1;
+        $(document).ready(function(){
+            $("#customer-file").change(function(){
+                $("#file_error").html("");
+                $(".input-file").css("border-color","#F0F0F0");
+                var file_size = $('#customer-file')[0].files[0].size;
+
+                if(file_size > 2000000) {
+                    $("#file_error").html("<p style='color:#FF0000;font-size:15px;'><?php echo __('Please upload file less than 2MB.');?></p>");
+                    $(".input-file").css("border-color","#FF0000");
+                    fileSize = 0;
+                    return false;
+                } else {
+                    fileSize = 1;
+                }
+                return true;
+            });
+
+            $("#submit-btn").click(function(event){
+                if(fileSize != 1){
+                    event.preventDefault();
+                }
+            
+            });
+        });
+
+        /* ######## Check file size ends ######## */
+
+        $(document).ready(function(){
+            setTimeout(function(){ 
+                /*$('.mis_shippings_select').on('change', function(){
+
+                    if ((this).val() == 'warehouse') {
+                        console.log('=== mis_shippings_select warehouse ===');
+                        $('.addresses').css('display','none');
+                        $('.newaddress-button').css('display','none');
+                    } else {
+                        $('.addresses').css('display','block');
+                        $('.newaddress-button').css('display','block');
+                    }
+                    console.log('=== mis_shippings_select changed ===');
+                });*/
+                console.log('footer JS');
+                $('input[name ="billing-address-same-as-shipping"]').on('click', function(){
+                    $('.billing-address-form').css('display', 'block');
+                    console.log('billing-address-same-as-shipping JS');
+                    var new_counter = 1;
+                    $('.title-number').each(function(){
+                        console.log('title-number JS');
+                       $(this).html("<span>"+new_counter+"</span>");
+                       new_counter++;
+                    });
+                });
+
+                var counter = 1;
+                $('.title-number').each(function(){
+                    console.log('title-number JS main');
+                   $(this).html("<span>"+counter+"</span>");
+                   counter++;
+                });
+               
+            }, 9000);
+
+        });
+    });
+</script>

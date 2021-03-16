@@ -1,0 +1,147 @@
+<div class="entry-edit">
+<div id="wallet_add_block">
+	<form action="<?php /* @escapeNotVerified */echo $block->getUrl('walletsystem/wallet/massaddamount') ?>" enctype="multipart/form-data" method="post" id="formmassadd">
+		<?php /* @escapeNotVerified */echo $block->getBlockHtml('formkey')?>
+		<input type="hidden" name="wkcustomerids" id="wkcustomerids" value="" />
+		<fieldset class="fieldset admin__fieldset">
+			<legend class="legend">
+				<span><?php /* @escapeNotVerified */echo __('Adjust amount to wallet') ?></span>
+			</legend>
+			<div class="messages"></div>
+			<div class="field admin__field">
+				<label class="label" for="walletamount">
+					<span><?php /* @escapeNotVerified */echo __('Enter Amount')?></span>
+				</label>
+				<div class="control">
+					<input id="walletamount" name="walletamount" type="text" class="input-text required-entry" />
+				</div>
+			</div>
+			<div class="field admin__field">
+				<label class="label" for="walletactiontype">
+					<span><?php /* @escapeNotVerified */echo __('Action want to perform on amount')?></span>
+				</label>
+				<div class="control">
+					<select id="walletactiontype" name="walletactiontype" type="text" class="input-text required-entry">
+						<option value="credit" selected="selected"><?php /* @escapeNotVerified */echo __('Credit Amount')?></option>
+						<option value="debit"><?php /* @escapeNotVerified */echo __('Debit Amount')?></option>
+					</select>
+				</div>
+			</div>
+			<div class="field admin__field">
+				<label class="label" for="walletnote">
+					<span><?php /* @escapeNotVerified */echo __('Note for the transaction')?></span>
+				</label>
+				<div class="control">
+					<textarea id="walletnote" name="walletnote" class="input-text walletnote"></textarea>
+				</div>
+			</div>
+			<button title="<?php /* @escapeNotVerified */echo __('Update amount to wallet') ?>" type="button" id="save_butn"><span><span><span><?php /* @escapeNotVerified */echo __('Update amount') ?></span></span></span></button>
+		</fieldset>
+	</form>
+</div>
+
+    <div class="ask_data popover_background" id="ask_data">
+        <div id="wk-mp-ask-data">
+            <!-- <div class="modals-wrapper"> -->
+                <div tabindex="0"
+                    data-type="popup"
+                    data-role="modal"
+                    class="modal-popup modal-slide _inner-scroll wk-mp-model-popup _show"
+                >
+                    <div tabindex="0" data-role="focusable-start"></div>
+                    <div data-role="focusable-scope" class="modal-inner-wrap">
+                        <header class="modal-header">
+                            <h4 class="modal-title"><?php echo __('Adjust Amount') ?></h4>
+                            <!-- <span  class="wk-close" >x</span> -->
+                            <button type="button"
+                                data-role="closeBtn"
+                                class="popover_close action-close wk_close"
+                            >
+                                <span>Close</span>
+                            </button>
+                            <span  class="wk-clear" ></span>
+                        </header>
+                        <form id="walletform" method="get" enctype="multipart/form-data" action="<?php /* @escapeNotVerified */echo $block->getUrl('walletsystem/wallet/singleaddamount/')?>">
+							<?php /* @escapeNotVerified */echo $block->getBlockHtml('formkey')?>
+
+	                        <div class="modal-body form-list field required">
+	                            <input type="hidden"
+	                                name="customerid"
+	                                id="customerid"
+	                                value=""
+	                            />
+	                            <label class="label"><?php /* @escapeNotVerified */echo __("Amount"); ?> :</label>
+	                            <input type="text"
+	                                class="queryquestion wk-contact_input_fields required-entry validate-greater-than-zero walletamount"
+	                                name="walletamount"
+	                            />
+	                            <label class="label">
+	                                <?php /* @escapeNotVerified */echo __("Action perform on amount"); ?> :
+	                            </label>
+	                            <select id="walletactiontype" name="walletactiontype" type="text" class="wk-contact_input_fields required-entry">
+									<option value="credit" selected="selected"><?php /* @escapeNotVerified */echo __('Credit Amount')?></option>
+									<option value="debit"><?php /* @escapeNotVerified */echo __('Debit Amount')?></option>
+								</select>
+	                            <label class="label"><?php /* @escapeNotVerified */echo __("Transaction Note"); ?> :</label>
+	                            <textarea
+	                                class="queryquestion wk-contact_input_fields required-entry walletnote"
+	                                name="walletnote"
+	                                style="width:100%;"
+	                            ></textarea>
+	                        </div>
+	                        <div class="modal-footer">
+	                            <span class="error"></span>
+	                            <span class="errormail"></span>
+	                            <input type="button"
+	                                value="<?php echo __('Submit') ?>"
+	                                id="save_butn"
+	                                class="submit_button clickask action-primary"
+	                            />
+	                            <input type="reset"
+	                                value="<?php echo __('Reset') ?>"
+	                                id="resetbtn"
+	                                class="action-primary"
+	                            />
+	                            <span class="wk-clear"></span>
+	                        </div>
+	                    </form>
+                    </div>
+                    <div tabindex="0" data-role="focusable-end"></div>
+                </div>
+            <!-- </div> -->
+        </div>
+    </div>
+</div>
+<?php /* @escapeNotVerified */echo $block->getGridHtml(); ?>
+<?php
+	$blockGrid = $block->getBlockGrid();
+	$gridJsObjectName = $blockGrid->getJsObjectName();
+?>
+<?php /* @escapeNotVerified */echo $block->getChildHtml('grid') ?>
+<?php
+$formData = [
+	'wkcustomerid'	=>	'#wkcustomerids',
+	'savebtn'	=>	'#save_butn',
+	'massupdateform'	=> '#formmassadd',
+	'askdata'	=>	'#ask_data',
+	'submitButton'	=>	'.submit_button',
+	'walletform'	=>	'#walletform'
+];
+$serializedFormData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($formData);
+?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "WkWalletsystem": <?php /* @escapeNotVerified */echo $serializedFormData; ?>
+        }
+    }
+</script>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Webkul_Walletsystem/js/assign-customer": {
+                "gridJsObjectName": <?php /* @escapeNotVerified */ echo '"' . $gridJsObjectName . '"' ?: '{}'; ?>
+            }
+        }
+    }
+</script>

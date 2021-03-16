@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Cor. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
+    <menu>        
+        <!-- title -->
+        <add id="Webkul_Marketplace::tooltips" title="Tooltips" module="Mangoit_MisTooltip" sortOrder="120" parent="Webkul_Marketplace::marketplace" dependsOnModule="Webkul_Marketplace" resource="Webkul_Marketplace::marketplace"/>
+        <!-- end title -->
+        <add id="Webkul_Marketplace::mistooltip" title="Manage Tooltips" module="Mangoit_MisTooltip" sortOrder="1" parent="Webkul_Marketplace::tooltips" action="mistooltip/tool/index" resource="Webkul_Marketplace::seller"/>
+    </menu> 
+</config>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Plenty\Stock\Api\StockImportRepositoryInterface" type="Plenty\Stock\Model\StockImportRepository"/>
+    <preference for="Plenty\Stock\Api\Data\Import\InventorySearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+    <preference for="Plenty\Stock\Api\Data\Profile\StockImportInterface" type="Plenty\Stock\Profile\Import\Entity\Inventory"/>
+    <preference for="Plenty\Stock\Api\StockCollectManagementInterface" type="Plenty\Stock\Profile\StockCollectManagement"/>
+    <preference for="Plenty\Stock\Api\StockImportManagementInterface" type="Plenty\Stock\Profile\StockImportManagement"/>
+    <!-- LOGGER -->
+    <virtualType name="PlentyStockVirtualLogger" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="debug" xsi:type="object">Plenty\Stock\Model\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Plenty\Stock\Model\Logger">
+        <arguments>
+            <argument name="logger" xsi:type="object">PlentyStockVirtualLogger</argument>
+        </arguments>
+    </type>
+</config>

@@ -1,0 +1,29 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MarketplacePreorder
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+?>
+<?php
+    $helper = $this->helper('Webkul\MarketplacePreorder\Helper\Data');
+    $_productCollection = $block->getLoadedProductCollection();
+    $preorderInfo = [];
+    foreach ($_productCollection as $product) {
+        $isPreorder = $helper->isPreorder($product->getId());
+        $productUrl = $product->getProductUrl();
+        $preorderInfo[$productUrl]['preorder'] = $isPreorder;
+    }
+    $data = json_encode(["preorderInfo" => $preorderInfo]);
+?>
+<script type="text/x-magento-init">
+    {
+        "body": {
+            "Webkul_MarketplacePreorder/js/listpage": <?php echo $data ?>
+        }
+    }
+</script>

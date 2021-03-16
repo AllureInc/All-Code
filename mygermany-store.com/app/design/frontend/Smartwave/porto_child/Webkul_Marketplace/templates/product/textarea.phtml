@@ -1,0 +1,10 @@
+<div class="field">
+    <label class="label"><?php echo __($frontLabel) ?></label>
+    <div class="control">
+        <textarea 
+        placeholder="<?php echo __('Enter value');?>" 
+        class="textarea" id="" name="<?php echo "product[$attributeCode]";?>">
+        	<?php echo isset($data['product'][$attributeCode]) ? $data['product'][$attributeCode] : null;?>
+        </textarea>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpMassUpload
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+// @codingStandardsIgnoreFile
+$_helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$isPartner= $_helper->isSeller();
+$magentoCurrentUrl = $block->getCurrentUrl();
+$allow_pro_type=$_helper->getAllowedProductType();
+$isSellerGroup = $_helper->isSellerGroupModuleInstalled();
+?>
+<style type="text/css">
+    @media only screen and (max-width: 767px){
+
+        .block-collapsible-nav.wk-mp-main{
+            top: 20px;
+        }
+    }
+</style>
+<?php /*
+<nav class="account-nav">
+    <ul class="nav items">
+        <?php
+        if($isPartner){ ?>
+            <?php  if(($isSellerGroup && $_helper->isAllowedAction('mpmassupload/product/view')) || !$isSellerGroup) { ?>
+            <li class="nav item <?php echo strpos($magentoCurrentUrl,'mpmassupload/product/view')? "current":"";?>">
+                    <a href="<?php echo $block->getUrl('mpmassupload/product/view', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                        <?php  echo __('Mass Upload Product') ?>
+                    </a>
+            </li>
+            <?php } ?>
+            <?php if(($isSellerGroup && $_helper->isAllowedAction('mpmassupload/product/export')) || !$isSellerGroup) { ?>
+            <li class="nav item <?php echo strpos($magentoCurrentUrl,'mpmassupload/product/export')? "current":"";?>">
+                    <a href="<?php echo $block->getUrl('mpmassupload/product/export', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                        <?php  echo __('MassUpload Product Export') ?>
+                    </a>
+            </li>
+            <?php } ?>
+
+            <?php if(($isSellerGroup && $_helper->isAllowedAction('mpmassupload/dataflow/profile')) || !$isSellerGroup) { ?>
+            <li class="nav item <?php echo strpos($magentoCurrentUrl,'mpmassupload/dataflow/profile')? "current":"";?>">
+                    <a href="<?php echo $block->getUrl('mpmassupload/dataflow/profile', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                        <?php  echo __('Mass Upload Dataflow Profile') ?>
+                    </a>
+            </li>
+            <?php } ?>
+        <?php } ?>
+    </ul>
+</nav> */ ?>

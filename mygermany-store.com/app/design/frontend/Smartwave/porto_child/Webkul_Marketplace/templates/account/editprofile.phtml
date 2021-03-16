@@ -1,0 +1,953 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Marketplace
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+// @codingStandardsIgnoreFile edit_profile store
+
+/** @var $block \Webkul\Marketplace\Block\Account\Editprofile */ 
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$imgHelper = $this->helper('Webkul\Marketplace\Helper\Data');
+$mangoit_helper = $this->helper('Mangoit\Marketplace\Helper\Data');
+
+$tooltipHelper = $this->helper('Mangoit\MisTooltip\Helper\Data');
+$section_id = 'edit_profile';
+$store_tooltip_id = 'store';
+
+$meta_keywords_tooltip_id = 'meta_keywords';
+$meta_description_tooltip_id = 'meta_description';
+$shop_layout_tooltip_id =  'shop_layout';
+$internal_note_tooltip_id = 'internal_note_profile';
+$company_banner_tooltip_id = 'company_banner';
+$return_policy_tooltip_id = 'return_policy';
+$shipping_policy_tooltip_id = 'shipping_policy';
+$theme_background_tooltip_id = 'theme_background';
+$generate_invoice_tooltip_id = 'generate_invoice';
+
+$store_id = $tooltipHelper->getStoreId();
+$storeToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $store_tooltip_id);
+$metaKeywordsToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $meta_keywords_tooltip_id);
+$metaDescriptionToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $meta_description_tooltip_id);
+$shopLayoutToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $shop_layout_tooltip_id);
+$internalnoteToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $internal_note_tooltip_id);
+
+$companyBannerToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $company_banner_tooltip_id);
+$returnPolicyToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $return_policy_tooltip_id);
+$shippingPolicyToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $shipping_policy_tooltip_id);
+$themeBackgroundToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $theme_background_tooltip_id);
+$generateInvoiceToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $generate_invoice_tooltip_id);
+
+
+
+$imageUrl = $helper->getMediaUrl().'marketplace/icon/info.png';
+
+$partner = $helper->getSeller();
+$customerData = $helper->getCustomer()->getData();
+$isTranslated = 0;
+ if (isset($customerData['is_translated'])) {
+    if ($customerData['is_translated'] != 0) {
+        $isTranslated = 1;
+    }
+} 
+// $fontsList = $mangoit_helper->getGoogleFonts();
+$currentStore = $mangoit_helper->getCurrentStore();
+$profile_hint_status = $helper->getProfileHintStatus();
+$bgSaveUrl = $block->getUrl('marketplce/vendor/save', ["_secure" => $this->getRequest()->isSecure()]);
+$vatCheckUrl = $block->getUrl('marketplce/account/vatcheck', ["_secure" => $this->getRequest()->isSecure()]);
+?>
+<style>
+
+.tooltip {
+    position: relative;
+    display: inline-block ;
+    opacity: 1 !important;
+
+    /*border-bottom: 1px dotted black;*/
+}
+
+span.tooltip {
+    display: inline-block;
+    vertical-align: middle;
+    opacity: inherit !important;
+}
+
+.field.profile label {
+    display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 400px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 15%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.account-nav .nav > li > a {
+    display: block;}
+.btn-primary{
+    display: inline !important;
+}
+</style>
+<form action="<?php echo $block->getUrl('marketplace/account/editProfilePost', ["_secure" => $this->getRequest()->isSecure()]) ?>" enctype="multipart/form-data" method="post" data-role="form-profile-validate" data-mage-init='{"validation":{}}' id="mis_seller_form">
+    <div class="wk-mp-design">
+        <fieldset class="fieldset info wk-mp-fieldset">
+            <div data-mage-init='{"formButtonAction": {}}' class="wk-mp-page-title legend" id="wk-mp-editprofile-form">
+                <span><?php echo __('Edit Profile Information') ?></span>
+                <button class="button wk-mp-btn" title="<?php echo __('Save Profile') ?>" type="submit" id="save-btn">
+                    <span><span><?php echo __('Save Profile') ?></span></span>
+                </button>
+            </div>
+            <?php echo $block->getBlockHtml('seller.formkey')?>
+            <?php echo $block->getBlockHtml('formkey')?>
+            <?php /*<span><?php echo __('This profile page will be visible only after approval from the admin (Store specific).') ?></span><br/><br/><br/>*/ ?>
+            <!-- <legend class="legend"><span><?php // echo __('Profile Information') ?></span></legend> -->
+            <?php if($isTranslated): ?>
+
+                <div class="field profile">
+                    <label for="vendor_shop_layout"><?php echo __('Stores ') ?>
+                    <?php if(count($storeToolTip) > 0): ?>
+                        <span class="tooltip">
+                            <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                            <span class="price_cal tooltiptext">
+                                <?php echo ( (count($storeToolTip) > 0) ? $storeToolTip[0]['tooltip_text'] : '');?>
+                            </span>
+                        </span>
+                    <?php endif; ?>
+                    </label>
+                    <div class="control">
+                        <select name="mis_store_id">
+                            <?php foreach ($mangoit_helper->getAllStores() as $storesKey => $storesValue):
+
+                            ?>
+                                <?php if ($storesKey == 0) { continue;}?>
+                                <option value="<?php echo $storesKey;?>" <?php echo (($currentStore->getName() == $storesValue)? 'Selected':'' ) ?>><?php echo $storesValue; ?></option>
+                            <?php endforeach; ?>
+                            <option value="0"><?php echo __('All Stores'); ?></option>
+                        </select>
+                    </div>
+                    
+                </div>
+            <?php endif; ?>
+
+            <div class="field profile">
+                <label for="vendor_shop_layout"><?php echo __('Shop layouts') ?> 
+                    <?php if(count($shopLayoutToolTip) > 0): ?>
+                    <span class="tooltip">
+                        <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                        <span class="price_cal tooltiptext">
+                            <?php echo ( (count($shopLayoutToolTip) > 0) ? $shopLayoutToolTip[0]['tooltip_text'] : '');?>
+                        </span>
+                    </span>
+                    <?php endif; ?>
+                </label>
+                <div class="control">
+                    <!-- <a href="javascript:void(0)" id="layout1_img" onclick="layout_images('layout1_img')">img1</a> -->
+                    <?php if (empty($partner['vendor_shop_layout'])) {
+                        $partner['vendor_shop_layout'] = 'layout1';
+                    } ?>
+                   <div class="profile-sector"> <input type="radio" name="vendor_shop_layout" value="layout1" <?php echo ($partner['vendor_shop_layout'] == 'layout1') ? 'checked' : '' ?>>
+                    <a class="layout1_img" href="<?php echo $helper->getMediaUrl().'porto/shopLayouts/layoutOne.jpg' ?>"/><img src="<?php echo $helper->getMediaUrl().'porto/shopLayouts/layoutOne.jpg'?>" alt="" height="50px" width="50px"/></a>
+                    </div>
+                    <div class="profile-sector">
+                    <input type="radio" name="vendor_shop_layout" value="layout2" <?php echo ($partner['vendor_shop_layout'] == 'layout2') ? 'checked' : '' ?>>
+
+                    <a class="layout2_img" href="<?php echo $helper->getMediaUrl().'porto/shopLayouts/layoutTwo.jpg' ?>"/><img src="<?php echo $helper->getMediaUrl().'porto/shopLayouts/layoutTwo.jpg'?>" alt="" height="50px" width="50px" /></a>
+                    </div>
+                </div>
+            </div>
+            <div class="field profile">
+                <label for="banner-pic"> <?php echo __('Company Banner') ?>
+                    <?php if(count($companyBannerToolTip) > 0): ?>
+                    <span class="tooltip">
+                        <img src="<?php echo $imgHelper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                        <span class="tooltiptext">
+                            <?php echo ( (count($companyBannerToolTip) > 0) ? $companyBannerToolTip[0]['tooltip_text'] : '');?>
+                        </span>
+                    </span>
+                    <?php endif; ?>
+                </label>
+                <?php
+                if($profile_hint_status && $helper->getProfileHintBanner()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProfileHintBanner() ?>"/>
+                <?php
+                } ?>
+                <label class="control-notification control-notification1">(<?php echo __("Upload 700px X 100px for better look"); ?>)</label>
+                <div class="control">
+                    <input type="file" id="banner-pic" name="banner_pic"  title="Banner Pic" class="banner" size="26" />
+                    <div class="profileimage-set">
+                          <div class="setimage">
+                            <img class="wk-banner" alt=" <?php echo __('no image') ?>" src="<?php echo $helper->getMediaUrl().'avatar/'.$partner['banner_pic']; ?>"/>
+                            <?php
+                            $bannerpic = $partner['banner_pic']; 
+                            $logopic = $partner['logo_pic']; 
+                            if($bannerpic && ($bannerpic != 'banner-image.png')){
+                            ?>
+                            <span class="wk-profileimagedelete" title="<?php echo __('Delete')?>">
+                                  <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/deleteIcon.png'); ?>" alt="<?php echo __('Delete Image')?>" title="<?php echo __('Delete Image')?>"/>
+                            </span>
+                            <?php
+                            }?>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="field profile">
+                <label for="logo-pic"> <?php echo __('Company Logo') ?> </label>
+                <?php
+                if($profile_hint_status && $helper->getProfileHintLogo()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProfileHintLogo() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                    <input type="file" id="logo-pic" alt="no image" name="logo_pic" title="<?php echo __('Seller Logo')?>" class="banner" size="26"/>
+                    <div class="logoimage-set">
+                          <div class="setimage">
+                            <img class="prev-img" src="<?php echo $helper->getMediaUrl().'avatar/'.$partner['logo_pic']; ?>"/>
+                            <?php
+                            if($logopic && ($logopic != 'noimage.png')){
+                            ?>
+                                <span class="wk-logoimagedelete" title="<?php echo __('Delete')?>">
+                                      <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/deleteIcon.png'); ?>" alt="<?php echo __('Delete Image')?>" title="<?php echo __('Delete Image')?>"/>
+                                </span>
+                            <?php
+                            }?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field profile">
+                <label for="shoptitle"><?php echo __('Shop Title') ?></label>
+                <?php
+                if($profile_hint_status && $helper->getProfileHintShop()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProfileHintShop() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                     <input type="text" id="shop_title" name="shop_title" value="<?php echo $partner['shop_title']; ?>" title="<?php echo __('Shop Title')?>" class="input-text" />
+                </div>
+            </div>
+            <div class="field profile">
+                <label for="website_url"><?php echo __('Company URL:') ?></label>
+                <div class="control">
+                     <input type="text" id="website_url" name="website_url" value="<?php echo $partner['website_url']; ?>" title="<?php echo __('Company URL')?>" class="input-text" />
+                </div>
+                <span class="website_url_issue" style="display: none;color: #e02b27;font-size: 1.2rem;"> 
+                    <?php echo __('Please enter correct URL');?>
+                </span>
+            </div>
+            <div class="field profile">
+                <label for="company_description"><?php echo __('Company Description') ?></label>
+                <?php
+                if($profile_hint_status && $helper->getProfileHintDesc()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProfileHintDesc() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                     <textarea type="text" id="company_description" name="company_description" title="company_description" class="input-text compdesi" ><?php echo $partner['company_description']; ?> </textarea>
+                </div>
+            </div>
+            <div class="field profile">
+                <label for="company_locality"><?php echo __('Company Locality') ?></label>
+                <?php
+                if($profile_hint_status && $helper->getProfileHintLoc()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProfileHintLoc() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                    <!-- <input type="text" id="company_locality" name="company_locality" value="<?php echo $partner['company_locality']; ?>" title="company_locality" class="input-text" /> -->
+
+                    <textarea id="company_locality" name="company_locality" class="required-entry" title="company_locality" rows="5" cols="40"><?php echo $partner['company_locality']; ?></textarea>
+                </div>
+            </div>
+            <div class="field profile">
+                <label for="country_pic"> <?php echo __('Country') ?> </label>
+                <?php
+                if($profile_hint_status && $helper->getProfileHintCountry()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProfileHintCountry() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                     <select name="country_pic" id="country-pic">
+                        <option value="" selected="selected" disabled="disabled"><?php echo __('Select Country')?></option>
+                    <?php foreach($block->getCountryOptionArray() as $country){?>
+                        <option <?php 
+                        if($country['value']!=''){
+                        echo ($partner['country_pic']==$country['value']?"selected='selected'":""); ?>value="<?php echo $country['value']; ?>"><?php echo $country['label'];?></option>
+                    <?php 
+                      }
+                    } ?>
+                    </select>
+                    <img class="country_img_prev" alt="no image" src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/country/countryflags/')."/".strtoupper($partner['country_pic']==""?"xx":$partner['country_pic']).".png"; ?>"/>
+                </div>
+            </div>
+            <div class="field profile">
+                <label><?php echo __('Telephone') ?> </label>
+                <?php
+                if($profile_hint_status && $helper->getProfileHintCn()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProfileHintCn() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                     <input type="text" id="contact_number" name="contact_number" value="<?php echo $partner['contact_number']; ?>" title="<?php echo __('Enter Contact Number') ?>" class="input-text required-entry validate-number" placeholder="<?php echo __('Enter Contact Number with country code ex: (123) 456-7890') ?>"/>
+                </div>
+            </div>
+            <div class="field profile">
+                <label><?php echo __('Tax/VAT Number') ?> </label>
+                <?php
+                if($profile_hint_status && $helper->getProfileHintCn()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProfileHintCn() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                     <input type="text" id="taxvat" name="taxvat" value="<?php echo $partner['taxvat']; ?>" title="<?php echo __('Enter Tax or VAT number') ?>" class="input-text validate-vat-number"/>
+                </div>
+            </div>
+            <div class="field profile">
+                <label for="twitterid"><?php echo __('Twitter ID') ?> </label>
+                <?php /*<input type="checkbox" name="tw_active" value="1" <?php if($partner['tw_active'] == 1){ echo "checked='checked'";} ?> style="margin: 5px;"> 
+                <div class="tooltip">
+                    <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                    <span class="tooltiptext"><?php echo __('Allow to Display Twitter Icon in Profile Page')?></span>
+                </div>*/?>
+                <?php
+                if($profile_hint_status && $helper->getProfileHintTw()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProfileHintTw() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                    <input type="text" id="twitter_id" name="twitter_id" value="<?php echo $partner['twitter_id']; ?>" title="twitterid" class="input-text" />
+                </div>
+            </div>
+
+            <div class="field profile">
+                <label for="facebookid"><?php echo __('Facebook ID') ?> </label>
+                <?php /*<input type="checkbox" name="fb_active" value="1" <?php if($partner['fb_active'] == 1){ echo "checked='checked'";} ?> style="margin: 5px;"> 
+                <div class="tooltip">
+                    <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                    <span class="tooltiptext"><?php echo __('Allow to Display Facebook Icon in Profile Page') ?></span>
+                </div>*/?>
+                <?php
+                if($profile_hint_status && $helper->getProfileHintFb()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProfileHintFb() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                     <input type="text" id="facebook_id" name="facebook_id" value="<?php echo $partner['facebook_id']; ?>" title="facebookid" class="input-text" />
+                </div>
+            </div>
+            <div class="field profile">
+                <label><?php echo __('Instagram ID') ?> </label>
+                <?php /*<input type="checkbox" name="instagram_active" value="1" <?php if($partner['instagram_active'] == 1){ echo "checked='checked'";} ?> style="margin: 5px;"> 
+                <div class="tooltip">
+                    <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                    <span class="tooltiptext"><?php echo __('Allow to Display Instagram Icon in Profile Page') ?></span>
+                </div>*/?>
+                <div class="control">
+                     <input type="text" id="instagram_id" name="instagram_id" value="<?php echo $partner['instagram_id']; ?>" class="input-text" />
+                </div>
+            </div>
+            <div class="field profile">
+                <label><?php echo __('Google Plus ID') ?> </label>
+                <?php /*<input type="checkbox" name="gplus_active" value="1" <?php if($partner['gplus_active'] == 1){ echo "checked='checked'";} ?> style="margin: 5px;"> 
+                <div class="tooltip">
+                    <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                    <span class="tooltiptext"><?php echo __('Allow to Display Google Plus Icon in Profile Page') ?></span>
+                </div>*/?>
+                <div class="control">
+                     <input type="text" id="gplus_id" name="gplus_id" value="<?php echo $partner['gplus_id']; ?>" class="input-text" />
+                </div>
+            </div>
+            <div class="field profile">
+                <label><?php echo __('Youtube ID') ?> </label>
+                <?php /*<input type="checkbox" name="youtube_active" value="1" <?php if($partner['youtube_active'] == 1){ echo "checked='checked'";} ?> style="margin: 5px;"> 
+                <div class="tooltip">
+                    <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                    <span class="tooltiptext"><?php echo __('Allow to Display Youtube Icon in Profile Page') ?></span>
+                </div>*/?>
+                <div class="control">
+                     <input type="text" id="youtube_id" name="youtube_id" value="<?php echo $partner['youtube_id']; ?>" class="input-text" />
+                </div>
+            </div>
+            <div class="field profile">
+                <label><?php echo __('Vimeo ID') ?> </label>
+                <?php /*<input type="checkbox" name="vimeo_active" value="1" <?php if($partner['vimeo_active'] == 1){ echo "checked='checked'";} ?> style="margin: 5px;"> 
+                <div class="tooltip">
+                    <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                    <span class="tooltiptext"><?php echo __('Allow to Display Vimeo Icon in Profile Page') ?></span>
+                </div> */?>
+                <div class="control">
+                     <input type="text" id="vimeo_id" name="vimeo_id" value="<?php echo $partner['vimeo_id']; ?>" class="input-text" />
+                </div>
+            </div>
+            <div class="field profile">
+                <label><?php echo __('Pinterest ID') ?> </label>
+                <?php /*<input type="checkbox" name="pinterest_active" value="1" <?php if($partner['pinterest_active'] == 1){ echo "checked='checked'";} ?> style="margin: 5px;"> 
+                <div class="tooltip">
+                    <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                    <span class="tooltiptext"><?php echo __('Allow to Display Pinterest Icon in Profile Page') ?></span>
+                </div>*/?>
+                <div class="control">
+                     <input type="text" id="pinterest_id" name="pinterest_id" value="<?php echo $partner['pinterest_id']; ?>" class="input-text" />
+                </div>
+            </div>
+            <?php
+            if($helper->getSellerPolicyApproval()){?>
+                <div class="field profile">
+                    <label><?php echo __('Return Policy') ?>
+                        <?php if(count($returnPolicyToolTip) > 0): ?>
+                        <span class="tooltip">
+                            <img src="<?php echo $imgHelper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                            <span class="tooltiptext">
+                                <?php echo ( (count($returnPolicyToolTip) > 0) ? $returnPolicyToolTip[0]['tooltip_text'] : '');?>
+                            </span>
+                        </span>
+                        <?php endif; ?>
+                    </label>
+                    <?php
+                    if($profile_hint_status && $helper->getProfileHintReturnPolicy()){?>
+                        <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProfileHintReturnPolicy() ?>"/>
+                    <?php
+                    } ?>
+                    <div class="control">
+                         <textarea type="text" id="return_policy" name="return_policy" title="return_policy" class="input-text compdesi" ><?php echo $partner['return_policy']; ?> </textarea>
+                    </div>
+                </div>
+                <div class="field profile">
+                    <label><?php echo __('Shipping Policy') ?>
+                        <?php if(count($shippingPolicyToolTip) > 0): ?>
+                        <span class="tooltip">
+                            <img src="<?php echo $imgHelper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                            <span class="tooltiptext">
+                                <?php echo ( (count($shippingPolicyToolTip) > 0) ? $shippingPolicyToolTip[0]['tooltip_text'] : '');?>
+                            </span>
+                        </span>
+                        <?php endif; ?>
+                    </label>
+                    <?php
+                    if($profile_hint_status && $helper->getProfileHintShippingPolicy()){?>
+                        <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProfileHintShippingPolicy() ?>"/>
+                    <?php
+                    } ?>
+                    <div class="control">
+                         <textarea type="text" id="shipping_policy" name="shipping_policy" title="shipping_policy" class="input-text compdesi" ><?php echo $partner['shipping_policy']; ?> </textarea>
+                    </div>
+                </div>
+            <?php
+            } ?>
+            <div class="field profile">    
+                <label for="meta_keywords"><?php echo __('Meta Keywords') ?>
+                    <?php if(count($metaKeywordsToolTip) > 0): ?>
+                    <span class="tooltip">
+                        <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                        <span class="price_cal tooltiptext">
+                            <?php echo ( (count($metaKeywordsToolTip) > 0) ? $metaKeywordsToolTip[0]['tooltip_text'] : '');?>
+                        </span>
+                    </span>
+                    <?php endif; ?>
+                </label>
+                <label class="control-notification">(<?php echo __("Enter Meta Keywords Comma(',') Separated.."); ?>)</label>
+                <?php
+                if($profile_hint_status && $helper->getProfileHintMeta()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProfileHintMeta() ?>"/>
+                <?php
+                } ?>
+                <div class="control">            
+                    <textarea type="text" id="meta_keywords" name="meta_keyword" title="Meta Keyword" class="input-text compdesi" ><?php echo $partner['meta_keyword']; ?> </textarea>
+                </div>    
+            </div>    
+            <div class="field profile">    
+                <label for="meta_description"><?php echo __('Meta Description') ?>
+                <?php if(count($metaDescriptionToolTip) > 0):  ?>
+                    <span class="tooltip">
+                        <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                        <span class="price_cal tooltiptext">
+                            <?php echo ( (count($metaDescriptionToolTip) > 0) ? $metaDescriptionToolTip[0]['tooltip_text'] : '');?>
+                        </span>
+                    </span>
+                </label>    
+                <?php endif; ?>
+                <?php
+                if($profile_hint_status && $helper->getProfileHintMetaDesc()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProfileHintMetaDesc() ?>"/>
+                <?php
+                } ?>
+                <div class="control">    
+                    <textarea type="text" id="meta_description" name="meta_description" title="Meta Description" class="input-text compdesi" ><?php echo $partner['meta_description']; ?> </textarea>    
+                </div>    
+            </div>
+            <div class="field profile">
+                <label for="country_pic"> <?php echo __('Generate Invoice') ?>
+                    <?php if(count($generateInvoiceToolTip) > 0):  ?>
+                        <span class="tooltip">
+                            <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                            <span class="price_cal tooltiptext">
+                                <?php echo ( (count($generateInvoiceToolTip) > 0) ? $generateInvoiceToolTip[0]['tooltip_text'] : '');?>
+                            </span>
+                        </span>
+                    </label>    
+                    <?php endif; ?>
+                </label>
+                <div class="control">
+                    <select name="generate_invoice" id="generate_invoice">
+                        <option value="weekly" <?php echo ($partner['generate_invoice'] == 'weekly') ? 'selected' : ''?>><?php echo __("Weekly"); ?></option>
+                        <option value="monthly" <?php echo ($partner['generate_invoice'] == 'monthly') ? 'selected' : ''?>><?php echo __("Monthly"); ?></option>
+                    </select>
+                </div>
+            </div>
+            <?php /* ?>
+            <div class="wk-mp-design">
+                <fieldset class="fieldset info wk-mp-fieldset">
+                    <div class="wk-mp-page-title page-title">
+                        <h2><?php echo __('Product watermark settings') ?></h1>
+                    </div>
+                    <div class="field profile">
+                        <input type="file" name="product_watermark_image" id="product_watermark_image" />
+                        <div class="setimage">
+                            <?php if (!empty($partner['product_watermark_image'])): 
+
+
+                            ?>
+                                <!-- <img class="prev-img" src="<?php //echo $helper->getMediaUrl().'catalog/product/watermark/stores/'.$partner['store_id'].'/'.$partner['product_watermark_image']; ?>"/> -->
+                                <?php $watermarkPath = 'catalog/product/watermark/stores/'.$helper->getCurrentStoreId().'/'; ?>
+                                <img class="prev-img" src="<?php echo $helper->getMediaUrl().$watermarkPath.$partner['product_watermark_image']; ?>"/>
+                                <span class="wk-product_watermrk-img" title="<?php echo __('Delete')?>">
+                                      <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/deleteIcon.png'); ?>" alt="<?php echo __('Delete Image')?>" title="<?php echo __('Delete Image')?>"/>
+                                </span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="field opacity">
+                        <label for="opacity"> <?php echo __('Watermark opacity') ?> </label>
+                        <input type="text" title="<?php echo __('Watermark opacity') ?>" class="input-text validate-digits" name="watermark_opacity" placeholder="<?php echo __('Watermark opacity') ?>" value="<?php echo $partner['watermark_opacity'] ?>"/>
+                        <span><?php echo "%"; ?></span>
+                    </div>
+                    <div class="watermark-image-size">
+                        <label for="image-size"> <?php echo __('Watermark image size') ?> </label>
+                        <input type="text" title="<?php echo __('Watermark image size') ?>" class="input-text validate-image-size-range" name="watermark_image_size" placeholder="<?php echo __('Example format: 200x300') ?>" value="<?php echo $partner['watermark_image_size'] ?>" />
+                    </div>
+                    <div class="image-positio">
+                        <label for="position"> <?php echo __('Image Position') ?> </label>
+
+                        <select name="watermark_image_position">
+                            <option value="stretch"  <?php echo ($partner['watermark_image_position'] == 'stretch' )  ? 'selected' : ''?> ><?php echo __('Stretch') ?></option>
+                            <option value="tile"  <?php echo ($partner['watermark_image_position'] == 'tile')  ? 'selected' : ''?> ><?php echo __('Tile') ?></option>
+                            <option value="top-left"  <?php echo ($partner['watermark_image_position'] == 'top-left')  ? 'selected' : ''?> ><?php echo __('Top/Left')?></option>
+                            <option value="top-right"  <?php echo ($partner['watermark_image_position'] == 'top-right')  ? 'selected' : ''?> ><?php echo __('Top/Right')?></option>
+                            <option value="bottom-left"  <?php echo ($partner['watermark_image_position'] == 'bottom-left')  ? 'selected' : ''?> ><?php echo __('Bottom/Left')?></option>
+                            <option value="bottom-right"  <?php echo ($partner['watermark_image_position'] =='bottom-right')  ? 'selected' : '' ?> ><?php echo __('Bottom/Right')?></option>
+                            <option value="center" <?php echo ($partner['watermark_image_position'] =='center') ? 'selected' : '' ?> ><?php echo __('Center')?></option></select>
+                        </select>
+                    </div>
+                </fieldset>        
+            </div>
+            <?php */ ?>
+            <!-- <div class="field profile">
+                <label><?php /* echo __('Moleskine ID') ?> </label>
+                <input type="checkbox" name="moleskine_active" value="1" title="<?php echo __('Allow to Display Moleskine Icon in Profile Page') ?>" <?php if($partner['moleskine_active'] == 1){ echo "checked='checked'";} ?> style="margin: 5px;">
+                <div class="control">
+                     <input type="text" id="moleskine_id" name="moleskine_id" value="<?php echo $partner['moleskine_id']; */ ?>" class="input-text" />
+                </div>
+            </div> -->
+            
+           
+            <?php
+            if($helper->getActiveColorPicker()){?>
+                <div class="field profile">
+                    <label for="background_width"><?php echo __('Theme : Background Color') ?>
+                        <?php if(count($themeBackgroundToolTip) > 0): ?>
+                        <!-- <span class="tooltip">
+                            <img src="<?php //echo $imgHelper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                            <span class="tooltiptext">
+                                <?php //echo ( (count($themeBackgroundToolTip) > 0) ? $themeBackgroundToolTip[0]['tooltip_text'] : '');?>
+                            </span>
+                        </span> -->
+                        <?php endif; ?>
+                    </label>
+                    <?php
+                    if($profile_hint_status && $helper->getProfileHintBc()){?>
+                        <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProfileHintBc() ?>"/>
+                    <?php
+                    } ?>
+                    <div class="control">
+                         <input type="text" id="background_width" name="background_width" value="<?php echo $partner['background_width']; ?>" title="background_width" class="input-text" />
+                         <span class="color-pick" data-role="color-pick" data-mage-init='{"colorPickerFunction":{"spanBackgroundColor" : "<?php echo $partner['background_width']?>", "getActiveColorPickerStatus" : "<?php echo $helper->getActiveColorPicker()?>", "backgroundWidthSelector" : "#background_width"}}'></span>
+                    </div>
+                </div>
+            <?php
+            } ?>
+            <div class="field profile">
+                <label for="bg_img">
+                    <?php echo __('Background Image') ?>
+                    <?php if(count($themeBackgroundToolTip) > 0): ?>
+                        <span class="tooltip">
+                            <img src="<?php echo $imgHelper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                            <span class="tooltiptext">
+                                <?php echo ( (count($themeBackgroundToolTip) > 0) ? $themeBackgroundToolTip[0]['tooltip_text'] : '');?>
+                            </span>
+                        </span>
+                    <?php endif; ?>                    
+                </label>
+                <input type="file" name="shop_background_img" id="shop_background_img" />
+                <div class="setimage">
+                    <?php  if (!empty($partner['shop_background_img'])): ?>
+                        <img class="prev-img" src="<?php echo $helper->getMediaUrl().'avatar/'.$partner['shop_background_img']; ?>"/>
+                        <span class="wk-shop-bg-img" title="<?php echo __('Delete')?>">
+                              <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/deleteIcon.png'); ?>" alt="<?php echo __('Delete Image')?>" title="<?php echo __('Delete Image')?>"/>
+                        </span>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php
+                $disabledPreview = "";
+                if ($bannerpic == 'banner-image.png' && $logopic == 'noimage.png') {
+                        $disabledPreview = 'style="display: none;"';
+                    }
+            ?>
+            <div class="field profile">
+                <div class="wk-profile-links" <?php echo $disabledPreview;?>>
+                    <a class="btn-primary" href="<?php echo $helper->getRewriteUrl('marketplace/seller/profile/shop/'.$partner['shop_url']); ?>" target="_blank"><?php echo __('View Profile') ?></a>
+                </div>
+                <div class="wk-profile-links">
+                    <a class="btn-primary" href="<?php echo $helper->getRewriteUrl('marketplace/seller/collection/shop/'.$partner['shop_url']); ?>" target="_blank"><?php echo __('View Collection') ?></a>
+                </div>
+                <div class="wk-profile-links">
+                    <a class="btn-primary mis_secondary_submit" href="javascript:void(0)"><?php echo __('Save Profile') ?></a>
+                </div>
+            </div>
+
+            <?php /*<div class="field profile">
+                <label for="shop_font"><?php echo __('Google Fonts') ?> </label>
+                <div class="control">
+                    <!-- <a href="javascript:void(0)" id="layout1_img" onclick="layout_images('layout1_img')">img1</a> -->
+                    <select class="google_fonts_select" name="shop_font">
+                        <option value=""><?php echo __('Please select an option'); ?></option>
+                        <?php foreach ($fontsList as $fontsKey => $fontsValue):?>
+                            <?php $savedFont = str_replace(' ', '+',$fontsValue); ?>
+                            <option value="<?php echo $savedFont ?>" <?php echo ($partner['shop_font'] == $savedFont) ? 'selected' : '' ?>><?php echo $fontsValue?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div> */?>
+           
+<script>
+    require([
+        "jquery",
+        "mage/translate",
+        "mage/adminhtml/events",
+        "mage/adminhtml/wysiwyg/tiny_mce/setup"
+    ], function(jQuery) {
+        wysiwygCompanyDescription = new wysiwygSetup("company_description", {
+            "width" : "100%",
+            "height" : "200px",
+            "plugins" : [{"name":"image"}],
+            "tinymce4" : {
+                "toolbar":"formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | link table charmap","plugins":"advlist autolink lists link charmap media noneditable table contextmenu paste code help table",
+            }
+        });
+        wysiwygCompanyDescription.setup("exact");
+
+        wysiwygReturnPolicy = new wysiwygSetup("return_policy", {
+            "width" : "100%",
+            "height" : "200px",
+            "plugins" : [{"name":"image"}],
+            "tinymce4" : {
+                "toolbar":"formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | link table charmap","plugins":"advlist autolink lists link charmap media noneditable table contextmenu paste code help table",
+            }
+        });
+        wysiwygReturnPolicy.setup("exact");
+        
+        wysiwygShippingPolicy = new wysiwygSetup("shipping_policy", {
+            "width" : "100%",
+            "height" : "200px",
+            "plugins" : [{"name":"image"}],
+            "tinymce4" : {
+                "toolbar":"formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | link table charmap","plugins":"advlist autolink lists link charmap media noneditable table contextmenu paste code help table",
+            }
+        });
+        wysiwygShippingPolicy.setup("exact");
+    });
+</script>
+           
+          
+        </fieldset>
+        
+    </div>
+</form>
+<script>
+
+    require([
+        'jquery',
+        'Magento_Ui/js/lib/validation/utils',
+        'jquery/ui',
+        'jquery/validate',
+        'mage/validation'
+        ], function($, utils){ 
+        $(".layout1_img").fancybox(); 
+        $(".layout2_img").fancybox(); 
+        $.validator.addMethod('validate-image-size-range', function (value) {
+                var dataAttrRange = /^(\d+)x(\d+)$/,
+                    m;
+
+                if (utils.isEmptyNoTrim(value)) {
+                    return true;
+                }
+
+                m = dataAttrRange.exec(value);
+
+                return !!(m &&  m[1] > 0 && m[2] > 0);
+            },
+            $.mage.__('This value does not follow the specified format (for example, 200X300).'));
+
+        $.validator.addMethod(
+            'validate-vat-number',
+            function (value) {
+                console.log(value);
+                var error = false;
+                var country = $('#country-pic').val();
+                var url = "<?php echo $vatCheckUrl ?>";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    async : false,
+                    // showLoader: true,
+                    data : {country:country,vat:value},
+                    success: function(data)
+                    {
+                        $.validator.messages['validate-vat-number'] = $.mage.__(data.msg);
+                        error = data.status;
+                    }
+                });
+                return error;
+            }, "<?php echo __('Error during VAT Number verification.');?>"
+            /*$.mage.__('Error during VAT Number verification.')*/
+        );
+
+
+        $('.mis_secondary_submit').on('click',function(){
+            $('#mis_seller_form').submit();
+        });
+
+     });
+</script>
+<?php
+if($helper->getUrlRewrite()){ ?>
+    <br/><br/>
+    <form action="<?php echo $block->getUrl('marketplace/account/rewriteUrlPost', ["_secure" => $this->getRequest()->isSecure()]) ?>" enctype="multipart/form-data" method="post" data-role="form-urlrewrite-validate" data-mage-init='{"validation":{}}'>
+        <div class="page-title" style="width:100%;display:inline-block;">
+            <h2 style="float:left;"><?php echo __('Manage Your Shop Url') ?></h2>
+            <button class="button wk-mp-btn" title="<?php echo __('Set Your New Shop Url') ?>" type="submit" style="float:right;">
+                <span><span><?php echo __('Save Url') ?></span></span>
+            </button>
+        </div>
+        <?php echo $block->getBlockHtml('seller.formkey')?>
+            <?php echo $block->getBlockHtml('formkey')?>
+        <div class="wk-mp-design">
+            <fieldset class="fieldset info wk-mp-fieldset">
+                <legend class="legend"><span><?php echo __('Edit Your Shop Url') ?></span></legend>
+                <div class="field">
+                    <label><?php echo __('Profile Page Target Url Path') ?></label>
+                    <div class="control">
+                        <input type="text" class="input-text" value="<?php echo 'marketplace/seller/profile/shop/'.$partner['shop_url'] ?>" readonly/>
+                    </div>
+                </div>
+                <div class="field">
+                    <label><?php echo __('Profile Page Request Url Path') ?></label>
+                    <div class="control">
+                        <input type="text" class="input-text" name="profile_request_url" id="profile_request_url" value="<?php echo $helper->getRewriteUrlPath('marketplace/seller/profile/shop/'.$partner['shop_url']) ?>"/>
+                    </div>
+                </div>
+                <div class="field">
+                    <label><?php echo __('Collection Page Target Url Path') ?></label>
+                    <div class="control">
+                        <input type="text" class="input-text" value="<?php echo 'marketplace/seller/collection/shop/'.$partner['shop_url'] ?>" readonly/>
+                    </div>
+                </div>
+                <div class="field">
+                    <label><?php echo __('Collection Page Request Url Path') ?></label>
+                    <div class="control">
+                        <input type="text" class="input-text" name="collection_request_url" id="collection_request_url" value="<?php echo $helper->getRewriteUrlPath('marketplace/seller/collection/shop/'.$partner['shop_url']) ?>"/>
+                    </div>
+                </div>
+                <div class="field">
+                    <label><?php echo __('Review Page Target Url Path') ?></label>
+                    <div class="control">
+                        <input type="text" class="input-text" value="<?php echo 'marketplace/seller/feedback/shop/'.$partner['shop_url']; ?>" readonly/>
+                    </div>
+                </div>
+                <div class="field">
+                    <label><?php echo __('Review Page Request Url Path') ?></label>
+                    <div class="control">
+                        <input type="text" class="input-text" name="review_request_url" id="review_request_url" value="<?php echo $helper->getRewriteUrlPath('marketplace/seller/feedback/shop/'.$partner['shop_url']) ?>"/>
+                    </div>
+                </div>
+                <div class="field">
+                    <label><?php echo __('Location Page Target Url Path') ?></label>
+                    <div class="control">
+                        <input type="text" class="input-text" value="<?php echo 'marketplace/seller/location/shop/'.$partner['shop_url']; ?>" readonly/>
+                    </div>
+                </div>
+                <div class="field">
+                    <label><?php echo __('Location Page Request Url Path') ?></label>
+                    <div class="control">
+                        <input type="text" class="input-text" name="location_request_url" id="location_request_url" value="<?php echo $helper->getRewriteUrlPath('marketplace/seller/location/shop/'.$partner['shop_url']) ?>"/>
+                    </div>
+                </div>    
+            </fieldset>
+        </div>    
+    </form>
+<?php
+}
+?>
+<br/><br/>
+<form action="<?php echo $block->getUrl('marketplace/account/savePaymentInfo', ["_secure" => $this->getRequest()->isSecure()]) ?>" enctype="multipart/form-data" method="post" data-role="form-payment-validate" data-mage-init='{"validation":{}}'>
+    <div class="wk-mp-page-title page-title">
+        <h2><?php echo __('Internal Notes for myGermany') ?></h1> <!-- internalnoteToolTip -->
+        <?php if(count($internalnoteToolTip) > 0): ?>
+                    <span class="tooltip">
+                        <img src="<?php echo $helper->getMediaUrl().'marketplace/icon/info.png'?>" width="20px"/>
+                        <span class="price_cal tooltiptext">
+                            <?php echo ( (count($internalnoteToolTip) > 0) ? $internalnoteToolTip[0]['tooltip_text'] : '');?>
+                        </span>
+                    </span>
+        <?php endif; ?>
+        <button class="button wk-mp-btn" title="<?php echo __('Internal Notes Save') ?>" type="submit">
+            <span><span><?php echo __('Internal Notes Save') ?></span></span>
+        </button>
+    </div>
+    <?php echo $block->getBlockHtml('seller.formkey')?>
+    <?php echo $block->getBlockHtml('formkey')?>
+    <div class="wk-mp-design">
+        <fieldset class="fieldset info wk-mp-fieldset">
+            <!-- <legend class="legend"><span><?php //echo __('Payment Information') ?></span></legend> -->
+            <div class="field">
+                <!-- <label><?php //echo __('Payment Details') ?></label> -->
+                <?php
+                if($profile_hint_status && $helper->getProfileHintBank()){?>
+                    <img src="<?php echo $this->getViewFileUrl('Webkul_Marketplace::images/quest.png'); ?>" class='questimg' title="<?php echo $helper->getProfileHintBank() ?>"/>
+                <?php
+                } ?>
+                <div class="control">
+                    <textarea class="input-text" name="payment_source" id="payment-source" title="Internal Note" cols="1" rows="3" ><?php echo $partner['payment_source']; ?></textarea>
+                    
+                </div>
+            </div>
+        </fieldset>        
+    </div> 
+   
+</form>
+<br/><br/>
+<?php echo $block->getChildHtml(); ?>
+<div class="buttons-set">
+    <p class="back-link">
+        <a href="javascript:;" onclick="javascript: window.history.back();" class="left">&laquo; <?php echo __('Back') ?></a>
+    </p>
+</div>
+<?php
+$formData = [
+    'countryPicSelector' => '#country-pic',
+    'countryImgPrevSelector' => '.country_img_prev',
+    'countryLatitudeSelector' => '#country-latitude',
+    'countryLongitudeSelector' => '#country-longitude',
+    'countryImgPrev' => $this->getViewFileUrl("Webkul_Marketplace::images/country/countryflags/"),
+    'backgroundWidthSelector' => '#background_width',
+    'logoPicSelector' => '#logo-pic',
+    'bannerPicSelector' => '#banner-pic',
+    'watermarkSelector' => '#product_watermark_image',
+    'backgroundSelector' => '#shop_background_img',
+    'leftButtonSelector' => '.left',
+    'buttonsSetLastSelector' => '.buttons-set:last',
+    'inputTextSelector' => '.input-text',
+    'profileimageSetSpanSelector' => '.profileimage-set span',
+    'bannerSelector' => '.wk-banner',
+    'bannerDeleteAjaxUrl' => $block->getUrl('marketplace/account/deleteSellerBanner', ['_secure' => $this->getRequest()->isSecure()]),
+    'setimageSelector' => '.setimage',
+    'profileImageDeleteSelector' => '.wk-profileimagedelete img',
+    'backgroundImgDeleteSelector' => '.wk-shop-bg-img',
+    'watermarkImgDeleteSelector' => '.wk-product_watermrk-img',
+    'logoImageSetSpanSelector' => '.logoimage-set span',
+    'logoSelector' => '.wk-logo',
+    'logoDeleteAjaxUrl' => $block->getUrl('marketplace/account/deleteSellerLogo', ['_secure' => $this->getRequest()->isSecure()]),
+    'bgImgDeleteAjaxUrl' => $block->getUrl('marketplce/vendor/deleteBackgroundImg', ['_secure' => $this->getRequest()->isSecure()]),
+    'watermarkImgDeleteAjaxUrl' => $block->getUrl('marketplce/vendor/deletewatermarkimg', ['_secure' => $this->getRequest()->isSecure()]),
+    'logoImageDeleteSelector' => '.wk-logoimagedelete img'
+];
+$serializedFormData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($formData);
+?>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "editSellerProfile": <?php /* @noEscape */ echo $serializedFormData; ?>
+        }
+    }
+</script>
+<script type="text/javascript">
+    require([
+        'jquery'
+        ], function($){
+            $('#mis_seller_form').on('submit',function(event){
+                var radioValue = $("input[name='website_url']:checked").val();
+                var websiteUrlVal = $('#website_url').val();
+                if (websiteUrlVal) {
+                    var re = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
+                    if (re.test(websiteUrlVal)) { 
+                        $('.website_url_issue').css('display','none');
+                        return true;
+                    } else{
+                        event.preventDefault();
+                        $('.website_url_issue').css('display','block');
+                        return false;
+                    }
+                }
+            });
+            $('#mis_seller_form').on('submit',function(event){
+                var radioValue = $("input[name='website_url']:checked").val();
+                var websiteUrlVal = $('#website_url').val();
+                if (websiteUrlVal) {
+                    var re = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
+                    if (re.test(websiteUrlVal)) { 
+                        $('.website_url_issue').css('display','none');
+                        return true;
+                    } else{
+                        event.preventDefault();
+                        $('.website_url_issue').css('display','block');
+                        return false;
+                    }
+                }
+            });
+        });
+</script>

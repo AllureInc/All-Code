@@ -1,0 +1,106 @@
+
+<?php
+    $deactivate = $block->getCustomerDetails();
+    $tooltipHelper = $this->helper('Mangoit\MisTooltip\Helper\Data');
+    $imgHelper = $this->helper('Webkul\Marketplace\Helper\Data');
+    $section_id = 'account_deactivation';
+    $account_deactivation_text_id = 'account_deactivation_text';
+    $store_id = $tooltipHelper->getStoreId();
+    $accountDeactivateToolTip = $tooltipHelper->getToolTipData($store_id, $section_id, $account_deactivation_text_id);
+
+ ?>
+
+<div class="mit_acc_deactivation">
+    <h2 class="block-title"><?php echo __('Account Deactivation')?></h2>
+    <div>
+        <?php if(count($accountDeactivateToolTip) > 0): ?>
+             <?php echo ( (count($accountDeactivateToolTip) > 0) ? $accountDeactivateToolTip[0]['tooltip_text'] : '');?>
+        <?php endif; ?>        
+    </div>
+    <div class="mit_acc">
+        <form action="<?php echo $this->getUrl('marketplce/account/save'); ?>" method="post" id="mit_acc_form" data-mage-init='{"validation":{}}'>
+            <span><?php echo __('All orders should be completed before deactivating account! '); ?></span><br/><br/>
+            <?php echo $block->getBlockHtml('formkey');?>
+            <div class="checkbox">
+                <label><input type="checkbox" class="input-checkbox checkbox device-required" value="1" name="deactivate_acc" <?php echo ($deactivate ? 'checked' : ''); ?> ><?php echo __('Deactivate Account'); ?></label>
+            </div>
+            <p class="deviceErrorMsg" style="display: none; color:red; font-size: 13px;"></p>
+            <button class="mit_acc_btn" type="submit">
+                <span><?php /* @escapeNotVerified */ echo __('Save') ?></span>
+            </button>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    // //<![CDATA[
+     // require([
+     //    'jquery',
+     //    'jquery/ui',
+     //    'jquery/validate',
+     //    'mage/validation'
+     //    ], function($){ 
+     //     //your js code here 
+     //    $.validator.addMethod('device-required', function (value) {
+     //        fieldLen = document.querySelectorAll('input[name="deactivate_acc"]:checked').length;
+     //        console.log(fieldLen);
+     //        if(fieldLen) {
+     //            $('.deviceErrorMsg').text('').hide();
+     //            return true;
+     //        } else {
+     //            $('.deviceErrorMsg').text('This is required field!.').show();
+     //        }
+     //        // return !!container.querySelectorAll(selector).length;
+     //    }, 'Please select one of the options.');
+     // });
+    // jQuery(".mit_acc_btn").on('click',function(){
+    //     var url = "<?php //echo $this->getUrl('marketplce/account/save'); ?>";
+    //     var checkboxVal = jQuery('.deactivate_acc').val();
+    //     jQuery.ajax({
+    //         type: "POST",
+    //         url: url,
+    //         async : false,
+    //         showLoader: true,
+    //         data : {acc_activation:checkboxVal},
+    //         success: function(data)
+    //         {
+    //             console.log(data);
+    //         }
+    //     });
+    // });
+    require([
+        'jquery',
+        'jquery/ui',
+        'jquery/validate',
+        'mage/validation'
+        ], function($){ 
+         //your js code here 
+        $.validator.addMethod('device-required', function (value) {
+            fieldLen = document.querySelectorAll('input[name="deactivate_acc"]:checked').length;
+            console.log(fieldLen);
+            if(fieldLen) {
+                $('.deviceErrorMsg').text('').hide();
+                return true;
+            } else {
+                $('.deviceErrorMsg').text("<?php echo __('This is required field!.')?>").show();
+            }
+            // return !!container.querySelectorAll(selector).length;
+        }, 'Please select one of the options.');
+     });
+    
+    // jQuery(".mit_acc_btn").on('click',function(){
+    //     var url = "<?php //echo $this->getUrl('marketplce/account/save'); ?>";
+    //     var checkboxVal = jQuery('.deactivate_acc').val();
+    //     jQuery.ajax({
+    //         type: "POST",
+    //         url: url,
+    //         async : false,
+    //         showLoader: true,
+    //         data : {acc_activation:checkboxVal},
+    //         success: function(data)
+    //         {
+    //             console.log(data);
+    //         }
+    //     });
+    // });
+
+</script>

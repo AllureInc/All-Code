@@ -1,0 +1,41 @@
+1. Enable magento2 Developer mode
+    - open file app/etc/env.php and change MAGE_MODE = default|developer|production
+    - activate the display_errors setting in app/bootstrap.php
+    - php bin/magento deploy:mode:set developer
+
+2. Enable new module
+    - php bin/magento module:enable Solrbridge_Custom
+    - php bin/magento setup:upgrade
+    
+3. Clear caches
+    - bin/magento cache:clean
+
+4. Deploy/Refresh static content
+    - bin/magento setup:static-content:deploy
+
+5. Clear caches (3) after change layout xml files to make it affect
+    
+
+Layout file name format: [route]_[controller]_[action].xml
+
+**NEED TO CONSULT***
+1. How Object Manager Work?
+
+2. DEPENDENCY INJECTION
+
+3. PLUG-INS
+
+4. FACTORIES
+
+5. THE SERVICE LAYER
+
+6. PAGE CACHE
+
+7. CSS COMPILATION
+
+8. JAVASCRIPT INCLUSION AND REQUIREJS
+
+9. JAVASCRIPT COMPONENTS
+
+Create new composer project:
+composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.2.7

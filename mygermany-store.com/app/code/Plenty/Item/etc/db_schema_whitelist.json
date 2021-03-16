@@ -1,0 +1,755 @@
+{
+    "plenty_item_export_category": {
+        "column": {
+            "entity_id": true,
+            "profile_id": true,
+            "category_id": true,
+            "parent_id": true,
+            "system_path": true,
+            "category_path": true,
+            "category_level": true,
+            "children_count": true,
+            "category_name": true,
+            "category_entries": true,
+            "plenty_category_id": true,
+            "plenty_category_parent_id": true,
+            "plenty_category_level": true,
+            "plenty_category_has_children": true,
+            "plenty_category_type": true,
+            "plenty_category_name": true,
+            "plenty_category_path": true,
+            "plenty_category_entries": true,
+            "status": true,
+            "message": true,
+            "created_at": true,
+            "updated_at": true,
+            "processed_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_EXPORT_CATEGORY_PROFILE_ID": true,
+            "PLENTY_ITEM_EXPORT_CATEGORY_CATEGORY_ID": true,
+            "PLENTY_ITEM_EXPORT_CATEGORY_CATEGORY_NAME": true,
+            "PLENTY_ITEM_EXPORT_CATEGORY_PLENTY_CATEGORY_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "PLENTY_ITEM_EXPORT_CTGR_PROFILE_ID_PLENTY_CORE_PROFILE_ENTT_ID": true,
+            "PLENTY_ITEM_EXPORT_CATEGORY_PROFILE_ID_CATEGORY_ID": true
+        }
+    },
+    "plenty_item_export_product": {
+        "column": {
+            "entity_id": true,
+            "profile_id": true,
+            "product_id": true,
+            "sku": true,
+            "name": true,
+            "item_id": true,
+            "variation_id": true,
+            "main_variation_id": true,
+            "type": true,
+            "product_type": true,
+            "attribute_set": true,
+            "visibility": true,
+            "status": true,
+            "entries": true,
+            "message": true,
+            "created_at": true,
+            "updated_at": true,
+            "processed_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_EXPORT_PRODUCT_PROFILE_ID": true,
+            "PLENTY_ITEM_EXPORT_PRODUCT_PRODUCT_ID": true,
+            "PLENTY_ITEM_EXPORT_PRODUCT_SKU": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "PLENTY_ITEM_EXPORT_PRD_PROFILE_ID_PLENTY_CORE_PROFILE_ENTT_ID": true,
+            "PLENTY_ITEM_EXPORT_PRODUCT_PROFILE_ID_PRODUCT_ID": true
+        }
+    },
+    "plenty_item_import_attribute": {
+        "column": {
+            "entity_id": true,
+            "profile_id": true,
+            "profile_attribute_id": true,
+            "type": true,
+            "position": true,
+            "attribute_id": true,
+            "property_id": true,
+            "manufacturer_id": true,
+            "attribute_code": true,
+            "property_code": true,
+            "property_group_id": true,
+            "value_type": true,
+            "entries": true,
+            "names": true,
+            "values": true,
+            "value_names": true,
+            "selections": true,
+            "maps": true,
+            "group": true,
+            "market_components": true,
+            "message": true,
+            "created_at": true,
+            "updated_at": true,
+            "collected_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_IMPORT_ATTRIBUTE_PROFILE_ID": true,
+            "PLENTY_ITEM_IMPORT_ATTRIBUTE_ATTRIBUTE_ID": true,
+            "PLENTY_ITEM_IMPORT_ATTRIBUTE_PROPERTY_ID": true,
+            "PLENTY_ITEM_IMPORT_ATTRIBUTE_MANUFACTURER_ID": true,
+            "PLENTY_ITEM_IMPORT_ATTRIBUTE_ATTRIBUTE_CODE": true,
+            "PLENTY_ITEM_IMPORT_ATTRIBUTE_PROPERTY_CODE": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "PLENTY_ITEM_IMPORT_ATTR_PROFILE_ID_PLENTY_CORE_PROFILE_ENTT_ID": true,
+            "PLENTY_ITEM_IMPORT_ATTRIBUTE_PROFILE_ATTRIBUTE_ID": true
+        }
+    },
+    "plenty_item_import_category": {
+        "column": {
+            "entity_id": true,
+            "profile_id": true,
+            "category_id": true,
+            "mage_id": true,
+            "parent_id": true,
+            "level": true,
+            "has_children": true,
+            "type": true,
+            "name": true,
+            "path": true,
+            "original_path": true,
+            "preview_url": true,
+            "status": true,
+            "details": true,
+            "message": true,
+            "updated_by": true,
+            "created_at": true,
+            "updated_at": true,
+            "collected_at": true,
+            "processed_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_IMPORT_CATEGORY_PROFILE_ID": true,
+            "PLENTY_ITEM_IMPORT_CATEGORY_CATEGORY_ID": true,
+            "PLENTY_ITEM_IMPORT_CATEGORY_MAGE_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "PLENTY_ITEM_IMPORT_CTGR_PROFILE_ID_PLENTY_CORE_PROFILE_ENTT_ID": true,
+            "PLENTY_ITEM_IMPORT_CATEGORY_PROFILE_ID_CATEGORY_ID": true
+        }
+    },
+    "plenty_item_import_item": {
+        "column": {
+            "entity_id": true,
+            "profile_id": true,
+            "item_id": true,
+            "variation_id": true,
+            "external_id": true,
+            "sku": true,
+            "status": true,
+            "is_active": true,
+            "item_type": true,
+            "product_type": true,
+            "bundle_type": true,
+            "stock_type": true,
+            "attribute_set": true,
+            "flag_one": true,
+            "flag_two": true,
+            "position": true,
+            "custom_tariff_no": true,
+            "revenue_account": true,
+            "condition": true,
+            "condition_api": true,
+            "owner_id": true,
+            "manufacturer_id": true,
+            "manufacturer_country_id": true,
+            "store_special": true,
+            "coupon_restriction": true,
+            "max_order_qty": true,
+            "is_subscription": true,
+            "rakuten_category_id": true,
+            "is_shipping_package": true,
+            "is_serial_number": true,
+            "amazon_fba_platform": true,
+            "is_shippable_by_amazon": true,
+            "amazon_product_type": true,
+            "age_restriction": true,
+            "feedback": true,
+            "free1": true,
+            "free2": true,
+            "free3": true,
+            "free4": true,
+            "free5": true,
+            "free6": true,
+            "free7": true,
+            "free8": true,
+            "free9": true,
+            "free10": true,
+            "message": true,
+            "created_at": true,
+            "updated_at": true,
+            "collected_at": true,
+            "processed_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_IMPORT_ITEM_PROFILE_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_ITEM_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_VARIATION_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_SKU": true,
+            "PLENTY_ITEM_IMPORT_ITEM_EXTERNAL_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "PLENTY_ITEM_IMPORT_ITEM_PROFILE_ID_PLENTY_CORE_PROFILE_ENTITY_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_PROFILE_ID_ITEM_ID": true
+        }
+    },
+    "plenty_item_import_item_attribute_value": {
+        "column": {
+            "entity_id": true,
+            "item_id": true,
+            "variation_id": true,
+            "external_id": true,
+            "sku": true,
+            "attribute_value_set_id": true,
+            "attribute_id": true,
+            "value_id": true,
+            "is_linked_to_image": true,
+            "attribute_backend_name": true,
+            "attribute_position": true,
+            "value_backend_name": true,
+            "value_position": true,
+            "is_surcharge_percentage": true,
+            "amazon_attribute": true,
+            "fruugo_attribute": true,
+            "pixmania_attribute": true,
+            "otto_attribute": true,
+            "google_shopping_attribute": true,
+            "neckermann_at_ep_attribute": true,
+            "type_of_selection_in_online_store": true,
+            "la_redoute_attribute": true,
+            "is_groupable": true,
+            "value_image": true,
+            "value_comment": true,
+            "amazon_value": true,
+            "otto_value": true,
+            "neckermann_at_ep_value": true,
+            "la_redoute_value": true,
+            "tracdelight_value": true,
+            "percentage_distribution": true,
+            "attribute": true,
+            "attribute_value": true,
+            "created_at": true,
+            "attribute_updated_at": true,
+            "value_updated_at": true,
+            "collected_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_IMPORT_ITEM_ATTRIBUTE_VALUE_ITEM_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_ATTRIBUTE_VALUE_VARIATION_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_ATTRIBUTE_VALUE_EXTERNAL_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_ATTRIBUTE_VALUE_SKU": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_18D2CDD4D04A4BECA1B7FB8BE2E0A7D9": true,
+            "PLENTY_ITEM_IMPORT_ITEM_ATTR_VAL_VARIATION_ID_ATTR_ID_VAL_ID": true
+        }
+    },
+    "plenty_item_import_item_barcode": {
+        "column": {
+            "entity_id": true,
+            "barcode_id": true,
+            "item_id": true,
+            "variation_id": true,
+            "external_id": true,
+            "sku": true,
+            "code": true,
+            "created_at": true,
+            "updated_at": true,
+            "collected_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_IMPORT_ITEM_BARCODE_ITEM_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_BARCODE_VARIATION_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_BARCODE_EXTERNAL_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_BARCODE_SKU": true,
+            "PLENTY_ITEM_IMPORT_ITEM_BARCODE_CODE": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_85FD6C3F762B41BB9EFB8C321A91EC92": true,
+            "PLENTY_ITEM_IMPORT_ITEM_BARCODE_VARIATION_ID_BARCODE_ID": true
+        }
+    },
+    "plenty_item_import_item_bundle": {
+        "column": {
+            "entity_id": true,
+            "variation_bundle_id": true,
+            "item_id": true,
+            "variation_id": true,
+            "external_id": true,
+            "sku": true,
+            "component_variation_id": true,
+            "component_qty": true,
+            "created_at": true,
+            "updated_at": true,
+            "collected_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_IMPORT_ITEM_BUNDLE_ITEM_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_BUNDLE_VARIATION_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_BUNDLE_EXTERNAL_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_BUNDLE_SKU": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_65DD9AF2033D688BB81F8604CB934E63": true,
+            "PLENTY_ITEM_IMPORT_ITEM_BUNDLE_VARIATION_BUNDLE_ID": true
+        }
+    },
+    "plenty_item_import_item_category": {
+        "column": {
+            "entity_id": true,
+            "category_id": true,
+            "item_id": true,
+            "variation_id": true,
+            "external_id": true,
+            "sku": true,
+            "position": true,
+            "is_neckermann_primary": true,
+            "created_at": true,
+            "updated_at": true,
+            "collected_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_IMPORT_ITEM_CATEGORY_ITEM_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_CATEGORY_VARIATION_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_CATEGORY_EXTERNAL_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_CATEGORY_SKU": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_85CAB3C62A81F6696D2B9B8334719A2D": true,
+            "PLENTY_ITEM_IMPORT_ITEM_CATEGORY_VARIATION_ID_CATEGORY_ID": true
+        }
+    },
+    "plenty_item_import_item_crosssells": {
+        "column": {
+            "entity_id": true,
+            "item_id": true,
+            "variation_id": true,
+            "external_id": true,
+            "sku": true,
+            "item_crosssells_id": true,
+            "relationship": true,
+            "is_dynamic": true,
+            "created_at": true,
+            "updated_at": true,
+            "collected_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_IMPORT_ITEM_CROSSSELLS_ITEM_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_CROSSSELLS_VARIATION_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_CROSSSELLS_EXTERNAL_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_CROSSSELLS_SKU": true,
+            "PLENTY_ITEM_IMPORT_ITEM_CROSSSELLS_ITEM_CROSSSELLS_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_3B8A77426A2A4D9AF189F497413A5D3D": true,
+            "UNQ_9EDD3158C785EC4A923116BA46AD0DE5": true
+        }
+    },
+    "plenty_item_import_item_market_number": {
+        "column": {
+            "entity_id": true,
+            "plenty_entity_id": true,
+            "item_id": true,
+            "variation_id": true,
+            "external_id": true,
+            "sku": true,
+            "country_id": true,
+            "type": true,
+            "position": true,
+            "value": true,
+            "created_at": true,
+            "updated_at": true,
+            "collected_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_IMPORT_ITEM_MARKET_NUMBER_ITEM_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_MARKET_NUMBER_VARIATION_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_MARKET_NUMBER_EXTERNAL_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_MARKET_NUMBER_SKU": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_6FA9B766F10FB10CCD6BB4A090AF70D4": true,
+            "UNQ_53BB97FE4B159626FA4FF8AA3C4DE32B": true
+        }
+    },
+    "plenty_item_import_item_media": {
+        "column": {
+            "entity_id": true,
+            "item_id": true,
+            "variation_id": true,
+            "external_id": true,
+            "sku": true,
+            "media_id": true,
+            "media_type": true,
+            "is_linked_to_variation": true,
+            "type": true,
+            "file_type": true,
+            "path": true,
+            "position": true,
+            "md5_checksum": true,
+            "md5_checksum_original": true,
+            "width": true,
+            "height": true,
+            "size": true,
+            "storage_provider_id": true,
+            "clean_image_name": true,
+            "url": true,
+            "url_middle": true,
+            "url_preview": true,
+            "url_secondary_preview": true,
+            "document_upload_path": true,
+            "document_upload_path_preview": true,
+            "document_upload_preview_width": true,
+            "document_upload_preview_height": true,
+            "availabilities": true,
+            "names": true,
+            "created_at": true,
+            "updated_at": true,
+            "collected_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_IMPORT_ITEM_MEDIA_ITEM_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_MEDIA_VARIATION_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_MEDIA_EXTERNAL_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_MEDIA_SKU": true,
+            "PLENTY_ITEM_IMPORT_ITEM_MEDIA_MEDIA_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_FFDD6DC5D3EB185CDE31B137B0D1DBE3": true,
+            "PLENTY_ITEM_IMPORT_ITEM_MEDIA_MEDIA_ID_VARIATION_ID": true
+        }
+    },
+    "plenty_item_import_item_property": {
+        "column": {
+            "entity_id": true,
+            "item_id": true,
+            "variation_id": true,
+            "external_id": true,
+            "sku": true,
+            "plenty_entity_id": true,
+            "property_id": true,
+            "property_selection_id": true,
+            "names": true,
+            "property_selection": true,
+            "property": true,
+            "created_at": true,
+            "updated_at": true,
+            "collected_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_IMPORT_ITEM_PROPERTY_ITEM_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_PROPERTY_VARIATION_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_PROPERTY_EXTERNAL_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_PROPERTY_SKU": true,
+            "PLENTY_ITEM_IMPORT_ITEM_PROPERTY_PROPERTY_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_PROPERTY_PROPERTY_SELECTION_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_9BB321A99A619769841B39EEE3EB1909": true,
+            "PLENTY_ITEM_IMPORT_ITEM_PROPERTY_PLENTY_ENTITY_ID": true
+        }
+    },
+    "plenty_item_import_item_sales_price": {
+        "column": {
+            "entity_id": true,
+            "sales_price_id": true,
+            "item_id": true,
+            "variation_id": true,
+            "external_id": true,
+            "sku": true,
+            "price": true,
+            "created_at": true,
+            "updated_at": true,
+            "collected_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_IMPORT_ITEM_SALES_PRICE_ITEM_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_SALES_PRICE_VARIATION_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_SALES_PRICE_EXTERNAL_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_SALES_PRICE_SKU": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_E87BC0379FC227EA5E92D23AF8D41606": true,
+            "PLENTY_ITEM_IMPORT_ITEM_SALES_PRICE_VARIATION_ID_SALES_PRICE_ID": true
+        }
+    },
+    "plenty_item_import_item_shipping_profile": {
+        "column": {
+            "entity_id": true,
+            "item_id": true,
+            "variation_id": true,
+            "external_id": true,
+            "sku": true,
+            "plenty_entity_id": true,
+            "profile_id": true,
+            "created_at": true,
+            "updated_at": true,
+            "collected_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_IMPORT_ITEM_SHIPPING_PROFILE_ITEM_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_SHIPPING_PROFILE_VARIATION_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_SHIPPING_PROFILE_EXTERNAL_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_SHIPPING_PROFILE_SKU": true,
+            "PLENTY_ITEM_IMPORT_ITEM_SHIPPING_PROFILE_PROFILE_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_97FCE6E2FEC03BD11B488D1729CBD36F": true,
+            "PLENTY_ITEM_IMPORT_ITEM_SHPP_PROFILE_VARIATION_ID_PLENTY_ENTT_ID": true
+        }
+    },
+    "plenty_item_import_item_stock": {
+        "column": {
+            "entity_id": true,
+            "item_id": true,
+            "variation_id": true,
+            "external_id": true,
+            "sku": true,
+            "warehouse_id": true,
+            "purchase_price": true,
+            "reserved_listing": true,
+            "reserved_bundles": true,
+            "physical_stock": true,
+            "reserved_stock": true,
+            "net_stock": true,
+            "reorder_level": true,
+            "delta_reorder_level": true,
+            "goods_value": true,
+            "created_at": true,
+            "updated_at": true,
+            "collected_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_IMPORT_ITEM_STOCK_ITEM_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_STOCK_VARIATION_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_STOCK_EXTERNAL_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_STOCK_SKU": true,
+            "PLENTY_ITEM_IMPORT_ITEM_STOCK_WAREHOUSE_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_8500B33D1C324B7AAFD4E611C16F7062": true,
+            "PLENTY_ITEM_IMPORT_ITEM_STOCK_VARIATION_ID_WAREHOUSE_ID": true
+        }
+    },
+    "plenty_item_import_item_supplier": {
+        "column": {
+            "entity_id": true,
+            "item_id": true,
+            "variation_id": true,
+            "external_id": true,
+            "sku": true,
+            "plenty_entity_id": true,
+            "supplier_id": true,
+            "purcahse_price": true,
+            "minimum_purchase": true,
+            "item_number": true,
+            "last_price_query": true,
+            "delivery_time_in_days": true,
+            "discount": true,
+            "is_discountable": true,
+            "packaging_unit": true,
+            "created_at": true,
+            "updated_at": true,
+            "collected_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_IMPORT_ITEM_SUPPLIER_ITEM_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_SUPPLIER_VARIATION_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_SUPPLIER_EXTERNAL_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_SUPPLIER_SKU": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_E19D2DC732E0DDE4A15B08A8BE0776C1": true,
+            "PLENTY_ITEM_IMPORT_ITEM_SUPPLIER_VARIATION_ID_PLENTY_ENTITY_ID": true
+        }
+    },
+    "plenty_item_import_item_texts": {
+        "column": {
+            "entity_id": true,
+            "item_id": true,
+            "variation_id": true,
+            "external_id": true,
+            "sku": true,
+            "plenty_entity_id": true,
+            "lang": true,
+            "name": true,
+            "name2": true,
+            "name3": true,
+            "short_description": true,
+            "description": true,
+            "technical_data": true,
+            "url_path": true,
+            "meta_description": true,
+            "meta_keywords": true,
+            "created_at": true,
+            "updated_at": true,
+            "collected_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_IMPORT_ITEM_TEXTS_ITEM_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_TEXTS_VARIATION_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_TEXTS_EXTERNAL_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_TEXTS_SKU": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_50BBE9C27AE174456D887AFAEBA538C2": true,
+            "PLENTY_ITEM_IMPORT_ITEM_TEXTS_VARIATION_ID_LANG": true
+        }
+    },
+    "plenty_item_import_item_warehouse": {
+        "column": {
+            "entity_id": true,
+            "item_id": true,
+            "variation_id": true,
+            "external_id": true,
+            "sku": true,
+            "warehouse_id": true,
+            "warehouse_zone_id": true,
+            "storage_location_type": true,
+            "reorder_level": true,
+            "max_stock": true,
+            "stock_turnover_in_days": true,
+            "storage_location": true,
+            "stock_buffer": true,
+            "is_batch": true,
+            "is_best_before_date": true,
+            "created_at": true,
+            "updated_at": true,
+            "collected_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_IMPORT_ITEM_WAREHOUSE_ITEM_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_WAREHOUSE_VARIATION_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_WAREHOUSE_EXTERNAL_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_WAREHOUSE_SKU": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_0CC49806217C7830EA6D8BA2381F7B29": true,
+            "PLENTY_ITEM_IMPORT_ITEM_WAREHOUSE_VARIATION_ID_WAREHOUSE_ID": true
+        }
+    },
+    "plenty_item_import_item_variation": {
+        "column": {
+            "entity_id": true,
+            "item_id": true,
+            "variation_id": true,
+            "main_variation_id": true,
+            "external_id": true,
+            "sku": true,
+            "name": true,
+            "status": true,
+            "is_main": true,
+            "is_active": true,
+            "category_variation_id": true,
+            "market_variation_id": true,
+            "client_variation_id": true,
+            "sales_price_variation_id": true,
+            "supplier_variation_id": true,
+            "warehouse_variation_id": true,
+            "property_variation_id": true,
+            "position": true,
+            "model": true,
+            "parent_variation_id": true,
+            "parent_variation_qty": true,
+            "availability": true,
+            "flag_one": true,
+            "flag_two": true,
+            "estimated_available_at": true,
+            "purchase_price": true,
+            "related_updated_at": true,
+            "price_calculation_id": true,
+            "picking": true,
+            "stock_limitation": true,
+            "is_visible_if_net_stock_is_positive": true,
+            "is_invisible_if_net_stock_is_not_positive": true,
+            "is_available_if_net_stock_is_positive": true,
+            "is_unavailable_if_net_stock_is_not_positive": true,
+            "main_warehouse_id": true,
+            "max_order_qty": true,
+            "min_order_qty": true,
+            "interval_order_qty": true,
+            "available_until": true,
+            "released_at": true,
+            "unit_combination_id": true,
+            "weight_g": true,
+            "weight_net_g": true,
+            "width_mm": true,
+            "length_mm": true,
+            "height_mm": true,
+            "extra_shipping_charges1": true,
+            "extra_shipping_charges2": true,
+            "units_contained": true,
+            "pallet_type_id": true,
+            "packing_units": true,
+            "packing_units_type_id": true,
+            "transportation_costs": true,
+            "storage_costs": true,
+            "customs": true,
+            "operation_costs": true,
+            "vat_id": true,
+            "bundle_type": true,
+            "auto_client_visibility": true,
+            "is_hidden_in_category_list": true,
+            "default_shipping_costs": true,
+            "can_show_unit_price": true,
+            "moving_average_price": true,
+            "auto_list_visibility": true,
+            "is_visible_in_list_if_net_stock_is_positive": true,
+            "is_invisible_in_list_if_net_stock_is_not_positive": true,
+            "single_item_count": true,
+            "sales_rank": true,
+            "variation_clients": true,
+            "variation_markets": true,
+            "variation_default_category": true,
+            "variation_skus": true,
+            "variation_additional_skus": true,
+            "variation_unit": true,
+            "message": true,
+            "created_at": true,
+            "updated_at": true,
+            "collected_at": true,
+            "processed_at": true
+        },
+        "index": {
+            "PLENTY_ITEM_IMPORT_ITEM_VARIATION_ITEM_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_VARIATION_EXTERNAL_ID": true,
+            "PLENTY_ITEM_IMPORT_ITEM_VARIATION_SKU": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_3E7976A373979AF82ADCEFBEB4ABF32D": true,
+            "PLENTY_ITEM_IMPORT_ITEM_VARIATION_VARIATION_ID": true
+        }
+    }
+}

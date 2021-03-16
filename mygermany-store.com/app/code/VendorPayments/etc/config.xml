@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<marketplace>
+			<general_settings>
+                <allow_invoice_in>14</allow_invoice_in>
+                <vendor_invoice_email_template>marketplace_general_settings_vendor_invoice_email_template</vendor_invoice_email_template>
+                <vendor_invoice_email_template_vendor_copy>marketplace_general_settings_vendor_invoice_email_template_vendor_copy</vendor_invoice_email_template_vendor_copy>
+			</general_settings>
+		</marketplace>
+	</default>
+</config>

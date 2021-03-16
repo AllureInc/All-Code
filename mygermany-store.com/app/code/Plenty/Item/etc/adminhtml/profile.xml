@@ -1,0 +1,539 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <!--
+        _____________________   PRODUCT EXPORT CONFIG   ___________________
+        ===================================================================
+        -->
+        <section id="product_export" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>General Configuration</label>
+            <resource>Plenty_Core::config_plenty_core</resource>
+            <group id="export_config" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Export Configuration</label>
+                <field id="enable_product_export" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable product export</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="export_behaviour" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Export behaviour</label>
+                    <source_model>Plenty\Core\Model\Profile\Config\Source\Behaviour</source_model>
+                    <comment>Export behaviour can be configured to either update or replace existing records. Replace behaviour will replace all product data.</comment>
+                </field>
+                <field id="export_batch_size" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Export process batch size</label>
+                    <source_model>Plenty\Item\Profile\Config\Export\Product\ProcessBatchSize</source_model>
+                    <comment>Number of products to export per process. Default: 10. Max 100.</comment>
+                </field>
+                <field id="is_active_request_log" translate="label comment" type="select" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Log product request data</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>An option to see product export request data that's generated during export process. Data is saved to file configured in Plenty Item system configuration.</comment>
+                </field>
+            </group>
+            <group id="api_config" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>API Configuration</label>
+                <field id="api_behaviour" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>API behaviour</label>
+                    <source_model>Plenty\Core\Model\Profile\Config\Source\Behaviour</source_model>
+                    <comment>Api behaviour can be configured to either collected recently updated records or to replace existing records with new data. Consider "update" as this is more efficient way of collecting data.</comment>
+                </field>
+                <field id="api_collection_size" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>API collection size</label>
+                    <source_model>Plenty\Core\Model\Profile\Config\Source\ApiCollectionSize</source_model>
+                    <comment>Number of records an API returns per page request. Default: 50. Max 500.</comment>
+                </field>
+                <field id="item_search_filters" translate="label" type="multiselect" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Item search filters filters</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Api\Item\Filters</source_model>
+                    <comment>Select entries to collect.</comment>
+                </field>
+                <field id="variation_search_filters" translate="label" type="multiselect" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Variation search filters</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Api\Variation\Filters</source_model>
+                    <comment>Select entries to collect.</comment>
+                </field>
+            </group>
+            <group id="store_config" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Store Configuration</label>
+                <field id="store_mapping" translate="label" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Store mapping</label>
+                    <frontend_model>Plenty\Core\Block\Adminhtml\Profile\Config\Form\Field\Store\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                </field>
+                <field id="flag_one" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>FlagOne Filter</label>
+                    <comment>Value number of flagOne filter</comment>
+                </field>
+                <field id="flag_two" translate="label comment" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>FlagTwo Filter</label>
+                    <comment>Value number of flagTwo filter</comment>
+                </field>
+            </group>
+            <group id="tax_price_config" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Tax And Price Configuration</label>
+                <field id="default_tax_class" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Default Tax Class</label>
+                    <source_model>Plenty\Core\Model\Profile\Config\Source\Tax\Product\Classes</source_model>
+                </field>
+                <field id="tax_mapping" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Tax mapping</label>
+                    <frontend_model>Plenty\Item\Block\Adminhtml\Profile\Config\Form\Field\Product\Tax\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                </field>
+                <field id="enable_price_export" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable price export</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="price_mapping" translate="label" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Price mapping</label>
+                    <frontend_model>Plenty\Item\Block\Adminhtml\Profile\Config\Form\Field\Product\Price\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                    <depends>
+                        <field id="enable_price_export">1</field>
+                    </depends>
+                </field>
+                <field id="enable_price_delete" translate="label comment" type="select" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable price deletion</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>All prices which are not mapped above will be removed in PlentyMarkets</comment>
+                    <depends>
+                        <field id="enable_price_export">1</field>
+                    </depends>
+                </field>
+                <field id="purchase_price_mapping" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Attribute used for purchase price</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\Price</source_model>
+                </field>
+            </group>
+            <group id="inventory_config" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Inventory Configuration</label>
+                <field id="enable_stock_export" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable stock export</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>An option to export inventory.</comment>
+                </field>
+                <field id="main_warehouse_id" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Main warehouse ID</label>
+                    <source_model>Plenty\Stock\Profile\Config\Source\Warehouse</source_model>
+                    <depends>
+                        <field id="enable_stock_export">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="shipping_config" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Shipping Configuration</label>
+                <field id="order_picking" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Order Picking</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Shipping\OrderPicking</source_model>
+                </field>
+                <field id="main_warehouse_id" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Main warehouse ID</label>
+                    <source_model>Plenty\Stock\Profile\Config\Source\Warehouse</source_model>
+                </field>
+                <field id="pallet_type_id" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Pallet type</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Shipping\PalletType</source_model>
+                </field>
+                <field id="extra_shipping_charge1" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Extra shipping charge 1</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\Price</source_model>
+                </field>
+                <field id="extra_shipping_charge2" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Extra shipping charge 2</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\Price</source_model>
+                </field>
+            </group>
+            <group id="attribute_config" translate="label" type="text comment" sortOrder="8" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Attribute Configuration</label>
+                <field id="default_attribute_set" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Default attribute set</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\AttributeSet\Plenty</source_model>
+                    <comment>Default attribute set used to assign to exported products.</comment>
+                </field>
+                <field id="product_name_mapping" translate="label" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Product name mapping</label>
+                    <frontend_model>Plenty\Item\Block\Adminhtml\Profile\Config\Form\Field\Product\Name\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                </field>
+                <field id="short_description_mapping" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Attribute used for short description</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\InputTypeTextTextArea</source_model>
+                </field>
+                <field id="description_mapping" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Attribute used for description</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\InputTypeTextTextArea</source_model>
+                </field>
+                <field id="technical_data_mapping" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Attribute used for technical data</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\InputTypeTextTextArea</source_model>
+                </field>
+                <field id="supplier_name_mapping" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Attribute used for supplier name</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\InputTypeSelect</source_model>
+                </field>
+                <field id="supplier_number_mapping" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Attribute used for supplier item number</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\InputTypeSelect</source_model>
+                </field>
+                <field id="manufacturer_mapping" translate="label" type="select" sortOrder="8" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Attribute used for manufacturer</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\InputTypeSelect</source_model>
+                </field>
+                <field id="enable_url_export" translate="label comment" type="select" sortOrder="9" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Export URL key</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="export_url_options" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Export URL options</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\Url\Options</source_model>
+                    <depends>
+                        <field id="enable_url_export">1</field>
+                    </depends>
+                </field>
+                <field id="default_weight_unit" translate="label comment" type="select" sortOrder="11" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Default weight unit</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\Weight\Unit\Plenty</source_model>
+                </field>
+                <field id="dimension_width" translate="label" type="select" sortOrder="12" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Attribute used for dimension: width</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute</source_model>
+                    <comment>Attribute used for item width in mm</comment>
+                </field>
+                <field id="dimension_length" translate="label" type="select" sortOrder="13" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Attribute used for dimension: length</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute</source_model>
+                    <comment>Attribute used for item length in mm</comment>
+                </field>
+                <field id="dimension_height" translate="label" type="select" sortOrder="14" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Attribute used for dimension: height</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute</source_model>
+                    <comment>Attribute used for item height in mm</comment>
+                </field>
+                <field id="dimension_adjustment" translate="label comment" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Dimensions multiply</label>
+                    <comment>Use this field if you need to convert your dimension to mm. E.g. value 10 will convert 10cm to 100mm.</comment>
+                </field>
+            </group>
+            <group id="property_config" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Property Configuration</label>
+                <field id="property_mapping" translate="label" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Property to attribute mapping</label>
+                    <frontend_model>Plenty\Item\Block\Adminhtml\Profile\Config\Form\Field\Product\Property\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                </field>
+            </group>
+            <group id="barcode_config" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Barcode Configuration</label>
+                <field id="barcode_mapping" translate="label" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Barcode mapping</label>
+                    <frontend_model>Plenty\Item\Block\Adminhtml\Profile\Config\Form\Field\Product\Barcode\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                </field>
+            </group>
+            <group id="market_number_config" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Market numbers Configuration</label>
+                <field id="market_number_mapping" translate="label" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Market number mapping</label>
+                    <frontend_model>Plenty\Item\Block\Adminhtml\Profile\Config\Form\Field\Product\MarketNumber\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                </field>
+            </group>
+            <group id="category_config" translate="label" type="text" sortOrder="12" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Category Configuration</label>
+                <field id="is_active_category_export" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable category export</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>An option to export categories.</comment>
+                </field>
+                <field id="root_category_mapping" translate="label" sortOrder="2" showInDefault="2" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Root category mapping</label>
+                    <frontend_model>Plenty\Item\Block\Adminhtml\Profile\Config\Form\Field\Product\Category\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                    <depends>
+                        <field id="enable_category_export">1</field>
+                    </depends>
+                </field>
+                <field id="category_fallback" translate="label comment" type="text" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Fallback Category ID</label>
+                    <comment>Category is a required field and can not be empty. Please enter a fallback PlentyMarket's category ID in case products have no category assigned.</comment>
+                </field>
+            </group>
+            <group id="media_config" translate="label" type="text" sortOrder="13" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Media Configuration</label>
+                <field id="enable_media_export" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable media export</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="media_filter" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Media filter</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Media\Image\Options</source_model>
+                    <depends>
+                        <field id="enable_media_export">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="crosssells_config" translate="label" type="text" sortOrder="14" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Cross-sells Configuration</label>
+                <field id="enable_crosssells_export" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable cross-sells export</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+        <!--
+        _____________________   PRODUCT IMPORT CONFIG   ___________________
+        ===================================================================
+        -->
+        <section id="product_import" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>General Configuration</label>
+            <resource>Plenty_Core::config_plenty_core</resource>
+            <group id="import_config" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Import Configuration</label>
+                <field id="enable_product_import" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable product import</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enables product import.</comment>
+                </field>
+                <field id="import_behaviour" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Import behaviour</label>
+                    <source_model>Plenty\Core\Model\Profile\Config\Source\Behaviour</source_model>
+                    <comment>Import behaviour can be configured to either update or replace existing records. Replace behaviour will replace all product data.</comment>
+                </field>
+                <field id="import_batch_size" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Import batch size</label>
+                    <source_model>Plenty\Item\Profile\Config\Import\Product\ProcessBatchSize</source_model>
+                    <comment>Number of records to import per process. Default: 100. Max 10,000.</comment>
+                </field>
+                <field id="reindex_after" translate="label comment" type="select" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Re-index after</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enables re-indexing of product data upon import completion.</comment>
+                </field>
+                <field id="is_active_request_log" translate="label comment" type="select" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Log product request data</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>An option to see product import request data that's generated during import process. Data is saved to file configured in Plenty Item system configuration.</comment>
+                </field>
+            </group>
+            <group id="api_config" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>API Configuration</label>
+                <field id="api_behaviour" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>API behaviour</label>
+                    <source_model>Plenty\Core\Model\Profile\Config\Source\Behaviour</source_model>
+                    <comment>Api behaviour can be configured to either collected recently updated records or to replace existing records with new data. Consider "update" as this is more efficient way of collecting data.</comment>
+                </field>
+                <field id="api_collection_size" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>API collection size</label>
+                    <source_model>Plenty\Core\Model\Profile\Config\Source\ApiCollectionSize</source_model>
+                    <comment>Number of records an API returns per page request. Default: 50. Max 500.</comment>
+                </field>
+                <field id="item_search_filters" translate="label" type="multiselect" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Item search filters filters</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Api\Item\Filters</source_model>
+                    <comment>Select entries to collect.</comment>
+                </field>
+                <field id="variation_search_filters" translate="label" type="multiselect" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Variation search filters</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Api\Variation\Filters</source_model>
+                    <comment>Select entries to collect.</comment>
+                </field>
+            </group>
+            <group id="store_config" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Store Configuration</label>
+                <field id="store_mapping" translate="label" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Store mapping</label>
+                    <frontend_model>Plenty\Core\Block\Adminhtml\Profile\Config\Form\Field\Store\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                </field>
+                <field id="flag_one" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>FlagOne Filter</label>
+                    <comment>Value number of flagOne filter</comment>
+                </field>
+                <field id="flag_two" translate="label comment" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>FlagTwo Filter</label>
+                    <comment>Value number of flagTwo filter</comment>
+                </field>
+            </group>
+            <group id="tax_price_config" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Tax And Price Configuration</label>
+                <field id="default_tax_class" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Default Tax Class</label>
+                    <source_model>Plenty\Core\Model\Profile\Config\Source\Tax\Product\Classes</source_model>
+                </field>
+                <field id="tax_mapping" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Tax mapping</label>
+                    <frontend_model>Plenty\Item\Block\Adminhtml\Profile\Config\Form\Field\Product\Tax\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                </field>
+                <field id="price_mapping" translate="label" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Price mapping</label>
+                    <frontend_model>Plenty\Item\Block\Adminhtml\Profile\Config\Form\Field\Product\Price\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                </field>
+                <field id="purchase_price_mapping" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Attribute used for purchase price</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\Price</source_model>
+                </field>
+            </group>
+            <group id="inventory_config" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Inventory Configuration</label>
+                <field id="enable_stock_import" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable stock import</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>An option to add inventory to import.</comment>
+                </field>
+                <field id="main_warehouse_id" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Main warehouse ID</label>
+                    <source_model>Plenty\Stock\Profile\Config\Source\Warehouse</source_model>
+                </field>
+            </group>
+            <group id="attribute_config" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Attribute Configuration</label>
+                <field id="default_attribute_set" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Default attribute set</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\AttributeSet</source_model>
+                    <comment>Default attribute set used to import new products.</comment>
+                </field>
+                <field id="enable_attribute_restriction" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable attribute restriction</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>An option to exclude specified attributes from import.</comment>
+                </field>
+                <field id="allowed_attributes" translate="label" type="multiselect" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Allowed attributes</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute</source_model>
+                    <comment>Selected attributes will be allowed to import.</comment>
+                    <depends>
+                        <field id="enable_attribute_restriction">1</field>
+                    </depends>
+                </field>
+                <field id="product_name_mapping" translate="label" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Product name mapping</label>
+                    <frontend_model>Plenty\Item\Block\Adminhtml\Profile\Config\Form\Field\Product\Name\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                </field>
+                <field id="short_description_mapping" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Attribute used for short description</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\InputTypeTextTextArea</source_model>
+                </field>
+                <field id="description_mapping" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Attribute used for description</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\InputTypeTextTextArea</source_model>
+                </field>
+                <field id="technical_data_mapping" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Attribute used for technical data</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\InputTypeTextTextArea</source_model>
+                </field>
+                <field id="supplier_name_mapping" translate="label" type="select" sortOrder="8" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Attribute used for supplier name</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\InputTypeSelect</source_model>
+                </field>
+                <field id="supplier_number_mapping" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Attribute used for supplier item number</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\InputTypeSelect</source_model>
+                </field>
+                <field id="manufacturer_mapping" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Attribute used for manufacturer</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\InputTypeSelect</source_model>
+                </field>
+                <field id="enable_import_url" translate="label comment" type="select" sortOrder="11" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Import URL key</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="import_url_options" translate="label comment" type="select" sortOrder="12" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Import URL options</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\Url\Options</source_model>
+                    <depends>
+                        <field id="enable_import_url">1</field>
+                    </depends>
+                </field>
+                <field id="default_weight_unit" translate="label comment" type="select" sortOrder="13" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Default weight unit</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Attribute\Weight\Unit\Plenty</source_model>
+                </field>
+            </group>
+            <group id="property_config" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Property Configuration</label>
+                <field id="property_mapping" translate="label" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Property to attribute mapping</label>
+                    <frontend_model>Plenty\Item\Block\Adminhtml\Profile\Config\Form\Field\Product\Property\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                </field>
+            </group>
+            <group id="barcode_config" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Barcode Configuration</label>
+                <field id="barcode_mapping" translate="label" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Barcode mapping</label>
+                    <frontend_model>Plenty\Item\Block\Adminhtml\Profile\Config\Form\Field\Product\Barcode\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                </field>
+            </group>
+            <group id="market_number_config" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Market numbers Configuration</label>
+                <field id="market_number_mapping" translate="label" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Market number mapping</label>
+                    <frontend_model>Plenty\Item\Block\Adminhtml\Profile\Config\Form\Field\Product\MarketNumber\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                </field>
+            </group>
+            <group id="category_config" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Category Configuration</label>
+                <field id="is_active_category_import" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Import categories</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>An option to import categories.</comment>
+                </field>
+                <field id="root_category_mapping" translate="label" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Root category mapping</label>
+                    <frontend_model>Plenty\Item\Block\Adminhtml\Profile\Config\Form\Field\Product\Category\Mapping</frontend_model>
+                    <backend_model>Plenty\Core\Model\Profile\Config\Backend\Serialized</backend_model>
+                    <depends>
+                        <field id="is_active_category_import">1</field>
+                    </depends>
+                </field>
+                <field id="category_fallback" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="0">
+                    <label>Fallback Category</label>
+                    <source_model>Plenty\Item\Profile\Config\Import\Product\MagentoCategoryFallback</source_model>
+                    <comment>Category is a required field and can not be empty. Please enter a fallback Magento's category in case product import is disabled.</comment>
+                    <depends>
+                        <field id="is_active_category_import">0</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="media_config" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Media Configuration</label>
+                <field id="enable_media_import" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable media import</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="enable_download_media" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Download media files</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enable_media_import">1</field>
+                    </depends>
+                </field>
+                <field id="media_filter" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Media filter</label>
+                    <source_model>Plenty\Item\Profile\Config\Source\Product\Media\Image\Options</source_model>
+                    <depends>
+                        <field id="enable_media_import">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="crosssells_config" translate="label" type="text" sortOrder="12" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Cross-sells Configuration</label>
+                <field id="enable_crosssells_import" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Import cross-sells</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

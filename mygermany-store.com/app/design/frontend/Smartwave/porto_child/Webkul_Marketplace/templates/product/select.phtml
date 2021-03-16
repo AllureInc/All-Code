@@ -1,0 +1,15 @@
+<div>
+    <label class="label"><?php echo __($frontLabel) ?></label>
+    <div class="control">
+        <select id="" class="select" name="<?php echo "product[$attributeCode]";?>">
+            <?php 
+                foreach ($attributeData->getSource()->getAllOptions() as $key => $value) { 
+                	if ($value['value']>0) { ?>
+                <option value="<?php echo $value['value'];?>"><?php echo $value['label'];?></option>
+            <?php  } else { ?>
+                <option value="<?php echo $value['value'];?>"><?php echo __('select');?></option>
+            <?php }
+            } ?>
+        </select>
+    </div>
+</div>

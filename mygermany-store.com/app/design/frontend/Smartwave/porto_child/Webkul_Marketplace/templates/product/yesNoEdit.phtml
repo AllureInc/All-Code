@@ -1,0 +1,23 @@
+<?php
+
+if ($product_coll->getCustomAttribute($attributeCode)) {
+
+	$textData = $product_coll->getCustomAttribute($attributeCode)->getValue();
+} else {
+	$textData = '';
+} 
+?>
+<div>
+    <label class="label"><?php echo __($frontLabel) ?>:</label>
+    <div class="control">
+        <select id="" class="select" name="<?php echo "product[$attributeCode]";?>">
+        <?php if ($textData != '1') {?>
+            <option value="0"><?php echo __('No'); ?></option>
+            <option value="1"><?php echo __('Yes'); ?></option> 
+        <?php } else { ?>
+        	<option value="1"><?php echo __('Yes'); ?></option>
+            <option value="0"><?php echo __('No'); ?></option>
+        <?php } ?>
+        </select>
+    </div>
+</div>

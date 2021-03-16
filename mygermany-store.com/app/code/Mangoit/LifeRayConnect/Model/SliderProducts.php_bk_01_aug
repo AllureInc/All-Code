@@ -1,0 +1,70 @@
+<?php
+namespace Mangoit\LifeRayConnect\Model;
+use Mangoit\LifeRayConnect\Api\SlidersProductInterface;
+use Magento\Framework\App\ObjectManager;
+use Psr\Log\LoggerInterface;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
+
+class SliderProducts implements SlidersProductInterface
+{
+
+    /**
+     * @var orderInterface
+     */
+    protected $orderInterface;
+    /**
+    * @var \Magento\Framework\Controller\Result\JsonFactory
+    */
+    protected $resultJsonFactory;
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+        
+    /**
+     * @var customerRepositoryInterface
+    */    
+    protected $_customerRepositoryInterface;
+
+    /**
+     * @param ProductRepositoryInterface $productRepository
+     * @param \Magento\Catalog\Api\Data\ProductTierPriceInterfaceFactory $priceFactory
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param PriceModifier $priceModifier
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
+     * @param GroupManagementInterface $groupManagement
+     * @param GroupRepositoryInterface $groupRepository
+     * @param LoggerInterface $logger
+     */
+    public function __construct(
+        \Magento\Sales\Api\Data\OrderInterface $orderInterface,
+        \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
+        LoggerInterface $logger,
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepositoryInterface
+    ) {
+        $this->orderInterface = $orderInterface;
+        $this->resultJsonFactory = $resultJsonFactory;
+        $this->logger = $logger;
+        $this->_customerRepositoryInterface = $customerRepositoryInterface;
+    }
+    /**
+     * It will return product collection based on type
+     *
+     * @api
+     * @param string $type Type of product slider
+     * @return string collection of products
+     */
+    public function slidersproduct($type) {
+        $objectManager = ObjectManager::getInstance();
+        die('sliders product called');
+        $customer = $this->_customerRepositoryInterface->getById($id);
+        if (($compliancestatus == 1) || ($compliancestatus == 0)) {
+            $customer->setCustomAttribute('compliance_check',$compliancestatus); 
+            $this->_customerRepositoryInterface->save($customer);
+            return $response = ['success' => 'Successfully saved!'];
+        }else {
+            throw new InputException(__('No such status found!'));
+        }
+    }
+}

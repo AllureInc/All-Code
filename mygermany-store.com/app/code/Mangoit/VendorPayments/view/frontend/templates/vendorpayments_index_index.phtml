@@ -1,0 +1,648 @@
+<?php
+$countries = $this->getCountries();
+$feeValues = $this->getFeesCollectionArray();
+$vendorCommissions = $this->getVendorCommissionDetails();
+$currencySymbol = $this->getCurrencySymbol();
+/*tooltip Work : 16-Nov-2018 */
+$tooltipHelper = $this->helper('Mangoit\MisTooltip\Helper\Data');
+$imgHelper = $this->helper('Webkul\Marketplace\Helper\Data');
+$section_id = 'vendor_payment';
+$payment_methods_block_id = 'payment_methods_block';
+$commission_structure_block_id = 'commission_structure_block';
+$store_id = $tooltipHelper->getStoreId();
+$paymentMethodBlock = $tooltipHelper->getToolTipData($store_id, $section_id, $payment_methods_block_id);
+$commissionStructureBlock = $tooltipHelper->getToolTipData($store_id, $section_id, $commission_structure_block_id);
+/*tooltip Work : 16-Nov-2018 ends */
+?>
+<style type="text/css">
+.methods_title{
+    font-family: sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+}
+.vendor_turnover
+{
+    margin-top: 15px;
+}
+</style>
+<div class="wk-mp-design">
+    <fieldset class="fieldset info wk-mp-fieldset">
+        <legend class="legend">
+            <span><?php echo __('Fee Structure') ?></span>
+        </legend>   
+        <div class="accordion product_faqs">
+            <div class='miscontent'>
+                <li style="list-style: none">
+                    <span class="methods_title title"><?php echo __('Payment Methods')?></span>
+                    <?php if(count($paymentMethodBlock) > 0): ?>
+                        <span class="payment_methods_block">
+                            <?php echo ( (count($paymentMethodBlock) > 0) ? $paymentMethodBlock[0]['tooltip_text'] : '');?>
+                        </span>
+                    <?php endif; ?>
+                </li>
+                <div class="pane" style="display:none">
+                    <!-- PAYMENT METHODS START -->
+                    <div data-area-active="true">
+                        <div class="fieldset-wrapper" data-level="0">
+                            <div class="fieldset-wrapper-title" tabindex="-1">
+                                <strong class="title">
+                                    <span><?php echo __('PayPal'); ?></span>
+                                </strong>
+                            </div>
+                            <div class="admin__fieldset-wrapper-content _hide" >
+                                <fieldset class="admin__fieldset">
+                                    <div class="admin__field" data-index="prefix">
+                                        <label class="admin__field-label cust_admin__field-label-main">
+                                            <span><?php echo __('North-Europe'); ?></span>
+                                        </label>
+                                        <div class="admin_custom_field admin__field-control">
+                                            <label class="admin__field-label">
+                                                <span><?php echo __('Fixed Cost per Transaction (in EUR)'); ?></span>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="paypal[north_europe][cost_per_t][fixed]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['paypal']['north_europe']['cost_per_t']['fixed']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Percent of Total Per Tansaction'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="paypal[north_europe][cost_per_t][in_percent]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['paypal']['north_europe']['cost_per_t']['in_percent']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin_custom_select_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Countries'); ?></span>
+                                                </label>
+                                                <?php
+                                                $seleCountries = $feeValues['paypal']['north_europe']['effective_countries'];
+                                                ?>
+                                                <?php
+                                                $countryStr = '';
+                                                foreach ($countries as $country) {
+                                                    if (in_array($country['value'], $seleCountries)) {
+                                                        $countryStr .= $country['label'].', ';
+                                                    }
+                                                }
+                                                $countryStr = trim($countryStr, ", ");
+                                                ?>
+                                                <span>
+                                                    <span class="selectedCountries"><?php echo $countryStr; ?></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="admin__fieldset">
+                                        <div class="admin__field" data-index="prefix">
+                                            <label class="admin__field-label cust_admin__field-label-main">
+                                                <span><?php echo __('Europe I'); ?></span>
+                                            </label>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Fixed Cost per Transaction (in EUR)'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="paypal[europe_i][cost_per_t][fixed]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['paypal']['europe_i']['cost_per_t']['fixed']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Percent of Total Per Tansaction'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="paypal[europe_i][cost_per_t][in_percent]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['paypal']['europe_i']['cost_per_t']['in_percent']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin_custom_select_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Countries'); ?></span>
+                                                </label>
+                                                <?php
+                                                $seleCountries = $feeValues['paypal']['europe_i']['effective_countries'];
+                                                ?>
+                                                <?php
+                                                $countryStr = '';
+                                                foreach ($countries as $country) {
+                                                    if (in_array($country['value'], $seleCountries)) {
+                                                        $countryStr .= $country['label'].', ';                                
+                                                    }
+                                                }
+                                                $countryStr = trim($countryStr, ", ");
+                                                ?>
+                                                <span>
+                                                    <span class="selectedCountries"><?php echo $countryStr; ?></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="admin__fieldset">
+                                        <div class="admin__field" data-index="prefix">
+                                            <label class="admin__field-label cust_admin__field-label-main">
+                                                <span><?php echo __('North America'); ?></span>
+                                            </label>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Fixed Cost per Transaction (in EUR)'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="paypal[north_america][cost_per_t][fixed]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['paypal']['north_america']['cost_per_t']['fixed']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Percent of Total Per Tansaction'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="paypal[north_america][cost_per_t][in_percent]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['paypal']['north_america']['cost_per_t']['in_percent']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin_custom_select_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Countries'); ?></span>
+                                                </label>
+                                                <?php
+                                                $seleCountries = $feeValues['paypal']['north_america']['effective_countries'];
+                                                ?>
+                                                <?php
+                                                $countryStr = '';
+                                                foreach ($countries as $country) {
+                                                    if (in_array($country['value'], $seleCountries)) {
+                                                        $countryStr .= $country['label'].', ';                                
+                                                    }
+                                                }
+                                                $countryStr = trim($countryStr, ", ");
+                                                ?>
+                                                <span>
+                                                    <span class="selectedCountries"><?php echo $countryStr; ?></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="admin__fieldset">
+                                        <div class="admin__field" data-index="prefix">
+                                            <label class="admin__field-label cust_admin__field-label-main">
+                                                <span><?php echo __('Europe II'); ?></span>
+                                            </label>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Fixed Cost per Transaction (in EUR)'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="paypal[europe_ii][cost_per_t][fixed]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['paypal']['europe_ii']['cost_per_t']['fixed']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Percent of Total Per Tansaction'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="paypal[europe_ii][cost_per_t][in_percent]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['paypal']['europe_ii']['cost_per_t']['in_percent']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin_custom_select_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Countries'); ?></span>
+                                                </label>
+                                                <?php
+                                                $seleCountries = $feeValues['paypal']['europe_ii']['effective_countries'];
+                                                ?>
+                                                <?php
+                                                $countryStr = '';
+                                                foreach ($countries as $country) {
+                                                    if (in_array($country['value'], $seleCountries)) {
+                                                        $countryStr .= $country['label'].', ';                                
+                                                    }
+                                                }
+                                                $countryStr = trim($countryStr, ", ");
+                                                ?>
+                                                <span>
+                                                    <span class="selectedCountries"><?php echo $countryStr; ?></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="admin__fieldset">
+                                        <div class="admin__field" data-index="prefix">
+                                            <label class="admin__field-label cust_admin__field-label-main">
+                                                <span><?php echo __('Latin America'); ?></span>
+                                            </label>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Fixed Cost per Transaction (in EUR)'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="paypal[latin_america][cost_per_t][fixed]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['paypal']['latin_america']['cost_per_t']['fixed']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Percent of Total Per Tansaction'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="paypal[latin_america][cost_per_t][in_percent]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['paypal']['latin_america']['cost_per_t']['in_percent']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin_custom_select_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Countries'); ?></span>
+                                                </label>
+                                                <?php
+                                                $seleCountries = $feeValues['paypal']['latin_america']['effective_countries'];
+                                                ?>
+                                                <?php
+                                                $countryStr = '';
+                                                foreach ($countries as $country) {
+                                                    if (in_array($country['value'], $seleCountries)) {
+                                                        $countryStr .= $country['label'].', ';                                
+                                                    }
+                                                }
+                                                $countryStr = trim($countryStr, ", ");
+                                                ?>
+                                                <span>
+                                                    <span class="selectedCountries"><?php echo $countryStr; ?></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="admin__fieldset">
+                                        <div class="admin__field" data-index="prefix">
+                                            <label class="admin__field-label cust_admin__field-label-main">
+                                                <span><?php echo __('APAC'); ?></span>
+                                            </label>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Fixed Cost per Transaction (in EUR)'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="paypal[apac][cost_per_t][fixed]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['paypal']['apac']['cost_per_t']['fixed']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Percent of Total Per Tansaction'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="paypal[apac][cost_per_t][in_percent]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['paypal']['apac']['cost_per_t']['in_percent']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin_custom_select_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Countries'); ?></span>
+                                                </label>
+                                                <?php
+                                                $seleCountries = $feeValues['paypal']['apac']['effective_countries'];
+                                                ?>
+                                                <?php
+                                                $countryStr = '';
+                                                foreach ($countries as $country) {
+                                                    if (in_array($country['value'], $seleCountries)) {
+                                                        $countryStr .= $country['label'].', ';                                
+                                                    }
+                                                }
+                                                $countryStr = trim($countryStr, ", ");
+                                                ?>
+                                                <span>
+                                                    <span class="selectedCountries"><?php echo $countryStr; ?></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="admin__fieldset">
+                                        <div class="admin__field" data-index="prefix">
+                                            <label class="admin__field-label cust_admin__field-label-main">
+                                                <span><?php echo __('Others'); ?></span>
+                                            </label>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Fixed Cost per Transaction (in EUR)'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="paypal[other][cost_per_t][fixed]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['paypal']['other']['cost_per_t']['fixed']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Percent of Total Per Tansaction'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="paypal[other][cost_per_t][in_percent]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['paypal']['other']['cost_per_t']['in_percent']; ?>">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="fieldset-wrapper" data-level="0">
+                                <div class="fieldset-wrapper-title" tabindex="-1">
+                                    <strong class="title">
+                                        <span><?php echo __('Credit Cards'); ?></span>
+                                    </strong>
+                                </div>
+                                <div class="admin__fieldset-wrapper-content _hide" >
+                                    <fieldset class="admin__fieldset">
+                                        <div class="admin__field" data-index="prefix">
+                                            <label class="admin__field-label cust_admin__field-label-main">
+                                                <span><?php echo __('Maestro'); ?></span>
+                                            </label>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Fixed Cost per Transaction (in EUR)'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="credit_card[maestro][cost_per_t][fixed]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['credit_card']['maestro']['cost_per_t']['fixed']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Percent of Total Per Tansaction'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="credit_card[maestro][cost_per_t][in_percent]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['credit_card']['maestro']['cost_per_t']['in_percent']; ?>">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="admin__fieldset">
+                                        <div class="admin__field" data-index="prefix">
+                                            <label class="admin__field-label cust_admin__field-label-main">
+                                                <span><?php echo __('JCB'); ?></span>
+                                            </label>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Fixed Cost per Transaction (in EUR)'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="credit_card[jcb][cost_per_t][fixed]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['credit_card']['jcb']['cost_per_t']['fixed']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Percent of Total Per Tansaction'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="credit_card[jcb][cost_per_t][in_percent]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['credit_card']['jcb']['cost_per_t']['in_percent']; ?>">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="admin__fieldset">
+                                        <div class="admin__field" data-index="prefix">
+                                            <label class="admin__field-label cust_admin__field-label-main">
+                                                <span><?php echo __('Visa'); ?></span>
+                                            </label>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Fixed Cost per Transaction (in EUR)'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="credit_card[visa][cost_per_t][fixed]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['credit_card']['visa']['cost_per_t']['fixed']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Percent of Total Per Tansaction'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="credit_card[visa][cost_per_t][in_percent]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['credit_card']['visa']['cost_per_t']['in_percent']; ?>">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="admin__fieldset">
+                                        <div class="admin__field" data-index="prefix">
+                                            <label class="admin__field-label cust_admin__field-label-main">
+                                                <span><?php echo __('Amex'); ?></span>
+                                            </label>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Fixed Cost per Transaction (in EUR)'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="credit_card[amex][cost_per_t][fixed]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['credit_card']['amex']['cost_per_t']['fixed']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Percent of Total Per Tansaction'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="credit_card[amex][cost_per_t][in_percent]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['credit_card']['amex']['cost_per_t']['in_percent']; ?>">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="admin__fieldset">
+                                        <div class="admin__field" data-index="prefix">
+                                            <label class="admin__field-label cust_admin__field-label-main">
+                                                <span><?php echo __('Diners'); ?></span>
+                                            </label>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Fixed Cost per Transaction (in EUR)'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="credit_card[diners][cost_per_t][fixed]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['credit_card']['diners']['cost_per_t']['fixed']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Percent of Total Per Tansaction'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="credit_card[diners][cost_per_t][in_percent]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['credit_card']['diners']['cost_per_t']['in_percent']; ?>">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="admin__fieldset">
+                                        <div class="admin__field" data-index="prefix">
+                                            <label class="admin__field-label cust_admin__field-label-main">
+                                                <span><?php echo __('UnionPay'); ?></span>
+                                            </label>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Fixed Cost per Transaction (in EUR)'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="credit_card[unionpay][cost_per_t][fixed]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['credit_card']['unionpay']['cost_per_t']['fixed']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Percent of Total Per Tansaction'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="credit_card[unionpay][cost_per_t][in_percent]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['credit_card']['unionpay']['cost_per_t']['in_percent']; ?>">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="admin__fieldset">
+                                        <div class="admin__field" data-index="prefix">
+                                            <label class="admin__field-label cust_admin__field-label-main">
+                                                <span><?php echo __('AliPay'); ?></span>
+                                            </label>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Fixed Cost per Transaction (in EUR)'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="credit_card[alipay][cost_per_t][fixed]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['credit_card']['alipay']['cost_per_t']['fixed']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Percent of Total Per Tansaction'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="credit_card[alipay][cost_per_t][in_percent]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['credit_card']['alipay']['cost_per_t']['in_percent']; ?>">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="admin__fieldset">
+                                        <div class="admin__field" data-index="prefix">
+                                            <label class="admin__field-label cust_admin__field-label-main">
+                                                <span><?php echo __('GooglePay'); ?></span>
+                                            </label>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Fixed Cost per Transaction (in EUR)'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="credit_card[googlepay][cost_per_t][fixed]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['credit_card']['googlepay']['cost_per_t']['fixed']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Percent of Total Per Tansaction'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="credit_card[googlepay][cost_per_t][in_percent]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['credit_card']['googlepay']['cost_per_t']['in_percent']; ?>">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="admin__fieldset">
+                                        <div class="admin__field" data-index="prefix">
+                                            <label class="admin__field-label cust_admin__field-label-main">
+                                                <span><?php echo __('ApplePay'); ?></span>
+                                            </label>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Fixed Cost per Transaction (in EUR)'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="credit_card[applepay][cost_per_t][fixed]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['credit_card']['applepay']['cost_per_t']['fixed']; ?>">
+                                            </div>
+                                            <div class="admin_custom_field admin__field-control">
+                                                <label class="admin__field-label">
+                                                    <span><?php echo __('Percent of Total Per Tansaction'); ?></span>
+                                                </label>
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="credit_card[applepay][cost_per_t][in_percent]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['credit_card']['applepay']['cost_per_t']['in_percent']; ?>">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="fieldset-wrapper" data-level="0">
+                                <div class="fieldset-wrapper-title" tabindex="-1">
+                                    <strong class="title">
+                                        <span><?php echo __('Crypto'); ?></span>
+                                    </strong>
+                                </div>
+                                <div class="admin__fieldset-wrapper-content _hide" >
+                                    <fieldset class="admin__fieldset">
+                                        <div class="admin__field" data-index="prefix">
+                                            <label class="admin__field-label">
+                                                <span><?php echo __('Cost Per Transaction (in percent)'); ?></span>
+                                            </label>
+                                            <div class=" admin__field-control">
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="crypto[cost_per_t][in_percent]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['crypto']['cost_per_t']['in_percent']; ?>">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="fieldset-wrapper" data-level="0">
+                                <div class="fieldset-wrapper-title" tabindex="-1">
+                                    <strong class="title">
+                                        <span><?php echo __('Any Unknown'); ?></span>
+                                    </strong>
+                                </div>
+                                <div class="admin__fieldset-wrapper-content _hide" >
+                                    <fieldset class="admin__fieldset">
+                                        <div class="admin__field" data-index="prefix">
+                                            <label class="admin__field-label">
+                                                <span><?php echo __('Cost Per Transaction (in percent)'); ?></span>
+                                            </label>
+                                            <div class=" admin__field-control">
+                                                <input disabled="disabled" class="admin__control-text" type="text" name="other[cost_per_t][in_percent]" id=""  data-validate="{'required':true, 'pattern':/^\d+(\.\d{1,2})?$/, 'validate-greater-than-zero':true}" value="<?php echo $feeValues['other']['cost_per_t']['in_percent']; ?>">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- PAYMENT METHODS END -->
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <?php $moreSellCategories = []; ?>
+                <!-- Vendor Commission START -->
+                <?php if (!empty($vendorCommissions)): ?>
+                    <?php if (isset($vendorCommissions['commission_rule'])): ?>
+                        <div class='miscontent'>
+                            <li style="list-style: none">
+                                <span class="methods_title title"><?php echo __('Commission Structure');?></span>
+                                <?php if(count($commissionStructureBlock) > 0): ?>
+                                    <span class="commission_structure_block">
+                                        <?php echo ( (count($commissionStructureBlock) > 0) ? $commissionStructureBlock[0]['tooltip_text'] : '');?>
+                                    </span>
+                                <?php endif; ?>
+                            </li>
+                            <div class="pane" style="display:none">
+                                <table border="1">
+                                    <thead>
+                                        <th>
+                                            <?php echo __('Sales type'); ?>
+                                        </th>
+                                        <th>
+                                            <?php echo __('Range'); ?>
+                                        </th>
+                                        <th>
+                                            <?php echo __('Commission %'); ?>
+                                        </th>
+                                    </thead>
+                                    <tbody>
+                                     
+                                        <?php foreach ($vendorCommissions['commission_rule'] as $commissionKey => $commissionValue): ?>
+                                            <?php foreach ($commissionValue as $commChildKey => $commChildVal): ?>
+                                                <tr>
+                                                    <td class="mis_vendor_comm">
+                                                        <span class="commission_group"><?php echo $commissionKey; ?></span>
+                                                    </td>
+                                                    <td class="mis_vendor_comm">
+                                                        <span class="commission_group"><?php echo '('.$currencySymbol.' '.$commChildKey.')'; ?></span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="commission_group_value"><?php echo $commChildVal; ?></span>
+                                                    </td>
+                                                </tr>
+                                                <?php 
+                                                $prices = explode('-', $commChildKey);
+                                                $nonNumeric = 0;
+                                                if (is_numeric($prices[1])) {
+                                                    $finalCommissionValue = (($prices[0] > $prices[1]) ? $prices[0]: $prices[1]); 
+                                                } else {
+                                                    $finalCommissionValue = $prices[0]; 
+                                                }
+                                                
+                                                $moreSellCategories[$commissionKey]['turnover'] =  $finalCommissionValue; 
+                                                $moreSellCategories[$commissionKey]['commission'] =  $commChildVal; 
+                                                ?>
+                                            <?php endforeach; ?>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                                <!-- Vendor Commission END -->
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                <?php endif; ?>
+                <div class='miscontent'>
+                    <li style="list-style: none">
+                        <span class="methods_title title"><?php echo __('Currency Exchange');?></span>
+                        <p>
+                            <span style="font-size: large;" class="commission_structure_block">
+                                <?php echo __('International customers normally pay with foreign currency, the exchange fee is to be paid to Payment Provider 1%'); ?>
+                            </span>                            
+                        </p>
+                    </li>
+                </div>
+                <div class="vendor_turnover">
+                    <span class="methods_title title"><?php echo __('Current Turnover: ')?></span>
+                    <?php $turnover = (int) (isset($vendorCommissions['turnover']) ? $vendorCommissions['turnover']: 0 ); ?>
+                    <span class="methods_title value"><?php echo $this->getFormatedPrice($turnover);?></span>
+                    <div class="clear"></div>
+                    <?php foreach ($moreSellCategories as $sellKey => $sellValue): ?>
+                        <?php  
+                        $sellValueTurnover = (int) $sellValue['turnover'];
+                        if ($turnover < $sellValue['turnover'] ): 
+                            $turnoverToReach = $sellValue['turnover'] - $turnover; 
+                            $turnoverToReach = $this->getFormatedPrice($turnoverToReach);
+                            ?>
+                            <span><?php echo __(' Only %1 sell is remaining for the %2% commission rate on %3. ',$turnoverToReach,$sellValue['commission'],$sellKey)?></span><br/>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <script type="text/javascript">
+       /*Script for Accordian style start*/
+       require(["jquery"], function ($) {
+           var accor=jQuery;
+           accor(function () {
+            //  Accordion Panels
+            accor(".accordion li").click(function () {
+                accor(this).next(".pane").slideToggle("slow").siblings(".pane:visible").slideUp("slow");
+                accor(this).toggleClass("current");
+                accor(this).siblings("li").removeClass("current");
+            });
+        });
+           /*Script for Accordian style end*/
+       });
+   </script>
+   <style type="text/css">
+   .admin_custom_field {
+    width: 20% !important;
+    margin-top: auto !important;
+}
+.cust_admin__field-label-main {
+    width: 15% !important;
+}
+.admin_custom_select_field {
+    width: 30% !important;
+}
+</style>

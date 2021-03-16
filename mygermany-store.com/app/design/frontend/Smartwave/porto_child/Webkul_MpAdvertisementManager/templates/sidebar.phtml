@@ -1,0 +1,161 @@
+<!-- 
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpAdvertisementManager
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html getContentId($blockPositionId)
+ */	 
+-->
+<?php
+
+$store = $block->storeId();
+	$currentAds = $block->getCurrentAds();	
+	$maxAdsAtThisPosition = $block->getAdsCount();	
+	$position = $block->getPosition();
+	$isAdminAd = $block->isAdminAd($position);
+	if ($isAdminAd == 1) {
+		$allAds = $block->getStoreWiseAds($position, $store); 		
+		$adsCount = count($allAds);
+		if ($adsCount > 0) {
+			$currentAds = $block->getAdminAdsStoreWise($allAds);
+		}
+	} else {
+		$adsCount = count($currentAds);
+	}
+
+	$carousalId = "slideshow_".$block->getPosition();
+	$width = 0;
+	$height = $block->getHeightConfig()==""?'150px':$block->getHeightConfig();
+	$autoplaytime = $block->getAutoPlayTime()==""?'5000':$block->getAutoPlayTime();
+	
+?>
+
+<?php if (!$block->isAdsDemoEnabled()) { ?>
+	<?php if ($adsCount > 1) { ?>
+
+	<div style="width:100%" class="owl-carousel mis-adv-cls" id="<?php echo $carousalId; ?>">
+			<?php 
+				foreach ($currentAds as $currentAd) {
+					?>
+					<?php 
+					$currentId = $currentAd['id'];
+					$blockStoreId = $block->getBlockStoreId($currentId);
+					$content = $block->getAdContent($currentId);
+					?>
+					<?php 
+					// if ($blockStoreId == $store) {
+						if ($content == 4) {  ?>
+						<div class="mis-category-page-html" style="width:100%;height:300px;">
+						<a href="<?php echo $currentAd['url'];?>">
+							<?php echo  $currentAd['image_name']; ?>
+						</a>
+						</div>
+						<?php } else { 
+							    if ($isAdminAd == 1) { 
+							    	if ($currentAd['store_id'] == 'All Store') {
+											$store = 0;
+										}
+							     ?>
+							    	<div class="mis-category-ads-div-image" >
+										<a href="<?php echo $currentAd['url']; ?>">
+											<img style="height:<?php echo $height;?>;" src="<?php echo $block->getMediaUrl().'webkul/MpAdvertisementManager/'.$currentAd['seller_id'].'/'.$store.'/'.$currentAd['id'].'/'.$currentAd['image_name']; ?>"/>
+										</a>
+									</div>
+						<?php     } else if ($content != 4) { ?>
+								<div class="mis-category-ads-div-image-vendor" >
+									<a href="<?php echo $currentAd['url']; ?>">
+										<img style="height:<?php echo $height;?>;" src="<?php echo $block->getMediaUrl().'webkul/MpAdvertisementManager/'.$currentAd['seller_id'].'/'.$currentAd['id'].'/'.$currentAd['image_name']; ?>"/>
+									</a>
+								</div>
+							
+						<?php } ?>
+
+
+						<!-- <div class="" style="height:<?php echo $height;?>;width:100%;height:300px;background:#4DC7A0;text-align:center;">
+							
+						</div> -->
+					<?php 	} // else
+				// }
+					?>
+					<?php
+				}  // foreach
+			?>
+		</div>
+	<?php } elseif($adsCount == 1) { ?>
+		<div class="owl-carousel mis-adv-cls" id="<?php echo $carousalId; ?>">
+				<?php foreach ($currentAds as $currentAd) { ?>
+				<?php 
+					// $currentId = $currentAd['id'];
+					$currentId = $currentAd['id'];
+					$blockStoreId = $block->getBlockStoreId($currentId);
+					$content = $block->getAdContent($currentId);
+					?>
+					<?php 
+					// if ($blockStoreId == $store) {
+						if ($content == 4) {  ?>
+						<div class="mis-category-page-html" style="width:100%;height:300px;">
+						<a href="<?php echo $currentAd['url'];?>">
+							<?php echo $currentAd['image_name']; ?>
+						</a>
+						</div>
+						<?php } else { 
+							    if ($isAdminAd == 1) {
+							    	if ($currentAd['store_id'] == 'All Store') {
+											$store = 0;
+										}
+							     ?>
+							    	<div class="mis-category-ads-div-image" >
+										<a href="<?php echo $currentAd['url']; ?>">
+											<img style="height:<?php echo $height;?>;" src="<?php echo $block->getMediaUrl().'webkul/MpAdvertisementManager/'.$currentAd['seller_id'].'/'.$store.'/'.$currentAd['id'].'/'.$currentAd['image_name']; ?>"/>
+										</a>
+									</div>
+						<?php     } else if ($content != 4) { ?>
+								<div class="mis-category-ads-div-image-vendor" >
+									<a href="<?php echo $currentAd['url']; ?>">
+										<img style="height:<?php echo $height;?>;" src="<?php echo $block->getMediaUrl().'webkul/MpAdvertisementManager/'.$currentAd['seller_id'].'/'.$currentAd['id'].'/'.$currentAd['image_name']; ?>"/>
+									</a>
+								</div>
+							
+						<?php } ?>
+
+
+						<!-- <div class="" style="height:<?php echo $height;?>;width:100%;height:300px;background:#4DC7A0;text-align:center;">
+							
+						</div> -->
+					<?php 	} // else
+				// }
+					?>		
+		</div>
+	<?php } 
+	}?>
+<?php } else { ?>
+	<div class="single-ad-container-demo">
+		<div class="single-ad-demo">
+			<div class="ads-demo-title"><h2><?php echo __($block->getPositionLabel()); ?></h2></div>
+			<div class="ads-demo-sub-title"><h3><?php echo __("300x200"); ?></h3></div>
+			<span class="ads-demo-text">
+				<?php echo __("This position has maximum %1 ads, and %2 ads has already been booked", $maxAdsAtThisPosition, $adsCount);  ?>
+			</span>
+		</div>
+	</div>
+<?php }
+ ?>
+
+<script type="text/x-magento-init">
+    {
+        "*":{
+            "adsCarousal":{
+                "carousalData": {
+                	"carousalId":"#<?php echo $carousalId; ?>",
+                	"width":"<?php echo $width; ?>",
+                	"position":"<?php echo $position; ?>",
+                	"adscount":"<?php echo $adsCount; ?>",
+                	"autoplaytime":"<?php echo $autoplaytime; ?>"
+                }
+            }
+        }
+    }
+</script>

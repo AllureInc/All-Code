@@ -1,0 +1,42 @@
+<!--@subject Wallet Amount Debited by Admin  @-->
+<!--@vars {
+"var this.getUrl($store, 'customer/account/')":"Customer Account URL",
+"var customername":"Customer name",
+"var walletamount":"Currently added amount",
+"var increment_id":"Order id used to add amount",
+"var transaction_at":"Amount added at",
+"var store":"store",
+"var remainingamount":"Toatal amount remained in customer account"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<table>
+    <tr class="email-intro">
+        <td>
+            <p class="greeting">{{trans "Hello %customername, " customername=$customername}}</p>
+            <p>
+                {{trans "%walletamount amount is debited by Admin from your wallet." walletamount=$walletamount}}
+            </p>
+            <p>
+                {{trans "Admin added a note with this transaction"}}
+            </p>
+            <p>
+                {{trans "%walletnote" walletnote=$walletnote}}
+            </p>
+        </td>
+    </tr>
+    <tr class="email-information">
+        <td>
+            <p>{{trans 'Transaction on <span class="no-link">%transaction_at</span>' transaction_at=$transaction_at |raw}}</p>
+            <p>{{trans "Total remianing amount in wallet is %remainingamount" remainingamount=$remainingamount}}</p>
+        </td>
+    </tr>
+    <tr>
+    	<td>
+        	<p>{{trans 'To check wallet amount and transaction details of your account by <a href="%account_url">logging into your account</a>.' account_url=$this.getUrl($store,'customer/account/',[_nosid:1]) |raw}}</p>
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

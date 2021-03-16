@@ -1,0 +1,103 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Magento\Sales\Block\Order\Info */ ?>
+<?php $_order = $block->getOrder(); ?>
+<div class="block block-order-details-view">
+    <div class="block-title">
+        <strong><?= /* @escapeNotVerified */ __('Order Information') ?></strong>
+    </div>
+    <?php
+    if ($_order->getVendorDeliveryDays() && (!empty($_order->getVendorDeliveryDays())) && ($_order->getShippingMethod() == 'warehouse_warehouse')): ?>
+        <?php $vndrprodctDelDays = unserialize($_order->getVendorDeliveryDays()); ?>
+        <div class="box box-order-billing-method" style="border-top: 1px solid #ddd;">
+            <strong class="box-title">
+                <span><?= /* @escapeNotVerified */ __('Vendor\'s Products Delivery Days') ?></span>
+            </strong>
+            <div class="box-content" >
+                <?php if (is_array($vndrprodctDelDays)): ?>
+                    <ul class="vendor_product_delivery_ul" style="list-style: none;">
+                        <li class="vendor_product_delivery">
+                            <form id="mis_delivery_days_form" class="form">
+                                <input name="form_key" type="hidden" value="<?php echo $block->getFormKey();?>">
+                                <div class="mis_delivery_days">
+                                    <table class="table-checkout-vendor-delivery-days">
+                                        <thead>
+                                            <tr class="row">
+                                                <th class="col col-method"><?php echo __('Vendors') ?></th>
+                                                <th class="col col-price"><?php echo __('Delivery days') ?> </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($vndrprodctDelDays as $allKey => $allValue): ?>
+                                                <tr class="row">
+                                                    <td class="col col-method">
+                                                        <span class="shop-title"><?php echo $allValue['shop_title']; ?></span>
+                                                    </td>
+                                                    <td class="col col-price">
+                                                        <span class="delivery-days"><?php echo $allValue['final_days'].' working days'; ?></span>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+                <?php else:?>
+                    <span><?php echo __('No information'); ?></span>
+                <?php endif;?>
+            </div>
+        </div>
+    <?php endif;?>
+
+    
+    <div class="block-content">
+    <?php if (!$_order->getIsVirtual()): ?>
+        <div class="box box-order-shipping-address">
+            <strong class="box-title"><span><?= /* @escapeNotVerified */ __('Shipping Address') ?></span></strong>
+            <div class="box-content">
+                <address><?= /* @escapeNotVerified */ $block->getFormattedAddress($_order->getShippingAddress()) ?></address>
+            </div>
+        </div>
+
+        <div class="box box-order-shipping-method">
+            <strong class="box-title">
+                <span><?= /* @escapeNotVerified */ __('Shipping Method') ?></span>
+            </strong>
+            <div class="box-content">
+            <?php if ($_order->getShippingDescription()): ?>
+                <?= $block->escapeHtml($_order->getShippingDescription()) ?>
+            <?php else: ?>
+                <?= /* @escapeNotVerified */ __('No shipping information available') ?>
+            <?php endif; ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
+        <div class="box box-order-billing-address">
+            <strong class="box-title">
+                <span><?= /* @escapeNotVerified */ __('Billing Address') ?></span>
+            </strong>
+            <div class="box-content">
+                <address><?= /* @escapeNotVerified */ $block->getFormattedAddress($_order->getBillingAddress()) ?></address>
+            </div>
+        </div>
+        <div class="box box-order-billing-method">
+            <strong class="box-title">
+                <span><?= /* @escapeNotVerified */ __('Payment Method') ?></span>
+            </strong>
+            <div class="box-content">
+                <?= $block->getPaymentInfoHtml() ?>
+            </div>
+        </div>
+        
+    </div>
+</div>

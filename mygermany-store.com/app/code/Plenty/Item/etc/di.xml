@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!--
+ * Copyright © Soft Commerce Ltd. All rights reserved.
+ * See LICENSE.txt for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- item import repository -->
+    <preference for="Plenty\Item\Api\Data\Import\ItemInterface" type="Plenty\Item\Model\Import\Item" />
+    <preference for="Plenty\Item\Api\ItemRepositoryInterface" type="Plenty\Item\Model\Import\ItemRepository" />
+    <preference for="Plenty\Item\Api\Data\Import\ItemSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="Plenty\Item\Api\ItemManagementInterface" type="Plenty\Item\Model\Import\ItemManagement" />
+
+    <preference for="Plenty\Item\Api\Data\Import\Item\VariationInterface" type="Plenty\Item\Model\Import\Item\Variation" />
+    <preference for="Plenty\Item\Api\VariationRepositoryInterface" type="Plenty\Item\Model\Import\Item\VariationRepository" />
+    <preference for="Plenty\Item\Api\Data\Import\VariationSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+
+    <preference for="Plenty\Item\Api\Data\Import\Item\PropertyInterface" type="Plenty\Item\Model\Import\Item\Property" />
+    <!-- category export interfaces -->
+    <preference for="Plenty\Item\Api\Data\Export\CategoryInterface" type="Plenty\Item\Model\Export\Category" />
+    <preference for="Plenty\Item\Api\CategoryExportRepositoryInterface" type="Plenty\Item\Model\Export\CategoryRepository" />
+    <preference for="Plenty\Item\Api\Data\Export\CategorySearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <!-- category import interfaces -->
+    <preference for="Plenty\Item\Api\Data\Import\CategoryInterface" type="Plenty\Item\Model\Import\Category" />
+    <preference for="Plenty\Item\Api\CategoryImportRepositoryInterface" type="Plenty\Item\Model\Import\CategoryRepository" />
+    <preference for="Plenty\Item\Api\Data\Import\CategorySearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <!-- product export interfaces -->
+    <preference for="Plenty\Item\Api\Data\Export\ProductInterface" type="Plenty\Item\Model\Export\Product" />
+    <preference for="Plenty\Item\Api\ProductExportRepositoryInterface" type="Plenty\Item\Model\Export\ProductRepository" />
+    <preference for="Plenty\Item\Api\Data\Export\ProductSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <!-- profile entity interfaces -->
+    <preference for="Plenty\Item\Api\Data\Profile\ProductExportInterface" type="Plenty\Item\Profile\Export\Entity\Product" />
+    <preference for="Plenty\Item\Api\Data\Profile\ProductImportInterface" type="Plenty\Item\Profile\Import\Entity\Product" />
+    <!-- profile management interfaces -->
+    <preference for="Plenty\Item\Api\CategoryCollectManagementInterface" type="Plenty\Item\Profile\CategoryCollectManagement"/>
+    <preference for="Plenty\Item\Api\CategoryImportManagementInterface" type="Plenty\Item\Profile\CategoryImportManagement"/>
+    <preference for="Plenty\Item\Api\CategoryExportManagementInterface" type="Plenty\Item\Profile\CategoryExportManagement"/>
+    <preference for="Plenty\Item\Api\ProductExportManagementInterface" type="Plenty\Item\Profile\ProductExportManagement"/>
+    <preference for="Plenty\Item\Api\ProductImportManagementInterface" type="Plenty\Item\Profile\ProductImportManagement"/>
+    <preference for="Plenty\Item\Api\ProductAttributeExportManagementInterface" type="Plenty\Item\Profile\ProductAttributeExportManagement"/>
+    <preference for="Plenty\Item\Api\ProductCategoryExportManagementInterface" type="Plenty\Item\Profile\ProductCategoryExportManagement"/>
+    <preference for="Plenty\Item\Api\ProductItemExportManagementInterface" type="Plenty\Item\Profile\ProductItemExportManagement"/>
+    <preference for="Plenty\Item\Api\ProductVariationExportManagementInterface" type="Plenty\Item\Profile\ProductVariationExportManagement"/>
+
+    <!-- REST API interfaces -->
+    <preference for="Plenty\Item\Rest\CategoryInterface" type="Plenty\Item\Rest\Category"/>
+
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="delete_product_all" xsi:type="object">Plenty\Item\Console\Command\Product\DeleteAll</item>
+                <item name="import_configurable" xsi:type="object">Plenty\Item\Console\Command\Product\ImportConfigurable</item>
+                <item name="import_simple" xsi:type="object">Plenty\Item\Console\Command\Product\ImportSimple</item>
+                <item name="import_bundle" xsi:type="object">Plenty\Item\Console\Command\Product\ImportBundle</item>
+                <item name="import_multiselect" xsi:type="object">Plenty\Item\Console\Command\Product\ImportMultiselect</item>
+                <item name="import_csv" xsi:type="object">Plenty\Item\Console\Command\Product\ImportCsv</item>
+                <item name="import_category" xsi:type="object">Plenty\Item\Console\Command\Category\ImportCategory</item>
+                <item name="import_category_multi" xsi:type="object">Plenty\Item\Console\Command\Category\ImportCategoryMultiStoreView</item>
+                <item name="export_products" xsi:type="object">Plenty\Item\Console\Command\Product\ExportProducts</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!--type name="\Magento\CatalogImportExport\Model\Import\Product\Validator">
+        <plugin name="plenty_item_import_product_validator"
+                type="\Plenty\Item\Plugin\CatalogImportExport\Model\Import\Product\Validator"
+                sortOrder="1"
+                disabled="false"/>
+        <plugin name="plenty_item_import_product_validator_attribute"
+                type="\Plenty\Item\Plugin\CatalogImportExport\Model\Import\Product\Validator\Attribute"
+                sortOrder="2"
+                disabled="false"/>
+    </type-->
+
+    <!-- LOGGER -->
+    <virtualType name="PlentyItemVirtualLogger" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="debug" xsi:type="object">Plenty\Item\Model\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Plenty\Item\Model\Logger">
+        <arguments>
+            <argument name="logger" xsi:type="object">PlentyItemVirtualLogger</argument>
+        </arguments>
+    </type>
+</config>

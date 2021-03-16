@@ -1,0 +1,287 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpPushNotification
+ * @author    Webkul
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+?>
+
+<?php
+function getBrowser()
+{
+    $u_agent = $_SERVER['HTTP_USER_AGENT'];
+    $bname = 'Unknown';
+    $platform = 'Unknown';
+    $version= "";
+
+    //First get the platform?
+    if (preg_match('/linux/i', $u_agent)) {
+        $platform = 'linux';
+    } elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
+        $platform = 'mac';
+    } elseif (preg_match('/windows|win32/i', $u_agent)) {
+        $platform = 'windows';
+    }
+    
+    // Next get the name of the useragent yes seperately and for good reason
+    if (preg_match('/MSIE/i', $u_agent) && !preg_match('/Opera/i', $u_agent)) {
+        $bname = 'Internet Explorer';
+        $ub = "MSIE";
+    } elseif (preg_match('/Firefox/i', $u_agent)) {
+        $bname = 'Mozilla Firefox';
+        $ub = "Firefox";
+    } elseif (preg_match('/Chrome/i', $u_agent)) {
+        $bname = 'Google Chrome';
+        $ub = "Chrome";
+    } elseif (preg_match('/Safari/i', $u_agent)) {
+        $bname = 'Apple Safari';
+        $ub = "Safari";
+    } elseif (preg_match('/Opera/i', $u_agent)) {
+        $bname = 'Opera';
+        $ub = "Opera";
+    } elseif (preg_match('/Netscape/i', $u_agent)) {
+        $bname = 'Netscape';
+        $ub = "Netscape";
+    }
+    
+    // finally get the correct version number
+    $known = ['Version', $ub, 'other'];
+    $pattern = '#(?<browser>' . join('|', $known) .
+    ')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
+    if (!preg_match_all($pattern, $u_agent, $matches)) {
+        // we have no matching number just continue
+    }
+    
+    // see how many we have
+    $i = count($matches['browser']);
+    if ($i != 1) {
+        //we will have two since we are not using 'other' argument yet
+        //see if version is before or after the name
+        if (strripos($u_agent, "Version") < strripos($u_agent, $ub)) {
+            $version= $matches['version'][0];
+        } else {
+            $version= $matches['version'][1];
+        }
+    } else {
+        $version= $matches['version'][0];
+    }
+    
+    // check if we have a number
+    if ($version==null || $version=="") {$version="?";}
+    
+    return [
+        'userAgent' => $u_agent,
+        'name'      => $bname,
+        'version'   => $version,
+        'platform'  => $platform,
+        'pattern'    => $pattern
+    ];
+}
+
+$serviceWorkerJs = $block->getSecureUrl().'firebase-messaging-sw.js';
+$helper = $this->helper("Webkul\MpPushNotification\Helper\Data");
+$publickey = $helper->getPublicKey();
+$browser = getBrowser();
+if ($browser['name'] == 'Google Chrome' || $browser['name'] == 'Opera') {
+  
+    ?>    
+    <script>
+        require([
+            "jquery",
+            '@firebase/app',
+            '@firebase/messaging'
+        ], function($, firebase){
+            'use strict';
+            var firebaseConfig = {
+                apiKey: '<?=  /* @noEscape */ $helper->getFCMConfigEncrypted('application_apiKey') ?>',
+                authDomain: '<?=  /* @noEscape */ $helper->getFCMConfig('application_authDomain') ?>',
+                databaseURL: '<?=  /* @noEscape */ $helper->getFCMConfig('application_databaseURL') ?>',
+                projectId: '<?=  /* @noEscape */ $helper->getFCMConfig('application_projectId') ?>',
+                storageBucket: '',
+                messagingSenderId: '<?=  /* @noEscape */ $helper->getFCMConfigEncrypted('application_sender_id') ?>',
+                appId: '<?=  /* @noEscape */ $helper->getFCMConfigEncrypted('application_appId') ?>'
+            };
+
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+
+            // Set the initial subscription value
+            const messaging = firebase.messaging();
+            // [END get_messaging_object]
+            // [START set_public_vapid_key]
+            // Add the public key generated from the console here.
+            messaging.usePublicVapidKey('<?= /* @noEscape */ $publickey ?>');
+            
+            let swRegistration;
+            let isSubscribed;
+
+            function get_browser_info(){
+                var ua=navigator.userAgent,tem,M=ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []; 
+                if(/trident/i.test(M[1])){
+                    tem=/\brv[ :]+(\d+)/g.exec(ua) || []; 
+                    return {name:'IE ',version:(tem[1]||'')};
+                    }   
+                if(M[1]==='Chrome'){
+                    tem=ua.match(/\bOPR\/(\d+)/)
+                    if(tem!=null)   {return {name:'Opera', version:tem[1]};}
+                    }   
+                M=M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+                if((tem=ua.match(/version\/(\d+)/i))!=null) {M.splice(1,1,tem[1]);}
+                return {
+                name: M[0],
+                version: M[1]
+                };
+            }
+
+
+
+            function saveEndPointForLaterUse(registrationId, endpoint) {
+                var browser=get_browser_info();
+                $.ajax({
+                    url: '<?php /* noEscape */ echo $block->getUrl('mppushnotification/users/save')?>',
+                    data: {
+                        token: registrationId,
+                        endpoint: endpoint,
+                        browser:browser.name,
+                    },
+                    method: 'post',
+                    dataType: 'json',
+                    success: function() {
+                        console.log("<?php  /* noEscape */ echo __('You have successfully subscribed for push notifications!')?>");
+                    }
+                })
+            }
+            if ('serviceWorker' in navigator && 'PushManager' in window) {
+                navigator.serviceWorker.register('<?= $serviceWorkerJs;?>',{
+                scope: './'
+            })
+                .then(function(registration) {
+                    swRegistration = registration;
+                    initializeUI()
+                }).catch(function(error) {
+                    console.log(error);
+                });                
+              //  callbeforeinstaller();
+            } else {
+                console.log('<?php /* escapeNotVerified */ echo __("service_workers_are_not_supported_in_this_browser")?>');
+            }   
+            
+            function initializeUI() {
+                // [END set_public_vapid_key]
+                messaging.getToken().then(function(currentToken) {
+                    if (currentToken) {
+                        sendTokenToServer(currentToken);
+                    } else {
+                        // Show permission request.
+                        console.log('No Instance ID token available. Request permission to generate one.');
+                        // Show permission UI.
+                        requestPermission();
+                        setTokenSentToServer(false);
+                    }
+                    }).catch(function(err) {
+                    console.log('An error occurred while retrieving token. ', err);
+                    // showToken('Error retrieving Instance ID token. ', err);
+                    setTokenSentToServer(false);
+                });                
+            }
+
+            // Send the Instance ID token your application server, so that it can:
+            // - send messages back to this app
+            // - subscribe/unsubscribe the token from topics
+            function sendTokenToServer(currentToken) {
+                // alert(currentToken);
+                if (!isTokenSentToServer()) {
+                    console.log('Sending token to server...');
+                    // TODO(developer): Send the current token to your server.
+                    setTokenSentToServer(true);
+                    saveEndPointForLaterUse(currentToken, currentToken)
+                } else {
+                    console.log('Token already sent to server so won\'t send it again ' +
+                        'unless it changes');
+                }
+            }
+            
+            function isTokenSentToServer() {
+                return window.localStorage.getItem('sentToServer') === '1';
+            }
+
+            function setTokenSentToServer(sent) {
+                    window.localStorage.setItem('sentToServer', sent ? '1' : '0');
+            }
+
+            function subscribeUser() {
+            const applicationServerKey =  urlB64ToUint8Array('<?= $publickey ?>');
+            swRegistration.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: applicationServerKey
+            })
+            .then(function(subscription) {
+                console.log(12127,subscription)
+                    var endpoint = subscription.endpoint;
+                    var subscriberId = subscription.endpoint.split("/").slice(-1)[0];
+                    saveEndPointForLaterUse(subscriberId, endpoint);
+                    console.log(13,'User is subscribed.');
+
+
+                isSubscribed = true;
+
+            })
+            .catch(function(err) {
+                console.log('Failed to subscribe the user: ', err);
+            });
+            }
+
+        function urlB64ToUint8Array(base64String) {
+            const padding = '='.repeat((4 - base64String.length % 4) % 4);
+            const base64 = (base64String + padding)
+                .replace(/\-/g, '+')
+                .replace(/_/g, '/')
+            ;
+            const rawData = window.atob(base64);
+            return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
+        }
+
+
+        function requestPermission() {
+            console.log('Requesting permission...');
+            // [START request_permission]
+            Notification.requestPermission().then(function(permission) {
+            if (permission === 'granted') {
+                console.log('Notification permission granted.');
+                // TODO(developer): Retrieve an Instance ID token for use with FCM.
+                // [START_EXCLUDE]
+                // In many cases once an app has been granted notification permission,
+                // it should update its UI reflecting this.
+                initializeUI();
+                // [END_EXCLUDE]
+            } else {
+                console.log('Unable to get permission to notify.');
+            }
+            });
+            // [END request_permission]
+        }
+
+        });
+    </script>
+    <?php
+} else { ?>
+    <script>
+        /**
+         *  register service worker without push notification for other devices like apple, edge
+         */
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', function() {
+            navigator.serviceWorker.register('<?= $serviceWorkerJs;?>', {scope: './'});
+          });
+
+        //  callbeforeinstaller();
+        }
+    </script>
+
+<?php } ?>
+

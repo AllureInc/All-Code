@@ -1,0 +1,291 @@
+Wallet Amount,Wallet Amount
+Wallet System,Wallet System
+Wallet system details,Wallet system details
+%1's details,%1's details
+Now total remaining amount in your wallet is: %1,Now total remaining amount in your wallet is: %1
+Now total remaining amount in his/her wallet is: %1,Now total remaining amount in his/her wallet is: %1
+"Applied"".""Applied",
+Pending,Pending
+You can not add more than %1 amount to your wallet.,You can not add more than %1 amount to your wallet.
+You can not add less than %1 amount to your wallet.,You can not add less than %1 amount to your wallet.
+"You can not add other products with wallet product, and vise versa.","You can not add other products with wallet product, and vise versa."
+You can not update wallet product's quantity.,You can not update wallet product's quantity.
+"There is a Refund of amount %1 on order Order Id:#%2 has processed. So, amount %3 has been credited to your wallet.","There is a Refund of amount %1 on order Order Id:#%2 has processed. So, amount %3 has been credited to your wallet."
+" get amount %1 credited in his/her wallet, because of refund has been processed on order order id: #%2"," get amount %1 credited in his/her wallet, because of refund has been processed on order order id: #%2"
+You can not other product with wallet product,You can not other product with wallet product
+You can not add wallet product with other product,You can not add wallet product with other product
+You have made an order Order Id:#%1 in which you have used %2 amount from your wallet,You have made an order Order Id:#%1 in which you have used %2 amount from your wallet
+" have made an order, Order Id:#%1 in which he used %2 amount from his/her wallet"," have made an order, Order Id:#%1 in which he used %2 amount from his/her wallet"
+You have made an order Order Id:#%1 in which you have added %2 amount in your wallet,You have made an order Order Id:#%1 in which you have added %2 amount in your wallet
+" have made an order, Order Id:#%1 in which he is added %2 amount in his/her wallet"," have made an order, Order Id:#%1 in which he is added %2 amount in his/her wallet"
+Wallet Details,Wallet Details
+Your wallet Balance,Your wallet Balance
+Enter Amount to be Added in wallet,Enter Amount to be Added in wallet
+Add Money To Wallet,Add Money To Wallet
+Last Transactions,Last Transactions
+Description,Description
+Debit,Debit
+Credit,Credit
+Status,Status
+Order id: ,Order id: 
+Applied,Applied
+Pending,Pending
+No records found!,No records found!
+Payment method is not enabled.,Payment method is not enabled.
+Payment By Your Wallet,Payment By Your Wallet
+Payment to be Made,Payment to be Made
+Left Amount to be paid,Left Amount to be paid
+Remaining: ,Remaining: 
+No Amount available in wallet,No Amount available in wallet
+Please Select Customers To Adjust Wallet Amount.,Please Select Customers To Adjust Wallet Amount.
+Are you sure you want to update amount in wallet?,Are you sure you want to update amount in wallet?
+Wallet system Credit Rule,Wallet system Credit Rule
+General Information,General Information
+Credit Rule Based,Credit Rule Based
+On Product,On Product
+On Cart,On Cart
+Amount,Amount
+Minimum Amount,Minimum Amount
+Start From Date,Start From Date
+End Date,End Date
+Rule Status,Rule Status
+Enabled,Enabled
+Disabled,Disabled
+Save Credit Rule,Save Credit Rule
+Save and Continue Edit,Save and Continue Edit
+Delete Rule,Delete Rule
+Edit Rule '%1',Edit Rule '%1'
+New Rule,New Rule
+Adjust Amount To Wallet,Adjust Amount To Wallet
+Enter amount,Enter amount
+Action want to perform on amount,Action want to perform on amount
+Credit Amount,Credit Amount
+Debit Amount,Debit Amount
+Note for the transaction,Note for the transaction
+Customer ID,Customer ID
+Customer Name,Customer Name
+Email ID,Email ID
+Remaining Wallet Amount,Remaining Wallet Amount
+Total Wallet Amount,Total Wallet Amount
+Add Wallet Amount,Add Wallet Amount
+Add Amount,Add Amount
+Are you want to add amount?,Are you want to add amount?
+Adjust Amount,Adjust Amount
+A Total of %1 record(s) successfully updated.,A Total of %1 record(s) successfully updated.
+Something went wrong while Updating the data.,Something went wrong while Updating the data.
+A total of %1 record(s) have been deleted.,A total of %1 record(s) have been deleted.
+Something went wrong while Deleting the data.,Something went wrong while Deleting the data.
+This rule no longer exists.,This rule no longer exists.
+Edit Wallet Credit Rule,Edit Wallet Credit Rule
+Update Credit Rule,Update Credit Rule
+Add Wallet Credit Rule,Add Wallet Credit Rule
+Add Credit Rule,Add Credit Rule
+Wallet system Credit Rules,Wallet system Credit Rules
+Credit Rule successfully deleted.,Credit Rule successfully deleted.
+Credit Rule Successfully saved.,Credit Rule Successfully saved.
+Something went wrong while saving the data.,Something went wrong while saving the data.
+Amount is successfully added in customer's wallet.,Amount is successfully added in customer's wallet.
+Please Enter a valid amount to add.,Please Enter a valid amount to add.
+Please select Customers to add amount.,Please select Customers to add amount.
+Respective amount is not available in customer's wallet to subtract,Respective amount is not available in customer's wallet to subtract
+Amount %1ed by Admin,Amount %1ed by Admin
+%1 amount %2ed by Admin. Admin added a note for the transaction: %3,%1 amount %2ed by Admin. Admin added a note for the transaction: %3
+Total of %1 Customer(s) wallet are updated,Total of %1 Customer(s) wallet are updated
+Respective amount is not available in customer's wallet with customer id %1 to subtract,Respective amount is not available in customer's wallet with customer id %1 to subtract
+Maximum wallet amount should be %1,Maximum wallet amount should be %1
+Minimum wallet amount should be %1,Minimum wallet amount should be %1
+Product based,Product based
+Cart Based,Cart Based
+Fixed,Fixed
+Percent,Percent
+Order id : %1 Cash Back Amount,Order id : %1 Cash Back Amount
+Are you sure? you want to delete Wallet Amount product?,Are you sure? you want to delete Wallet Amount product?
+"There is some error during executing this process, please try again later.","There is some error during executing this process, please try again later."
+My Wallet,My Wallet
+Transfer Amount,Transfer Amount
+"Session expired for this transaction, please try again","Session expired for this transaction, please try again"
+Code has been sent to your email id.,Code has been sent to your email id.
+You don't have enough amount in your wallet.,You don't have enough amount in your wallet.
+Please try again with valid data.,Please try again with valid data.
+"Code Session Expired, please try again","Code Session Expired, please try again"
+Verification Code,Verification Code
+Transaction note,Transaction note
+Transaction At,Transaction At
+Reciver,Reciver
+Type,Type
+Action,Action
+Amount,Amount
+Reference,Reference
+Sender,Sender
+Enter code,Enter code
+Send amount,Send amount
+Resend Code,Resend Code
+Please Select a payee,Please Select a payee
+Transfer Money to Customer,Transfer Money to Customer
+Note,Note
+No Payee is available,No Payee is available
+Manage Wallet Amount,Manage Wallet Amount
+Transfer Wallet Amount,Transfer Wallet Amount
+Adding To Wallet,Adding To Wallet
+Wallet Holder's Name,Wallet Holder's Name
+Current Amount,Current Amount
+"Something went wrong, please try again.","Something went wrong, please try again."
+Transaction status is updated.,Transaction status is updated.
+Bank Transfer Details,Bank Transfer Details
+Wallet System Transaction View,Wallet System Transaction View
+Amount is successfully updated in customer's wallet.,Amount is successfully updated in customer's wallet.
+Transfer to %1,Transfer to %1
+Transfer by %1,Transfer by %1
+Amount transferred successfully,Amount transferred successfully
+Incorrect code,Incorrect code
+"Either code session is expired, or amount is already transferred.","Either code session is expired, or amount is already transferred."
+"%1, Amount is transferred by customer to bank account","%1, Amount is transferred by customer to bank account"
+Amount transfer request has been sent!,Amount transfer request has been sent!
+Wallet Transaction,Wallet Transaction
+Product Credit Amount,Product Credit Amount
+Rules amount,Rules amount
+You can not add other product with wallet product,You can not add other product with wallet product
+Order id : %1 credited amount,Order id : %1 credited amount
+Order id : %1 debited amount,Order id : %1 debited amount
+"Order id : %1, %2ed amount","Order id : %1, %2ed amount"
+"You can not generate credit memo of this order, refunded amount is not available in customer's wallet","You can not generate credit memo of this order, refunded amount is not available in customer's wallet"
+"You can not do online refund for this order, do the offline refund all the refunded amount will be transferred to customer's wallet","You can not do online refund for this order, do the offline refund all the refunded amount will be transferred to customer's wallet"
+Wallet amount transferred to bank,Wallet amount transferred to bank
+Wallet amount order refund,Wallet amount order refund
+Wallet refund order amount,Wallet refund order amount
+Wallet cashback,Wallet cashback
+Wallet Order debit,Wallet Order debit
+Wallet Order credit,Wallet Order credit
+Wallet Customer debit,Wallet Customer debit
+Wallet Customer credit,Wallet Customer credit
+Wallet Admin debit,Wallet Admin debit
+Wallet Admin credit,Wallet Admin credit
+Are you sure to update status of Transaction?,Are you sure to update status of Transaction?
+Approve Transaction Status,Approve Transaction Status
+Approve Transaction Status,Approve Transaction Status
+View Transaction,View Transaction
+Are you sure you want to delete rules?,Are you sure you want to delete rules?
+Delete rates,Delete rates
+Delete,Delete
+Edit,Edit
+Individual Details,Individual Details
+Wallet System Cash Back,Wallet System Cash Back
+Cash Back Calculation Based On,Cash Back Calculation Based On
+Cash back calculation should be based on cart value or on product value.,Cash back calculation should be based on cart value or on product value.
+Price Calculation Based on,Price Calculation Based on
+"In percent type calculation, if in a rule having cashback amount more then 100%, then cashback amount is calculated to 100%.","In percent type calculation, if in a rule having cashback amount more then 100%, then cashback amount is calculated to 100%."
+Adding amount in wallet settings,Adding amount in wallet settings
+Allow To use Discount while adding amount in wallet,Allow To use Discount while adding amount in wallet
+Allow customer to apply discount when customer adding wallet amount in his wallet,Allow customer to apply discount when customer adding wallet amount in his wallet
+Transfer Amount Settings,Transfer Amount Settings
+Enable validation while transfer,Enable validation while transfer
+If set yes then a verification code sent to email id.,If set yes then a verification code sent to email id.
+Duration of code usage,Duration of code usage
+"Enter duration in seconds, eg(30)","Enter duration in seconds, eg(30)"
+Prefix for transactions,Prefix for transactions
+Prefix for credited amount by admin,Prefix for credited amount by admin
+Prefix for debited amount by admin,Prefix for debited amount by admin
+Prefix for amount transferred by customer,Prefix for amount transferred by customer
+Prefix for amount transferred to customer,Prefix for amount transferred to customer
+Prefix for wallet recharge,Prefix for wallet recharge
+Prefix for used wallet amount,Prefix for used wallet amount
+Prefix for cashback amount,Prefix for cashback amount
+Prefix for refund of an order,Prefix for refund of an order
+Prefix for refund of wallet recharge order,Prefix for refund of wallet recharge order
+Prefix for bank transfer amount,Prefix for bank transfer amount
+Cron Job Settings,Cron Job Settings
+Enable cron job for monthly statement,Enable cron job for monthly statement
+If set yes then every customer will get monthly statement of wallet transaction on date 1 of each month.,If set yes then every customer will get monthly statement of wallet transaction on date 1 of each month.
+Wallet System Transactional Emails,Wallet System Transactional Emails
+Wallet Recharge Email Template For Customer,Wallet Recharge Email Template For Customer
+Wallet Recharge Email Template For Admin,Wallet Recharge Email Template For Admin
+Wallet Amount Used Email Template For Customer,Wallet Amount Used Email Template For Customer
+Wallet amount Used Email Template For Admin,Wallet amount Used Email Template For Admin
+Wallet Cashback Amount Email Template For Customer,Wallet Cashback Amount Email Template For Customer
+Wallet Cashback Amount Email Template For Admin,Wallet Cashback Amount Email Template For Admin
+Wallet Amount Refund Email Template For Customer,Wallet Amount Refund Email Template For Customer
+Wallet Amount Refund Email Template For Admin,Wallet Amount Refund Email Template For Admin
+Order Refund Email Template For Customer,Order Refund Email Template For Customer
+Order Refund Email Template For Admin,Order Refund Email Template For Admin
+Admin Credit Amount Email Template For Customer,Admin Credit Amount Email Template For Customer
+Admin Credit Amount Email Template For Admin,Admin Credit Amount Email Template For Admin
+Admin Debit Amount Email Template For Customer,Admin Debit Amount Email Template For Customer
+Admin Debit Amount Email Template For Admin,Admin Debit Amount Email Template For Admin
+Customer Credit Amount Email Template For Customer,Customer Credit Amount Email Template For Customer
+Customer Credit Amount Email Template For Admin,Customer Credit Amount Email Template For Admin
+Customer Debit Amount Email Template For Customer,Customer Debit Amount Email Template For Customer
+Customer Debit Amount Email Template For Admin,Customer Debit Amount Email Template For Admin
+OTP Email For Transfer Amount To Customer,OTP Email For Transfer Amount To Customer
+Monthly Statement Email Template,Monthly Statement Email Template
+Customer Transfer Amount to Bank Email Template For Admin,Customer Transfer Amount to Bank Email Template For Admin
+Customer Transfer Amount to Bank Email Template For Customer,Customer Transfer Amount to Bank Email Template For Customer
+Webkul Wallet System,Webkul Wallet System
+Enable this Payment Method,Enable this Payment Method
+Payment Method Title,Payment Method Title
+Minimum Amount To add In wallet,Minimum Amount To add In wallet
+Maximum Amount To add In wallet,Maximum Amount To add In wallet
+Payment from Applicable Countries,Payment from Applicable Countries
+Payment from Specific Countries,Payment from Specific Countries
+Allow Payment methods to add amount in wallet,Allow Payment methods to add amount in wallet
+Sort Order,Sort Order
+Wallet System Details,Wallet System Details
+Wallet System Bank Transfer Details,Wallet System Bank Transfer Details
+Adjust Amount to Wallet,Adjust Amount to Wallet
+Wallet System Credit Rules,Wallet System Credit Rules
+Wallet System Customer Transfer OTP Email For Customer,Wallet System Customer Transfer OTP Email For Customer
+Wallet System Monthly Statement Email Template,Wallet System Monthly Statement Email Template
+Wallet System Recharge Email To Customer,Wallet System Recharge Email To Customer
+Wallet System Recharge Email To Admin,Wallet System Recharge Email To Admin
+Wallet Amount Used Email To Customer,Wallet Amount Used Email To Customer
+Wallet Amount used Email To Admin,Wallet Amount used Email To Admin
+Wallet Cashback Amount used Email for Customer,Wallet Cashback Amount used Email for Customer
+Wallet Cashback Amount used Email for Admin,Wallet Cashback Amount used Email for Admin
+Wallet Amount Refund Email for Customer,Wallet Amount Refund Email for Customer
+Wallet Amount Refund Email for Admin,Wallet Amount Refund Email for Admin
+Order Refund Email for Customer,Order Refund Email for Customer
+Order Refund Email for Admin,Order Refund Email for Admin
+Admin credit amount Email for Customer,Admin credit amount Email for Customer
+Admin credit amount Email for Admin,Admin credit amount Email for Admin
+Admin debit amount Email for Customer,Admin debit amount Email for Customer
+Admin debit amount Email for Admin,Admin debit amount Email for Admin
+Customer credit amount Email for Customer,Customer credit amount Email for Customer
+Customer credit amount Email for Admin,Customer credit amount Email for Admin
+Customer debit amount Email for Customer,Customer debit amount Email for Customer
+Customer debit amount Email for Admin,Customer debit amount Email for Admin
+Customer Transfer Amount to Bank Email for Admin,Customer Transfer Amount to Bank Email for Admin
+Customer Transfer Amount to Bank Email for Customer,Customer Transfer Amount to Bank Email for Customer
+Admin credit,Admin credit
+Admin debit,Admin debit
+Transfer by customer,Transfer by customer
+Transfer to customer,Transfer to customer
+Recharge wallet,Recharge wallet
+Use wallet,Use wallet
+Cashback,Cashback
+Refund order,Refund order
+Update status if amout is transferred,Update status if amout is transferred
+Update amount to wallet,Update amount to wallet
+Transaction Status,Transaction Status
+Transfer Amount to bank account,Transfer Amount to bank account
+Account Details,Account Details
+Receiver,Receiver
+Bank Details,Bank Details
+Your Wallet Balance,Your Wallet Balance
+Credited Amount,Credited Amount
+%1's Wallet,%1's Wallet
+If you placed this order then total amount %1 will be credited in your wallet.,"If you placed this order then total amount %1 will be credited in your wallet."""
+Wallet System Payee Details,Wallet System Payee Details
+Payee is added in your list,Payee is added in your list
+Payee is successfully deleted,Payee is successfully deleted
+Payee is not validate,Payee is not validate
+Are you sure to update status of selected Payees?,Are you sure to update status of selected Payees?
+Update Payee Status,Update Payee Status
+Are you sure you want to delete selected payee(s)?,Are you sure you want to delete selected payee(s)?
+Delete Payee,Delete Payee
+Payee Customer Name,Payee Customer Name
+Payee Customer Id,Payee Customer Id
+Payee Customer Email,Payee Customer Email
+Wallet System Payee List,Wallet System Payee List
+Reciever not exists,Reciever not exists
+"Are you sure, you want to delete payee?","Are you sure, you want to delete payee?"
+"Are you sure, you want to delete Wallet Amount product?","Are you sure, you want to delete Wallet Amount product?"
+Select Payee To Whom You want to transfer Amount,(Select Payee To Whom You want to transfer Amount)

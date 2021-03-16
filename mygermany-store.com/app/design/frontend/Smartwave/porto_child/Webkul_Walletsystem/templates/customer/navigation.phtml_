@@ -1,0 +1,58 @@
+<?php
+/**
+ * Webkul Software
+ *
+ * @category Webkul
+ * @package Webkul_Walletsystem
+ * @author Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license https://store.webkul.com/license.html
+ */
+// @codingStandardsIgnoreFile
+?>
+<?php
+$_helper = $this->helper('Webkul\Walletsystem\Helper\Data');
+$marketPlaceHelper = $this->webkul('Webkul\Marketplace\Helper\Data');
+$isPartner = $marketPlaceHelper->isSeller();
+$isEnabled = $_helper->getWalletenabled();
+$magentoCurrentUrl = $block->getCurrentUrl();
+?>
+<?php
+if(!$isPartner) {
+    if ($isEnabled) { ?>
+        <li class="walletsystemnav nav item <?php /* @escapeNotVerified */echo strpos($magentoCurrentUrl,'walletsystem') !== false ? "current":"";?>">
+            <?php if(strpos($magentoCurrentUrl,'walletsystem') !== false){ ?>
+                <strong><?php /* @escapeNotVerified */ echo __('My Wallet') ?></strong>
+            <?php
+            } else { ?>
+                <a href="#"><?php /* @escapeNotVerified */ echo __('My Wallet') ?></a>
+            <?php } ?>
+            <ul class="nav items">
+                <li class="nav item <?php /* @escapeNotVerified */echo strpos($magentoCurrentUrl,'walletsystem/index/index') !== false ? "current":"";?>">
+               <?php
+                if(strpos($magentoCurrentUrl,'walletsystem/index/index') !== false){ ?>
+                    <strong><?php /* @escapeNotVerified */echo __('Manage Wallet Amount') ?></strong>
+                    <?php
+                } else{ ?>
+                    <a href="<?php /* @escapeNotVerified */echo $block->getUrl('walletsystem/index/index'); ?>">
+                        <?php /* @escapeNotVerified */echo __('Manage Wallet Amount') ?>
+                    </a>
+                <?php
+                    } ?>
+                </li>
+                <li class="nav item <?php /* @escapeNotVerified */echo strpos($magentoCurrentUrl,'walletsystem/transfer/index') !== false ? "current":"";?>">
+               <?php
+                if(strpos($magentoCurrentUrl,'walletsystem/transfer/index') !== false){ ?>
+                    <strong><?php /* @escapeNotVerified */echo __('Transfer Wallet Amount') ?></strong>
+                    <?php
+                } else{ ?>
+                    <a href="<?php /* @escapeNotVerified */echo $block->getUrl('walletsystem/transfer/index'); ?>">
+                        <?php /* @escapeNotVerified */echo __('Transfer Wallet Amount') ?>
+                    </a>
+                <?php
+                    } ?>
+                </li>
+            </ul>
+        </li>
+    <?php }?>
+<?php } ?>

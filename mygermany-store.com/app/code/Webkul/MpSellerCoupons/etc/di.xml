@@ -1,0 +1,36 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="mpseller_coupons_listing_data_source" xsi:type="string">Webkul\MpSellerCoupons\Model\ResourceModel\MpSellerCoupons\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Webkul\MpSellerCoupons\Model\ResourceModel\MpSellerCoupons\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">marketplace_mpsellercoupons</argument>
+            <argument name="eventPrefix" xsi:type="string">marketplace_mpsellercoupons_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">marketplace_mpsellercoupons_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\MpSellerCoupons\Model\ResourceModel\MpSellerCoupons</argument>
+        </arguments>
+    </type>
+    <virtualType name="MpSellerCouponsGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <preference for="Webkul\MpSellerCoupons\Api\Data\MpSellerCouponsInterface" type="Webkul\MpSellerCoupons\Model\MpSellerCoupons" />
+    <preference for="Webkul\MpSellerCoupons\Api\MpSellerCouponsRepositoryInterface" type="Webkul\MpSellerCoupons\Model\MpSellerCouponsRepository" />
+    <!-- for chanign coupon amount according to store views-->
+    <type name="Magento\Framework\Url\RouteParamsResolver">
+        <plugin name="storeviewchange" type="Webkul\MpSellerCoupons\Url\Plugin\RouteParamsResolver"/>
+    </type>
+    <!--showing discounts at credeit memo page admin panel -->
+     <type name="Magento\Sales\Block\Order\Totals">
+        <plugin name="discountAtCreditMemo" type="Webkul\MpSellerCoupons\Plugin\DiscountAtCreditMemo"/>
+    </type> 
+</config>

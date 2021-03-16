@@ -1,0 +1,36 @@
+<?php
+$unserializedData = $block->getSerializedData();
+$attrArray = $block->getAttributeData();
+$rangeArray = $block->getCommissionValuesFromStore();
+$collectionData = $block->getCommissionValues();
+$symbol = $block->getCurrencySymbol();
+
+$commisionData;
+$range =  explode(',', $rangeArray);
+
+
+?>
+
+<form class="form" action="<?php echo $block->getSaveUrl(); ?>" method="post">
+ <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('') ?></span></legend><br>
+ <input name="form_key" type="hidden" value="<?php echo $block->getformKey();?>">
+<table class="admin__table-secondary">
+<?php foreach ($range as $key => $value): ?>
+<tr>
+    <?php foreach ($attrArray as $attrkey => $attrvalue): ?>
+        <?php $commissionValue = $block->getFieldValue($unserializedData, $attrvalue, $value); ?>
+    	<td><label for="number" class="label">
+            <span><?php echo __($attrvalue.' ('.$symbol.' '.$value.') ') ?></span>
+        </label></td>
+        <td>
+        	<input type="text" name="commission[<?php echo __($attrvalue.','.$value) ?>]" value="<?php echo isset($commissionValue) ? $commissionValue : '0'; ?>" disabled="disabled">
+        </td>
+    <?php endforeach; ?>
+</tr>
+<?php endforeach; ?>
+<?php /*<tr>
+    <td><input type="submit" name="<?php echo __('Submit') ?>"></td>
+</tr> */?>
+
+</table>
+</form>

@@ -1,0 +1,24 @@
+<!--@subject Compliance Check | {{trans "%order_id" order_id=$data.order_id}} @-->
+<!--@vars {
+"var data.order_id":"Order Id",
+"var data.admin_name":"Admin Name",
+"var data.name":"Sender Name"
+} @-->
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">Hello {{trans "%admin_name" admin_name=$data.admin_name}},</p>
+
+<table style="width:100%; padding: 10px;">
+    <tr>
+        <td style="padding: 10px 10px 10px 0px; width: 100%;">
+            The order #{{trans "%order_id" order_id=$data.order_id}} has been placed by the {{trans "%name" name=$data.name}} and this customer has used the paypal payment method but he logged in on paypal with different email id. 
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 10px 10px 10px 0px; width: 100%;">
+            So please check this order in the admin and if everything is fine then please process the order.
+        </td>
+    </tr>
+</table>
+
+{{template config_path="contact/email/email_footer_template_seller"}}

@@ -1,0 +1,31 @@
+<?php 
+/**
+ * Wallet system
+ * 
+ * @category Webkul
+ * @package Webkul_Walletsystem
+ * @author Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license https://store.webkul.com/license.html
+ */
+?>
+<?php
+$formData = [];
+$serializedFormData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($formData);
+?>
+<script>
+    require([
+        "jquery",
+        "mage/mage",
+        'domReady!'
+    ], function($){
+        $('body').trigger('contentUpdated');
+    });
+</script>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "wkWalletProductSetAttribute": <?php /* @escapeNotVerified */echo $serializedFormData; ?>
+        }
+    }
+</script>

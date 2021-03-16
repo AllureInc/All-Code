@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MarketplacePreorder
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="Webkul_MarketplacePreorder::index" title="Preorder List" module="Webkul_MarketplacePreorder" sortOrder="30" parent="Webkul_MarketplacePreorder::menu" action="mppreorder/preorderlist/index" resource="Webkul_MarketplacePreorder::index"/>
+
+		<add id="Webkul_MarketplacePreorder::menu" title="Preorder Menu" module="Webkul_MarketplacePreorder" sortOrder="11" parent="Webkul_Marketplace::menu" dependsOnModule="Webkul_Marketplace" resource="Webkul_MarketplacePreorder::preorder"/>
+	</menu>
+</config>

@@ -1,0 +1,106 @@
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpAdvertisementManager
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<?php $checkUrl = $block->getUrl("mpadvertisementmanager/pricing/ajaxpricingcheck", ['_secure' => $block->getRequest()->isSecure()]); ?>
+<?php
+  $isEditPage = $block->getRequest()->getParam("id") != null?1:0;
+  $isAlladsPricingBlockSet = $block->isAllAdsBlockPriceSet();
+  $deleteUrl = '';
+  if( $isEditPage ) {
+    $deleteUrl  = $block->getUrl(
+      "mpadvertisementmanager/pricing/delete",
+      ['id'=>$block->getRequest()->getParam("id"),
+      '_secure' => $block->getRequest()->isSecure()]
+    );
+  }
+?>
+<script>
+/**
+ * script for managing pricing form
+ * @param  jquery $
+ * @param  mage/translate $t      for translation
+ * @param  Magento_Ui/js/modal/alert alert
+ * @param  Magento_Ui/js/modal/confirm confirm
+ * @param  Magento_Ui/js/modal/modal modal for ajax popup model
+ */
+require(
+    [
+      'jquery',
+      'mage/translate',
+      'Magento_Ui/js/modal/alert',
+      'Magento_Ui/js/modal/confirm',
+      'Magento_Ui/js/modal/modal',
+      'mage/template',
+      'mage/mage',
+      'mage/validation',
+      'jquery/ui'
+
+    ], function($,$t,alert,confirm,modal,template) {
+        self = this;
+        var isEditPage = <?php echo $isEditPage; ?>;
+        var isAlladsPricingBlockSet = <?php echo $isAlladsPricingBlockSet; ?>;
+        if (isEditPage == 0) {
+            if (isAlladsPricingBlockSet == 1) {
+                setTimeout(function(){ $("input[name='ads_pricing[price]']").parent().parent().css('display', 'none'); }, 100);
+            }
+            $("#delete").remove();
+            // $("#save_and_continue, #save").attr('disabled', true);
+            $("select[name='ads_pricing[block_position]']").on("change", function() {
+                  checkPricing($(this).val());
+            });
+        } else {
+            var deleteurl = "location.href='<?php echo $deleteUrl; ?>';";
+            $("#delete").attr('onclick',deleteurl);
+            setTimeout(function(){ $("select[name='ads_pricing[block_position]']").attr('disabled', true); }, 100);
+            // $("select[name='ads_pricing[block_position]']").prop( "disabled", true );
+        }
+	    
+        /**
+         * saveSettings save ads settings
+         * @param  string $settings seriaized form
+         * @return array
+         */
+        function checkPricing($blockPosition) {
+            res = null;
+                $("body").trigger('processStart');
+                    $.ajax({
+                        url: '<?php echo $checkUrl; ?>',
+                        method: 'POST',
+                        async: true,
+                        data:{
+                        	block_position: $blockPosition
+                        },
+                        dataType:'json',
+                        success: function(result) {
+                            $("body").trigger('processStop');
+                            if(result.success) {
+                            if(result.status == false) {
+                            	$("#save_and_continue, #save").attr('disabled', true);
+                            	alert({content: $t("price for this position already added")});
+                              return false;
+                        	} else {
+                        		$("#save_and_continue, #save").attr('disabled', false);
+                        	}
+                            } else {
+                                $("body").trigger('processStop');
+                                res = result;
+                                alert({content: $t(result.error_message)});
+                            }
+                            return res;
+                        },
+                        error: function() {
+                            $("body").trigger('processStop');
+                            alert({content: $t("There is some error in processing")});
+                        }
+                    });
+        }
+    }
+);

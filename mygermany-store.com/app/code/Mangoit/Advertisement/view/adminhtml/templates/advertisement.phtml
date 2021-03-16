@@ -1,0 +1,16 @@
+<!-- Last edited : 29-Jan-2019 -->
+<script type="text/javascript">
+jQuery("select[name='mis_adv_content[ad_type]']").on('change', function(){
+    var value = jQuery(this).val();
+    if (value == 0) {
+        jQuery("select[name='mis_adv_content[content_type]'] option[value=3]").prop('disabled', true);
+        jQuery("select[name='mis_adv_content[content_type]'] option[value=3]").css('display', 'none');
+        jQuery("select[name='mis_adv_content[content_type]']").prop('selectedIndex',0);
+    } else {
+        jQuery("select[name='mis_adv_content[content_type]'] option[value=3]").prop('disabled', false);
+        jQuery("select[name='mis_adv_content[content_type]'] option[value=3]").css('display', 'block');
+    }
+});
+</script>
+
+

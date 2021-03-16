@@ -1,0 +1,11 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+	<update handle="customer_account"/>
+    <head>
+        <title>Purchased Ads Blocks</title>
+    </head>
+	<body>
+	    <referenceContainer name="content">
+	        <block class="Mangoit\Advertisement\Block\Purchesed\View" name="view_owned_ad" template="Mangoit_Advertisement::view_purchesed_advertisement.phtml"/>
+	    </referenceContainer>
+	</body>
+</page>

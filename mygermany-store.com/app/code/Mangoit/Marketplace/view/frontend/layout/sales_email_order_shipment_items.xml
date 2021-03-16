@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Package Mangoit_Marketplace
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd" label="Email Shipment Items List" design_abstraction="custom">
+    <update handle="sales_email_order_shipment_renderers"/>
+    <body>
+        <referenceBlock name='items'>
+            <action method="setTemplate">
+                <argument name='template' xsi:type='string'>Mangoit_Marketplace::email/shipment/items.phtml</argument>
+            </action>
+        </referenceBlock>
+    </body>
+</page>
